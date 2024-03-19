@@ -52,7 +52,7 @@ StackPack Journey is a game that aims to teach students about the stack; the pre
 
 - Prior to the game, players need to be able to follow simple instructions.
 - Prior to the game, players need to be able to define the concept of a stack.
-- Prior to the game, players need to be able to explain what pushing and popping from a stack looks like.
+- Prior to the game, players need to be able to explain the general concept what of push() and pop() operations on a stack are.
 
 ## Assessment Measures
 
@@ -73,11 +73,11 @@ We can give a short pre-test and post-test to assess how much the student has le
 
 ## Player Interaction Pattern
 
-- This is a one player game using the keyboard to play, including arrow keys and a few other specified buttons.
+- This is a one-player game using the keyboard to play, including arrow keys and a few other specified buttons.
 
 ## Player Modes
 
-- Single player: One player will advance through multiple levels where there will be more items than the previous one. 
+- Single-player: One player will advance through multiple levels where there will be more items than the previous one. 
 
 # Gameplay Objectives
 
@@ -119,7 +119,7 @@ In a Level:
 - There will be a prompt that pops up when the player gets close enough to an object, letting them know they can pick it up
 - There will be obstacles throughout the level
 - There will be a prompt that pops up when the player gets close enough to an object, letting them know they can use it on that obstacle
-- There will be instructions on the first couple scenes of the game
+- There will be instructions in the first couple scenes of the game
 
 On Map (showing all levels):
 - There will be a spot for each level in the game, with completed levels marked with a green flag, incomplete/inaccessible levels grayed out, and the current level marked with the main character standing on top of it.
@@ -169,14 +169,14 @@ While traveling through this strange, new world together, you and your soulmate 
 
 ![Stack Pack Story Board](https://github.com/UD-S24-CISC374/final-project-yellow/blob/main/assets/stackpack-storyboard.png?raw=true "Story Board")
 
-Example of a Potential Harder Level:
+Example of a Potential Harder Level: (the numbers represent the order in which you would pick up or use items)
 ![Stack Pack Harder Level](https://github.com/UD-S24-CISC374/final-project-yellow/blob/241ec885bdf1db4cf54fa24d2dbbc6e61d8eed40/assets/stackpack-mockup.png?raw=true "Harder Level")
 
 # Assets Needed
 
 ## Aesthetics
 
-- The aesthetics of this game will be cartoonish/cutsey for a stress-free environment. Players should not feel pressure when playing the game, but rather relaxed. 
+- The aesthetics of this game will be cartoonish/cutesy for a stress-free environment. Players should not feel pressure when playing the game, but rather relaxed. 
 
 ## Graphical
 
