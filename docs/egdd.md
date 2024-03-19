@@ -167,7 +167,7 @@ While traveling through this strange, new world together, you and your soulmate 
 
 ## Storyboarding
 
-![Stack Pack Story Board](/assets/stackpack-storyboard.png "Story Board")
+![Stack Pack Story Board](https://github.com/UD-S24-CISC374/final-project-yellow/blob/main/assets/stackpack-storyboard.png?raw=true "Story Board")
 
 Example of a Potential Harder Level:
 ![Stack Pack Harder Level](https://github.com/UD-S24-CISC374/final-project-yellow/blob/241ec885bdf1db4cf54fa24d2dbbc6e61d8eed40/assets/stackpack-mockup.png?raw=true "Harder Level")
