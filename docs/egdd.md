@@ -19,12 +19,12 @@ StackPack Journey is a game that aims to teach students about the stack; the pre
   - Explanation: In this mobile game, you are a space explorer looking for the pieces of your robot girlfriend that have gotten spread throughout outer space. The game has a cute, sci-fi aesthetic with visual backgrounds and a tiny main character in this huge world. Our game is taking inspiration from that, as our character will be tiny going through this world trying to find their soulmate by unlocking doors and traveling through the world. 
 
 ## Core Gameplay Mechanics (Brief)
-Brief walkthrough tutorial to demonstrate how to play (Level 0)
-Push objects into the stack using ‘E’ on the keyboard
-Pop objects off of the stack using ‘F’ on the keyboard 
-Player moves around the world using arrow keys 
-When you obtain the key and use it on the door, you advance to the next level
-After you complete all of the levels, it displays a (victory) scene of finding your soulmate.
+- Brief walkthrough tutorial to demonstrate how to play (Level 0)
+- Push objects into the stack using ‘E’ on the keyboard
+- Pop objects off of the stack using ‘F’ on the keyboard 
+- Player moves around the world using arrow keys 
+- When you obtain the key and use it on the door, you advance to the next level
+- After you complete all of the levels, it displays a (victory) scene of finding your soulmate.
 
 # Learning Aspects
 
