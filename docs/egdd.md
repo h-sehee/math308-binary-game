@@ -57,11 +57,7 @@ After playing Cyber Spy, students should be able to traverse the terminal using 
 
 ## Assessment Measures
 
-*Describe how the learning will be assessed, e.g., pre/post multiple-choice test, or SAT, or some other instrument.*
-
 A short pre-test, and matching post-test.
-
-*If proposing a new instrument, briefly and concisely list some example assessment questions.*
 
 Given a directory name, utilize bash commands to access it.
 Given a file name, utilize bash commands to delete it.
@@ -76,13 +72,9 @@ Given a file and directory name, utilize bash commands to move it to another giv
 
 ## Player Interaction Pattern
 
-*Describe how people play your game, how many players are involved at once, how they interact with the system works, etc.*
-
 This is a single player game. The player will interact with the via typing keyboard inputs, moving with arrows, and clicking on menu buttons when needed.
 
 ## Player Modes
-
-*Your game has one or more player modes. Describe each discrete mode, considering things like menus too. Generally describe the transitions between modes too.*
 
 - Single-player: You repeatedly complete missions to advance through the story.
 
@@ -97,13 +89,9 @@ This is a single player game. The player will interact with the via typing keybo
 
 # Procedures/Actions
 
-*Describe the control scheme and what actions a user can take in the game.*
-
 You can type when a command line is shown, and enter these commands. In between missions you can move around using arrow keys, and press a button to start mission.
 
 # Rules
-
-*What resources are available to the player that they make use of?  How does this affect gameplay? How are these resources finite?*
 
 - If the player enters an invalid command, they will get an error and hint
 - If the player enters a valid command, it will work and they will advance through the current mission
@@ -119,16 +107,12 @@ cp
 
 # Objects/Entities
 
-*What other things are in the world that you need to design? These may or may not directly translate to actual objects and classes.*
-
 - There is a text input for users to type into
 - There is a command line that user input is displayed when entered
 - There is a prompt
 - There is a main character to control in between missions
 - There is a companion character that will speak to you during missions
 - There is a timer during missions
-
-
 
 ## Core Gameplay Mechanics (Detailed)
 
@@ -138,10 +122,6 @@ cp
 
     
 ## Feedback
-
-*Explicitly describe what visual/audio/animation indicators there are that give players feedback on their progress towards their gameplay objectives (and ideally the learning objectives).*
-
-*Describe what longer-term feedback you detect and give that guides the player in their learning and lets them know how they are doing in regards to the learning objectives.*
 
 If a command is wrong, your companion will tell you it is wrong and give you a hint in the right direction. Text on the screen shows if a command worked or did not work. 
 
@@ -182,9 +162,6 @@ This game should feel high pressure, but rewarding. It should encourage players 
 
 
 ## Audio
-
-
-*Game region/phase/time are ways of designating a particularly important place in the game.*
 
 - Music List (Ambient sound)
   - General gameplay: 8 bit, eerie stealth music like the music from Batman Begins GBA: https://www.youtube.com/watch?v=MIppc7zfqis&list=PLO4jlmGoc6uAy9S9J3SPXv-UrHBm9Bgz9&index=2
