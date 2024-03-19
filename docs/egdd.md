@@ -140,7 +140,7 @@ Players will slowly be given tools as mentioned before, and expected to use them
 Our story will follow a hacker and his trusty companion through a series of missions to dethrone a corrupt organization. They will do this using a variety of commands to access the opposition's files, and take down their servers. All while attempting to be stealthy and quick enough to finish these missions before the time runs out. Will your coding abilities be able to save the world? Or will you fold under pressure? Who can be trusted? Cyber Spy will answer all of your questions.
 
 ## Storyboarding
-![alttext](Storyboard.jpg)
+![alttext](assets/Storyboard.jpg)
 
 # Assets Needed
 
