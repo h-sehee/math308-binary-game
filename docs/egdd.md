@@ -1,5 +1,4 @@
 # Bash the Dungeon
-
 ## Elevator Pitch
 
 *Bash the Dungeon is a top-down adventure game where players, explore a dungeon, encountering NPCs, chests, and enemies as they learn Bash commands and grow their collection of spells*
