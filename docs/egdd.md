@@ -160,7 +160,7 @@ TLDR: Many cats are working together to face the enemy. You play as different ch
 
 ## Storyboarding
 
-![alt text](https://github.com/UD-S24-CISC374/final-project-magenta/docs/Git Cat storyboard.png) 
+![alt text](https://github.com/UD-S24-CISC374/final-project-magenta/blob/df63f4e046fcd08c05c41fde732cf85ab6ba25de/docs/Git%20Cat%20storyboard.png) 
 
 # Assets Needed
 
