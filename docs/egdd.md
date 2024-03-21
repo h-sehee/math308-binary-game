@@ -4,24 +4,24 @@
 ## Elevator Pitch
 
 
-*A one sentence pitch for your game. Pretend that your were pitching your game to a executive going to the elevator. You have less than 60 Seconds. Check [this resource](http://www.gameacademy.com/perfecting-indie-games-elevator-pitch/) for more information.*
+Schedulsine is a fast-paced, management-style cooking game where you need to run your kitchen like a CPU. Just as the OS needs to strategically schedule jobs to run on the CPU, you will need to schedule which dishes to prepare in order to optimize your profit. Players will be taught about famous OS job scheduling algorithms by actually implementing them in the context of a Gordon Ramsay-style kitchen environment. Once they have the knowledge, they can go on to compete and see who can schedule the best.
 
 
 ## Influences (Brief)
 
 
 - Overcooked:
- - Medium: Game
- - Explanation: Overcooked perfectly simulates the fast-paced environment of a kitchen brigade. Although our game is not focused on the intricacies of cooking, we are influenced by the overall perspective it provides of the entire kitchen situation. It provides timers for each ticket, which makes time a primary aspect of the game, similar to how time is a primary aspect of most scheduling algorithms. We hope to carry over a similar high-intensity feeling.
+- Medium: Game
+- Explanation: Overcooked perfectly simulates the fast-paced environment of a kitchen brigade. Although our game is not focused on the intricacies of cooking, we are influenced by the overall perspective it provides of the entire kitchen situation. It provides timers for each ticket, which makes time a primary aspect of the game, similar to how time is a primary aspect of most scheduling algorithms. We hope to carry over a similar high-intensity feeling.
 - Cooking Simulator:
- - Medium: Game
- - Explanation: Cooking simulator using some ideas that we would love to implement within our game. Some of these include the ticket system, which has all the orders in a very clean, queue-like mechanism. They also have a rating system which is satisfying and a direct reflection of the person's performance, which is something we want to mirror in our game regarding runtime or turnaround time performance.
+- Medium: Game
+- Explanation: Cooking simulator using some ideas that we would love to implement within our game. Some of these include the ticket system, which has all the orders in a very clean, queue-like mechanism. They also have a rating system which is satisfying and a direct reflection of the person's performance, which is something we want to mirror in our game regarding runtime or turnaround time performance.
 - Hell’s Kitchen:
- - Medium: Television Series
- - Explanation: Hell’s kitchen is the epitome of the stereotypical fast-paced, high-stress cooking situation. While we do not want to make the player feel bad, it would be interesting to include a comically-tough feedback system when a player makes a mistake, simulating Gordon Ramsay’s insults in a SFW and topic relevant manner.
+- Medium: Television Series
+- Explanation: Hell’s kitchen is the epitome of the stereotypical fast-paced, high-stress cooking situation. While we do not want to make the player feel bad, it would be interesting to include a comically-tough feedback system when a player makes a mistake, simulating Gordon Ramsay’s insults in a SFW and topic relevant manner.
 - Cooking Dash:
- - Medium: Game
- - Explanation: The game opens up with a comical preview of the character and just some insight as to more or less what is happening in the game. As the intro ends it opens up with the character taking a position from the comic and letting the person who wants to play know what the character is going to do. We would like to implement this in a way to introduce the algorithm required to play out game schedulsine.
+- Medium: Game
+- Explanation: The game opens up with a comical preview of the character and just some insight as to more or less what is happening in the game. As the intro ends it opens up with the character taking a position from the comic and letting the person who wants to play know what the character is going to do. We would like to implement this in a way to introduce the algorithm required to play out game Schedulsine.
 
 
 ## Core Gameplay Mechanics (Brief)
@@ -116,32 +116,54 @@ Only one player interacts with the system at a time. This player is the one who 
 
 
 - Gain a profit after a shift:
-   - Description: Failure to deliver a dish in accordance with the respective scheduling algorithm, or failure to make the dish properly will result in a loss of profit, potentially going negative. By following the algorithm correctly, the player will be able to end the shift with a positive profit.
-   - Alignment: Gaining a profit primarily reflects the player’s ability to understand and implement the scheduling algorithm.
+- Description: Failure to deliver a dish in accordance with the respective scheduling algorithm, or failure to make the dish properly will result in a loss of profit, potentially going negative. By following the algorithm correctly, the player will be able to end the shift with a positive profit.
+- Alignment: Gaining a profit primarily reflects the player’s ability to understand and implement the scheduling algorithm.
 - Advance to the next day:
-   - Description: If the restaurant does not make a profit with the given algorithm, the player will have to repeat that shift (day) via performing another service using that algorithm.
-   - Alignment: By advancing the days, the player is able to follow the algorithm correctly, and therefore most likely grasps its concepts.
-- Advance to the next day:
-   - Description: If the restaurant does not make a profit with the given algorithm, the player will have to repeat that shift (day) via performing another service using that algorithm.
-   - Alignment: By advancing the days, the player is able to follow the algorithm correctly, and therefore most likely grasps its concepts.
+- Description: If the restaurant does not make a profit with the given algorithm, the player will have to repeat that shift (day) via performing another service using that algorithm.
+- Alignment: By advancing the days, the player is able to follow the algorithm correctly, and therefore most likely grasps its concepts.
+- Beat your best score (profit):
+- Description: In the competitive mode, players will have free-reign to manage their dish scheduling in order to achieve the best profit.
+- Alignment: By granting players this freedom to mix and match techniques, they will start to see certain use cases for scheduling algorithms, and why some might be favored over others.
 
 
 # Procedures/Actions
 
 
-*Describe the control scheme and what actions a user can take in the game.*
+Besides typing in their username, players will use their pointer to primarily interact with the game. These interactions include:
+- Clicking through the talking head text/cutscenes to read information about a certain algorithm
+- Dragging parts of a dish to different stations
+- Dragging from one station to another to transfer a part of a dish
+- Clicking and dragging a ticket to the “CURRENT ORDER” area to change which dish you are currently working on (which job you are running)
 
 
 # Rules
 
 
-*What resources are available to the player that they make use of?  How does this affect gameplay? How are these resources finite?*
+- If a player drags the wrong ticket to the “CURRENT ORDER” section, their profit goes down (in career mode)
+- If a player drags a part of a dish to the wrong station, their profit goes down
+- If a player successfully completes a dish, their profit goes up
+- If a player completes a dish out of order, their profit goes down (in career mode)
+- The new ticket(s) that appear when a dish is completed will be randomly chosen in no specific order, as it is the job of the scheduler (the player) to choose the order
 
 
 # Objects/Entities
 
 
-*What other things are in the world that you need to design? These may or may not directly translate to actual objects and classes.*
+- Ticket line which represents the queue of jobs lined up to be scheduled by the OS
+- A single ticket entity, which lists components of the dish it tells you to make
+- A stove entity, which can only complete parts of a dish that require it
+- An oven entity, which can only complete parts of a dish that require it
+- A cutting-board entity, ‘’
+- A sink entity, ‘’
+- A fridge object, which contains all possible meats you need for dishes
+- A pantry object, which contains all other possible ingredients you need for dishes
+- A metric report object, which tracks the dish response and turnaround time of your scheduling
+- A few chef entities, which autonomously move to the stations you have parts of dishes assigned to
+- A service table entity, which is where you drag the final project to be checked
+- A waiter entity, which runs up and grabs the food you put on the service entity
+- A talking-head entity, which provides you exposition and occasional hints/instructions
+- A dish object, which has a list of required dish components
+- A dish component object, which has a duration till completion field and required station
 
 
 ## Core Gameplay Mechanics (Detailed)
@@ -156,10 +178,14 @@ Only one player interacts with the system at a time. This player is the one who 
 ## Feedback
 
 
-*Explicitly describe what visual/audio/animation indicators there are that give players feedback on their progress towards their gameplay objectives (and ideally the learning objectives).*
-
-
-*Describe what longer-term feedback you detect and give that guides the player in their learning and lets them know how they are doing in regards to the learning objectives.*
+- Completing a dish successfully will play a cash register “cha-ching” type sound
+- A component finishing at a station will play an alarm sound, since it's essentially a timer
+- The manager talk-head will look pleased when a dish a finished correctly
+- Failing a dish or its components will trigger a Gordon Ramsay insult generated via AI
+- The manager will look angry when you make a mistake, and provide a pseudo-hint on what went wrong
+- Longer-term
+- player will receive a report of their scheduling metrics in terms of dishes as well as the profit from that day’s shift
+- at the end of the “week”, player will receive an overview of their metrics and total profit gained, as well as a position on the leaderboard if playing in competitive mode
 
 
 # Story and Gameplay
@@ -168,25 +194,27 @@ Only one player interacts with the system at a time. This player is the one who 
 ## Presentation of Rules
 
 
-*Briefly describe how the player will learn the gameplay mechanics. Avoid using walls of text, since people will not read them. Think instead of natural ways of teaching mechanics iteratively and slowly.*
+The tutorial mode will briefly show players how to complete two dishes, pointing out the steps they need to follow, such as dragging the ticket to the current order area, and dragging the individual components to different stations. 
 
 
 ## Presentation of Content
 
 
-*Briefly describe how the player will be taught the core material they are meant to learn. Avoid using walls of text, since people will not read them. Think instead of natural ways of teaching material iteratively and slowly.*
+The presentation of the algorithms will be covered in the career mode in a learn-as-you-go fashion. A talking-head (which looks like an angry chef) will give a brief overview of what you need to do, and the player will receive instant feedback from them when they mess up (such as scheduling the wrong dish).
 
 
 ## Story (Brief)
 
 
-*The Summary or TL;DR version of below*
+You’re the new head chef at a Michelin star restaurant in the heart of silicon valley. Your manager, who is a sucker for theory scheduling proficiency, wants to test out some classic scheduling algorithms in the restaurant to see what turns the most profit.
 
 
 ## Storyboarding
 
 
-*Go into as much detail as needs be to visually convey the Dynamics of your game. Be detailed. Create storyboards and freeze frame images that concisely capture important key elements of your game. You are strongly recommended to sketch pictures on paper and embed them here. Be sure make it clear how previously-described mechanics come through in the dynamics.*
+[image1]
+[image2]
+[image3]
 
 
 # Assets Needed
@@ -195,47 +223,48 @@ Only one player interacts with the system at a time. This player is the one who 
 ## Aesthetics
 
 
-*Give a sense of the aesthetics of your game, the spirit and atmosphere. Use descriptive, evocative words that can help the reader understand the emotional response of your game.*
+The game should have a bustling, fast-paced, yet upbeat feeling. This will encourage the players to try their best to schedule correctly so they do not break up the flow of the aesthetic. By abiding by this aesthetic, we hope the game will somewhat emulate the stressful environment of a kitchen mixed with lighthearted fun and goofy music and sprites.
 
 
 ## Graphical
 
 
 - Characters List
- - Restaurant manager: Talking head which instructs you to follow certain scheduling algorithms
- - Chefs: A collection of generic looking chef sprites which will walk autonomously towards stations that you designate parts of the dish to.
- - Waiter: Sprite who will walk up to the service area to retrieve the finished dishes.
+- Restaurant manager: Talking head which instructs you to follow certain scheduling algorithms.
+- Chefs: A collection of generic looking chef sprites which will walk autonomously towards stations that you designate parts of the dish to.
+- Waiter: Sprite who will walk up to the service area to retrieve the finished dishes.
 - Textures:
- - *Texture 1*
- - *Texture 2*
- - *...*
+- Restaurant manager face
+- Chef spritesheet
+- Waiter spritesheet
+- Food sprites
+- Food component sprites
+- Station timer UI texture
+- Ticket texture
 - Environment Art/Textures:
- - *Environment Texture 1*
- - *Environment Texture 2*
- - *...*
-
-
+- Kitchen station textures
+- Kitchen floor texture
+- Background for visible area outside the kitchen
 
 
 ## Audio
 
 
-
-
-*Game region/phase/time are ways of designating a particularly important place in the game.*
-
-
 - Music List (Ambient sound)
- - *Game region/phase/time*: *Example 1*, *Example 2*
- - *Game region/phase/time*: *Example 3*, *Example 4*
- *Game Interactions are things that trigger SFX, like character movement, hitting a spiky enemy, collecting a coin.*
-
-
+- Main menu: *Example 1*, *Example 2*
+- Tutorial: *Example 3*, *Example 4*
+- Career:
+- Competitive: 
 - Sound List (SFX)
- - *Game Interaction*: *Example 1*, *Example 2*
- - *Game Interaction*: *Example 3*, *Example 4*
-
-
+- Stove: *Example 1*, *Example 2*
+- Oven: *Example 3*, *Example 4*
+- Pantry rummaging:
+- Chopping: 
+- Washing:
+- Profit sound:
+- Mistake sound:
+- Manager grumble:
+- Ticket pull:
 
 
 # Metadata
