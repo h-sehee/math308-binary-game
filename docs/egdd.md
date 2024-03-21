@@ -79,7 +79,7 @@ Players will use a mouse or touchscreen to press buttons and drag blocks across 
 ## Player Modes
 
 - Main Menu: allows the player to pick between a 3 x 3 and 5 x 5 depending on the player's experience. The player will also be given the option to play the tutorial.
-- Tutorial: the player will be taken through a playable tutorial in which they learn the mechanics of the game. After completing the turoial the player will be guided back to the main menu.
+- Tutorial: the player will be taken through a playable tutorial in which they learn the mechanics of the game. After completing the tutorial the player will be guided back to the main menu.
 - 3 x 3 Boolean Grid: the player will make valid boolean statements with only one operator. After completing this level they will be given the option to play again or move on to the next level.
 - 5 x 5 Boolean Grid: the player will make valid boolean statements with two operators. After completing this level they will be given the opportunity to play again.
 
