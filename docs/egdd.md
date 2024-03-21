@@ -216,10 +216,10 @@ You’re the new head chef at a Michelin star restaurant in the heart of silicon
 ## Storyboarding
 
 
-[mockup1](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8436.png)
-[mockup2](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8435.png)
-[mockup3](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8434.png)
-[mockup4](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8433.png)
+![mockup1](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8436.png)
+![mockup2](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8435.png)
+![mockup3](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8434.png)
+![mockup4](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8433.png)
 
 
 # Assets Needed
