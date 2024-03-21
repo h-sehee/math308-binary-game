@@ -82,13 +82,12 @@ Single Player Game:  Use WASD to move around the screen, and space bar, as well 
 
 # Gameplay Objectives
 
-- *Primary Objective #1*:
-    - Description: *Description*
-    - Alignment: *Describe how this aligns with one or more learning objectives*
-- *Primary Objective #2*:
-    - Description: *Description*
-    - Alignment: *Describe how this aligns with one or more learning objectives*
-- *etc.*
+- Customize weapons:
+    - Description: Use classes to build and customize weapons
+    - Alignment: Lines up with the writing class learning objective as this is where they are mainly learning to write classes
+- Defeat All enemies:
+    - Description: Kill all the outlaws before they kill you
+    - Alignment: Lines up with the Class - Object Relationships learning objective, as user needs to customize there class objects to defeat the enemy. 
 
 # Procedures/Actions
 
