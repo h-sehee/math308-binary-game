@@ -22,9 +22,6 @@ An Overcooked like cooking game, but for learning OS scheduling algorithms. Diff
 - *Papa's Pizzeria*:
   - Medium: Games
   - Explanation: Mainly influenced by the scoring system & theme. A restaurant management game where you have to take orders, bake, and serve the best pizzas to the customers; essentially just taking the “taking orders” part of the game for our own game. Its high score system is also useful.
-- *Influence #3*:
-  - Medium: *(Television, Games, Literature, Movies, etc.)*
-  - Explanation: *In one paragraph or less, explain why this is an influence.*
 
 ## Core Gameplay Mechanics (Brief)
 
@@ -37,6 +34,9 @@ As stated previously, the main gameplay loop is very similar to the Overcooked s
 - *Campaign*: As players progress through the game, levels become more difficult and complex.
 
 # Learning Aspects
+
+Understanding of tasks through game play
+Getting information into memory
 
 ## Learning Domains
 
@@ -70,19 +70,20 @@ As stated previously, the main gameplay loop is very similar to the Overcooked s
 
 A short pre-test and matching post-test should be designed to assess student learning.
 
-* Given...
+* Can you list the steps of a given OS scheduling algorithm?
+* Can you list the types of OS scheduling algorithms that exist?
+* Given a diagram showcasing the steps of an algorithm, would you be able to identify which algorithm it is?
 
 # What sets this project apart?
 
-*Give some reasons why this game is not like every other game out there. Whether the learning objective is unique, the gameplay mechanics are new, or what. You should persuade the reader that your game is novel and worthy of development. Consider arguments that would be persuasive to a Venture Capitalist, Teacher, or Researcher. These might be focused on learning needs, too.*
-
-- *Reason #1*
-- *Reason #2*
-- *Reason #3*
-- *Reason #4*
-- *etc.*
+- There are not many resources, especially in the education gaming sphere, that teaches you scheduling algorithms or operating systems in a way that is easy to understand. 
+- Using the steps of a dish to represent the steps of an algorithm is fairly novel.
+- Cooking games tend to lack an educational value outside of just cooking.
 
 # Player Interaction Patterns and Modes
+Competitive - players race against the clock to gain a certain score before time ends
+Level based - difficult increases as you go
+One mode would be for only learning without the worry of time, another would implement competition and time.
 
 ## Player Interaction Pattern
 
@@ -114,7 +115,10 @@ Main control scheme would be keyboard and mouse.
 
 # Rules
 
-*What resources are available to the player that they make use of?  How does this affect gameplay? How are these resources finite?*
+- Time is finite: a set number of orders must be completed before time runs out, else you fail.
+- The actual cooking ingredients are infinite, but picking them up from the fridge takes a given amount of time. In addition to this, using those ingredients on a workstation also takes time as well. 
+  - Nudges players to be more time efficient.
+- Players can only pick up one item at a time, but can still interact with workstations if need be. 
 
 # Objects/Entities
 
@@ -132,6 +136,10 @@ Main control scheme would be keyboard and mouse.
 ## Feedback
 
 *Explicitly describe what visual/audio/animation indicators there are that give players feedback on their progress towards their gameplay objectives (and ideally the learning objectives).*
+- Sad horn sound if the player gets an order wrong.
+- Happy bell sounds if the player gets an order right.
+- Congratulations music if the player successfully completes the level, with a level complete screen.
+- Sad music if the player fails the level entirely, with a game over screen.
 
 *Describe what longer-term feedback you detect and give that guides the player in their learning and lets them know how they are doing in regards to the learning objectives.*
 
@@ -139,56 +147,53 @@ Main control scheme would be keyboard and mouse.
 
 ## Presentation of Rules
 
-*Briefly describe how the player will learn the gameplay mechanics. Avoid using walls of text, since people will not read them. Think instead of natural ways of teaching mechanics iteratively and slowly.*
+There will probably be an initial tutorial popout; showing you how to move, how to interact/pick up objects, and how to complete an order. Probably all in a single tutorial level.
 
 ## Presentation of Content
 
-*Briefly describe how the player will be taught the core material they are meant to learn. Avoid using walls of text, since people will not read them. Think instead of natural ways of teaching material iteratively and slowly.*
+The steps of every dish are literally the steps of each OS scheduling algorithm. Simply by completing orders, the player will naturally learn each step of any given scheduling algorithm.
 
 ## Story (Brief)
 
-*The Summary or TL;DR version of below*
+You are a chef, working in a restaurant. Every dish is represented as a different coding algorithm. You want to make enough dishes, and feed enough customers, to get to the next day. 
 
 ## Storyboarding
 
-*Go into as much detail as needs be to visually convey the Dynamics of your game. Be detailed. Create storyboards and freeze frame images that concisely capture important key elements of your game. You are strongly recommended to sketch pictures on paper and embed them here. Be sure to make it clear how previously-described mechanics come through in the dynamics.*
+<!--- <div align="center"><img src="insert image src here"></div> --->
 
 # Assets Needed
 
 ## Aesthetics
 
-*Give a sense of the aesthetics of your game, the spirit and atmosphere. Use descriptive, evocative words that can help the reader understand the emotional response of your game.*
+Happy, silly, goofy. Should be cheery, not too serious; contrasting the stressfulness of the game with the lightheartedness of funny cartoon characters.
 
 ## Graphical
 
 - Characters List
-  - *Characters 1*
-  - *Characters 2*
-  - *...*
+  - The Chef: the main character. Detailed appearance doesn’t matter, as long as they are “chef-like”.
+  - Other Playable Characters: Simple color variations of the main playable character “the chef”.
 - Textures:
-  - *Texture 1*
-  - *Texture 2*
-  - *...*
+  - Foods: Apples, Tomatoes, Bread, Etc.
+  - Workstations: Refrigerator, Stove, Countertop.
+  - Dishes: Plates, culinary utensils.
 - Environment Art/Textures:
-  - *Environment Texture 1*
-  - *Environment Texture 2*
-  - *...*
+  - Kitchen Floor
+  - Kitchen Walls
+  - Restaurant Floor
+  - Restaurant Walls
 
 
 ## Audio
 
 
-*Game region/phase/time are ways of designating a particularly important place in the game.*
-
 - Music List (Ambient sound)
-  - *Game region/phase/time*: *Example 1*, *Example 2*
-  - *Game region/phase/time*: *Example 3*, *Example 4*
- 
-*Game Interactions are things that trigger SFX, like character movement, hitting a spiky enemy, collecting a coin.*
+  - Menu Music:  [Calm, Upbeat Music](https://www.youtube.com/watch?v=gcU7ZlnJFPE)
+  - Gameplay Music: [Overcooked 2 Ost](https://www.youtube.com/watch?v=8XBu4ZSlOsw&list=PLmRBGT05aJwbquL3GconIJU6Kr0wCJjPM)
 
 - Sound List (SFX)
-  - *Game Interaction*: *Example 1*, *Example 2*
-  - *Game Interaction*: *Example 3*, *Example 4*
+  - Interact with Workstation: Dependent on workstation (like a flame sound for the stove, or an winter-y sound for the refrigerator, etc.)
+  - Order Completed: Probably like the ding of a bell.
+  - Order Failed: Probably a depressing horn sound.
 
 
 # Metadata
