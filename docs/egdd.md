@@ -148,7 +148,7 @@ You are an IT fella tasked with removing a virus off of a computer, the virus is
 
 ## Storyboarding
 
-![First Storyboard](assets/storyboard1.png)
+![First Storyboard](../assets/storyboard1.png)
 ![Second Storyboard](assets/storyboard2.png)
 
 # Assets Needed
