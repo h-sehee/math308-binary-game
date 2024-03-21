@@ -216,10 +216,10 @@ You’re the new head chef at a Michelin star restaurant in the heart of silicon
 ## Storyboarding
 
 
-[mockup1] (https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8436.png)
-[mockup2] (https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8435.png)
-[mockup3] (https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8434.png)
-[mockup4] (https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8433.png)
+[mockup1](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8436.png)
+[mockup2](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8435.png)
+[mockup3](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8434.png)
+[mockup4](https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8433.png)
 
 
 # Assets Needed
@@ -258,20 +258,20 @@ The game should have a bustling, fast-paced, yet upbeat feeling. This will encou
 
 
 - Music List (Ambient sound)
-  - Main menu: [Hell’s kitchen type theme] (https://www.youtube.com/watch?v=-8yVErvnufQ&list=PLaKtWh7q5PT2wOlYywrNhuP0WfxOluTih&index=2&ab_channel=Soundbeats129)
+  - Main menu: [Hell’s kitchen type theme](https://www.youtube.com/watch?v=-8yVErvnufQ&list=PLaKtWh7q5PT2wOlYywrNhuP0WfxOluTih&index=2&ab_channel=Soundbeats129)
   - Tutorial
   - Career
   - Competitive 
 - Sound List (SFX)
-  - Stove : [When you are cooking] (https://www.youtube.com/watch?v=NoZaP23OYb8&ab_channel=2TravelingPalates)
-  - Oven: [For oven timer] (https://www.youtube.com/results?search_query=oven+cooking+sound)
-  - Pantry rummaging: [Here’s an idea] (https://www.youtube.com/watch?v=0R5wl3bFLZQ)
-  - Chopping [chopping vegetable] ()https://www.youtube.com/watch?v=1rG-JsDiDEY&ab_channel=VarietyVault
-  - Washing [washing vegetables noise] (https://www.youtube.com/watch?v=-MFRxhoSqSc&ab_channel=RelaxingWhiteNoise)
-  - Profit sound [Caching sound effect] (https://www.youtube.com/watch?v=trR5YxZjfes&ab_channel=chachingnotifications)
-  - Mistake sound: [When you schedule the wrong dish] (https://www.youtube.com/watch?v=SFtLvkqHIds&list=PLaKtWh7q5PT2wOlYywrNhuP0WfxOluTih&index=5&ab_channel=DougRoberts)
+  - Stove : [When you are cooking](https://www.youtube.com/watch?v=NoZaP23OYb8&ab_channel=2TravelingPalates)
+  - Oven: [For oven timer](https://www.youtube.com/results?search_query=oven+cooking+sound)
+  - Pantry rummaging: [Here’s an idea](https://www.youtube.com/watch?v=0R5wl3bFLZQ)
+  - Chopping [chopping vegetable](https://www.youtube.com/watch?v=1rG-JsDiDEY&ab_channel=VarietyVault)
+  - Washing [washing vegetables noise](https://www.youtube.com/watch?v=-MFRxhoSqSc&ab_channel=RelaxingWhiteNoise)
+  - Profit sound [Caching sound effect](https://www.youtube.com/watch?v=trR5YxZjfes&ab_channel=chachingnotifications)
+  - Mistake sound: [When you schedule the wrong dish](https://www.youtube.com/watch?v=SFtLvkqHIds&list=PLaKtWh7q5PT2wOlYywrNhuP0WfxOluTih&index=5&ab_channel=DougRoberts)
   - Manager grumble: Recorded by us
-  - Ticket pull: [Ripping sound] (https://www.youtube.com/watch?v=xRiSQDgUqb8)
+  - Ticket pull: [Ripping sound](https://www.youtube.com/watch?v=xRiSQDgUqb8)
   - Timer alarm: Generic apple timer sound
 
 
