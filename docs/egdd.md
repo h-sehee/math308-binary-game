@@ -130,16 +130,26 @@ You are a programmer who ran the wrong command, and are now stuck in a simulated
 
 
 ## Storyboarding
+![A player opening a chest with a pet nearby](/assets/img/storyboard_chest.png "player opening a chest")
 
 Player runs some command to open a chest, and receives a weapon or item file which can be collected by pressing 'e' and later compiled and executed (to be used)
 
+![A player firing their weapon at an enemy, while one enemy shoots back](/assets/img/storyboard_combat.png "player shooting a weapon in combat")
+
 Player fires their weapon after "compiling it" to reload, with the enemies also firing back, after getting hit the player will lose health.
 
+![A player who has paused the game by pressing "tab" to enter a bash command into the in game terminal](/assets/img/storyboard_terminal.png "player typing a command")
+
 Upon hitting tab the player will be able to input commands. The /help command will show a list of commands. The player screen will be tinted with the physics paused to maintain the flow of the game. 
+![A player talking to an NPC](/assets/img/storyboard_NPC.png "player talking to an NPC")
 
 Player talking to an NPC, NPC is telling the player information and the dialogue bubbles are continued with the press of 'e'. This Github Cat NPC will allow players to unlock and learn git commands (which would be late game, if we have it at all). This will be similar to the tutorial in the lobby too.
-Player fighting a boss with their beam weapon. Players health is top left, bosses health is on the right side. There will also be a necessary 'kill condition' the player MUST complete in order for the boss to die, which may entail executing certain commands. 
 
+![A player fighting a boss](/assets/img/storyboard_boss.png "player fighting a boss")
+
+Player fighting a boss with their beam weapon. Players health is top left, bosses health is on the right side. There will also be a necessary 'kill condition' the player MUST complete in order for the boss to die, which may entail executing certain commands.
+
+![A drawing of the floor layout with an explanation on how map exploration works](/assets/img/storyboard_floor_layout.png "A description of the floor layout and map")
 # Assets Needed
 
 ## Aesthetics
