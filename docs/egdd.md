@@ -11,17 +11,17 @@ Schedulsine is a fast-paced, management-style cooking game where you need to run
 
 
 - Overcooked:
-- Medium: Game
-- Explanation: Overcooked perfectly simulates the fast-paced environment of a kitchen brigade. Although our game is not focused on the intricacies of cooking, we are influenced by the overall perspective it provides of the entire kitchen situation. It provides timers for each ticket, which makes time a primary aspect of the game, similar to how time is a primary aspect of most scheduling algorithms. We hope to carry over a similar high-intensity feeling.
+  - Medium: Game
+  - Explanation: Overcooked perfectly simulates the fast-paced environment of a kitchen brigade. Although our game is not focused on the intricacies of cooking, we are influenced by the overall perspective it provides of the entire kitchen situation. It provides timers for each ticket, which makes time a primary aspect of the game, similar to how time is a primary aspect of most scheduling algorithms. We hope to carry over a similar high-intensity feeling.
 - Cooking Simulator:
-- Medium: Game
-- Explanation: Cooking simulator using some ideas that we would love to implement within our game. Some of these include the ticket system, which has all the orders in a very clean, queue-like mechanism. They also have a rating system which is satisfying and a direct reflection of the person's performance, which is something we want to mirror in our game regarding runtime or turnaround time performance.
+  - Medium: Game
+  - Explanation: Cooking simulator using some ideas that we would love to implement within our game. Some of these include the ticket system, which has all the orders in a very clean, queue-like mechanism. They also have a rating system which is satisfying and a direct reflection of the person's performance, which is something we want to mirror in our game regarding runtime or turnaround time performance.
 - Hell’s Kitchen:
-- Medium: Television Series
-- Explanation: Hell’s kitchen is the epitome of the stereotypical fast-paced, high-stress cooking situation. While we do not want to make the player feel bad, it would be interesting to include a comically-tough feedback system when a player makes a mistake, simulating Gordon Ramsay’s insults in a SFW and topic relevant manner.
+  - Medium: Television Series
+  - Explanation: Hell’s kitchen is the epitome of the stereotypical fast-paced, high-stress cooking situation. While we do not want to make the player feel bad, it would be interesting to include a comically-tough feedback system when a player makes a mistake, simulating Gordon Ramsay’s insults in a SFW and topic relevant manner.
 - Cooking Dash:
-- Medium: Game
-- Explanation: The game opens up with a comical preview of the character and just some insight as to more or less what is happening in the game. As the intro ends it opens up with the character taking a position from the comic and letting the person who wants to play know what the character is going to do. We would like to implement this in a way to introduce the algorithm required to play out game Schedulsine.
+  - Medium: Game
+  - Explanation: The game opens up with a comical preview of the character and just some insight as to more or less what is happening in the game. As the intro ends it opens up with the character taking a position from the comic and letting the person who wants to play know what the character is going to do. We would like to implement this in a way to introduce the algorithm required to play out game Schedulsine.
 
 
 ## Core Gameplay Mechanics (Brief)
@@ -32,7 +32,7 @@ Schedulsine is a fast-paced, management-style cooking game where you need to run
 - Player decides whether or not to take a dish ticket based on the algorithm
 - Player is penalized if they choose the wrong dish/mess up the order
 - Dish needs all parts to be completed before counted as done
-- Rewarded based on consistent correct completed orders in a row.
+- Rewarded based on consistent correct completed orders in a row
 - They get a profit (score) based on their overall metric
 - Online ranking system so students can be in a challenge
 - Player loses the shift after a set amount of mistakes 
@@ -116,14 +116,14 @@ Only one player interacts with the system at a time. This player is the one who 
 
 
 - Gain a profit after a shift:
-- Description: Failure to deliver a dish in accordance with the respective scheduling algorithm, or failure to make the dish properly will result in a loss of profit, potentially going negative. By following the algorithm correctly, the player will be able to end the shift with a positive profit.
-- Alignment: Gaining a profit primarily reflects the player’s ability to understand and implement the scheduling algorithm.
+  - Description: Failure to deliver a dish in accordance with the respective scheduling algorithm, or failure to make the dish properly will result in a loss of profit, potentially going negative. By following the algorithm correctly, the player will be able to end the shift with a positive profit.
+  - Alignment: Gaining a profit primarily reflects the player’s ability to understand and implement the scheduling algorithm.
 - Advance to the next day:
-- Description: If the restaurant does not make a profit with the given algorithm, the player will have to repeat that shift (day) via performing another service using that algorithm.
-- Alignment: By advancing the days, the player is able to follow the algorithm correctly, and therefore most likely grasps its concepts.
+  - Description: If the restaurant does not make a profit with the given algorithm, the player will have to repeat that shift (day) via performing another service using that algorithm.
+  - Alignment: By advancing the days, the player is able to follow the algorithm correctly, and therefore most likely grasps its concepts.
 - Beat your best score (profit):
-- Description: In the competitive mode, players will have free-reign to manage their dish scheduling in order to achieve the best profit.
-- Alignment: By granting players this freedom to mix and match techniques, they will start to see certain use cases for scheduling algorithms, and why some might be favored over others.
+  - Description: In the competitive mode, players will have free-reign to manage their dish scheduling in order to achieve the best profit.
+  - Alignment: By granting players this freedom to mix and match techniques, they will start to see certain use cases for scheduling algorithms, and why some might be favored over others.
 
 
 # Procedures/Actions
@@ -139,10 +139,9 @@ Besides typing in their username, players will use their pointer to primarily in
 # Rules
 
 
-- If a player drags the wrong ticket to the “CURRENT ORDER” section, their profit goes down (in career mode)
 - If a player drags a part of a dish to the wrong station, their profit goes down
-- If a player successfully completes a dish, their profit goes up
-- If a player completes a dish out of order, their profit goes down (in career mode)
+- If a player successfully completes a dish in the right order, their profit goes up
+- If a player completes a dish out of schedule order, their profit goes down (in career mode) and they receive a message summarizing why
 - The new ticket(s) that appear when a dish is completed will be randomly chosen in no specific order, as it is the job of the scheduler (the player) to choose the order
 
 
@@ -169,12 +168,17 @@ Besides typing in their username, players will use their pointer to primarily in
 ## Core Gameplay Mechanics (Detailed)
 
 
-- *Core Gameplay Mechanic #1*: *Describe in 2 paragraphs or less, along with how it generally works*
-- *Core Gameplay Mechanic #2*: *Describe in 2 paragraphs or less, along with how it generally works*
-- *Core Gameplay Mechanic #3*: *Describe in 2 paragraphs or less, along with how it generally works*
+- Correctly scheduling a dish: The player needs to choose which dish to put into the “current order” area depending on the scheduling algorithm they are assigned for that shift. This depends on factors such as how long the dish will take (i.e. how long the job is). If the player chooses the right dish, and goes on to complete it correctly (see below), they are able to gain profit from serving the dish.
+- Incorrectly scheduling a dish: The player needs to choose which dish to put into the “current order” depending on the scheduling algorithm they are assigned for the shift.
+which takes in multiple factors. If the player chooses the wrong dish, and goes on to complete it CORRECTLY and place it on the serving table they will be notified that they have chosen the wrong dish, they still get the profit for it however they lose the scheduling bonus. If the dish is done wrong, they do not get either, and lose profit. 
+- Correctly making a dish : When a player correctly makes a dish. They fulfill all the requirements of the dish based on the ticket. They are notified if it was correct or not after placing it on the service table. Then they are able to go next to the dish and get the profit from that dish (plus or minus the scheduling bonus).
+- Incorrectly making a dish: When a player makes an incorrect dish. They do not fulfill the requirements for the dish based on what the ticket says. They are notified if it is incorrect. When they put it on a service table it notifies them that their dish is incorrect and they have to redo it, and lose profit based on the price of that dish.
+- Completing a shift: If the player ends their shift with a positive profit, then they are allowed to move on to the next shift, which will be a different scheduling algorithm. This moves them along and progresses the week, adding to their average metrics. They will also receive a metric report at the end of the shift, which shows them the profit, dish runtime, and dish turnaround time of just that shift, granting them insight into the performance of the scheduling algorithm they implemented.
+- Failing a shift:  If the player ends their shift with a negative profit, then they have to redo the shift. Which means they will get another set of dishes to do and repeat the same scheduling algorithms with the goal of completing the shifts properly.
+- Completing the week: After completing the week, the player is given a report which grants an overview of the metrics for each day and their total profit.
+- Playing competitively: By choosing competitive mode, players will play through an entire week with no restrictions on scheduling. At the end, they will receive the same overall metric report and a total profit, which will be used to place them on the global leaderboard.
 
 
-  
 ## Feedback
 
 
@@ -184,8 +188,8 @@ Besides typing in their username, players will use their pointer to primarily in
 - Failing a dish or its components will trigger a Gordon Ramsay insult generated via AI
 - The manager will look angry when you make a mistake, and provide a pseudo-hint on what went wrong
 - Longer-term
-- player will receive a report of their scheduling metrics in terms of dishes as well as the profit from that day’s shift
-- at the end of the “week”, player will receive an overview of their metrics and total profit gained, as well as a position on the leaderboard if playing in competitive mode
+  - player will receive a report of their scheduling metrics in terms of dishes as well as the profit from that day’s shift
+  - at the end of the “week”, player will receive an overview of their metrics and total profit gained, as well as a position on the leaderboard if playing in competitive mode
 
 
 # Story and Gameplay
@@ -212,12 +216,15 @@ You’re the new head chef at a Michelin star restaurant in the heart of silicon
 ## Storyboarding
 
 
-[image1]
-[image2]
-[image3]
+[mockup1] (https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8436.png)
+[mockup2] (https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8435.png)
+[mockup3] (https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8434.png)
+[mockup4] (https://github.com/m-bocelli/egdd-mockups/blob/main/IMG_8433.png)
 
 
 # Assets Needed
+
+
 
 
 ## Aesthetics
@@ -230,41 +237,42 @@ The game should have a bustling, fast-paced, yet upbeat feeling. This will encou
 
 
 - Characters List
-- Restaurant manager: Talking head which instructs you to follow certain scheduling algorithms.
-- Chefs: A collection of generic looking chef sprites which will walk autonomously towards stations that you designate parts of the dish to.
-- Waiter: Sprite who will walk up to the service area to retrieve the finished dishes.
+  - Restaurant manager: Talking head which instructs you to follow certain scheduling algorithms.
+  - Chefs: A collection of generic looking chef sprites which will walk autonomously towards stations that you designate parts of the dish to.
+  - Waiter: Sprite who will walk up to the service area to retrieve the finished dishes.
 - Textures:
-- Restaurant manager face
-- Chef spritesheet
-- Waiter spritesheet
-- Food sprites
-- Food component sprites
-- Station timer UI texture
-- Ticket texture
-- Environment Art/Textures:
-- Kitchen station textures
-- Kitchen floor texture
-- Background for visible area outside the kitchen
+  - Restaurant manager face
+  - Chef spritesheet
+  - Waiter spritesheet
+  - Food sprites
+  - Food component sprites
+  - Station timer UI texture
+  - Ticket texture
+  - Environment Art/Textures:
+  - Kitchen station textures
+  - Kitchen floor texture
+  - Background for visible area outside the kitchen
 
 
 ## Audio
 
 
 - Music List (Ambient sound)
-- Main menu: *Example 1*, *Example 2*
-- Tutorial: *Example 3*, *Example 4*
-- Career:
-- Competitive: 
+  - Main menu: [Hell’s kitchen type theme] (https://www.youtube.com/watch?v=-8yVErvnufQ&list=PLaKtWh7q5PT2wOlYywrNhuP0WfxOluTih&index=2&ab_channel=Soundbeats129)
+  - Tutorial
+  - Career
+  - Competitive 
 - Sound List (SFX)
-- Stove: *Example 1*, *Example 2*
-- Oven: *Example 3*, *Example 4*
-- Pantry rummaging:
-- Chopping: 
-- Washing:
-- Profit sound:
-- Mistake sound:
-- Manager grumble:
-- Ticket pull:
+  - Stove : [When you are cooking] (https://www.youtube.com/watch?v=NoZaP23OYb8&ab_channel=2TravelingPalates)
+  - Oven: [For oven timer] (https://www.youtube.com/results?search_query=oven+cooking+sound)
+  - Pantry rummaging: [Here’s an idea] (https://www.youtube.com/watch?v=0R5wl3bFLZQ)
+  - Chopping [chopping vegetable] ()https://www.youtube.com/watch?v=1rG-JsDiDEY&ab_channel=VarietyVault
+  - Washing [washing vegetables noise] (https://www.youtube.com/watch?v=-MFRxhoSqSc&ab_channel=RelaxingWhiteNoise)
+  - Profit sound [Caching sound effect] (https://www.youtube.com/watch?v=trR5YxZjfes&ab_channel=chachingnotifications)
+  - Mistake sound: [When you schedule the wrong dish] (https://www.youtube.com/watch?v=SFtLvkqHIds&list=PLaKtWh7q5PT2wOlYywrNhuP0WfxOluTih&index=5&ab_channel=DougRoberts)
+  - Manager grumble: Recorded by us
+  - Ticket pull: [Ripping sound] (https://www.youtube.com/watch?v=xRiSQDgUqb8)
+  - Timer alarm: Generic apple timer sound
 
 
 # Metadata
@@ -272,7 +280,6 @@ The game should have a bustling, fast-paced, yet upbeat feeling. This will encou
 
 * Template created by Austin Cory Bart <acbart@udel.edu>, Mark Sheriff, Alec Markarian, and Benjamin Stanley.
 * Version 0.0.3
-
 
 
 
