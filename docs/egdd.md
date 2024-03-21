@@ -1,4 +1,4 @@
- # Boolean Bonanza
+# Boolean Bonanza
 
 ## Elevator Pitch
 
