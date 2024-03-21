@@ -1,4 +1,4 @@
-# Game Name
+# Alliance vs The Council 
 
 
 ## Elevator Pitch
@@ -109,24 +109,24 @@ If the player types in an incorrect or currently unknown Unix command the book w
 
 - *Zombie Wave Defense*: *The game challenges players with progressively tougher waves of “zombies.” The idea is a “zombie” wave of defense. The different types of zombies require the player to adapt their strategy by choosing different plants and placements of those plants to handle the wave of zombies. The idea is that players should anticipate and plan out their defense to beat the wave. *
 - *Plant Placement and Resource Management:*: *Strategically placing different types of “plants” on the board to defend against the wave of zombies trying to get past your defense. Each plant has unique abilities that are good for defending against certain zombies or waves of zombies. Players must manage their resources to strategically have good defense throughout their progression. Deciding which plants to place before each wave is a core mechanic of the game. *
-- *Progression and Unlocking New Plants*: *As you progress in the game you will unlock new plants/characters that will aid you in defeating the waves of zombies. The progression mechanic will encourage users to create new strategies and find different way to defeat the zombies. *
+- *Progression and Unlocking New Plants*: *As you progress in the game you will unlock new plants/characters that will aid you in defeating the waves of zombies. The progression mechanic will encourage users to create new strategies and find different ways to defeat the waves of zombies. *
 
     
 ## Feedback
 
-*Explicitly describe what visual/audio/animation indicators there are that give players feedback on their progress towards their gameplay objectives (and ideally the learning objectives).*
+*Explicitly describe what visual/audio/animation indicators there are that give players feedback on their progress towards their gameplay objectives (and ideally the learning objectives): A player will know how they are doing in terms of their learning objective because they will have to use UNIX commands to progress in the game. The further they make it into the game the more “reps” they will have with UNIX command built into the game. The more they play the more the commands are being reinforced into their brain.*
 
-*Describe what longer-term feedback you detect and give that guides the player in their learning and lets them know how they are doing in regards to the learning objectives.*
+*Describe what longer-term feedback you detect and give that guides the player in their learning and lets them know how they are doing in regard to the learning objectives: The player will know how they are doing in regard to the learning objectives when they are seamlessly navigating our commands. This will help the player translate their learned understanding into a real Linux environment.*
 
 # Story and Gameplay
 
 ## Presentation of Rules
 
-*Briefly describe how the player will learn the gameplay mechanics. Avoid using walls of text, since people will not read them. Think instead of natural ways of teaching mechanics iteratively and slowly.*
+*The player will learn the game mechanics by being presented with a tutorial (level 0) which allows them to experiment with the game and its mechanics. They will also be introduced to a cheat sheet which will help them understand the built-in UNIX-like commands that they will need to use in the game.*
 
 ## Presentation of Content
 
-*Briefly describe how the player will be taught the core material they are meant to learn. Avoid using walls of text, since people will not read them. Think instead of natural ways of teaching material iteratively and slowly.*
+*Briefly describe how the player will be taught the core material they are meant to learn: The player will be taught the core material by being forced to use UNIX-like commands that will help them familiarize themselves with real UNIX commands and other concepts related to the topic. *
 
 ## Story (Brief)
 
@@ -140,22 +140,20 @@ If the player types in an incorrect or currently unknown Unix command the book w
 
 ## Aethestics
 
-*Give a sense of the aesthetics of your game, the spirit and atmosphere. Use descriptive, evocative words that can help the reader understand the emotional response of your game.*
+*Give a sense of the aesthetics of your game, the spirit and atmosphere: In this game, gardens are transformed into battlefields where magical plants, inspired by D&D characters, defend against a zombie invasion. The setting mixes a touch of fantasy with light-hearted horror, creating a unique backdrop for strategy and action. It's a straightforward yet engaging world where players navigate through challenges with strategy and a bit of humor.*
 
 ## Graphical
 
 - Characters List
-  - *Characters 1*
-  - *Characters 2*
-  - *...*
+  - *Mage character*
+  - *Wizard Character*
+  - *Zombies Characters*
 - Textures:
-  - *Texture 1*
-  - *Texture 2*
+  - *Dungeon textures*
+  - *Zombie Textures*
   - *...*
 - Environment Art/Textures:
-  - *Environment Texture 1*
-  - *Environment Texture 2*
-  - *...*
+  - *DnD like battlefields*
 
 
 ## Audio
@@ -164,18 +162,20 @@ If the player types in an incorrect or currently unknown Unix command the book w
 *Game region/phase/time are ways of designating a particularly important place in the game.*
 
 - Music List (Ambient sound)
-  - *Game region/phase/time*: *Example 1*, *Example 2*
-  - *Game region/phase/time*: *Example 3*, *Example 4*
-  
+  - *Zombie Phase*: *Dark advancing music*
+  - *Buying Phase*: *Relax ambient music*
 *Game Interactions are things that trigger SFX, like character movement, hitting a spiky enemy, collecting a coin.*
 
 - Sound List (SFX)
-  - *Game Interaction*: *Example 1*, *Example 2*
-  - *Game Interaction*: *Example 3*, *Example 4*
+  - *Hitting a zombie*: *OOF sound*, *hurt sounds*
+  - *Buying a character*: *satisfaction sound*
+  - *Placing a character*: *satisfaction sound*
+  - *Correct UNIX-like command*: *satisfaction sound*
 
 
 # Metadata
 
 * Template created by Austin Cory Bart <acbart@udel.edu>, Mark Sheriff, Alec Markarian, and Benjamin Stanley.
 * Version 0.0.3
+
 
