@@ -22,12 +22,10 @@ In the game there will be checkpoints placed within the platformer levels (simil
 
 ## Core Gameplay Mechanics (Brief)
 
-*Give a very high-level description of any core gameplay mechanics*
-
 - Basic Platformer Movement Mechanics
 - Git terminal
-	- Button’s to input commands initially
-	- Typing to insert commands at later levels.
+    - Button’s to input commands initially
+    - Typing to insert commands at later levels.
 - Among Us Style Mini Games. Drag matches together. Flick switches by clicking.
 - Collect coins
 - Spike respawn
@@ -55,33 +53,26 @@ In the game there will be checkpoints placed within the platformer levels (simil
 
 ## Learning Objectives
 
-*Remember, Learning Objectives are NOT simply topics. They are statements of observable behavior that a learner can do after the learning experience. You cannot observe someone "understanding" or "knowing" something.*
-
 - Git Commands: By the end of instruction students will be able to identify the proper situations to use git commands and execute them.
 - GitHub Structure: By the end of instruction students will be able to explain how github repositories are structured and where the code is held.
-- *Short Name*: *Formal Learning Objective #3*
+- Git Errors: By the end of instruction students will be able to select the proper solutions to a github error.
 
 ## Prerequisite Knowledge
 
-*What do they need to know prior to trying this game?*
-
-- *Prerequisite Learning Objective #1*
-- *Prerequisite Learning Objective #2*
+- Very basic programming knowledge (if, for, types)
+- Know what github is. Don't have to know much about it.
 
 ## Assessment Measures
 
-*Describe how the learning will be assessed, e.g., pre/post multiple-choice test, or SAT, or some other instrument.*
-
-*If proposing a new instrument, briefly and concisely list some example assessment questions.*
+*  Pre/Post Test
+    * Multiple-Choice Questions like: How would you handle this git error?
+    * What does this command do? etc.
 
 # What sets this project apart?
 
-*Give some reasons why this game is not like every other game out there. Whether the learning objective is unique, the gameplay mechanics are new, or what. You should persuade the reader that your game is novel and worthy of development. Consider arguments that would be persuasive to a Venture Capitalist, Teacher, or Researcher. These might be focused on learning needs, too.*
-
 - The game will be adaptable to the learning needs of the player
 - The game will have a heavy narrative/set and setting that will not only drive the plot, but also the players interest and engagement
-- our approach to designing a platformer game will include ideas from a variety of other platformer titles such as difficulty through movement, time constraints, enemy types, etc…
-- 
+- Our approach to designing a platformer game will include ideas from a variety of other platformer titles such as difficulty through movement, time constraints, enemy types, etc…
 
 # Player Interaction Patterns and Modes
 
@@ -91,102 +82,120 @@ Players will interact with the game in a solo setting as the game is intended to
 
 ## Player Modes
 
-*Your game has one or more player modes. Describe each discrete mode, considering things like menus too. Generally describe the transitions between modes too.*
-
 - Main Menu: The player, when starting the game, will be greeted with a main menu giving them an option to play the game where they left off (continue), level select, options and help/tutorial
-- Narrative: Inbetween levels and 
-- *etc.*
+- Narrative: In between levels and UI menus, there will be a series of cutscenes that convey a story. Levels are locked until the prior level is completed (linear structure)
+- Platformer: The main gameplay/level design will follow classic platformer structure
+- Terminal: The terminal or checkpoints that are placed throughout the level are interactable and will contain the 
 
 # Gameplay Objectives
 
-- *Primary Objective #1*:
-    - Description: *Description*
-    - Alignment: *Describe how this aligns with one or more learning objectives*
-- *Primary Objective #2*:
-    - Description: *Description*
-    - Alignment: *Describe how this aligns with one or more learning objectives*
-- *etc.*
+- Complete all Platformer Levels
+    - Description: Make it through the platformer levels and collect as many coins as possible.
+    - Alignment: Along the way will gain information on git commands or various errors as they progress.
+- Complete Git Terminal. Bosses:
+    - Description: Given a particular git situation and have to find the solution
+    - Alignment: Assesses and refreshes the memory of knowledge gained throughout the platformer. Can use logs to help recall.
 
 # Procedures/Actions
 
-*Describe the control scheme and what actions a user can take in the game.*
+* You can walk and collect by colliding
+* Interact with certain elements with e for example to pick up a log
+* Typing in the terminal to solve issues
 
 # Rules
 
-*What resources are available to the player that they make use of?  How does this affect gameplay? How are these resources finite?*
+* If the player reaches a certain point in the platformer they will get tips about git
+* When the player collects coins they will know they’re on the right path
+* When found logs will be given that give knowledge that can be used to fight the terminal boss. (These can be accessed at any time)
+* If the player tries too many times and gets the wrong answer a hint will be given via relevant log.
+* Over time the terminal bosses will range from:
+    * Easier where the git command is already on the screen (either in buttons or in tiles that need to be connected) and all the player has to do is select the proper order.
+    * Players need to type their own commands into the terminal.
 
 # Objects/Entities
 
-*What other things are in the world that you need to design? These may or may not directly translate to actual objects and classes.*
+* There’s the main character who’s a small space cat
+* There’s a couple other cats of similar style to the main character cat (differing in colors) that will act as NPCs. Some will have space outfits similar to the main characters and others will have outfits matching their planet/situation
+* There’s blocks of broken up git commands in the terminal interface
+* There’s various different enemies
+* Platforms that will be collided with
+* Coin counter
+* A spaceship that the main character lands with
+* A terminal that the main character interacts with (to be found while platforming)
 
 ## Core Gameplay Mechanics (Detailed)
 
-- *Core Gameplay Mechanic #1*: Platformer (player movement, obstacles, levels, etc…)
-- *Core Gameplay Mechanic #2*: Terminal (learning mechanic, typing, buttons, question, etc)
-- *Core Gameplay Mechanic #3*: Tips/optional help (logs, npc, minigame)
-
+- Basic Platformer Movement Mechanics: Wasd or arrow keys for movement. Space for jump. E to interact
+- Git terminal: Navigate UI with mouse. Button’s to input commands initially. Typing to insert commands at later levels.
+- Among Us Style Mini Games: Click and drag matches together. Flick switches by clicking.
+- Collect coins: Walking over coins with wasd
+- Spike respawn: Colliding with a spike or enemy will make you respawn at set checkpoints.
+- Enemy interaction: Projectiles either fired by you or the enemies or both, Jump on or hit enemies with projectiles to damage.
     
 ## Feedback
 
-*Explicitly describe what visual/audio/animation indicators there are that give players feedback on their progress towards their gameplay objectives (and ideally the learning objectives).*
+* Sound when collecting coins
+* Sound when finding a log
+* Sound when reaching key checkpoints.
+* Visual feedback when “winning a level”
 
-*Describe what longer-term feedback you detect and give that guides the player in their learning and lets them know how they are doing in regards to the learning objectives.*
+* As they progress levels will unlock and that will show progression
+* Negative feedback via sound or visual when getting something incorrect
 
 # Story and Gameplay
 
 ## Presentation of Rules
 
-*Briefly describe how the player will learn the gameplay mechanics. Avoid using walls of text, since people will not read them. Think instead of natural ways of teaching mechanics iteratively and slowly.*
+The player will learn the core gameplay mechanics during the tutorial at the beginning of the game. It will teach them how to move (with which buttons) and how to jump. It will also show them that spikes or other enemies are dangerous to the player. There won’t be big walls of text and instead the player is expected to fail as many times as needed before understanding the mechanics of the game. 
+
+For the terminal mechanics there will be a hint system. In the terminal there will be an option to open “Logs” of past space cats who were having trouble navigating the terminal. In the Logs will be hints as to how the player can proceed and what the player should do.
 
 ## Presentation of Content
 
-*Briefly describe how the player will be taught the core material they are meant to learn. Avoid using walls of text, since people will not read them. Think instead of natural ways of teaching material iteratively and slowly.*
+The player will learn the core material of Git through their interaction with NPCs, Logs and mini games. If the player chooses to interact with NPCs they will receive Git hints and clues relating to the upcoming Git “test” in that level. In each level there will also be mini games that will teach them how to connect, order and write Git commands. These mini games will be accessed through the same object that the player will interact with to get to the terminal. The “final” terminal screen features a coding assessment-style game that will test them on their new Git knowledge from the mini games, NPC dialogue and Logs. The Logs are accessed through the same object that is interacted with to get to the mini games and terminal. If the player decides they want help or need more Git information, they will be able to click on “Logs” and see previous cat messages pertaining to how they tackled the issue or what a command means.
 
 ## Story (Brief)
 
-*The Summary or TL;DR version of below*
+TLDR: Many cats are working together to face the enemy. You play as different characters on different levels and your goal is to collect clues that aid in completing your final task within the terminal.
 
 ## Storyboarding
 
-*Go into as much detail as needs be to visually convey the Dynamics of your game. Be detailed. Create storyboards and freeze frame images that concisely capture important key elements of your game. You are strongly recommended to sketch pictures on paper and embed them here. Be sure to make it clear how previously-described mechanics come through in the dynamics.*
+![alt text](https://github.com/UD-S24-CISC374/final-project-magenta/blob/df63f4e046fcd08c05c41fde732cf85ab6ba25de/docs/Git%20Cat%20storyboard.png) 
 
 # Assets Needed
 
 ## Aesthetics
 
-*Give a sense of the aesthetics of your game, the spirit and atmosphere. Use descriptive, evocative words that can help the reader understand the emotional response of your game.*
+The primary aesthetic of the game will be “space/futuristic” including different planets, synth driven music and sound design and tying that all together through the narrative which fundamentally is a “space exploration game” where the player unlocks and travels to new planets (levels). Cave systems, secret areas or other similar ideas have been discussed and may slightly deviate from this aesthetic however not to the point where it feels like it doesn't fit, rather to throw some variety into the mix.
 
 ## Graphical
 
+Link for all assets: 
 - Characters List
-  - *Characters 1*
-  - *Characters 2*
-  - *...*
+  - Git: main character (player)
+  - Claw: antagonist 
+  - 
 - Textures:
-  - *Texture 1*
-  - *Texture 2*
-  - *...*
+  - 
 - Environment Art/Textures:
-  - *Environment Texture 1*
-  - *Environment Texture 2*
-  - *...*
-
+  -
+  -
 
 ## Audio
 
-
-*Game region/phase/time are ways of designating a particularly important place in the game.*
-
 - Music List (Ambient sound)
-  - *Game region/phase/time*: *Example 1*, *Example 2*
-  - *Game region/phase/time*: *Example 3*, *Example 4*
-  
-*Game Interactions are things that trigger SFX, like character movement, hitting a spiky enemy, collecting a coin.*
+  - https://github.com/UD-S24-CISC374/final-project-magenta/tree/main/assets/Sound
+  - all music/ambient sounds can be found inside this github repo link
+  - music and ambient noise is meant to feel spacy, futuristic, calming / increased tempo depending on in-game events. The player may be in space and the background music will contain synths and try to match that set/setting, on a planet, the music will change to reflect that environment more.
+ - inspiration for some of the music created: https://www.youtube.com/watch?v=EGXPAoyP_cg&list=PLLDf8Bnp1K1JPWia6_x8-1K2sVmXGYvJD&index=15
 
 - Sound List (SFX)
-  - *Game Interaction*: *Example 1*, *Example 2*
-  - *Game Interaction*: *Example 3*, *Example 4*
-
+  - Item Collection: 
+- https://www.youtube.com/watch?v=TCD77mH0lYs
+- https://www.youtube.com/watch?v=88Icb7OKexU
+  - UI interaction:
+-https://www.youtube.com/watch?v=OOOm7jZicEg
+-https://www.youtube.com/watch?v=V8JaLTqUx60
 
 # Metadata
 
