@@ -173,13 +173,9 @@ The primary aesthetic of the game will be “space/futuristic” including diffe
 Link for all assets: 
 - Characters List
   - Git: main character (player)
-  - Claw: antagonist 
-  - 
-- Textures:
-  - 
-- Environment Art/Textures:
-  -
-  -
+ - Claw: antagonist 
+- Textures: https://github.com/UD-S24-CISC374/final-project-magenta/tree/main/assets/Art
+- Environment Art/Textures :https://github.com/UD-S24-CISC374/final-project-magenta/tree/main/assets/Art
 
 ## Audio
 
