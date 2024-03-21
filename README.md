@@ -1,1 +1,1 @@
-REPLACE THIS WITH A DESCRIPTION OF YOUR GAME (in the README.md file).
+Terminal 0 is a video game dedicated to teaching users how to navigate a new operating system and investigate a system using basic cyber concepts. The user will explore terminals, windows, and foreign applications while defending the operating system from enemy hackers. With the help of your assistant, CAT, explore the operating system and the mysteries that lie within!
