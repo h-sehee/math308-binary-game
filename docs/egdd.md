@@ -125,11 +125,15 @@ You are a jaguar in a jungle that is traveling along with a band of monkeys. In 
 
 ## Storyboarding
 
+![IMG_7149](https://github.com/UD-S24-CISC374/final-project-apricot/assets/98707863/f75d6cae-9e8d-4ea7-9cde-2f3136dab7ea)
 
 
 
+![IMG_7152](https://github.com/UD-S24-CISC374/final-project-apricot/assets/98707863/33eaaad9-7ba3-42b4-b996-33eb1c701d9c)
 
+![IMG_7153](https://github.com/UD-S24-CISC374/final-project-apricot/assets/98707863/71d3266a-142b-4c05-8296-d14a125fa77c)
 
+![IMG_7154](https://github.com/UD-S24-CISC374/final-project-apricot/assets/98707863/ec71c856-23b2-4cf3-accf-2510b2dc7524)
 
 
 # Assets Needed
