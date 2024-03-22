@@ -164,11 +164,11 @@ Players use a “command window” to add on/ modify an existing weapon, or make
 ## Storyboarding
 
 Starting screen (begin game): 
-![Main Menu Screen](/assets/img/MainScreen.jpeg "Main Menu")
+![Main Menu Screen](/assets/img/MainScreen.jpg "Main Menu")
 Rules screen + keyboard screen:
-![Rules and instructons](/assets/img/keyboard.jpeg "Rules")
+![Rules and instructons](/assets/img/keyboard.jpg "Rules")
 Level select screen:
-![Level Screen](/assets/img/LevelScreen.jpeg "Level")
+![Level Screen](/assets/img/LevelScreen.jpg "Level")
 Levels (2):
 
 Coding Screen (loadout creation):
