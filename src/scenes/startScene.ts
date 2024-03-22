@@ -23,7 +23,7 @@
 
         update() {
             this.startBtn.on('pointerdown', () => {
-                this.scene.start("LevelOneScene");
+                this.scene.start("LevelA");
             });
         }
     }
