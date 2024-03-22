@@ -185,7 +185,7 @@ Loadout Creation Screen Menu 1:
 ![Loudout Creation Menu 1](/assets/img/LoadoutMenuOne.jpg "Loudout Creation Menu 1")
 Loadout Creation Screen Menu 2:
 ![Loudout Creation Menu 2](/assets/img/LoadoutMenuTwo.jpg "Loudout Creation Menu 2")
-Post-coding screen: picture of character with loadout:
+Post-Loadout Character View Screen:
 ![Post-loadout Character View](/assets/img/CharacterView.jpg "Post-loadout Character View")
 Background: 
 ![Wild West background](/assets/img/WildWest.jpeg "Wild West")
