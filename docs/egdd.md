@@ -1,13 +1,3 @@
----
-waltz:
-  title: EGDD - Schedulsine
-meta:
-  version: 0.0.3
-  egdd authors:
-    - Joanna Crisomia <joancris@udel.edu>
-    - Joshua Taing <jsmtaing@udel.edu>
----
-
 # Schedulsine
 
 ## Elevator Pitch
