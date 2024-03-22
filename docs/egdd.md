@@ -169,12 +169,24 @@ Rules screen + keyboard screen:
 ![Rules and instructons](/assets/img/keyboard.jpg "Rules")
 Level select screen:
 ![Level Screen](/assets/img/LevelScreen.jpg "Level")
-Levels (2):
-
-Coding Screen (loadout creation):
-
+Level 1 Start:
+![Level One Start](/assets/img/LevelOneStart.jpg "Level One Start")
+Level 1 Mid-Game:
+![Level One Mid-gameplay](/assets/img/LevelOneMid.jpg "Level One Mid-gameplay")
+Level 1 Boss:
+![Level One Boss](/assets/img/LevelOneBoss.jpg "Level One Boss")
+Level 2 Start:
+![Level Two Start](/assets/img/LevelTwoStart.jpg "Level Two Start")
+Level 2 Mid-Game:
+![Level Two Mid-gameplay](/assets/img/LevelTwoMid.jpg "Level Two Mid-gameplay")
+Level 2 Boss:
+![Level Two Boss](/assets/img/LevelTwoBoss.jpg "Level Two Boss")
+Loadout Creation Screen Menu 1:
+![Loudout Creation Menu 1](/assets/img/LoadoutMenuOne.jpg "Loudout Creation Menu 1")
+Loadout Creation Screen Menu 2:
+![Loudout Creation Menu 2](/assets/img/LoadoutMenuTwo.jpg "Loudout Creation Menu 2")
 Post-coding screen: picture of character with loadout:
-
+![Post-loadout Character View](/assets/img/CharacterView.jpg "Post-loadout Character View")
 Background: 
 ![Wild West background](/assets/img/WildWest.jpeg "Wild West")
 
