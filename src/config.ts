@@ -6,7 +6,7 @@ const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
 
 export const CONFIG = {
-    title: "Bash the Dungeon",
+    title: "Bash",
     version: "0.0.1",
     type: Phaser.AUTO,
     backgroundColor: "#ffffff",
