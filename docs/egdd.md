@@ -2,8 +2,8 @@
 waltz:
   title: EGDD - Schedulsine
 meta:
-  version: 0.0.1
-  gdd authors:
+  version: 0.0.3
+  egdd authors:
     - Joanna Crisomia <joancris@udel.edu>
     - Joshua Taing <jsmtaing@udel.edu>
 ---
@@ -129,19 +129,18 @@ Main control scheme would be keyboard and mouse.
 
 ## Core Gameplay Mechanics (Detailed)
 
-- *Core Gameplay Mechanic #1*: *Describe in 2 paragraphs or less, along with how it generally works*
-- *Core Gameplay Mechanic #2*: *Describe in 2 paragraphs or less, along with how it generally works*
-- *Core Gameplay Mechanic #3*: *Describe in 2 paragraphs or less, along with how it generally works*
+- *Order Completion*: Players take on the role of a chef in a kitchen, preparing meals via preparation of ingredients, cooking, serving, and cleaning up all while under a time limit to complete as many dishes as possible. They receive orders, and must seek to fulfill as many orders as possible before time runs out. If they don’t meet a certain quota by the end of the level, they fail and must restart.
+- *Object Interaction*: Players can move around the 2D plane, and can press a button to either pick up an object or interact with a workstation.
+- *Making a Meal*: Players will have to pick up objects/ingredients from a specific workstation (such as a fridge or a food crate), and take them to another workstation to process them (such as a cutting board, or a stove). They must do so in a specific order in order to create certain dishes, and if they mess it up, they will have to trash that dish and start over. 
 
 ## Feedback
 
-*Explicitly describe what visual/audio/animation indicators there are that give players feedback on their progress towards their gameplay objectives (and ideally the learning objectives).*
 - Sad horn sound if the player gets an order wrong.
 - Happy bell sounds if the player gets an order right.
 - Congratulations music if the player successfully completes the level, with a level complete screen.
 - Sad music if the player fails the level entirely, with a game over screen.
 
-*Describe what longer-term feedback you detect and give that guides the player in their learning and lets them know how they are doing in regards to the learning objectives.*
+- Probably some sort of rating system, where you get a bonus on the level select screen based on how fast you complete a level.
 
 # Story and Gameplay
 
@@ -159,7 +158,7 @@ You are a chef, working in a restaurant. Every dish is represented as a differen
 
 ## Storyboarding
 
-<!--- <div align="center"><img src="insert image src here"></div> --->
+<div align="center"><img src="docs_assets\egdd_storyboard.jpg"></div>
 
 # Assets Needed
 
@@ -199,4 +198,4 @@ Happy, silly, goofy. Should be cheery, not too serious; contrasting the stressfu
 # Metadata
 
 * Template created by Austin Cory Bart <acbart@udel.edu>, Mark Sheriff, Alec Markarian, and Benjamin Stanley.
-* Version 0.0.1
+* Version 0.0.3
