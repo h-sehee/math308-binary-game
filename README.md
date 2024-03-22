@@ -7,3 +7,6 @@ Players navigate a dungeon as a wizard, and they can interact with NPCs to learn
 *Navigate Filesystems*: *By the end of instruction, students will be able to navigate a filesystem using bash commands.*
 - *Solve Bash Tasks*: *By the end of instruction, students will solve bash command tasks*
 - *Debug Bash Problems*: *By the end of instruction, students will be able to debug bash related problems *
+
+## Sources:
+Start Background - Creator: YUCALORA | Credit: YUCALORA // Shutterstock www.shutterstock.com%2Fsearch%2Fdungeon-dark%3Fimage_type%3Dvector&psig=AOvVaw1S-w0NzaIssc8GQBIsGlsY&ust=1711209398231000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCLCe8POdiIUDFQAAAAAdAAAAABAI
