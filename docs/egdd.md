@@ -165,6 +165,10 @@ The aesthetics should be happy and cartoonish. The game should have a light-hear
   - Duck reunification: cheer/happy quacks 
   - Incorrect path: sad quacks?   
 
+## Story Boards
+
+!(/assets/images/Storyboard1.jpg)
+!(/assets/images/Storyboard2.JPG)
 
 
 
