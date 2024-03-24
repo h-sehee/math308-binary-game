@@ -1,12 +1,13 @@
 import Phaser from "phaser";
-import MainScene from "./scenes/mainScene";
+import TitleScene from "./scenes/titleScene";
 import PreloadScene from "./scenes/preloadScene";
+import Scene1 from "./scenes/scene1";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
 
 export const CONFIG = {
-    title: "My Untitled Phaser 3 Game",
+    title: "Cyber Spy",
     version: "0.0.1",
     type: Phaser.AUTO,
     backgroundColor: "#ffffff",
@@ -17,7 +18,7 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, MainScene],
+    scene: [PreloadScene, TitleScene, Scene1],
     physics: {
         default: "arcade",
         arcade: {
