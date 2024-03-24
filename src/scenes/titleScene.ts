@@ -17,9 +17,15 @@ export default class TitleScene extends Phaser.Scene {
         this.clickButton = this.add
             .text(610, 440, "Start", { color: "#fff", fontSize: "25px" })
             .setInteractive()
-            .on("pointerdown", () => this.scene.start("Scene1"))
-            .on("pointerover", () => this.enterButtonHoverState())
-            .on("pointerout", () => this.enterButtonRestState());
+            .on("pointerdown", () => {
+                this.scene.start("Scene1");
+            })
+            .on("pointerover", () => {
+                this.enterButtonHoverState();
+            })
+            .on("pointerout", () => {
+                this.enterButtonRestState();
+            });
     }
 
     enterButtonHoverState() {
