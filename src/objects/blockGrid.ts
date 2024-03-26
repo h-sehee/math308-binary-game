@@ -2,6 +2,11 @@ import Phaser from "phaser";
 import BooleanBlock from "./booleanBlock";
 
 export default class BlockGrid extends Phaser.GameObjects.Container {
+    /*
+        BlockGrid is a Container that acts as the grid upon which BooleanBlocks are placed
+        This structure may be changed in the future due to limitations of the Container class
+        BlockGrid is given a scene, x and y coordinates, and a sideLength representing the number of blocks to a side
+    */
     constructor(scene: Phaser.Scene, x: number, y: number, sideLength: number) {
         super(scene, x, y);
         let blockArray: Array<Phaser.GameObjects.GameObject> =
