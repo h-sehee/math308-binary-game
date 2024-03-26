@@ -1,12 +1,7 @@
 import Phaser from "phaser";
 
 export default class BooleanBlock extends Phaser.GameObjects.Image {
-    constructor(
-        scene: Phaser.Scene,
-        x: number,
-        y: number,
-        type: "and" | "or" | "not" | "true" | "false"
-    ) {
+    constructor(scene: Phaser.Scene, x: number, y: number, type: string) {
         let img: string = "";
         switch (type) {
             case "and": {
@@ -18,7 +13,7 @@ export default class BooleanBlock extends Phaser.GameObjects.Image {
                 break;
             }
             case "not": {
-                img = "and-block";
+                img = "not-block";
                 break;
             }
             case "true": {
@@ -26,7 +21,7 @@ export default class BooleanBlock extends Phaser.GameObjects.Image {
                 break;
             }
             case "false": {
-                img = "true-block";
+                img = "false-block";
                 break;
             }
         }
