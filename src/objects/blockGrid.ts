@@ -3,7 +3,7 @@ import BooleanBlock from "./booleanBlock";
 
 export default class BlockGrid extends Phaser.GameObjects.Container {
     constructor(scene: Phaser.Scene, x: number, y: number, sideLength: number) {
-        super(scene);
+        super(scene, x, y);
         let blockArray: Array<Phaser.GameObjects.GameObject> =
             this.generateRandomBlockArray(scene, sideLength);
         for (let i = 0; i < blockArray.length; i++) {
@@ -13,9 +13,10 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
 
     private generateRandomBlockArray(scene: Phaser.Scene, sideLength: number) {
         let blockList: Array<string> = ["and", "or", "not", "true", "false"];
+        let blockSize: number = 100;
         let out: Array<Phaser.GameObjects.GameObject> = [];
-        let x: number = 300;
-        let y: number = 300;
+        let x: number = 0;
+        let y: number = 0;
         for (let i = 0; i < sideLength ** 2; i++) {
             out.push(
                 new BooleanBlock(
@@ -25,10 +26,10 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
                     blockList[Math.floor(Math.random() * 5)]
                 )
             );
-            x += 60;
-            if (x >= 60 * sideLength + 300) {
-                x = 300;
-                y += 60;
+            x += blockSize + 10;
+            if (x >= (blockSize + 10) * sideLength) {
+                x = 0;
+                y += blockSize + 10;
             }
         }
         return out;

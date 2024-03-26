@@ -10,7 +10,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.existing(new BlockGrid(this, 0, 0, 5));
+        this.add.existing(new BlockGrid(this, 400, 150, 5));
         this.fpsText = new FpsText(this);
 
         const message = `Phaser v${Phaser.VERSION}`;
