@@ -1,12 +1,11 @@
 import Phaser from "phaser";
-import MainScene from "./scenes/mainScene";
-import PreloadScene from "./scenes/preloadScene";
+import titleScene from "./scenes/titleScene";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
 
 export const CONFIG = {
-    title: "My Untitled Phaser 3 Game",
+    title: "Jungle Quest",
     version: "0.0.1",
     type: Phaser.AUTO,
     backgroundColor: "#ffffff",
@@ -17,7 +16,7 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, MainScene],
+    scene: [titleScene],
     physics: {
         default: "arcade",
         arcade: {
