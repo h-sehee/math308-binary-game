@@ -5,6 +5,7 @@ export default class titleScene extends Phaser.Scene {
     private collection: Phaser.GameObjects.Rectangle;
     private mute: Phaser.GameObjects.Image;
     private unmute: Phaser.GameObjects.Image;
+    private music: Phaser.Sound.BaseSound;
 
     constructor() {
         super({ key: "titleScene" });
@@ -14,19 +15,22 @@ export default class titleScene extends Phaser.Scene {
         this.load.image("bg", "assets/img/title_screen.png");
         this.load.image("mute", "assets/img/mute.png");
         this.load.image("unmute", "assets/img/unmute.png");
+        this.load.audio("music", "assets/audio/bg.mp3")
     }
 
     create() {
         this.add.image(640, 360, "bg");
+        this.music = this.sound.add("music", {loop: true});
+        this.music.play();
 
         //start button
         this.start = this.add
-            .rectangle(640, 550, 200, 100, 0x0000)
+            .rectangle(600, 550, 250, 100, 0x0000)
             .setInteractive();
         this.start.on("pointerup", () => {
             this.scene.stop("titleScene").launch("level1");
         });
-        this.add.text(568, 530, "Start", { color: "white", fontSize: "48px" });
+        this.add.text(528, 530, "Start", { color: "white", fontSize: "48px" });
 
         //collectables
         this.collection = this.add
@@ -52,6 +56,7 @@ export default class titleScene extends Phaser.Scene {
         this.unmute.on("pointerup", () => {
             this.unmute.setVisible(false);
             this.mute.setVisible(true);
+            this.music.resume();
         });
 
         this.mute = this.add.image(50, 50, "mute").setInteractive();
@@ -65,8 +70,7 @@ export default class titleScene extends Phaser.Scene {
         this.mute.on("pointerup", () => {
             this.mute.setVisible(false);
             this.unmute.setVisible(true);
-        })
+            this.music.pause();
+        });
     }
-
-    update() {}
 }
