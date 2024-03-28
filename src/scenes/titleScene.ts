@@ -25,21 +25,21 @@ export default class titleScene extends Phaser.Scene {
 
         //start button
         this.start = this.add
-            .rectangle(600, 550, 250, 100, 0x0000)
+            .rectangle(500, 550, 200, 100, 0x0000)
             .setInteractive();
         this.start.on("pointerup", () => {
             this.scene.stop("titleScene").launch("level1");
         });
-        this.add.text(528, 530, "Start", { color: "white", fontSize: "48px" });
+        this.add.text(425, 530, "Start", { color: "white", fontSize: "48px" });
 
         //collectables
         this.collection = this.add
-            .rectangle(1000, 550, 400, 100, 0x0000)
+            .rectangle(850, 550, 400, 100, 0x0000)
             .setInteractive();
         this.collection.on("pointerup", () => {
             console.log("collection");
         });
-        this.add.text(830, 530, "Collectables", {
+        this.add.text(680, 530, "Collectables", {
             color: "white",
             fontSize: "48px",
         });
