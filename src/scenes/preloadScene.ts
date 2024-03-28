@@ -10,6 +10,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("startBtn", "assets/startBtn.png");
         this.load.image("wizard", "assets/cultistIdle.png");
         this.load.image("platform", "assets/dungeonFloor.png");
+        this.load.image("background", "assets/background.png");
     }
 
     create() {
