@@ -8,14 +8,17 @@ export default class level1 extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("bg", "assets/img/title_screen.png");
+        this.load.image("background", "assets/img/background.jpg");
     }
 
     create() {
-        this.add.image(640, 360, "bg");
-        this.levelText = this.add.text(10, 640, "Level 1", {
+        this.add.image(350, 360, "background");
+        this.add.rectangle(640, 0, 1280, 150, 0x0000);
+        this.levelText = this.add.text(545,10, "Level 1", {
             fontSize: "48px",
         });
+        this.add.rectangle(1000, 250, 600, 350, 0xffff);
+        this.add.rectangle(1000, 650, 600, 450, 0x9999);
     }
 
     update() {}
