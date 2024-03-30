@@ -27,6 +27,19 @@ export default class TitleScreen extends Phaser.Scene {
 
         playButton.setInteractive();
 
+        const originalScale = playButton.scaleX;
+        const hoverScale = originalScale * 1.05;
+
+        // Change scale on hover
+        playButton.on("pointerover", () => {
+            playButton.setScale(hoverScale);
+        });
+
+        // Restore original scale when pointer leaves
+        playButton.on("pointerout", () => {
+            playButton.setScale(originalScale);
+        });
+
         playButton.on("pointerup", () => {
             this.scene.start("game-map");
         });
