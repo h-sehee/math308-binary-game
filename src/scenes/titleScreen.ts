@@ -20,7 +20,7 @@ export default class TitleScreen extends Phaser.Scene {
         // Go to levels map on play button click
         const playButton = this.add.image(
             this.cameras.main.width / 2,
-            510,
+            525,
             "play-button"
         );
         playButton.setScale(0.42);
@@ -28,7 +28,7 @@ export default class TitleScreen extends Phaser.Scene {
         playButton.setInteractive();
 
         playButton.on("pointerup", () => {
-            this.scene.start("MainScene");
+            this.scene.start("game-map");
         });
     }
 
