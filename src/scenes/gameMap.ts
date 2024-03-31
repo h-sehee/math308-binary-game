@@ -68,6 +68,7 @@ export default class GameMap extends Phaser.Scene {
             this.scene.start("MainScene");
         });
 
+        // Will add functionality later for these:
         // Level 2 Button:
         const level2Button = this.add.image(782, 457, "level2-button");
         level2Button.setScale(0.55);
