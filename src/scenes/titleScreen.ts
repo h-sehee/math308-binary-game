@@ -5,7 +5,10 @@ export default class TitleScreen extends Phaser.Scene {
         super({ key: "title-screen" });
     }
 
-    preload() {}
+    preload() {
+        this.load.image("title-screen", "assets/title-screen.png");
+        this.load.image("play-button", "assets/play-button.png");
+    }
 
     create() {
         const backgroundImage = this.add
@@ -32,12 +35,24 @@ export default class TitleScreen extends Phaser.Scene {
 
         // Change scale on hover
         playButton.on("pointerover", () => {
-            playButton.setScale(hoverScale);
+            this.tweens.add({
+                targets: playButton,
+                scaleX: hoverScale,
+                scaleY: hoverScale,
+                duration: 110, // Duration of the tween in milliseconds
+                ease: "Linear", // Easing function for the tween
+            });
         });
 
         // Restore original scale when pointer leaves
         playButton.on("pointerout", () => {
-            playButton.setScale(originalScale);
+            this.tweens.add({
+                targets: playButton,
+                scaleX: originalScale,
+                scaleY: originalScale,
+                duration: 110, // Duration of the tween in milliseconds
+                ease: "Linear", // Easing function for the tween
+            });
         });
 
         playButton.on("pointerup", () => {

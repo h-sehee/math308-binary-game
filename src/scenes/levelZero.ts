@@ -5,6 +5,8 @@ export default class LevelZero extends Phaser.Scene {
         super({ key: "Level0" });
     }
 
+    preload() {}
+
     create() {}
 
     update() {}

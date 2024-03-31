@@ -5,7 +5,11 @@ export default class GameMap extends Phaser.Scene {
         super({ key: "game-map" });
     }
 
-    preload() {}
+    preload() {
+        this.load.image("game-map", "assets/game-map.png");
+        this.load.image("level0-button", "assets/level0-button.png");
+        this.load.image("level1-button", "assets/level1-button.png");
+    }
 
     create() {
         const backgroundImage = this.add
@@ -17,20 +21,44 @@ export default class GameMap extends Phaser.Scene {
         );
         //this.add.image(400, 300, "game-map");
 
-        // Start level on level click
-        // Level 0:
-        const level0Button = this.add.image(190, 540, "level0-button");
-        level0Button.setScale(0.25);
+        const originalScale = 0.55;
+        const hoverScale = 0.58;
 
+        // Level 0 Button:
+        const level0Button = this.add.image(180, 552, "level0-button");
+
+        level0Button.setScale(originalScale);
         level0Button.setInteractive();
 
         level0Button.on("pointerup", () => {
             this.scene.start("Level0");
         });
 
-        // Level 1:
-        const level1Button = this.add.image(455, 377, "level1-button");
-        level1Button.setScale(0.25);
+        // Change scale on hover
+        level0Button.on("pointerover", () => {
+            this.tweens.add({
+                targets: level0Button,
+                scaleX: hoverScale,
+                scaleY: hoverScale,
+                duration: 100, // Duration of the tween in milliseconds
+                ease: "Linear", // Easing function for the tween
+            });
+        });
+
+        // Restore original scale when pointer leaves
+        level0Button.on("pointerout", () => {
+            this.tweens.add({
+                targets: level0Button,
+                scaleX: originalScale,
+                scaleY: originalScale,
+                duration: 100, // Duration of the tween in milliseconds
+                ease: "Linear", // Easing function for the tween
+            });
+        });
+
+        // Level 1 Button:
+        const level1Button = this.add.image(410, 346, "level1-button");
+        level1Button.setScale(0.55);
 
         level1Button.setInteractive();
 
