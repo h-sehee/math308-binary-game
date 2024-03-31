@@ -3,6 +3,7 @@ import PhaserLogo from "../objects/phaserLogo";
 import FpsText from "../objects/fpsText";
 
 export default class MainScene extends Phaser.Scene {
+    //test
     fpsText: FpsText;
 
     constructor() {
