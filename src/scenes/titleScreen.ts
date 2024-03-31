@@ -31,7 +31,7 @@ export default class TitleScreen extends Phaser.Scene {
         playButton.setInteractive();
 
         const originalScale = playButton.scaleX;
-        const hoverScale = originalScale * 1.05;
+        const hoverScale = originalScale * 1.09;
 
         // Change scale on hover
         playButton.on("pointerover", () => {
@@ -39,7 +39,7 @@ export default class TitleScreen extends Phaser.Scene {
                 targets: playButton,
                 scaleX: hoverScale,
                 scaleY: hoverScale,
-                duration: 110, // Duration of the tween in milliseconds
+                duration: 115, // Duration of the tween in milliseconds
                 ease: "Linear", // Easing function for the tween
             });
         });
@@ -50,7 +50,7 @@ export default class TitleScreen extends Phaser.Scene {
                 targets: playButton,
                 scaleX: originalScale,
                 scaleY: originalScale,
-                duration: 110, // Duration of the tween in milliseconds
+                duration: 115, // Duration of the tween in milliseconds
                 ease: "Linear", // Easing function for the tween
             });
         });

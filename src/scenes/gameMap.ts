@@ -9,6 +9,8 @@ export default class GameMap extends Phaser.Scene {
         this.load.image("game-map", "assets/game-map.png");
         this.load.image("level0-button", "assets/level0-button.png");
         this.load.image("level1-button", "assets/level1-button.png");
+        this.load.image("level2-button", "assets/level2-button.png");
+        this.load.image("level3-button", "assets/level3-button.png");
     }
 
     create() {
@@ -65,6 +67,14 @@ export default class GameMap extends Phaser.Scene {
         level1Button.on("pointerup", () => {
             this.scene.start("MainScene");
         });
+
+        // Level 2 Button:
+        const level2Button = this.add.image(782, 457, "level2-button");
+        level2Button.setScale(0.55);
+
+        // Level 3 Button:
+        const level3Button = this.add.image(1096, 266, "level3-button");
+        level3Button.setScale(0.55);
     }
 
     update() {}
