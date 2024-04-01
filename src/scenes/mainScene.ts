@@ -81,11 +81,10 @@ export default class MainScene extends Phaser.Scene {
             (
                 _pointer: Phaser.Input.Pointer,
                 ticket: Ticket,
-                target: TicketHolder
+                target: TicketHolder | CurrentOrder
             ) => {
-                if (this.validHolder(target)) {
-                    ticket.setScale(0.7);
-                }
+                console.log(`Entering ${target.name}`);
+                ticket.setScale(0.7);
             }
         );
         this.input.on(
@@ -93,9 +92,10 @@ export default class MainScene extends Phaser.Scene {
             (
                 _pointer: Phaser.Input.Pointer,
                 ticket: Ticket,
-                target: TicketHolder
+                target: TicketHolder | CurrentOrder
             ) => {
-                if (target.name === "holder") ticket.setScale(0.6);
+                console.log(`Leaving ${target.name}`);
+                ticket.setScale(0.6);
             }
         );
         this.input.on(
@@ -103,11 +103,11 @@ export default class MainScene extends Phaser.Scene {
             (
                 _pointer: Phaser.Input.Pointer,
                 ticket: Ticket,
-                target: TicketHolder
+                target: TicketHolder | CurrentOrder
             ) => {
-                if (this.validHolder(target)) {
+                if (target.name === "holder") {
                     target.ticket = ticket;
-                    ticket.setPosition(target.x, target.y);
+                    ticket.setPosition(target.x, target.y + 60);
                 } else if (target.name === "current") {
                     ticket.setPosition(target.x, target.y);
                 }
@@ -116,8 +116,4 @@ export default class MainScene extends Phaser.Scene {
     }
 
     update() {}
-
-    validHolder(target: TicketHolder) {
-        return !target.ticket && target.name === "holder";
-    }
 }
