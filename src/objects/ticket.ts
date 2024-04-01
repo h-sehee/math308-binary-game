@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class Ticket extends Phaser.Physics.Arcade.Sprite {
+export default class Ticket extends Phaser.GameObjects.Sprite {
     ingredients: number[];
     public length: number;
 
@@ -14,8 +14,8 @@ export default class Ticket extends Phaser.Physics.Arcade.Sprite {
         this.setScale(0.5);
         this.setInteractive({ draggable: true });
         scene.add.existing(this);
-        scene.physics.add.existing(this, true);
         this.ingredients = ingredients.map((ingrd) => ingrd);
+        this.depth = 0;
         this.length = this.ingredients.length;
     }
 }
