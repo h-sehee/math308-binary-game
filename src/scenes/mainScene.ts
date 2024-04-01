@@ -2,10 +2,12 @@ import Phaser from "phaser";
 import { CONFIG } from "../config";
 import Ticket from "../objects/ticket";
 import TicketHolder from "../objects/ticketHolder";
+import CurrentOrder from "../objects/currentOrder";
 
 export default class MainScene extends Phaser.Scene {
     tickets: Ticket[];
-    ticketHolders: TicketHolder[];
+    ticketHolders: TicketHolder[] = [];
+    currentOrder: CurrentOrder;
 
     constructor() {
         super({ key: "MainScene" });
@@ -18,6 +20,7 @@ export default class MainScene extends Phaser.Scene {
             this.cameras.main.centerY,
             "kitchen"
         );
+
         this.add
             .text(this.cameras.main.width - 15, 15, version, {
                 color: "#000000",
@@ -25,23 +28,32 @@ export default class MainScene extends Phaser.Scene {
             })
             .setOrigin(1, 0);
 
-        this.ticketHolders = [
-            new TicketHolder(this, 60, 75),
-            new TicketHolder(this, 250, 75),
-            new TicketHolder(this, 440, 75),
-        ];
+        for (let i = 0; i < 3; i++) {
+            this.ticketHolders.push(
+                new TicketHolder(this, 80 + 60 * i * 3, 75, 150, 320, null)
+            );
+        }
 
-        this.tickets = [
-            new Ticket(this, 60, 134, [1, 2]),
-            new Ticket(this, 250, 134, [1, 2]),
-            new Ticket(this, 440, 134, [1, 2]),
-        ];
+        this.ticketHolders.map((holder) =>
+            !holder.ticket
+                ? (holder.ticket = new Ticket(this, holder.x, 134, [1, 2]))
+                : null
+        );
+
+        this.currentOrder = new CurrentOrder(this, 900, 110, 240, 240, null);
+        this.add.rectangle(
+            this.currentOrder.x,
+            this.currentOrder.y,
+            this.currentOrder.width,
+            this.currentOrder.height,
+            0xfff000,
+            80
+        );
 
         this.input.on(
             "dragstart",
             (_pointer: Phaser.Input.Pointer, ticket: Ticket) => {
                 ticket.setScale(0.6);
-                console.log("" + ticket.x + " " + ticket.y);
                 ticket.depth = 2;
             }
         );
@@ -64,7 +76,48 @@ export default class MainScene extends Phaser.Scene {
                 ticket.depth = 0;
             }
         );
+        this.input.on(
+            "dragenter",
+            (
+                _pointer: Phaser.Input.Pointer,
+                ticket: Ticket,
+                target: TicketHolder
+            ) => {
+                if (this.validHolder(target)) {
+                    ticket.setScale(0.7);
+                }
+            }
+        );
+        this.input.on(
+            "dragleave",
+            (
+                _pointer: Phaser.Input.Pointer,
+                ticket: Ticket,
+                target: TicketHolder
+            ) => {
+                if (target.name === "holder") ticket.setScale(0.6);
+            }
+        );
+        this.input.on(
+            "drop",
+            (
+                _pointer: Phaser.Input.Pointer,
+                ticket: Ticket,
+                target: TicketHolder
+            ) => {
+                if (this.validHolder(target)) {
+                    target.ticket = ticket;
+                    ticket.setPosition(target.x, target.y);
+                } else if (target.name === "current") {
+                    ticket.setPosition(target.x, target.y);
+                }
+            }
+        );
     }
 
     update() {}
+
+    validHolder(target: TicketHolder) {
+        return !target.ticket && target.name === "holder";
+    }
 }
