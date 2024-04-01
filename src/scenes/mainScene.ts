@@ -1,28 +1,26 @@
 import Phaser from "phaser";
-import PhaserLogo from "../objects/phaserLogo";
-import FpsText from "../objects/fpsText";
+import { CONFIG } from "../config";
 
 export default class MainScene extends Phaser.Scene {
-    fpsText: FpsText;
-
     constructor() {
         super({ key: "MainScene" });
     }
 
     create() {
-        new PhaserLogo(this, this.cameras.main.width / 2, 0);
-        this.fpsText = new FpsText(this);
+        const version = CONFIG.version;
 
-        const message = `Phaser v${Phaser.VERSION}`;
+        this.add.image(
+            this.cameras.main.centerX,
+            this.cameras.main.centerY,
+            "kitchen"
+        );
         this.add
-            .text(this.cameras.main.width - 15, 15, message, {
+            .text(this.cameras.main.width - 15, 15, version, {
                 color: "#000000",
                 fontSize: "24px",
             })
             .setOrigin(1, 0);
     }
 
-    update() {
-        this.fpsText.update();
-    }
+    update() {}
 }
