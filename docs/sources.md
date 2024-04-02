@@ -10,6 +10,7 @@ Game Map Scene:
 
 Level 0 Scene:
 
+-   Platforms: https://opengameart.org/content/platforms
 -   Background: <a href="https://www.freepik.com/free-vector/nature-roadside-background-scene_40169781.htm#from_view=detail_alsolike">Image by brgfx on Freepik</a>
 -   Key: https://frakassets.itch.io/free-rotating-key
 -   Door: https://www.artstation.com/artwork/BmOoPz
