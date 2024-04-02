@@ -4,13 +4,13 @@ import Ticket from "../objects/ticket";
 import TicketHolder from "../objects/ticketHolder";
 import CurrentOrder from "../objects/currentOrder";
 
-export default class MainScene extends Phaser.Scene {
+export default class FCFSShift extends Phaser.Scene {
     tickets: Ticket[];
     ticketHolders: TicketHolder[] = [];
     currentOrder: CurrentOrder;
 
     constructor() {
-        super({ key: "MainScene" });
+        super({ key: "FCFSShift" });
     }
 
     create() {
