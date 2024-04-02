@@ -4,8 +4,8 @@ import TitleScene from "./scenes/titleScene";
 
 import LobbyScene from "./scenes/lobbyScene";
 
-const DEFAULT_WIDTH = 800;
-const DEFAULT_HEIGHT = 450;
+const DEFAULT_WIDTH = 400;
+const DEFAULT_HEIGHT = 250;
 
 export const CONFIG = {
     title: "Bash The Dungeon",
