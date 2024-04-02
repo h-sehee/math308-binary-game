@@ -25,7 +25,7 @@ export default class MainMenu extends Phaser.Scene {
         const careerMode = this.add.image(200, 400, "career");
         careerMode
             .setInteractive()
-            .on("pointerdown", () => this.scene.start("FCFSShift"))
+            .on("pointerdown", () => this.scene.start("Shift1"))
             .on("pointerover", () => careerMode.setScale(1.1))
             .on("pointerout", () => careerMode.setScale(1));
 

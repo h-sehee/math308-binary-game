@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import FCFSShift from "./scenes/fcfsShift";
+import Shift1 from "./scenes/shift1";
 import PreloadScene from "./scenes/preloadScene";
 import MainMenu from "./scenes/mainMenu";
 
@@ -18,7 +18,7 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, MainMenu, FCFSShift],
+    scene: [PreloadScene, MainMenu, Shift1],
     physics: {
         default: "arcade",
         arcade: {
