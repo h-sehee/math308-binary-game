@@ -5,7 +5,7 @@ export default class BooleanBlock extends Phaser.GameObjects.Image {
     BooleanBlock is the GameObject that represents the blocks on the board
     It is given a scene, x and y coordinates, and a texture based on its type
     */
-    private gridLocation: [number, number];
+    private gridLocation: [number, number]; // gridLocation stores a block's location on the grid locally counting from the top left [row, column]
 
     constructor(
         scene: Phaser.Scene,
