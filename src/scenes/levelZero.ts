@@ -82,10 +82,6 @@ export default class LevelZero extends Phaser.Scene {
                 this.player.setVelocityX(160)
                 this.player.anims.play('right', true)
             }
-            else if (this.cursors.right.isDown && this.cursors.up.isDown) {
-                this.player.setVelocityX(160)
-                this.player.anims.play('jump_right', true)
-            }
             else if (this.cursors.left.isDown) {
                 this.player.setVelocityX(-160)
                 this.player.anims.play('left', true)
@@ -94,7 +90,7 @@ export default class LevelZero extends Phaser.Scene {
                 this.player.setVelocityX(0)
                 this.player.anims.play('idle_right', true)
             }
-            if (this.cursors.up.isDown && this.player.body?.touching.down) {
+            if (this.cursors.up.isDown) {
                 this.player.setVelocityY(-330)
                 this.player.anims.play('jump_right', true)
             
