@@ -2,7 +2,7 @@ import Phaser from "phaser";
 //import PhaserLogo from "../objects/phaserLogo";
 //import FpsText from "../objects/fpsText";
 
-export default class MainScene extends Phaser.Scene {
+export default class levelOne extends Phaser.Scene {
     //fpsText: FpsText;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
@@ -17,11 +17,11 @@ export default class MainScene extends Phaser.Scene {
     private gameOver = false;
 
     constructor() {
-        super({ key: "MainScene" });
+        super({ key: "levelOne" });
     }
 
     create() {
-        this.add.image(400, 300, "WildWest");
+        this.add.image(540, 360, "WildWest");
         this.platforms = this.physics.add.staticGroup();
         const ground = this.platforms.create(
             400,
