@@ -50,9 +50,25 @@ export default class LoadoutScene extends Phaser.Scene {
         // Add the textbox to the scene
         this.add.existing(this.textbox);
 
+        // Create Menu Textboxes
+        this.createClickableText(2950, 250, "Classes:", () => {});
+
+        this.createClickableText(3150, 450, "- Gun", () => {
+            this.scene.start("MainScene");
+        });
+
+        this.createClickableText(3150, 650, "- Clothes", () => {
+            this.scene.start("MainScene");
+        });
+
+        this.createClickableText(3150, 850, "- LOCKED", () => {});
+
+        this.createClickableText(3150, 1050, "- LOCKED", () => {});
+
+        this.createClickableText(3150, 1250, "- LOCKED", () => {});
+
         // Handle pointerdown event
         this.textbox.on("pointerdown", () => {
-            // Focus on the input element when clicked
             this.textInput.focus();
         });
     }
@@ -84,6 +100,24 @@ export default class LoadoutScene extends Phaser.Scene {
 
         // Append the input element to the body
         document.body.appendChild(textbox);
+    }
+
+    createClickableText(
+        x: number,
+        y: number,
+        text: string,
+        onClick: () => void
+    ): void {
+        // Predefined style for all clickable text instances
+        const style: Phaser.Types.GameObjects.Text.TextStyle = {
+            fontFamily: "Arial",
+            fontSize: "100px",
+            color: "#ff0000",
+            align: "center",
+        };
+
+        const textObject = this.add.text(x, y, text, style).setInteractive();
+        textObject.on("pointerdown", onClick);
     }
 
     update() {
