@@ -7,10 +7,11 @@ import ShiftGUI from "./shiftGUI";
 
 // FIRST COME FIRST SERVED
 export default class Shift1 extends Phaser.Scene {
-    tickets: Ticket[];
+    tickets: Ticket[] = [];
     ticketHolders: TicketHolder[] = [];
     currentOrder: CurrentOrder;
     gui: ShiftGUI;
+    nextTicket: Ticket;
 
     constructor() {
         super({ key: "Shift1" });
@@ -44,6 +45,7 @@ export default class Shift1 extends Phaser.Scene {
 
         this.ticketHolders.map((holder) => {
             holder.ticket = new Ticket(this, holder.x, 134, [1, 2], holder);
+            this.tickets.push(holder.ticket);
         });
 
         this.currentOrder = new CurrentOrder(this, 900, 110, 240, 240);
@@ -55,7 +57,27 @@ export default class Shift1 extends Phaser.Scene {
             0xfff000,
             80
         );
+
+        this.setNextTicket();
     }
 
-    update() {}
+    setNextTicket() {
+        this.nextTicket = this.tickets.reduce(
+            (first, curr): Ticket =>
+                curr.arrivalTime < first.arrivalTime ? curr : first,
+            this.tickets[0]
+        );
+        console.log(this.nextTicket);
+    }
+
+    update() {
+        if (
+            this.currentOrder.ticket &&
+            this.currentOrder.ticket === this.nextTicket
+        ) {
+            console.log("RIGHT");
+        } else if (this.currentOrder.ticket) {
+            console.log("WRONG");
+        }
+    }
 }
