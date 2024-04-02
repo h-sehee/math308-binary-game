@@ -1,12 +1,14 @@
 import Phaser from "phaser";
-import TitleScene from "./scenes/titleScene";
 import PreloadScene from "./scenes/preloadScene";
+import TitleScene from "./scenes/titleScene";
 
-const DEFAULT_WIDTH = 1280;
-const DEFAULT_HEIGHT = 720;
+import LobbyScene from "./scenes/lobbyScene";
+
+const DEFAULT_WIDTH = 800;
+const DEFAULT_HEIGHT = 450;
 
 export const CONFIG = {
-    title: "My Untitled Phaser 3 Game",
+    title: "Bash The Dungeon",
     version: "0.0.1",
     type: Phaser.AUTO,
     backgroundColor: "#ffffff",
@@ -17,7 +19,7 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, TitleScene],
+    scene: [PreloadScene, TitleScene, LobbyScene],
     physics: {
         default: "arcade",
         arcade: {

@@ -22,28 +22,29 @@ class TitleScene extends Phaser.Scene {
             "titleScreenBackground"
         );
         background.setOrigin(0.5);
-        background.setScale(1.21);
+        background.setScale(0.75);
 
         // Add other elements with alpha set to 0 (fully transparent)
         const logo = this.add
-            .image(this.cameras.main.width / 2, 222, "logo")
+            .image(this.cameras.main.width / 2, 140, "logo")
             .setAlpha(0);
-        logo.setScale(1.5);
+        logo.setScale(0.9375);
 
         const creatorText = this.add
             .text(
                 this.cameras.main.width / 2,
-                500,
+                320,
                 "Created by Quinten Bettin, Jacob Marks, and Charles Gordinier",
                 { fontSize: "25px", color: "#fff" }
             )
             .setAlpha(0);
         creatorText.setOrigin(0.5);
+        creatorText.setScale(0.625);
 
         const playButton = this.add
-            .image(this.cameras.main.width / 2, 650, "playButton")
+            .image(this.cameras.main.width / 2, 400, "playButton")
             .setAlpha(0);
-        playButton.setScale(0.75);
+        playButton.setScale(0.47);
         playButton.setOrigin(0.5);
         playButton.setInteractive();
         console.log(this.cameras.main);
