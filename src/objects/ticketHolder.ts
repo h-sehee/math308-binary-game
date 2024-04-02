@@ -4,6 +4,7 @@ import Ticket from "./ticket";
 export default class TicketHolder extends Phaser.GameObjects.Zone {
     public clip: Phaser.GameObjects.Sprite;
     public ticket: Ticket | null;
+    occ: Phaser.GameObjects.Text;
 
     constructor(
         scene: Phaser.Scene,
@@ -20,5 +21,15 @@ export default class TicketHolder extends Phaser.GameObjects.Zone {
             .setDepth(1);
         scene.add.existing(this);
         scene.add.rectangle(x, y, this.width, this.height, 0xfff, 80);
+        this.occ = scene.add.text(
+            this.x,
+            this.y + 150,
+            this.ticket ? "occupied" : "empty"
+        );
+        scene.events.on("update", this.update, this);
+    }
+
+    update() {
+        this.occ.text = this.ticket ? "occupied" : "empty";
     }
 }

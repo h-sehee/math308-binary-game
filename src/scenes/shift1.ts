@@ -42,11 +42,9 @@ export default class Shift1 extends Phaser.Scene {
             );
         }
 
-        this.ticketHolders.map((holder) =>
-            !holder.ticket
-                ? (holder.ticket = new Ticket(this, holder.x, 134, [1, 2]))
-                : null
-        );
+        this.ticketHolders.map((holder) => {
+            holder.ticket = new Ticket(this, holder.x, 134, [1, 2], holder);
+        });
 
         this.currentOrder = new CurrentOrder(this, 900, 110, 240, 240);
         this.add.rectangle(
