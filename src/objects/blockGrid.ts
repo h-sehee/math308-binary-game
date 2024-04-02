@@ -7,30 +7,42 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         This structure may be changed in the future due to limitations of the Container class
         BlockGrid is given a scene, x and y coordinates, and a sideLength representing the number of blocks to a side
     */
+    blockMatrix: Array<Array<BooleanBlock>>;
+
     constructor(scene: Phaser.Scene, x: number, y: number, sideLength: number) {
         super(scene, x, y);
-        let blockArray: Array<Phaser.GameObjects.GameObject> =
-            this.generateRandomBlockArray(scene, sideLength);
-        for (let i = 0; i < blockArray.length; i++) {
-            super.add(blockArray[i]);
+        let blockArray: Array<BooleanBlock> = this.generateRandomBlockArray(
+            scene,
+            sideLength
+        );
+        this.blockMatrix = [];
+        for (let i = 0; i < sideLength; i++) {
+            this.blockMatrix.push([]);
+            for (let j = 0; j < sideLength; j++) {
+                let index = i * 5 + j;
+                super.add(blockArray[index]);
+                this.blockMatrix[i].push(blockArray[index]);
+            }
         }
+        scene.add.existing(this);
     }
 
     private generateRandomBlockArray(scene: Phaser.Scene, sideLength: number) {
         let blockList: Array<string> = ["and", "or", "not", "true", "false"];
         let blockSize: number = 100;
-        let out: Array<Phaser.GameObjects.GameObject> = [];
+        let out: Array<BooleanBlock> = [];
         let x: number = 0;
         let y: number = 0;
         for (let i = 0; i < sideLength ** 2; i++) {
-            out.push(
-                new BooleanBlock(
-                    scene,
-                    x,
-                    y,
-                    blockList[Math.floor(Math.random() * 5)]
-                )
+            const newBlock = new BooleanBlock(
+                scene,
+                x,
+                y,
+                blockList[Math.floor(Math.random() * 5)],
+                [Math.floor(i / sideLength), i % sideLength]
             );
+            out.push(newBlock);
+            newBlock.setInteractive();
             x += blockSize + 10;
             if (x >= (blockSize + 10) * sideLength) {
                 x = 0;
@@ -38,5 +50,29 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
             }
         }
         return out;
+    }
+
+    public getBlockAtLocation(index: [number, number]) {
+        return this.blockMatrix[index[0]][index[1]];
+    }
+
+    public switchBlocks(indexA: [number, number], indexB: [number, number]) {
+        let blockA: BooleanBlock = this.blockMatrix[indexA[0]][indexA[1]];
+        let blockAx: number = blockA.x;
+        let blockAy: number = blockA.y;
+        let blockB: BooleanBlock = this.blockMatrix[indexB[0]][indexB[1]];
+        let blockBx: number = blockB.x;
+        let blockBy: number = blockB.y;
+
+        blockA.setGridLocation(indexB);
+        blockB.setGridLocation(indexA);
+
+        this.blockMatrix[indexA[0]][indexA[1]] = blockB;
+        this.blockMatrix[indexB[0]][indexB[1]] = blockA;
+
+        blockA.x = blockBx;
+        blockA.y = blockBy;
+        blockB.x = blockAx;
+        blockB.y = blockAy;
     }
 }

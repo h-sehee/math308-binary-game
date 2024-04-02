@@ -5,7 +5,15 @@ export default class BooleanBlock extends Phaser.GameObjects.Image {
     BooleanBlock is the GameObject that represents the blocks on the board
     It is given a scene, x and y coordinates, and a texture based on its type
     */
-    constructor(scene: Phaser.Scene, x: number, y: number, type: string) {
+    private gridLocation: [number, number];
+
+    constructor(
+        scene: Phaser.Scene,
+        x: number,
+        y: number,
+        type: string,
+        gridLocation: [number, number]
+    ) {
         let img: string = "";
         switch (type) {
             case "and": {
@@ -29,7 +37,15 @@ export default class BooleanBlock extends Phaser.GameObjects.Image {
                 break;
             }
         }
-
         super(scene, x, y, img);
+        this.gridLocation = gridLocation;
+    }
+
+    public getGridLocation() {
+        return this.gridLocation;
+    }
+
+    public setGridLocation(newGridLication: [number, number]) {
+        this.gridLocation = newGridLication;
     }
 }
