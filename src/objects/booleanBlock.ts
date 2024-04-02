@@ -6,6 +6,7 @@ export default class BooleanBlock extends Phaser.GameObjects.Image {
     It is given a scene, x and y coordinates, and a texture based on its type
     */
     private gridLocation: [number, number]; // gridLocation stores a block's location on the grid locally counting from the top left [row, column]
+    private blockType: string;
 
     constructor(
         scene: Phaser.Scene,
@@ -38,6 +39,7 @@ export default class BooleanBlock extends Phaser.GameObjects.Image {
             }
         }
         super(scene, x, y, img);
+        this.blockType = type;
         this.gridLocation = gridLocation;
     }
 
@@ -47,5 +49,9 @@ export default class BooleanBlock extends Phaser.GameObjects.Image {
 
     public setGridLocation(newGridLication: [number, number]) {
         this.gridLocation = newGridLication;
+    }
+
+    public getBlockType() {
+        return this.blockType;
     }
 }
