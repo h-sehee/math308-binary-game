@@ -1,11 +1,11 @@
 import Phaser from "phaser";
 
-export default class LoadoutScene extends Phaser.Scene {
+export default class LoadoutSceneOne extends Phaser.Scene {
     textInput: HTMLInputElement;
     textbox: Phaser.GameObjects.DOMElement;
 
     constructor() {
-        super({ key: "LoadoutScene" });
+        super({ key: "LoadoutSceneOne" });
     }
 
     create() {
