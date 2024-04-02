@@ -4,7 +4,6 @@ import PreloadScene from "./scenes/preloadScene";
 import LoadoutSceneOne from "./scenes/loadoutSceneOne";
 import LoadoutSceneGun from "./scenes/loadoutSceneGun";
 import LoadoutSceneClothes from "./scenes/loadoutSceneClothes";
-import LoadoutScene from "./scenes/loadoutScene";
 import levelOne from "./scenes/levelOne";
 
 const DEFAULT_WIDTH = 4096;
@@ -28,8 +27,8 @@ export const CONFIG = {
         LoadoutSceneOne,
         LoadoutSceneGun,
         LoadoutSceneClothes,
+        levelOne,
     ],
-    scene: [PreloadScene, MainScene, LoadoutScene, levelOne],
     physics: {
         default: "arcade",
         arcade: {
