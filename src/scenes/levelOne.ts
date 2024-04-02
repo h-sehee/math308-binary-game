@@ -21,18 +21,18 @@ export default class levelOne extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(540, 360, "WildWest");
+        this.add.image(2048, 857, "levelBackg");
         this.platforms = this.physics.add.staticGroup();
         const ground = this.platforms.create(
-            400,
-            568,
+            2048,
+            857,
             "ground"
         ) as Phaser.Physics.Arcade.Sprite;
         ground.setScale(2).refreshBody();
 
-        this.platforms.create(600, 400, "ground");
-        this.platforms.create(50, 250, "ground");
-        this.platforms.create(750, 220, "ground");
+        this.platforms.create(600, 400, "platform");
+        this.platforms.create(50, 250, "platform");
+        this.platforms.create(750, 220, "platform");
 
         this.player = this.physics.add.sprite(100, 450, "dude");
         this.player.setBounce(0.2);

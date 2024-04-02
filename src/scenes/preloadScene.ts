@@ -6,9 +6,16 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("phaser-logo", "assets/img/phaser-logo.png");
+        //Loading images for the levels
         this.load.image("WildWest", "assets/img/WildWest.jpeg");
-        this.load.image("ground", "assets/img/platform.png");
+        this.load.image(
+            "levelBackg",
+            "assets/img/LevelImg/level_background.jpg"
+        );
+        this.load.image("ground", "assets/img/LevelImg/ground.jpd");
+        this.load.image("platform", "assets/img/LevelImg/platform.jpg");
+
+        //Charicters, rewards, enamys
         this.load.image("star", "assets/img/star.png");
         this.load.image("bomb", "assets/img/bomb.png");
         this.load.spritesheet("dude", "assets/img/dude.png", {
@@ -21,8 +28,7 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start("LoadoutSceneOne");
-        //this.scene.start("LoadoutScene");
+        //this.scene.start("LoadoutSceneOne");
         this.scene.start("levelOne");
     }
 }
