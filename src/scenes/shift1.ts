@@ -3,14 +3,22 @@ import { CONFIG } from "../config";
 import Ticket from "../objects/ticket";
 import TicketHolder from "../objects/ticketHolder";
 import CurrentOrder from "../objects/currentOrder";
+import ShiftGUI from "./shiftGUI";
 
+// FIRST COME FIRST SERVED
 export default class Shift1 extends Phaser.Scene {
     tickets: Ticket[];
     ticketHolders: TicketHolder[] = [];
     currentOrder: CurrentOrder;
+    gui: ShiftGUI;
 
     constructor() {
         super({ key: "Shift1" });
+    }
+
+    init() {
+        this.scene.launch("ShiftGUI", { shift: this.scene.key });
+        this.gui = this.scene.get("ShiftGUI") as ShiftGUI;
     }
 
     create() {
