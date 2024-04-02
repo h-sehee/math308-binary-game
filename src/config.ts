@@ -3,7 +3,11 @@ import MainScene from "./scenes/mainScene";
 import PreloadScene from "./scenes/preloadScene";
 import LoadoutSceneOne from "./scenes/loadoutSceneOne";
 import LoadoutSceneGun from "./scenes/loadoutSceneGun";
+import LoadoutSceneGunMagazine from "./scenes/loadoutSceneGunMagazine";
+import LoadoutSceneGunScope from "./scenes/loadoutSceneGunScope";
 import LoadoutSceneClothes from "./scenes/loadoutSceneClothes";
+import LoadoutSceneClothesShirt from "./scenes/loadoutSceneClothesShirt";
+import LoadoutSceneClothesPants from "./scenes/loadoutSceneClothesPants";
 
 const DEFAULT_WIDTH = 4096;
 const DEFAULT_HEIGHT = 1714;
@@ -25,7 +29,11 @@ export const CONFIG = {
         MainScene,
         LoadoutSceneOne,
         LoadoutSceneGun,
+        LoadoutSceneGunMagazine,
+        LoadoutSceneGunScope,
         LoadoutSceneClothes,
+        LoadoutSceneClothesPants,
+        LoadoutSceneClothesShirt,
     ],
     physics: {
         default: "arcade",
