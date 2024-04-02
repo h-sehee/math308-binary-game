@@ -3,6 +3,7 @@ import Phaser from "phaser";
 export default class LevelZero extends Phaser.Scene {
     private player?: Phaser.Physics.Arcade.Sprite
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
+    private key?: Phaser.Physics.Arcade.Sprite;
 
     constructor() {
         super({ key: "Level0" });
@@ -10,6 +11,7 @@ export default class LevelZero extends Phaser.Scene {
 
     preload() {
         this.load.image("level0-background", "assets/level0-background.jpg");
+        this.load.spritesheet("key", "assets/key.png", {frameWidth: 768/24, frameHeight: 32})
         this.load.spritesheet("gal_right", "assets/Pink_Monster_Walk_6.png", {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet("gal_left", "assets/Pink_Monster_Walk_Left6.png", {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet("gal_idle_right", "assets/Pink_Monster_Idle_4.png", {frameWidth: 32, frameHeight: 32});
@@ -26,8 +28,20 @@ export default class LevelZero extends Phaser.Scene {
                 this.cameras.main.width / backgroundImage.width,
                 this.cameras.main.height / backgroundImage.height
         );
-        
-        this.player = this.physics.add.sprite(100, 450, "gal_right").setScale(2,2);
+        this.key = this.physics.add.sprite(450, 450, "key").setScale(2.5,2.5);
+        this.key.setCollideWorldBounds(true);
+
+        this.anims.create({
+            key: "turn", 
+            frames: this.anims.generateFrameNumbers("key", {
+                start: 0, 
+                end: 25
+            }), 
+            frameRate: 8,
+            repeat: -1,
+        });
+
+        this.player = this.physics.add.sprite(100, 450, "gal_right").setScale(3,3);
         this.player.setCollideWorldBounds(true);
 
         this.anims.create({
@@ -60,6 +74,9 @@ export default class LevelZero extends Phaser.Scene {
     }
 
     update() {
+        if (this.key) {
+            this.key.anims.play("turn", true);
+        }
         if (this.player && this.cursors) {
             if (this.cursors.right.isDown) {
                 this.player.setVelocityX(160)
