@@ -9,13 +9,10 @@ export default class CurrentOrder extends Phaser.GameObjects.Zone {
         x: number,
         y: number,
         width: number,
-        height: number,
-        ticket: Ticket | null
+        height: number
     ) {
         super(scene, x, y, width, height);
-        this.setDropZone();
+        this.setDropZone().setName("current");
         scene.add.existing(this);
-        this.setName("current");
-        this.ticket = ticket;
     }
 }

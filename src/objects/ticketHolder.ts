@@ -10,16 +10,15 @@ export default class TicketHolder extends Phaser.GameObjects.Zone {
         x: number,
         y: number,
         width: number,
-        height: number,
-        ticket: Ticket | null
+        height: number
     ) {
         super(scene, x, y, width, height);
-        this.setDropZone();
+        this.setDropZone().setName("holder");
+        this.clip = scene.add
+            .sprite(x, y, "ticket-holder")
+            .setScale(4)
+            .setDepth(1);
         scene.add.existing(this);
-        this.setName("holder");
-        this.ticket = ticket;
-        this.clip = scene.add.sprite(x, y, "ticket-holder");
-        this.clip.setScale(4).setDepth(1);
         scene.add.rectangle(x, y, this.width, this.height, 0xfff, 80);
     }
 }
