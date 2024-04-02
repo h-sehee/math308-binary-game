@@ -14,9 +14,13 @@ class LobbyScene extends Phaser.Scene {
         if (tileset) {
             const ground = map.createLayer("Ground", tileset);
             const walls = map.createLayer("Walls", tileset);
+            const objects = map.createLayer("Objects", tileset);
+            const smallObjs = map.createLayer("Smalls", tileset);
             walls?.setCollisionByProperty({ collides: true });
             walls?.setScale(1);
             ground?.setScale(1);
+            objects?.setScale(1);
+            smallObjs?.setScale(1);
 
             const debugGraphics = this.add.graphics().setAlpha(0.7);
             if (CONFIG.physics.arcade.debug) {
