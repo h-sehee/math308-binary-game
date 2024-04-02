@@ -1,6 +1,9 @@
 import Phaser from "phaser";
 import MainScene from "./scenes/mainScene";
 import PreloadScene from "./scenes/preloadScene";
+import LoadoutSceneOne from "./scenes/loadoutSceneOne";
+import LoadoutSceneGun from "./scenes/loadoutSceneGun";
+import LoadoutSceneClothes from "./scenes/loadoutSceneClothes";
 import LoadoutScene from "./scenes/loadoutScene";
 import levelOne from "./scenes/levelOne";
 
@@ -19,6 +22,13 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
+    scene: [
+        PreloadScene,
+        MainScene,
+        LoadoutSceneOne,
+        LoadoutSceneGun,
+        LoadoutSceneClothes,
+    ],
     scene: [PreloadScene, MainScene, LoadoutScene, levelOne],
     physics: {
         default: "arcade",
