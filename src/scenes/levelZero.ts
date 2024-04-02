@@ -4,7 +4,6 @@ export default class LevelZero extends Phaser.Scene {
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private key?: Phaser.Physics.Arcade.Sprite;
-    private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
 
     constructor() {
