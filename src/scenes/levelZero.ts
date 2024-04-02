@@ -102,6 +102,8 @@ export default class LevelZero extends Phaser.Scene {
             .create(1000, 300, "level0-platform")
             .setScale(1.25, 1.25);
         this.platforms.create(500, 150, "level0-platform").setScale(0.75, 0.75);
+
+        this.physics.add.collider(this.player, this.platforms);
     }
 
     update() {
