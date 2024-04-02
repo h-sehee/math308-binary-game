@@ -8,6 +8,7 @@ import LoadoutSceneGunScope from "./scenes/loadoutSceneGunScope";
 import LoadoutSceneClothes from "./scenes/loadoutSceneClothes";
 import LoadoutSceneClothesShirt from "./scenes/loadoutSceneClothesShirt";
 import LoadoutSceneClothesPants from "./scenes/loadoutSceneClothesPants";
+import levelOne from "./scenes/levelOne";
 
 const DEFAULT_WIDTH = 4096;
 const DEFAULT_HEIGHT = 1714;
@@ -34,11 +35,12 @@ export const CONFIG = {
         LoadoutSceneClothes,
         LoadoutSceneClothesPants,
         LoadoutSceneClothesShirt,
+        levelOne,
     ],
     physics: {
         default: "arcade",
         arcade: {
-            debug: false,
+            debug: true,
             gravity: { y: 300 },
         },
     },
