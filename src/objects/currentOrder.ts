@@ -3,6 +3,7 @@ import Ticket from "./ticket";
 
 export default class CurrentOrder extends Phaser.GameObjects.Zone {
     public ticket: Ticket | null;
+    occ: Phaser.GameObjects.Text;
 
     constructor(
         scene: Phaser.Scene,
@@ -14,5 +15,15 @@ export default class CurrentOrder extends Phaser.GameObjects.Zone {
         super(scene, x, y, width, height);
         this.setDropZone().setName("current");
         scene.add.existing(this);
+        this.occ = scene.add.text(
+            this.x,
+            this.y + 150,
+            this.ticket ? "occupied" : "empty"
+        );
+        scene.events.on("update", this.update, this);
+    }
+
+    update() {
+        this.occ.text = this.ticket ? "occupied" : "empty";
     }
 }
