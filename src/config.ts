@@ -1,6 +1,8 @@
 import Phaser from "phaser";
-import MainScene from "./scenes/mainScene";
+import Shift1 from "./scenes/shift1";
 import PreloadScene from "./scenes/preloadScene";
+import MainMenu from "./scenes/mainMenu";
+import ShiftGUI from "./scenes/shiftGUI";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -17,7 +19,7 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, MainScene],
+    scene: [PreloadScene, MainMenu, Shift1, ShiftGUI],
     physics: {
         default: "arcade",
         arcade: {
