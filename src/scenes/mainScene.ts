@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { debugDraw } from "../utils/debug";
 
 export type Collidable =
     | Phaser.Types.Physics.Arcade.GameObjectWithBody
@@ -13,44 +14,121 @@ export default class MainScene extends Phaser.Scene {
     }
 
     create() {
+        this.cursors = this.input.keyboard?.createCursorKeys();
+
         this.add.image(0, 0, "base_tiles");
         const map = this.make.tilemap({ key: "tilemap" });
         const tileset = map.addTilesetImage(
             "dungeon",
-            "base_tiles"
+            "base_tiles",
+            16,
+            16
         ) as Phaser.Tilemaps.Tileset;
 
         map.createLayer("ground", tileset);
-        const wallsLayer = map.createLayer("wall", tileset);
+        const wallsLayer = map.createLayer(
+            "wall",
+            tileset
+        ) as Phaser.Tilemaps.TilemapLayer;
         map.createLayer("objects", tileset);
 
-        wallsLayer?.setCollisionByProperty({ collides: true });
-        const debugGraphics = this.add.graphics().setAlpha(0.7);
-        wallsLayer?.renderDebug(debugGraphics, {
-            tileColor: null,
-            collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255),
+        wallsLayer.setCollisionByProperty({ collides: true });
+
+        //debugDraw(wallsLayer, this);
+
+        this.theseus = this.physics.add.sprite(
+            128,
+            128,
+            "faune",
+            "walk-down-3.png"
+        );
+        this.theseus.body?.setSize(
+            (this.theseus.width = 20),
+            (this.theseus.height = 25)
+        );
+
+        this.anims.create({
+            key: "faune-idle-down",
+            frames: [{ key: "faune", frame: "walk-down-3.png" }],
+        });
+        this.anims.create({
+            key: "faune-idle-up",
+            frames: [{ key: "faune", frame: "walk-up-3.png" }],
+        });
+        this.anims.create({
+            key: "faune-idle-side",
+            frames: [{ key: "faune", frame: "walk-side-3.png" }],
+        });
+        this.anims.create({
+            key: "faune-run-down",
+            frames: this.anims.generateFrameNames("faune", {
+                start: 1,
+                end: 8,
+                prefix: "run-down-",
+                suffix: ".png",
+            }),
+            repeat: -1,
+            frameRate: 15,
+        });
+        this.anims.create({
+            key: "faune-run-up",
+            frames: this.anims.generateFrameNames("faune", {
+                start: 1,
+                end: 8,
+                prefix: "run-up-",
+                suffix: ".png",
+            }),
+            repeat: -1,
+            frameRate: 15,
+        });
+        this.anims.create({
+            key: "faune-run-side",
+            frames: this.anims.generateFrameNames("faune", {
+                start: 1,
+                end: 8,
+                prefix: "run-side-",
+                suffix: ".png",
+            }),
+            repeat: -1,
+            frameRate: 15,
         });
 
-        const faune = this.add.sprite(128, 128, "faune", "walk-down-3.png");
+        this.theseus.anims.play("faune-idle-down");
+
+        this.physics.add.collider(this.theseus, wallsLayer);
     }
 
     update() {
-        if (!this.cursors) {
+        if (!this.cursors || !this.theseus || !this.theseus.body) {
             return;
         }
+
+        const speed = 100;
+
         if (this.cursors.left.isDown) {
-            this.theseus?.setVelocityX(-160);
-            this.theseus?.anims.play("left", true);
+            this.theseus.anims.play("faune-run-side", true);
+            this.theseus.setVelocity(-speed, 0);
+            this.theseus.scaleX = -1;
+            this.theseus.body.offset.x = 24;
         } else if (this.cursors.right.isDown) {
-            this.theseus?.setVelocityX(160);
-            this.theseus?.anims.play("right", true);
+            this.theseus.anims.play("faune-run-side", true);
+            this.theseus.setVelocity(speed, 0);
+            this.theseus.scaleX = 1;
+            this.theseus.body.offset.x = 8;
+        } else if (this.cursors.up.isDown) {
+            this.theseus.anims.play("faune-run-up", true);
+            this.theseus.setVelocity(0, -speed);
+            this.theseus.body.offset.y = 4;
+        } else if (this.cursors.down.isDown) {
+            this.theseus.anims.play("faune-run-down", true);
+            this.theseus.setVelocity(0, speed);
         } else {
-            this.theseus?.setVelocityX(0);
-            this.theseus?.anims.play("turn");
-        }
-        if (this.cursors.up.isDown && this.theseus?.body?.touching.down) {
-            this.theseus.setVelocity(-330);
+            const parts = this.theseus.anims.currentAnim?.key.split(
+                "-"
+            ) as string[];
+            parts[1] = "idle";
+            this.theseus.anims.play(parts.join("-"));
+            this.theseus.setVelocity(0, -5);
         }
     }
 }
