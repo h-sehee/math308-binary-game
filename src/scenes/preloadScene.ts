@@ -11,6 +11,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.tilemapTiledJSON("tilemap", "assets/dungeon_background.json");
 
         this.load.atlas("faune", "assets/fauna.png", "assets/fauna.json");
+        this.load.image("sword", "assets/sword_normal.png");
     }
 
     create() {

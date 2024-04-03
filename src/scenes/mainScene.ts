@@ -8,6 +8,7 @@ export type Collidable =
 export default class MainScene extends Phaser.Scene {
     private theseus?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
+    private sword?: Phaser.Physics.Arcade.Sprite;
 
     constructor() {
         super({ key: "MainScene" });
@@ -40,11 +41,12 @@ export default class MainScene extends Phaser.Scene {
         debugDraw(wallsLayer, this, false);
 
         this.theseus = this.physics.add.sprite(
-            128,
-            128,
+            160,
+            160,
             "faune",
             "walk-down-3.png"
         );
+
         this.theseus.body?.setSize(
             (this.theseus.width = 20),
             (this.theseus.height = 25)
@@ -62,6 +64,7 @@ export default class MainScene extends Phaser.Scene {
             key: "faune-idle-side",
             frames: [{ key: "faune", frame: "walk-side-3.png" }],
         });
+
         this.anims.create({
             key: "faune-run-down",
             frames: this.anims.generateFrameNames("faune", {
@@ -98,6 +101,15 @@ export default class MainScene extends Phaser.Scene {
 
         this.theseus.anims.play("faune-idle-down");
 
+        this.sword = this.physics.add.sprite(
+            this.theseus.x + 5,
+            this.theseus.y + 7,
+            "sword"
+        );
+
+        this.sword.setScale(0.5);
+        this.sword.setOrigin(0, 1);
+
         this.physics.add.collider(this.theseus, wallsLayer);
     }
 
@@ -107,6 +119,8 @@ export default class MainScene extends Phaser.Scene {
         }
 
         const speed = 100;
+
+        this.sword?.setY(this.theseus.y + 7);
 
         const keyA = this.input.keyboard?.addKey(
             Phaser.Input.Keyboard.KeyCodes.A
@@ -126,25 +140,43 @@ export default class MainScene extends Phaser.Scene {
             this.theseus.setVelocity(-speed, 0);
             this.theseus.scaleX = -1;
             this.theseus.body.offset.x = 24;
+
+            this.sword?.setX(this.theseus.x - 5);
         } else if (keyD?.isDown) {
             this.theseus.anims.play("faune-run-side", true);
             this.theseus.setVelocity(speed, 0);
             this.theseus.scaleX = 1;
             this.theseus.body.offset.x = 8;
+
+            this.sword?.setX(this.theseus.x + 5);
         } else if (keyW?.isDown) {
             this.theseus.anims.play("faune-run-up", true);
             this.theseus.setVelocity(0, -speed);
             this.theseus.body.offset.y = 4;
+
+            this.sword?.setX(this.theseus.x + 5);
+            this.sword?.setY(this.theseus.y);
         } else if (keyS?.isDown) {
             this.theseus.anims.play("faune-run-down", true);
             this.theseus.setVelocity(0, speed);
+
+            this.sword?.setX(this.theseus.x + 5);
         } else {
             const parts = this.theseus.anims.currentAnim?.key.split(
                 "-"
             ) as string[];
             parts[1] = "idle";
             this.theseus.anims.play(parts.join("-"));
-            this.theseus.setVelocity(0, -5);
+            this.theseus.setVelocity(0, 0);
         }
+
+        let angle = Phaser.Math.Angle.Between(
+            this.sword?.x!,
+            this.sword?.y!,
+            this.input.x,
+            this.input.y
+        );
+
+        this.sword?.setRotation(angle + Math.PI / 4);
     }
 }
