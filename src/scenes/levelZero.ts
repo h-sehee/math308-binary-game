@@ -6,6 +6,7 @@ export default class LevelZero extends Phaser.Scene {
     private key?: Phaser.Physics.Arcade.Sprite;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private spikes?: Phaser.Physics.Arcade.StaticGroup;
+    private ladder?: Phaser.Physics.Arcade.Image;
 
     constructor() {
         super({ key: "Level0" });
@@ -44,6 +45,7 @@ export default class LevelZero extends Phaser.Scene {
             "spike",
             "assets/spikes2/keyframes/long_metal_spike.png"
         );
+        this.load.image("ladder", "assets/ladder.png");
     }
 
     create() {
@@ -55,7 +57,7 @@ export default class LevelZero extends Phaser.Scene {
             this.cameras.main.height / backgroundImage.height
         );
 
-        this.key = this.physics.add.sprite(450, 450, "key").setScale(2.5, 2.5);
+        this.key = this.physics.add.sprite(1225, 450, "key").setScale(2.5, 2.5);
         this.key.setCollideWorldBounds(true);
 
         this.anims.create({
@@ -133,6 +135,11 @@ export default class LevelZero extends Phaser.Scene {
         this.spikes.create(850, 675, "spike").setScale(0.75, 0.75);
         this.spikes.create(900, 675, "spike").setScale(0.75, 0.75);
         this.spikes.create(950, 675, "spike").setScale(0.75, 0.75);
+
+        this.ladder = this.physics.add
+            .image(1075, 50, "ladder")
+            .setScale(0.5, 0.5);
+        this.ladder.setCollideWorldBounds(true);
     }
 
     update() {
