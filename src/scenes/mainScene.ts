@@ -7,6 +7,9 @@ export default class MainScene extends Phaser.Scene {
     fpsText: FpsText;
     locationBuffer: [number, number] | undefined;
     blockGrid: BlockGrid;
+    timer: Phaser.Time.TimerEvent;
+    timeLimitInSeconds: number = 120;
+    timerText: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: "MainScene" });
@@ -25,6 +28,31 @@ export default class MainScene extends Phaser.Scene {
                 fontSize: "24px",
             })
             .setOrigin(1, 0);
+
+        this.timer = this.time.addEvent({
+            delay: 1000, // 1 second
+            callback: () => {
+                this.timeLimitInSeconds--;
+                if (this.timeLimitInSeconds <= 0) {
+                    this.scene.start("NextScene"); // Replace 'NextScene' with the key of our next scene
+                    //For the next scene we should display the score and then give them the option to play again
+                }
+            },
+            callbackScope: this,
+            loop: true,
+        });
+
+        this.timerText = this.add
+            .text(
+                this.cameras.main.width - 15,
+                this.cameras.main.height - 15,
+                `Time: ${this.timeLimitInSeconds}`,
+                {
+                    color: "#000000",
+                    fontSize: "24px",
+                }
+            )
+            .setOrigin(1, 1);
     }
 
     mouseClick(
@@ -49,5 +77,7 @@ export default class MainScene extends Phaser.Scene {
 
     update() {
         this.fpsText.update();
+
+        this.timerText.setText(`Time: ${this.timeLimitInSeconds}`);
     }
 }
