@@ -26,6 +26,7 @@ export default class LoadoutSceneGun extends Phaser.Scene {
             "#00000000",
             () => {
                 this.scene.start("LoadoutSceneGunScope");
+                this.scene.bringToTop("LoadoutSceneTextboxInserts");
             }
         );
 
@@ -37,6 +38,7 @@ export default class LoadoutSceneGun extends Phaser.Scene {
             "#00000000",
             () => {
                 this.scene.start("LoadoutSceneGunMagazine");
+                this.scene.bringToTop("LoadoutSceneTextboxInserts");
             }
         );
 
@@ -75,6 +77,7 @@ export default class LoadoutSceneGun extends Phaser.Scene {
             "#654321",
             () => {
                 this.scene.start("LoadoutSceneOne");
+                this.scene.bringToTop("LoadoutSceneTextboxInserts");
             }
         );
     }

@@ -26,6 +26,7 @@ export default class LoadoutSceneClothes extends Phaser.Scene {
             "#00000000",
             () => {
                 this.scene.start("LoadoutSceneClothesShirt");
+                this.scene.bringToTop("LoadoutSceneTextboxInserts");
             }
         );
 
@@ -37,6 +38,7 @@ export default class LoadoutSceneClothes extends Phaser.Scene {
             "#00000000",
             () => {
                 this.scene.start("LoadoutSceneClothesPants");
+                this.scene.bringToTop("LoadoutSceneTextboxInserts");
             }
         );
 
@@ -75,6 +77,7 @@ export default class LoadoutSceneClothes extends Phaser.Scene {
             "#654321",
             () => {
                 this.scene.start("LoadoutSceneOne");
+                this.scene.bringToTop("LoadoutSceneTextboxInserts");
             }
         );
     }

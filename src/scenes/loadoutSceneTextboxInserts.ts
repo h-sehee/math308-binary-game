@@ -5,31 +5,32 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
     textbox: Phaser.GameObjects.DOMElement;
 
     constructor() {
-        super({ key: "LoadoutSceneTextboxInserts" });
+        super({ key: "LoadoutSceneTextboxInserts", active: true });
     }
 
     create() {
-        // Create Class Textboxes
-        this.makeTextbox("100px", "20px", "330px", "204px", "20px");
-        this.makeTextbox("100px", "20px", "727px", "200px", "20px");
-
-        // Create Attribute Textboxes
-        this.makeTextbox("170px", "38px", "235px", "258px", "20px");
-        this.makeTextbox("170px", "38px", "632px", "254px", "20px");
-        this.makeTextbox("170px", "38px", "236px", "324px", "20px");
-        this.makeTextbox("170px", "38px", "633px", "320px", "20px");
-
-        // Create Constructor Paramter Textboxes
-        this.makeTextbox("46px", "8px", "345px", "420px", "8px");
-        this.makeTextbox("46px", "8px", "407px", "420px", "8px");
-        this.makeTextbox("46px", "8px", "742px", "416px", "8px");
-        this.makeTextbox("46px", "8px", "804px", "416px", "8px");
-
-        // Create Constructor Textboxes
-        this.makeTextbox("194px", "12px", "225px", "446px", "12px");
-        this.makeTextbox("194px", "12px", "225px", "475px", "12px");
-        this.makeTextbox("194px", "12px", "622px", "442px", "12px");
-        this.makeTextbox("194px", "12px", "622px", "471px", "12px");
+        this.createEditableText(
+            100,
+            200,
+            "Click to edit...",
+            "#000000",
+            "transparent",
+            "16px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            500,
+            700,
+            "Try again...",
+            "#000000",
+            "transparent",
+            "16px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
 
         // Create Phaser DOMElement from input
         this.textbox = new Phaser.GameObjects.DOMElement(
@@ -54,36 +55,63 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         });
     }
 
-    makeTextbox(
-        width: string,
-        height: string,
-        xLoc: string,
-        yLoc: string,
-        wordSize: string
-    ) {
-        // Convert input values to integers
-        // Create HTML input element
-        const textbox = document.createElement("input");
-        textbox.type = "text";
-        textbox.style.position = "absolute";
+    createEditableText(
+        x: number,
+        y: number,
+        initialText: string,
+        textColor: string,
+        backdrop: string,
+        textSize: string,
+        onChange: (newValue: string) => void
+    ): void {
+        // Adjusts the method for creating editable text elements, focusing on integration with the overlay.
+        const globalInputText =
+            (this.registry.get("gameInputText") as string) || initialText;
 
-        // Set element dimensions and position
-        textbox.style.width = width;
-        textbox.style.height = height;
-        textbox.style.left = xLoc;
-        textbox.style.top = yLoc;
-        textbox.style.fontSize = wordSize;
+        const style: Phaser.Types.GameObjects.Text.TextStyle = {
+            fontFamily: "Arial",
+            fontSize: textSize,
+            color: textColor,
+            align: "center",
+            backgroundColor: backdrop,
+            padding: { left: 5, right: 5, top: 5, bottom: 5 },
+        };
 
-        // Set other styles
-        textbox.style.fontFamily = "Verdana, sans-serif";
-        textbox.style.backgroundColor = "transparent"; // Make the background transparent
-        textbox.style.border = "none";
+        const textObject = this.add
+            .text(x, y, globalInputText, style)
+            .setInteractive();
 
-        // Append the input element to the body
-        document.body.appendChild(textbox);
+        const inputElement = document.createElement("input");
+        inputElement.type = "text";
+        inputElement.value = globalInputText;
+        inputElement.style.position = "fixed";
+        inputElement.style.left = "-9999px";
+        inputElement.style.top = "0px";
+        document.body.appendChild(inputElement);
+
+        const syncTextObject = () => {
+            textObject.setText(inputElement.value || initialText);
+            onChange(inputElement.value);
+        };
+
+        inputElement.oninput = syncTextObject;
+
+        textObject.on("pointerdown", () => {
+            inputElement.value =
+                textObject.text === initialText ? "" : textObject.text;
+            inputElement.focus();
+            inputElement.setSelectionRange(
+                inputElement.value.length,
+                inputElement.value.length
+            );
+        });
+
+        inputElement.addEventListener("input", syncTextObject);
+
+        this.events.once("shutdown", () =>
+            document.body.removeChild(inputElement)
+        );
     }
 
-    update() {
-        this.scene.start("LoadoutSceneOne");
-    }
+    update() {}
 }

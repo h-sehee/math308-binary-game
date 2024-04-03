@@ -15,7 +15,7 @@ export default class LoadoutSceneOne extends Phaser.Scene {
         this.createClickableText(
             2950,
             250,
-            "Classes",
+            "Classes:",
             "#ff0000",
             "#00000000",
             () => {}
@@ -29,6 +29,7 @@ export default class LoadoutSceneOne extends Phaser.Scene {
             "#00000000",
             () => {
                 this.scene.start("LoadoutSceneGun");
+                this.scene.bringToTop("LoadoutSceneTextboxInserts");
             }
         );
 
@@ -40,6 +41,7 @@ export default class LoadoutSceneOne extends Phaser.Scene {
             "#00000000",
             () => {
                 this.scene.start("LoadoutSceneClothes");
+                this.scene.bringToTop("LoadoutSceneTextboxInserts");
             }
         );
 
@@ -92,7 +94,5 @@ export default class LoadoutSceneOne extends Phaser.Scene {
         textObject.on("pointerdown", onClick);
     }
 
-    update() {
-        // Update logic
-    }
+    update() {}
 }
