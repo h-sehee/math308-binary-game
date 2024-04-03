@@ -17,14 +17,25 @@ export default class LevelZero extends Phaser.Scene {
             frameHeight: 32,
         });
 
-        this.load.spritesheet("gal_right", "assets/Pink_Monster_Walk_6.png",
-            { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet("gal_left", "assets/Pink_Monster_Walk_Left6.png",
-            { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet("gal_idle_right", "assets/Pink_Monster_Idle_4.png",
-            { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet("gal_jump_right","assets/Pink_Monster_Jump_8.png",
-            { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet("gal_right", "assets/Pink_Monster_Walk_6.png", {
+            frameWidth: 32,
+            frameHeight: 32,
+        });
+        this.load.spritesheet(
+            "gal_left",
+            "assets/Pink_Monster_Walk_Left6.png",
+            { frameWidth: 32, frameHeight: 32 }
+        );
+        this.load.spritesheet(
+            "gal_idle_right",
+            "assets/Pink_Monster_Idle_4.png",
+            { frameWidth: 32, frameHeight: 32 }
+        );
+        this.load.spritesheet(
+            "gal_jump_right",
+            "assets/Pink_Monster_Jump_8.png",
+            { frameWidth: 32, frameHeight: 32 }
+        );
 
         this.load.image("play", "assets/play-button.png");
 
@@ -97,6 +108,14 @@ export default class LevelZero extends Phaser.Scene {
         this.cursors = this.input.keyboard?.createCursorKeys();
 
         this.platforms = this.physics.add.staticGroup();
+        const group = this.platforms.create(
+            650,
+            800,
+            "level0-platform"
+        ) as Phaser.Physics.Arcade.Image;
+
+        group.setScale(5).refreshBody();
+
         this.platforms.create(350, 450, "level0-platform");
         this.platforms
             .create(1000, 300, "level0-platform")
@@ -121,8 +140,9 @@ export default class LevelZero extends Phaser.Scene {
                 this.player.setVelocityX(0);
                 this.player.anims.play("idle_right", true);
             }
-            if (this.cursors.up.isDown) {
-                this.player.setVelocityY(-330);
+            if (this.cursors.up.isDown && this.player.body?.touching.down) {
+                console.log("here");
+                this.player.setVelocityY(-500);
                 this.player.anims.play("jump_right", true);
             }
         }
