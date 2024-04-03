@@ -34,10 +34,38 @@ export default class StartScene extends Phaser.Scene {
         // FILES
         //comment
         // currently do nothing, should be spaced 100 pixels apart
-        this.add.image(100, 100, "locked program");
-        this.add.image(200, 100, "locked text");
-        this.add.image(100, 200, "unlocked text");
 
+        //Create Locked Program which cannot be accessed
+        const locked_prg = this.add
+            .image(100, 100, "locked program")
+            .setInteractive();
+
+        locked_prg.on("pointerdown", function () {
+            locked_prg.setTint(0xff6666);
+        });
+        locked_prg.on("pointerup", function () {
+            locked_prg.clearTint();
+        });
+
+        //Create Locked Text File which cannot be accessed
+        const locked_txt = this.add
+            .image(200, 100, "locked text")
+            .setInteractive();
+        locked_txt.on("pointerdown", function () {
+            locked_txt.setTint(0xff6666);
+        });
+        locked_txt.on("pointerup", function () {
+            locked_txt.clearTint();
+        });
+
+        //Create Text File which CAN be accessed
+        const txt1 = this.add.image(100, 200, "unlocked text").setInteractive();
+        txt1.on("pointerdown", function () {
+            txt1.setTint(0xaaaaff);
+        });
+        txt1.on("pointerup", function () {
+            txt1.clearTint();
+        });
         // SPEECH
         // switch cases are used to determine which speech bubble to display/destory
         this.cycleDialogue(
