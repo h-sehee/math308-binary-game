@@ -11,7 +11,7 @@ export default class TitleScene extends Phaser.Scene {
         this.add.image(this.cameras.main.displayWidth * (1/2), this.cameras.main.displayHeight * (1/4), 'title_logo');
 
         //Play Button
-        const play_btn = this.add.image(this.cameras.main.width * (1/2), 400, 'play_btn');
+        const play_btn = this.add.image(this.cameras.main.width * (1/2), 510, 'play_btn');
         play_btn
             .setInteractive()
             //.on('pointerdown', () => this.scene.start("Game_1"))
