@@ -1,28 +1,81 @@
 import Phaser from "phaser";
-import PhaserLogo from "../objects/phaserLogo";
-import FpsText from "../objects/fpsText";
 
 export default class MainScene extends Phaser.Scene {
-    fpsText: FpsText;
+    /* ---------------     START BUTTON    ------------------- */
+    startClicked: boolean;
+    startButton: Phaser.GameObjects.Text;
+    /* ---------------     OPTION BUTTON    ------------------- */
+    optionsClicked: boolean;
+    optionsButton: Phaser.GameObjects.Text;
+    /* ---------------     PLAY BUTTON    ------------------- */
+    playClicked: boolean;
+    playButton: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: "MainScene" });
     }
 
     create() {
-        new PhaserLogo(this, this.cameras.main.width / 2, 0);
-        this.fpsText = new FpsText(this);
+        /* ---------------     START BUTTON    ------------------- */
+        this.startClicked = false;
+        this.startButton = this.add
+            .text(400, 300, "Start", { color: "#0f0" })
+            .setInteractive()
+            .on("pointerdown", () => this.updateStartClicked(true))
+            .on("pointerover", () =>
+                this.enterButtonHoverState(this.startButton)
+            )
+            .on("pointerout", () =>
+                this.enterButtonRestState(this.startButton)
+            );
 
-        const message = `Phaser v${Phaser.VERSION}`;
-        this.add
-            .text(this.cameras.main.width - 15, 15, message, {
-                color: "#000000",
-                fontSize: "24px",
-            })
-            .setOrigin(1, 0);
+        /* ---------------     OPTIONS BUTTON    ------------------- */
+        this.optionsClicked = false;
+        this.optionsButton = this.add
+            .text(400, 400, "Options", { color: "#0f0" })
+            .setInteractive()
+            .on("pointerdown", () => this.updateOptionsClicked(true))
+            .on("pointerover", () =>
+                this.enterButtonHoverState(this.optionsButton)
+            )
+            .on("pointerout", () =>
+                this.enterButtonRestState(this.optionsButton)
+            );
+
+        /* ---------------     PLAY BUTTON    ------------------- */
+        this.playClicked = false;
+        this.playButton = this.add
+            .text(400, 500, "Play", { color: "#0f0" })
+            .setInteractive()
+            .on("pointerdown", () => this.updatePlayClicked(true))
+            .on("pointerover", () =>
+                this.enterButtonHoverState(this.playButton)
+            )
+            .on("pointerout", () => this.enterButtonRestState(this.playButton));
     }
 
-    update() {
-        this.fpsText.update();
+    /* ---------------     START BUTTON    ------------------- */
+    updateStartClicked(value: boolean) {
+        this.startClicked = value;
     }
+
+    enterButtonHoverState(value: Phaser.GameObjects.Text) {
+        value.setStyle({ fill: "#ff0" });
+    }
+
+    enterButtonRestState(value: Phaser.GameObjects.Text) {
+        value.setStyle({ fill: "#0f0" });
+    }
+
+    /* ---------------     OPTIONS BUTTON    ------------------- */
+    updateOptionsClicked(value: boolean) {
+        this.optionsClicked = value;
+    }
+
+    /* ---------------     PLAY BUTTON    ------------------- */
+    updatePlayClicked(value: boolean) {
+        this.playClicked = value;
+    }
+
+    update() {}
 }
