@@ -12,15 +12,14 @@ export default class StartScene extends Phaser.Scene {
     }
 
     create() {
+        // dummy data to avoid undefined error on first use of cycleDialogue()
         this.bubbleData = { bubbleNum: 0, showBubble: {} };
+
         // for input
         var spaceBar = this.input.keyboard?.addKey(
             Phaser.Input.Keyboard.KeyCodes.SPACE
         );
-        console.log(
-            Object.values(this.bubbleData)[0],
-            Object.values(this.bubbleData)[1]
-        );
+
         spaceBar?.on("down", () => {
             this.cycleDialogue(
                 Object.values(this.bubbleData)[0],
@@ -44,17 +43,13 @@ export default class StartScene extends Phaser.Scene {
             Object.values(this.bubbleData)[0],
             Object.values(this.bubbleData)[1]
         );
-        console.log(
-            Object.values(this.bubbleData)[0],
-            Object.values(this.bubbleData)[1]
-        );
     }
     // for controlling when speech bubbles spawn
     cycleDialogue(bubbleNum: number, showBubble: object) {
         console.log(bubbleNum);
         // if showBubble isn't empty, destroy the old speech bubble
         if (JSON.stringify(showBubble) != "{}") {
-            console.log("not empty");
+            // destroy tbe old speech bubble assets
             Object.values(showBubble)[0].destroy();
             Object.values(showBubble)[1].destroy();
         }
@@ -68,8 +63,6 @@ export default class StartScene extends Phaser.Scene {
                     100,
                     "woagh !!!! so silly"
                 );
-                console.log("LOOK HERE: ");
-                console.log(showBubble);
                 // make the white bubble graphic visible
                 Object.values(showBubble)[0].visible = true;
                 // make the text object visible
@@ -83,8 +76,6 @@ export default class StartScene extends Phaser.Scene {
                     100,
                     "nice space button press :3"
                 );
-                console.log("LOOK HERE: ");
-                console.log(showBubble);
                 // make the white bubble graphic visible
                 Object.values(showBubble)[0].visible = true;
                 // make the text object visible
@@ -107,7 +98,7 @@ export default class StartScene extends Phaser.Scene {
         bubbleNum = bubbleNum + 1;
         this.bubbleData = { bubbleNum, showBubble };
     }
-    // for making the speech bubbles
+    // for making the speech bubble graphics
     createSpeechBubble(
         x: number,
         y: number,
@@ -176,17 +167,15 @@ export default class StartScene extends Phaser.Scene {
             bubble.y + bubbleHeight / 2 - b.height / 2
         );
 
+        // hide them, they'll get made visible in cycleDialogue()
+        // this function is just to make the speech bubble graphic and text object we need to display later
         content.visible = false;
         bubble.visible = false;
+
         return { bubble, content };
-        // kill
-        //content.destroy();
-        //bubble.destroy();
     }
 
     update() {
         //this.fpsText.update();
-        //this.input.keyboard?.on('keydown_ENTER', this.cycleDialogue(bubbleCounter), this)
-        //this.input.keyboard.on('keydown_ENTER', this.cycleDialogue(1));
     }
 }
