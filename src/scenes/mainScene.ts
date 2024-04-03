@@ -83,7 +83,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     evaluateBooleanExpression(blocks: BooleanBlock[]): boolean {
-        let expression = blocks
+        let expression = blocks //builds a string expression from the blocks
             .map((block) => {
                 switch (block.getBlockType()) {
                     case "and":
@@ -102,6 +102,7 @@ export default class MainScene extends Phaser.Scene {
             })
             .join(" ");
 
+        //evaluate the expression, return false if invalid
         try {
             return Boolean(new Function("return " + expression + ";")());
         } catch (error) {
@@ -111,6 +112,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     checkForTruthy(): { type: "row" | "column"; index: number } | null {
+        //check each row
         for (let row = 0; row < this.blockGrid.blockMatrix.length; row++) {
             if (
                 this.evaluateBooleanExpression(this.blockGrid.blockMatrix[row])
@@ -120,6 +122,7 @@ export default class MainScene extends Phaser.Scene {
             }
         }
 
+        //check each column
         for (let col = 0; col < this.blockGrid.blockMatrix.length; col++) {
             let columnBlocks = this.blockGrid.blockMatrix.map(
                 (row) => row[col]
@@ -130,6 +133,7 @@ export default class MainScene extends Phaser.Scene {
             }
         }
 
+        //if there is no truthy statement found, return null
         return null;
     }
 }

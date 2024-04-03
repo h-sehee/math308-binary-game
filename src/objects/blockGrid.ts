@@ -79,4 +79,36 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         blockB.x = blockAx;
         blockB.y = blockAy;
     }
+
+    //removes a specific row and adds a new row to the top row of the grid
+    public removeRow(rowIndex: number) {
+        this.blockMatrix.splice(rowIndex, 1); //remove the row
+        let newRow = this.generateRandomBlockArray(this.scene, 1); //create a new row at the top
+        this.blockMatrix.unshift(newRow); //add new row to the beginning of matrix
+    }
+
+    //remove a specific column and add new blocks from the top
+    public removeColumn(colIndex: number) {
+        for (let i = 0; i < this.blockMatrix.length; i++) {
+            //remove the block from the column
+            let blockToRemove = this.blockMatrix[i][colIndex];
+            this.remove(blockToRemove);
+            blockToRemove.destroy(); //remove the block and destroy it
+
+            //add a new block to the top
+            let newBlock = this.generateRandomBlockArray(this.scene, 1)[0];
+            this.add(newBlock);
+            newBlock.setGridLocation([0, colIndex]);
+
+            //move existing blocks down
+            for (let j = i; j > 0; j--) {
+                this.blockMatrix[j][colIndex] =
+                    this.blockMatrix[j - 1][colIndex];
+                this.blockMatrix[j][colIndex].setGridLocation([j, colIndex]);
+            }
+
+            //place the new block in the first row
+            this.blockMatrix[0][colIndex] = newBlock;
+        }
+    }
 }
