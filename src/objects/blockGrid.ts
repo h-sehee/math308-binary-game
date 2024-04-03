@@ -178,7 +178,7 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         let gridHeight =
             this.blockMatrix.length * (this.blockSize + this.blockSpacing) -
             this.blockSpacing;
-        this.x = (this.scene.scale.width - gridWidth) / 2;
-        this.y = (this.scene.scale.height - gridHeight) / 2;
+        this.x = (this.scene.scale.width - gridWidth) / 2 + 30;
+        this.y = (this.scene.scale.height - gridHeight) / 2 + 40;
     }
 }
