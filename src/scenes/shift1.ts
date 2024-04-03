@@ -54,12 +54,10 @@ export default class Shift1 extends Phaser.Scene {
                 new TicketHolder(this, 80 + 60 * i * 3, 75, 150, 320)
             );
         }
-
         this.ticketHolders.map((holder) => {
             holder.ticket = new Ticket(this, holder.x, 134, [1, 2], holder);
             this.tickets.push(holder.ticket);
         });
-
         this.currentOrder = new CurrentOrder(this, 900, 110, 240, 240);
         this.initStations();
         this.setNextTicket();
@@ -128,6 +126,48 @@ export default class Shift1 extends Phaser.Scene {
             this.cameras.main.centerY - 38,
             110,
             90
+        );
+        this.sinks[0] = new Sink(
+            this,
+            this.cameras.main.width - 45,
+            this.cameras.main.centerY - 40,
+            90,
+            140
+        );
+        this.sinks[1] = new Sink(
+            this,
+            this.cameras.main.width - 45,
+            this.cameras.main.height - 150,
+            90,
+            140
+        );
+        this.ovens[0] = new Oven(
+            this,
+            175,
+            this.cameras.main.height - 35,
+            110,
+            75
+        );
+        this.ovens[1] = new Oven(
+            this,
+            293,
+            this.cameras.main.height - 35,
+            120,
+            75
+        );
+        this.ovens[2] = new Oven(
+            this,
+            418,
+            this.cameras.main.height - 35,
+            120,
+            75
+        );
+        this.ovens[3] = new Oven(
+            this,
+            this.cameras.main.centerX - 100,
+            this.cameras.main.height - 35,
+            110,
+            75
         );
     }
 

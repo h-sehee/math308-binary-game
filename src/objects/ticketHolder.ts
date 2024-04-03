@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import Ticket from "./ticket";
 
 export default class TicketHolder extends Phaser.GameObjects.Zone {
-    public clip: Phaser.GameObjects.Sprite;
+    clip: Phaser.GameObjects.Sprite;
     public ticket: Ticket | null;
     occ: Phaser.GameObjects.Text;
 
