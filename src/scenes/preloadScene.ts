@@ -14,6 +14,12 @@ export default class PreloadScene extends Phaser.Scene {
                 scale: 1.5
             }
         });
+
+        //Play Button
+        this.load.image({
+            key: 'play_btn',
+            url: 'assets/img/play_button.png'
+        });
     }
 
     create() {
