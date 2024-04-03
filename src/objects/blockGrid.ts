@@ -79,7 +79,7 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         blockB.x = blockAx;
         blockB.y = blockAy;
     }
-  
+
     private evaluateBooleanExpression(blocks: Array<BooleanBlock>): boolean {
         let expression = blocks
             .map((block) => {
@@ -128,6 +128,7 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         }
 
         return outArray;
+    }
 
     //removes a specific row and adds a new row to the top row of the grid
     public removeRow(rowIndex: number) {
