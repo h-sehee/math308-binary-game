@@ -14,7 +14,10 @@ export default class MainScene extends Phaser.Scene {
     }
 
     create() {
-        this.cursors = this.input.keyboard?.createCursorKeys();
+        this.cursors =
+            this.input.keyboard?.createCursorKeys() as Phaser.Types.Input.Keyboard.CursorKeys;
+
+        this.input.setDefaultCursor("url(assets/crosshair.cur), pointer");
 
         this.add.image(0, 0, "base_tiles");
         const map = this.make.tilemap({ key: "tilemap" });
@@ -105,21 +108,34 @@ export default class MainScene extends Phaser.Scene {
 
         const speed = 100;
 
-        if (this.cursors.left.isDown) {
+        const keyA = this.input.keyboard?.addKey(
+            Phaser.Input.Keyboard.KeyCodes.A
+        );
+        const keyS = this.input.keyboard?.addKey(
+            Phaser.Input.Keyboard.KeyCodes.S
+        );
+        const keyD = this.input.keyboard?.addKey(
+            Phaser.Input.Keyboard.KeyCodes.D
+        );
+        const keyW = this.input.keyboard?.addKey(
+            Phaser.Input.Keyboard.KeyCodes.W
+        );
+
+        if (keyA?.isDown) {
             this.theseus.anims.play("faune-run-side", true);
             this.theseus.setVelocity(-speed, 0);
             this.theseus.scaleX = -1;
             this.theseus.body.offset.x = 24;
-        } else if (this.cursors.right.isDown) {
+        } else if (keyD?.isDown) {
             this.theseus.anims.play("faune-run-side", true);
             this.theseus.setVelocity(speed, 0);
             this.theseus.scaleX = 1;
             this.theseus.body.offset.x = 8;
-        } else if (this.cursors.up.isDown) {
+        } else if (keyW?.isDown) {
             this.theseus.anims.play("faune-run-up", true);
             this.theseus.setVelocity(0, -speed);
             this.theseus.body.offset.y = 4;
-        } else if (this.cursors.down.isDown) {
+        } else if (keyS?.isDown) {
             this.theseus.anims.play("faune-run-down", true);
             this.theseus.setVelocity(0, speed);
         } else {
