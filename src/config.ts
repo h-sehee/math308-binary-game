@@ -2,6 +2,9 @@ import Phaser from "phaser";
 import MainScene from "./scenes/mainScene";
 import PreloadScene from "./scenes/preloadScene";
 import LoadoutSceneTextboxInserts from "./scenes/loadoutSceneTextboxInserts";
+
+import LoadoutSceneTextboxTest from "./scenes/loadoutSceneTextboxTest";
+
 import LoadoutSceneOne from "./scenes/loadoutSceneOne";
 import LoadoutSceneGun from "./scenes/loadoutSceneGun";
 import LoadoutSceneGunMagazine from "./scenes/loadoutSceneGunMagazine";
@@ -38,6 +41,7 @@ export const CONFIG = {
         LoadoutSceneClothesPants,
         LoadoutSceneClothesShirt,
         levelOne,
+        LoadoutSceneTextboxTest,
     ],
     physics: {
         default: "arcade",
