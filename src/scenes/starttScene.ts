@@ -4,21 +4,28 @@ import FpsText from "../objects/fpsText";
 
 export default class StartScene extends Phaser.Scene {
     fpsText: FpsText;
+    // this will have a number corresponding to the speech bubble 'ID' and an object containing the speech bubble graphics to display
+    bubbleData: object;
 
     constructor() {
         super({ key: "StartScene" });
     }
 
     create() {
-        // bubbleCounter is like an ID for the speech bubble
-        let bubbleCounter = 0;
-
+        this.bubbleData = { bubbleNum: 0, showBubble: {} };
         // for input
         var spaceBar = this.input.keyboard?.addKey(
             Phaser.Input.Keyboard.KeyCodes.SPACE
         );
+        console.log(
+            Object.values(this.bubbleData)[0],
+            Object.values(this.bubbleData)[1]
+        );
         spaceBar?.on("down", () => {
-            bubbleCounter = this.cycleDialogue(bubbleCounter);
+            this.cycleDialogue(
+                Object.values(this.bubbleData)[0],
+                Object.values(this.bubbleData)[1]
+            );
         });
 
         // Spawn in the background and CAT image
@@ -33,44 +40,72 @@ export default class StartScene extends Phaser.Scene {
 
         // SPEECH
         // switch cases are used to determine which speech bubble to display/destory
-        // this is repeat code technically but it shows the initial speech bubble so here it shall stay
-        bubbleCounter = this.cycleDialogue(bubbleCounter);
-        console.log(bubbleCounter);
+        this.cycleDialogue(
+            Object.values(this.bubbleData)[0],
+            Object.values(this.bubbleData)[1]
+        );
+        console.log(
+            Object.values(this.bubbleData)[0],
+            Object.values(this.bubbleData)[1]
+        );
     }
     // for controlling when speech bubbles spawn
-    // TODO: figure out a way to despawn bubbles after next bubble is spawned
-    // add timers for bubbles to despawn and make new cases unreachable numbers to display bubbles after X event
-    cycleDialogue(bubbleNum: number) {
+    cycleDialogue(bubbleNum: number, showBubble: object) {
         console.log(bubbleNum);
+        // if showBubble isn't empty, destroy the old speech bubble
+        if (JSON.stringify(showBubble) != "{}") {
+            console.log("not empty");
+            Object.values(showBubble)[0].destroy();
+            Object.values(showBubble)[1].destroy();
+        }
+        // switch cases for dialogue
         switch (bubbleNum) {
             case 0:
-                this.createSpeechBubble(
+                showBubble = this.createSpeechBubble(
                     1060,
                     400,
                     200,
                     100,
                     "woagh !!!! so silly"
                 );
+                console.log("LOOK HERE: ");
+                console.log(showBubble);
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
                 break;
             case 1:
-                this.createSpeechBubble(
+                showBubble = this.createSpeechBubble(
                     1060,
                     400,
                     200,
                     100,
                     "nice space button press :3"
                 );
+                console.log("LOOK HERE: ");
+                console.log(showBubble);
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
                 break;
             case 2:
-                this.createSpeechBubble(
+                showBubble = this.createSpeechBubble(
                     1060,
                     400,
                     200,
                     100,
                     "Where'd you get it? The space bar store ???"
                 );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
         }
-        return bubbleNum + 1;
+        bubbleNum = bubbleNum + 1;
+        this.bubbleData = { bubbleNum, showBubble };
     }
     // for making the speech bubbles
     createSpeechBubble(
@@ -141,6 +176,9 @@ export default class StartScene extends Phaser.Scene {
             bubble.y + bubbleHeight / 2 - b.height / 2
         );
 
+        content.visible = false;
+        bubble.visible = false;
+        return { bubble, content };
         // kill
         //content.destroy();
         //bubble.destroy();
