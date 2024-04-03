@@ -34,7 +34,7 @@ export default class MainScene extends Phaser.Scene {
 
         wallsLayer.setCollisionByProperty({ collides: true });
 
-        //debugDraw(wallsLayer, this);
+        debugDraw(wallsLayer, this, false);
 
         this.theseus = this.physics.add.sprite(
             128,
