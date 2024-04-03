@@ -6,10 +6,16 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("phaser-logo", "assets/img/phaser-logo.png");
+        this.load.image("desktopBG", "/assets/img/xpbg.jpg");
+        this.load.image("CAT", "/assets/img/CAT shadeless-export big.png");
+        // desktop icon assets
+        this.load.image("locked program", "assets/img/locked file.png");
+        this.load.image("unlocked program", "assets/img/unlocked file.png");
+        this.load.image("locked text", "assets/img/locked text file.png");
+        this.load.image("unlocked text", "assets/img/unlocked text file.png");
     }
 
     create() {
-        this.scene.start("MainScene");
+        this.scene.start("StartScene");
     }
 }
