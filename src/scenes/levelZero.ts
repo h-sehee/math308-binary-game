@@ -49,6 +49,7 @@ export default class LevelZero extends Phaser.Scene {
         );
         this.load.image("ladder", "assets/ladder.png");
         this.load.image("plank", "assets/plank.png");
+        this.load.image("door", "assets/door.png");
     }
 
     create() {
@@ -146,7 +147,10 @@ export default class LevelZero extends Phaser.Scene {
             .image(350, 200, "plank")
             .setScale(0.5, 0.5);
         this.plank.setCollideWorldBounds(true);
-        this.physics.add.collider(this.platforms, this.plank);
+        this.physics.add.collider(this.plank, this.platforms);
+
+        this.door = this.physics.add.image(865, 150, "door").setScale(0.1, 0.1);
+        this.physics.add.collider(this.door, this.platforms);
     }
 
     update() {
