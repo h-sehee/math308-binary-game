@@ -8,8 +8,10 @@ export default class GameScene extends Phaser.Scene {
     private platforms: Phaser.Physics.Arcade.StaticGroup;
     private cursor?: Phaser.Types.Input.Keyboard.CursorKeys;
     private terminalManager: TerminalManager;
-    private dialogue?: Phaser.GameObjects.Text;
+    private roboDialogue?: Phaser.GameObjects.Text;
     private robo?: Phaser.Physics.Arcade.Sprite;
+    private rugged_wizard?: Phaser.Physics.Arcade.Sprite;
+    private evilDialogue?: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: "GameScene" });
@@ -32,12 +34,12 @@ export default class GameScene extends Phaser.Scene {
         );
 
         //characters
-        this.wizard = this.physics.add.sprite(300, 450, "wizard");
+        this.wizard = this.physics.add.sprite(220, 375, "wizard");
         this.wizard.setCollideWorldBounds(true);
 
         this.NPCs = this.physics.add.group();
         const robo: Phaser.Physics.Arcade.Sprite = this.NPCs.create(
-            500,
+            400,
             500,
             "robo_guy"
         ).setScale(0.75);
@@ -51,6 +53,7 @@ export default class GameScene extends Phaser.Scene {
             .setScale(0.145);
         this.physics.add.collider(this.wizard, rugged_wizard);
         rugged_wizard.setImmovable(true);
+        this.rugged_wizard = rugged_wizard;
 
         //animation
         this.anims.create({
@@ -68,8 +71,11 @@ export default class GameScene extends Phaser.Scene {
 
         this.terminalManager = new TerminalManager();
 
-        this.dialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
-        this.dialogue.setScrollFactor(0);
+        this.roboDialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
+        this.roboDialogue.setScrollFactor(0);
+
+        this.evilDialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
+        this.evilDialogue.setScrollFactor(0);
     }
 
     update() {
@@ -94,23 +100,39 @@ export default class GameScene extends Phaser.Scene {
             this.wizard?.anims.play("idle");
         }
 
-        if (this.wizard && this.robo) {
-             const playerPosition = this.wizard.getCenter();
+        if (this.wizard && this.robo && this.rugged_wizard) {
+            const playerPosition = this.wizard.getCenter();
             const npcPosition = this.robo.getCenter();
-            const distance = Phaser.Math.Distance.BetweenPoints(playerPosition, npcPosition);
+            const enemyPosition = this.rugged_wizard.getCenter();
 
-        if (distance < 100) { // Adjust the threshold as needed
-            this.handleNPCInteraction();
-        }
-            this.physics.world.overlap(this.wizard, this.NPCs, this.handleNPCInteraction);
+            const npcDistance = Phaser.Math.Distance.BetweenPoints(playerPosition, npcPosition);
+            const enemyDistance = Phaser.Math.Distance.BetweenPoints(playerPosition, enemyPosition);
+
+            if (npcDistance < 100) {
+                this.handleRoboInteraction();
+            } else {
+                this.roboDialogue?.setText(""); 
+            }       
+
+            if (enemyDistance < 100) { // Adjust the threshold as needed
+                this.handleRuggedInteraction();
+            } else {
+                this.evilDialogue?.setText(""); 
+            }      
         }
 
     }
 
-     handleNPCInteraction = () => {
+    handleRoboInteraction = () => {
         // Display textbox with NPC dialogue
-        this.dialogue?.setText("Hello! I'm here to help!");
+        this.roboDialogue?.setText("Hello! I'm here to help - I have some files for you!\nTry typing 'ls' and hit enter.\nThis will show you all my folders and files.");
     }
+
+    handleRuggedInteraction = () => {
+        // Display textbox with NPC dialogue
+        this.evilDialogue?.setText("You better be careful...");
+    }
+
     /* private enableWASDKeys() {
         this.input.keyboard?.addKeys({
             W: Phaser.Input.Keyboard.KeyCodes.W,
