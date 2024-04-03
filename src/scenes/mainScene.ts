@@ -71,6 +71,7 @@ export default class MainScene extends Phaser.Scene {
                     this.locationBuffer
                 );
                 this.locationBuffer = undefined;
+                this.checkForTruthy();
             }
         }
     }
@@ -79,5 +80,56 @@ export default class MainScene extends Phaser.Scene {
         this.fpsText.update();
 
         this.timerText.setText(`Time: ${this.timeLimitInSeconds}`);
+    }
+
+    evaluateBooleanExpression(blocks: BooleanBlock[]): boolean {
+        let expression = blocks
+            .map((block) => {
+                switch (block.getBlockType()) {
+                    case "and":
+                        return "&&";
+                    case "or":
+                        return "||";
+                    case "not":
+                        return "!";
+                    case "true":
+                        return "true";
+                    case "false":
+                        return "false";
+                    default:
+                        return "";
+                }
+            })
+            .join(" ");
+
+        try {
+            return Boolean(new Function("return " + expression + ";")());
+        } catch (error) {
+            console.error("Error evaluating expression", error);
+            return false;
+        }
+    }
+
+    checkForTruthy(): { type: "row" | "column"; index: number } | null {
+        for (let row = 0; row < this.blockGrid.blockMatrix.length; row++) {
+            if (
+                this.evaluateBooleanExpression(this.blockGrid.blockMatrix[row])
+            ) {
+                console.log("Truthy statement found in row ${row}");
+                return { type: "row", index: row };
+            }
+        }
+
+        for (let col = 0; col < this.blockGrid.blockMatrix.length; col++) {
+            let columnBlocks = this.blockGrid.blockMatrix.map(
+                (row) => row[col]
+            );
+            if (this.evaluateBooleanExpression(columnBlocks)) {
+                console.log("Truthy statement found in column ${col}");
+                return { type: "column", index: col };
+            }
+        }
+
+        return null;
     }
 }
