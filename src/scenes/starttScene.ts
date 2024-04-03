@@ -31,8 +31,10 @@ export default class StartScene extends Phaser.Scene {
         this.add.image(400, 300, "desktopBG");
         this.add.image(1100, 600, "CAT");
 
+        // Add File Sound Effects
+        let lockedsfx = this.sound.add("lockedfile");
+
         // FILES
-        //comment
         // currently do nothing, should be spaced 100 pixels apart
 
         //Create Locked Program which cannot be accessed
@@ -42,6 +44,7 @@ export default class StartScene extends Phaser.Scene {
 
         locked_prg.on("pointerdown", function () {
             locked_prg.setTint(0xff6666);
+            lockedsfx.play();
         });
         locked_prg.on("pointerup", function () {
             locked_prg.clearTint();
@@ -53,6 +56,7 @@ export default class StartScene extends Phaser.Scene {
             .setInteractive();
         locked_txt.on("pointerdown", function () {
             locked_txt.setTint(0xff6666);
+            lockedsfx.play();
         });
         locked_txt.on("pointerup", function () {
             locked_txt.clearTint();
