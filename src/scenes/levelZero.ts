@@ -7,6 +7,8 @@ export default class LevelZero extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private spikes?: Phaser.Physics.Arcade.StaticGroup;
     private ladder?: Phaser.Physics.Arcade.Image;
+    private plank?: Phaser.Physics.Arcade.Image;
+    private door?: Phaser.Physics.Arcade.Image;
 
     constructor() {
         super({ key: "Level0" });
@@ -46,6 +48,7 @@ export default class LevelZero extends Phaser.Scene {
             "assets/spikes2/keyframes/long_metal_spike.png"
         );
         this.load.image("ladder", "assets/ladder.png");
+        this.load.image("plank", "assets/plank.png");
     }
 
     create() {
@@ -122,24 +125,28 @@ export default class LevelZero extends Phaser.Scene {
 
         group.setScale(5).refreshBody();
 
-        this.platforms.create(350, 450, "level0-platform");
-        this.platforms
-            .create(1000, 300, "level0-platform")
-            .setScale(1.25, 1.25);
-        this.platforms.create(500, 150, "level0-platform").setScale(0.75, 0.75);
+        this.platforms.create(350, 595, "level0-platform").setScale(1, 1);
+        this.platforms.create(650, 500, "level0-platform").setScale(0.75, 0.75);
+        this.platforms.create(850, 300, "level0-platform").setScale(1, 0.75);
 
         this.physics.add.collider(this.player, this.platforms);
 
         this.spikes = this.physics.add.staticGroup();
-        this.spikes.create(800, 675, "spike").setScale(0.75, 0.75);
         this.spikes.create(850, 675, "spike").setScale(0.75, 0.75);
         this.spikes.create(900, 675, "spike").setScale(0.75, 0.75);
         this.spikes.create(950, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(1000, 675, "spike").setScale(0.75, 0.75);
 
         this.ladder = this.physics.add
-            .image(1075, 50, "ladder")
+            .image(1100, 50, "ladder")
             .setScale(0.5, 0.5);
         this.ladder.setCollideWorldBounds(true);
+
+        this.plank = this.physics.add
+            .image(350, 200, "plank")
+            .setScale(0.5, 0.5);
+        this.plank.setCollideWorldBounds(true);
+        this.physics.add.collider(this.platforms, this.plank);
     }
 
     update() {
