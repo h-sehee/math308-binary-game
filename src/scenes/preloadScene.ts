@@ -13,6 +13,11 @@ export default class PreloadScene extends Phaser.Scene {
             svgConfig: {
                 scale: 1.5
             }
+        })
+        this.load.spritesheet("dude", "assets/img/dude.png",
+        {
+            frameWidth: 32,
+            frameHeight: 48,
         });
 
         //Play Button
