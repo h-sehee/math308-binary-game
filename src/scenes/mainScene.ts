@@ -1,7 +1,7 @@
 import Phaser from "phaser";
-import PhaserLogo from "../objects/phaserLogo";
+//import PhaserLogo from "../objects/phaserLogo";
 import FpsText from "../objects/fpsText";
-
+//background image by rawpixel.com
 export default class MainScene extends Phaser.Scene {
     fpsText: FpsText;
 
@@ -10,8 +10,49 @@ export default class MainScene extends Phaser.Scene {
     }
 
     create() {
-        new PhaserLogo(this, this.cameras.main.width / 2, 0);
         this.fpsText = new FpsText(this);
+        this.add.image(400, 300, "background");
+        //this.add.image(100, 100, "maze");
+        //maze.setDepth(background.depth + 2);
+
+        this.add
+            .text(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 3,
+                "Infamia di Creti",
+                {
+                    fontSize: "60px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 4,
+                    stroke: "0xffffff",
+                    //strokeAlpha: 1
+                }
+            )
+            .setOrigin(0.5);
+
+        const startGame = this.add
+            .text(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 1.75,
+                "Enter the Maze",
+                {
+                    fontSize: "40px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 4,
+                    stroke: "0xffffff",
+                    //strokeAlpha: 1
+                }
+            )
+            .setOrigin(0.5);
+
+        this.tweens.add({
+            targets: startGame,
+            scaleX: 1.1,
+            scaleY: 1.1,
+            duration: 1000,
+            yoyo: true,
+            repeat: -1,
+        });
 
         const message = `Phaser v${Phaser.VERSION}`;
         this.add
