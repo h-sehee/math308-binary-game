@@ -6,8 +6,8 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("desktopBG", "/assets/img/xpbg.jpg");
-        this.load.image("CAT", "/assets/img/CAT shadeless-export big.png");
+        this.load.image("desktopBG", "assets/img/xpbg.jpg");
+        this.load.image("CAT", "assets/img/CAT shadeless-export big.png");
         // desktop icon assets
         this.load.image("locked program", "assets/img/locked file.png");
         this.load.image("unlocked program", "assets/img/unlocked file.png");
