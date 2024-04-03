@@ -79,4 +79,54 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         blockB.x = blockAx;
         blockB.y = blockAy;
     }
+
+    private evaluateBooleanExpression(blocks: Array<BooleanBlock>): boolean {
+        let expression = blocks
+            .map((block) => {
+                switch (block.getBlockType()) {
+                    case "and":
+                        return "&&";
+                    case "or":
+                        return "||";
+                    case "not":
+                        return "!";
+                    case "true":
+                        return "true";
+                    case "false":
+                        return "false";
+                    default:
+                        return "";
+                }
+            })
+            .join(" ");
+
+        try {
+            return eval(expression) as boolean;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    public checkForTruthy(): Array<{
+        type: "row" | "column";
+        index: number;
+    }> | null {
+        let outArray: Array<{ type: "row" | "column"; index: number }> = [];
+        for (let row = 0; row < this.blockMatrix.length; row++) {
+            if (this.evaluateBooleanExpression(this.blockMatrix[row])) {
+                console.log(`Truthy statement found in row ${row}`);
+                outArray.push({ type: "row", index: row });
+            }
+        }
+
+        for (let col = 0; col < this.blockMatrix.length; col++) {
+            let columnBlocks = this.blockMatrix.map((row) => row[col]);
+            if (this.evaluateBooleanExpression(columnBlocks)) {
+                console.log(`Truthy statement found in column ${col}`);
+                outArray.push({ type: "column", index: col });
+            }
+        }
+
+        return outArray;
+    }
 }
