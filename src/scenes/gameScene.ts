@@ -8,6 +8,8 @@ export default class GameScene extends Phaser.Scene {
     private platforms: Phaser.Physics.Arcade.StaticGroup;
     private cursor?: Phaser.Types.Input.Keyboard.CursorKeys;
     private terminalManager: TerminalManager;
+    private dialogue?: Phaser.GameObjects.Text;
+    private robo?: Phaser.Physics.Arcade.Sprite;
 
     constructor() {
         super({ key: "GameScene" });
@@ -41,6 +43,7 @@ export default class GameScene extends Phaser.Scene {
         ).setScale(0.75);
         this.physics.add.collider(this.wizard, robo);
         robo.setImmovable(true);
+        this.robo = robo; 
 
         this.enemies = this.physics.add.group();
         const rugged_wizard: Phaser.Physics.Arcade.Sprite = this.enemies
@@ -64,6 +67,9 @@ export default class GameScene extends Phaser.Scene {
         });
 
         this.terminalManager = new TerminalManager();
+
+        this.dialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
+        this.dialogue.setScrollFactor(0);
     }
 
     update() {
@@ -87,8 +93,24 @@ export default class GameScene extends Phaser.Scene {
             this.wizard?.setVelocityY(0);
             this.wizard?.anims.play("idle");
         }
+
+        if (this.wizard && this.robo) {
+             const playerPosition = this.wizard.getCenter();
+            const npcPosition = this.robo.getCenter();
+            const distance = Phaser.Math.Distance.BetweenPoints(playerPosition, npcPosition);
+
+        if (distance < 100) { // Adjust the threshold as needed
+            this.handleNPCInteraction();
+        }
+            this.physics.world.overlap(this.wizard, this.NPCs, this.handleNPCInteraction);
+        }
+
     }
 
+     handleNPCInteraction = () => {
+        // Display textbox with NPC dialogue
+        this.dialogue?.setText("Hello! I'm here to help!");
+    }
     /* private enableWASDKeys() {
         this.input.keyboard?.addKeys({
             W: Phaser.Input.Keyboard.KeyCodes.W,
