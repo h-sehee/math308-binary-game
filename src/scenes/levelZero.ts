@@ -5,6 +5,7 @@ export default class LevelZero extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private key?: Phaser.Physics.Arcade.Sprite;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
+    private spikes?: Phaser.Physics.Arcade.StaticGroup;
 
     constructor() {
         super({ key: "Level0" });
@@ -38,8 +39,11 @@ export default class LevelZero extends Phaser.Scene {
         );
 
         this.load.image("play", "assets/play-button.png");
-
         this.load.image("level0-platform", "assets/platform.png");
+        this.load.image(
+            "spike",
+            "assets/spikes2/keyframes/long_metal_spike.png"
+        );
     }
 
     create() {
@@ -123,6 +127,12 @@ export default class LevelZero extends Phaser.Scene {
         this.platforms.create(500, 150, "level0-platform").setScale(0.75, 0.75);
 
         this.physics.add.collider(this.player, this.platforms);
+
+        this.spikes = this.physics.add.staticGroup();
+        this.spikes.create(800, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(850, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(900, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(950, 675, "spike").setScale(0.75, 0.75);
     }
 
     update() {
