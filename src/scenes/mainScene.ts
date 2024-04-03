@@ -17,7 +17,7 @@ export default class MainScene extends Phaser.Scene {
         this.cursors =
             this.input.keyboard?.createCursorKeys() as Phaser.Types.Input.Keyboard.CursorKeys;
 
-        this.input.setDefaultCursor("url(assets/crosshair.cur), pointer");
+        this.input.setDefaultCursor("crosshair");
 
         this.add.image(0, 0, "base_tiles");
         const map = this.make.tilemap({ key: "tilemap" });
