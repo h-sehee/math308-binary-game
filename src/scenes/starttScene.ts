@@ -10,17 +10,30 @@ export default class StartScene extends Phaser.Scene {
     }
 
     create() {
+        // bubbleCounter is like an ID for the speech bubble
+        let bubbleCounter = 0;
+
+        // for input
+        var spaceBar = this.input.keyboard?.addKey(
+            Phaser.Input.Keyboard.KeyCodes.SPACE
+        );
+        spaceBar?.on("down", () => {
+            bubbleCounter = this.cycleDialogue(bubbleCounter);
+        });
+
+        // Spawn in the background and CAT image
         this.add.image(400, 300, "desktopBG");
         this.add.image(1100, 600, "CAT");
+
         // FILES
         // currently do nothing, should be spaced 100 pixels apart
         this.add.image(100, 100, "locked program");
         this.add.image(200, 100, "locked text");
         this.add.image(100, 200, "unlocked text");
+
         // SPEECH
-        // bubbleCounter is like an ID for the speech bubble
         // switch cases are used to determine which speech bubble to display/destory
-        let bubbleCounter = 0;
+        // this is repeat code technically but it shows the initial speech bubble so here it shall stay
         bubbleCounter = this.cycleDialogue(bubbleCounter);
         console.log(bubbleCounter);
     }
@@ -42,12 +55,20 @@ export default class StartScene extends Phaser.Scene {
             case 1:
                 this.createSpeechBubble(
                     1060,
-                    500,
+                    400,
                     200,
                     100,
-                    "nice enter button press :3"
+                    "nice space button press :3"
                 );
                 break;
+            case 2:
+                this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Where'd you get it? The space bar store ???"
+                );
         }
         return bubbleNum + 1;
     }
@@ -119,6 +140,10 @@ export default class StartScene extends Phaser.Scene {
             bubble.x + bubbleWidth / 2 - b.width / 2,
             bubble.y + bubbleHeight / 2 - b.height / 2
         );
+
+        // kill
+        //content.destroy();
+        //bubble.destroy();
     }
 
     update() {
