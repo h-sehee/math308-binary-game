@@ -32,6 +32,7 @@ export default class StartScene extends Phaser.Scene {
         this.add.image(1100, 600, "CAT");
 
         // FILES
+        //comment
         // currently do nothing, should be spaced 100 pixels apart
         this.add.image(100, 100, "locked program");
         this.add.image(200, 100, "locked text");
