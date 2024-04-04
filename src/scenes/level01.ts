@@ -8,7 +8,7 @@ export default class TextInputScene extends Phaser.Scene {
     private inputContainer: Phaser.GameObjects.Container;
 
     constructor() {
-        super({ key: "TerminalScene" });
+        super({ key: "Level01" });
     }
 
     preload() {}
@@ -38,17 +38,17 @@ export default class TextInputScene extends Phaser.Scene {
         const cdMap = new Map<string, string[]>();
         const cdBack = new Map<string, string>();
         const manMap = new Map<string, string>();
+        const rmMap = new Map<string, string[]>(); // Map to track removable files
 
-        lsMap.set("home", "dog cat backpack");
+        lsMap.set("home", "dog cat backpack secret_folder");
         lsMap.set("backpack", "camera wrench zapgun");
         lsMap.set("dog", "dogToy");
         lsMap.set("cat", "catToy");
+        lsMap.set("secret_folder", "classified_file");
 
-        cdMap.set("home", ["dog", "cat", "backpack"]);
+        cdMap.set("home", ["dog", "cat", "backpack", "secret_folder"]);
 
-        cdBack.set("dog", "home");
-        cdBack.set("cat", "home");
-        cdBack.set("backpack", "home");
+        rmMap.set("secret_folder", ["classified_file"]);
 
         manMap.set("alfred", "Alfred: How can I be of service agent09?");
 
@@ -117,6 +117,45 @@ export default class TextInputScene extends Phaser.Scene {
                             this.addTextToContainer("agent09: " + newText);
                             this.addTextToContainer(
                                 "Command '" + manInput + "' not found"
+                            );
+                        }
+                    } else if (newText.substring(0, 3) == "rm ") {
+                        let rmInput: string = newText.substring(3);
+                        if (rmMap.get(state)?.includes(rmInput)) {
+                            // Remove the file from the listing and update the map
+                            let files = lsMap.get(state) || "";
+                            files = files
+                                .replace(rmInput, "")
+                                .trim()
+                                .replace(/\s{2,}/g, " "); // Remove the file and extra spaces
+                            lsMap.set(state, files);
+
+                            // Optionally, remove the file from the rmMap if you want to prevent further references
+                            // rmMap.get(state)?.splice(rmMap.get(state)?.indexOf(rmInput), 1);
+
+                            this.inputField.value = ""; // Empty the input field
+                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                "File '" + rmInput + "' removed successfully."
+                            );
+
+                            // Check if the level's objective is achieved, e.g., if all required files are removed
+                            if (
+                                state === "secret_folder" &&
+                                !files.includes("classified_file")
+                            ) {
+                                // Level completion logic here
+                                this.addTextToContainer(
+                                    "Objective complete: Classified file removed. Good job, agent!"
+                                );
+                            }
+                        } else {
+                            this.inputField.value = ""; // Empty the input field
+                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                "File '" +
+                                    rmInput +
+                                    "' cannot be found or removed."
                             );
                         }
                     }
