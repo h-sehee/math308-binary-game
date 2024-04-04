@@ -12,7 +12,7 @@ export default class PreloadScene extends Phaser.Scene {
             url: "assets/img/schedulsine_logo.png",
         });
         this.load.image({
-            key: "play_btn",
+            key: "play_bttn",
             url: "assets/img/play_button.png",
         });
         this.load.image("kitchen1", "assets/img/cartoon-kitchen.jpg");

@@ -22,7 +22,7 @@ export default class TitleScene extends Phaser.Scene {
         const play_btn = this.add.image(
             this.cameras.main.width * (1 / 2),
             550,
-            "play_btn"
+            "play_bttn"
         );
         play_btn
             .setInteractive()
