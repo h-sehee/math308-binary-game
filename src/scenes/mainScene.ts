@@ -1,5 +1,8 @@
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
+import { createRedEyesSkeletonAnims } from "../anims/enemyAnims";
+import { createTheseusAnims } from "../anims/theseusAnims";
+import RedEyesSkeleton from "../enemies/redEyesSkeleton";
 
 export type Collidable =
     | Phaser.Types.Physics.Arcade.GameObjectWithBody
@@ -10,6 +13,7 @@ export default class MainScene extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private sword?: Phaser.Physics.Arcade.Sprite;
     private swordSlash?: Phaser.Physics.Arcade.Sprite;
+    private redEyesSkeletons?: Phaser.Physics.Arcade.Group;
     private mouse?: Phaser.Input.Pointer;
     private canAttack: boolean;
 
@@ -17,11 +21,10 @@ export default class MainScene extends Phaser.Scene {
         super({ key: "MainScene" });
     }
 
-    // setSwordSlashes(swordSlashes: Phaser.Physics.Arcade.Group) {
-    //     this.swordSlashes = swordSlashes;
-    // }
-
     create() {
+        createTheseusAnims(this.anims);
+        createRedEyesSkeletonAnims(this.anims);
+
         this.cursors =
             this.input.keyboard?.createCursorKeys() as Phaser.Types.Input.Keyboard.CursorKeys;
 
@@ -42,6 +45,7 @@ export default class MainScene extends Phaser.Scene {
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
         map.createLayer("objects", tileset);
+        map.createLayer("door", tileset);
 
         wallsLayer.setCollisionByProperty({ collides: true });
 
@@ -59,53 +63,6 @@ export default class MainScene extends Phaser.Scene {
             (this.theseus.height = 25)
         );
 
-        this.anims.create({
-            key: "faune-idle-down",
-            frames: [{ key: "faune", frame: "walk-down-3.png" }],
-        });
-        this.anims.create({
-            key: "faune-idle-up",
-            frames: [{ key: "faune", frame: "walk-up-3.png" }],
-        });
-        this.anims.create({
-            key: "faune-idle-side",
-            frames: [{ key: "faune", frame: "walk-side-3.png" }],
-        });
-
-        this.anims.create({
-            key: "faune-run-down",
-            frames: this.anims.generateFrameNames("faune", {
-                start: 1,
-                end: 8,
-                prefix: "run-down-",
-                suffix: ".png",
-            }),
-            repeat: -1,
-            frameRate: 15,
-        });
-        this.anims.create({
-            key: "faune-run-up",
-            frames: this.anims.generateFrameNames("faune", {
-                start: 1,
-                end: 8,
-                prefix: "run-up-",
-                suffix: ".png",
-            }),
-            repeat: -1,
-            frameRate: 15,
-        });
-        this.anims.create({
-            key: "faune-run-side",
-            frames: this.anims.generateFrameNames("faune", {
-                start: 1,
-                end: 8,
-                prefix: "run-side-",
-                suffix: ".png",
-            }),
-            repeat: -1,
-            frameRate: 15,
-        });
-
         this.theseus.anims.play("faune-idle-down");
 
         this.sword = this.physics.add.sprite(
@@ -118,6 +75,8 @@ export default class MainScene extends Phaser.Scene {
         this.sword.setOrigin(0, 1);
 
         this.physics.add.collider(this.theseus, wallsLayer);
+
+        this.canAttack = true;
 
         this.mouse = this.input.mousePointer;
 
@@ -132,7 +91,23 @@ export default class MainScene extends Phaser.Scene {
             frameRate: 15,
         });
 
-        this.canAttack = true;
+        this.redEyesSkeletons = this.physics.add.group({
+            classType: RedEyesSkeleton,
+        });
+
+        this.redEyesSkeletons.get(
+            Phaser.Math.Between(80, 268),
+            Phaser.Math.Between(80, 268),
+            "skeleton_red_eyes"
+        );
+
+        this.physics.add.collider(this.redEyesSkeletons, wallsLayer);
+
+        this.redEyesSkeletons.children.iterate((c) => {
+            const redEyesSkeleton = c as RedEyesSkeleton;
+            redEyesSkeleton.setTarget(this.theseus!);
+            return true;
+        });
     }
 
     update() {
