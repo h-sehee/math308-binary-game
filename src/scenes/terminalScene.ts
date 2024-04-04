@@ -19,6 +19,7 @@ export default class TextInputScene extends Phaser.Scene {
         // this.add.image(100, 200, "alfred");
         this.add.image(100, 700, "spy");
         this.add.image(1150, 100, "alfredicon").setDisplaySize(130, 130);
+        this.add.image(75, 100, "pin").setDisplaySize(30, 40);
 
         this.inputContainer = this.add.container(360, 520);
 
@@ -128,8 +129,8 @@ export default class TextInputScene extends Phaser.Scene {
             }
         });
 
-        this.stateText = this.add.text(20, 100, state, {
-            fontSize: "62px",
+        this.stateText = this.add.text(95, 90, state, {
+            fontSize: "27px",
             color: "#fff",
         });
     }
