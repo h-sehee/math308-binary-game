@@ -7,8 +7,9 @@ export default class TitleScene extends Phaser.Scene {
 
     create() {
         //Add music
-        const music = this.sound.add('backgroundMusic');
+        const music = this.sound.add("backgroundMusic");
         music.play({ loop: true });
+
         //Background & Logo Image
         this.add.image(
             this.cameras.main.displayWidth * 0.5,
@@ -29,7 +30,7 @@ export default class TitleScene extends Phaser.Scene {
         );
         play_btn
             .setInteractive()
-            //.on('pointerdown', () => this.scene.start("Game_1"))
+            .on("pointerdown", () => this.scene.start("InformationScene"))
             .on("pointerover", () => play_btn.setScale(1.1))
             .on("pointerout", () => play_btn.setScale(1));
     }

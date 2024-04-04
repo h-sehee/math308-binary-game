@@ -7,7 +7,7 @@ export default class InformationScene2 extends Phaser.Scene {
 
     create(): void {
         //Screen for topic information
-        let graphics = this.add.graphics({ fillStyle: { color: 0xa0522d } });
+        //let graphics = this.add.graphics({ fillStyle: { color: 0xa0522d } });
         //Add text information
         this.add.text(100, 260, "Algorithms", {
             font: "50px Arial",
@@ -35,7 +35,7 @@ export default class InformationScene2 extends Phaser.Scene {
         //Button clck event
         nextButton2.on("pointerdown", () => {
             // switch to next scene
-            this.scene.start("Gameplay1");
+            this.scene.start("Game_1");
         });
     }
 }
