@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { sceneEvents } from "../events/eventsCenter";
 
 declare global {
     namespace Phaser.GameObjects {
@@ -27,10 +28,16 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
     private sword?: Phaser.Physics.Arcade.Sprite;
     private mouse?: Phaser.Input.Pointer;
-    private canAttack: boolean;
+
+    private canAttack = true;
+    private _gameOver = false;
 
     get health() {
         return this._health;
+    }
+
+    get gameOVer() {
+        return this._gameOver;
     }
 
     constructor(
@@ -71,6 +78,9 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
             this.healthState = HealthState.DEAD;
             this.anims.play("faune-faint");
             this.setVelocity(0, 0);
+            sceneEvents.emit("gameOver");
+            this.scene.physics.pause();
+            this._gameOver = true;
         } else {
             this.setVelocity(dir.x, dir.y);
             this.setTint(0xff0000);

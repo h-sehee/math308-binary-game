@@ -133,6 +133,12 @@ export default class MainScene extends Phaser.Scene {
                 this
             );
         });
+
+        if (this.theseus?.gameOVer) {
+            this.time.delayedCall(1000, () => {
+                this.scene.start("GameOver");
+            });
+        }
     }
 
     update() {
