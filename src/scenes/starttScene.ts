@@ -14,7 +14,6 @@ export default class StartScene extends Phaser.Scene {
     create() {
         // dummy data to avoid undefined error on first use of cycleDialogue()
         this.bubbleData = { bubbleNum: 0, showBubble: {} };
-
         // for input
         var spaceBar = this.input.keyboard?.addKey(
             Phaser.Input.Keyboard.KeyCodes.SPACE
@@ -37,6 +36,8 @@ export default class StartScene extends Phaser.Scene {
         // FILES
         // currently do nothing, should be spaced 100 pixels apart
 
+        //Adds rectangle, does not work if above for some reason.
+        const rectAnimation = this.add.graphics();
         //Create Locked Program which cannot be accessed
         const locked_prg = this.add
             .image(100, 100, "locked program")
@@ -61,7 +62,10 @@ export default class StartScene extends Phaser.Scene {
         locked_txt.on("pointerup", function () {
             locked_txt.clearTint();
         });
-
+        function openFile() {
+            rectAnimation.fillStyle(0xffff00, 1);
+            rectAnimation.fillRect(850, 20, 400, 400);
+        }
         //Create Text File which CAN be accessed
         const txt1 = this.add.image(100, 200, "unlocked text").setInteractive();
         txt1.on("pointerdown", function () {
@@ -69,6 +73,7 @@ export default class StartScene extends Phaser.Scene {
         });
         txt1.on("pointerup", function () {
             txt1.clearTint();
+            openFile();
         });
         // SPEECH
         // switch cases are used to determine which speech bubble to display/destory
@@ -77,6 +82,7 @@ export default class StartScene extends Phaser.Scene {
             Object.values(this.bubbleData)[1]
         );
     }
+    // for opening file animation
     // for controlling when speech bubbles spawn
     cycleDialogue(bubbleNum: number, showBubble: object) {
         console.log(bubbleNum);
