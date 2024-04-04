@@ -1,11 +1,11 @@
 import Phaser from "phaser";
 
 export default class TextInputScene extends Phaser.Scene {
-    private inputText: Phaser.GameObjects.Text;
-
     private stateText: Phaser.GameObjects.Text;
 
     private inputField: HTMLInputElement;
+
+    private inputContainer: Phaser.GameObjects.Container;
 
     constructor() {
         super({ key: "TerminalScene" });
@@ -14,12 +14,31 @@ export default class TextInputScene extends Phaser.Scene {
     preload() {}
 
     create() {
+        // Add a background
+        this.add.rectangle(640, 360, 1280, 720, 0x000);
+        // this.add.image(100, 200, "alfred");
+        this.add.image(100, 700, "spy");
+        this.add.image(1150, 100, "alfredicon").setDisplaySize(130, 130);
+
+        this.inputContainer = this.add.container(360, 520);
+
+        // Create a mask for the container
+        const maskGraphics = this.make.graphics();
+        maskGraphics.fillRect(300, 125, 1080, 500);
+        const mask = new Phaser.Display.Masks.GeometryMask(this, maskGraphics);
+
+        this.inputContainer.setMask(mask);
+
+        this.addTextToContainer("Alfred: Welcome back agent09!");
+
         let state: string = "home";
 
         const lsMap = new Map<string, string>();
         const cdMap = new Map<string, string[]>();
         const cdBack = new Map<string, string>();
+        const manMap = new Map<string, string>();
 
+        lsMap.set("home", "dog cat backpack");
         lsMap.set("backpack", "camera wrench zapgun");
         lsMap.set("dog", "dogToy");
         lsMap.set("cat", "catToy");
@@ -30,10 +49,7 @@ export default class TextInputScene extends Phaser.Scene {
         cdBack.set("cat", "home");
         cdBack.set("backpack", "home");
 
-        // Add a background
-        this.add.rectangle(640, 360, 1280, 720, 0x050);
-        this.add.image(100, 200, "alfred");
-        this.add.image(100, 700, "spy");
+        manMap.set("alfred", "Alfred: How can I be of service agent09?");
 
         // Add text input field
         this.inputField = document.createElement("input");
@@ -44,130 +60,106 @@ export default class TextInputScene extends Phaser.Scene {
         this.inputField.style.fontSize = "20px";
         this.inputField.style.top = "80%";
         this.inputField.style.left = "50%";
+        this.inputField.style.backgroundColor = "#000"; // Change background color to white
+        this.inputField.style.color = "#fff"; // Change text color to black
+
         this.inputField.style.transform = "translate(-50%, -50%)";
         document.body.appendChild(this.inputField);
 
-        // Add enter button
-        const enterButton = this.add
-            .text(1000, 570, "Enter", { fontSize: "24px", color: "#fff" })
-            .setInteractive();
-
-        let lineNum = 100;
-        enterButton.on("pointerdown", () => {
-            const newText = this.inputField.value;
-
-            if (newText.trim() !== "") {
-                lineNum += 50;
-                if (newText.trim() == "ls") {
-                    this.inputText.setText(
-                        this.inputText.text + newText + "\n"
-                    );
-                    this.inputField.value = ""; // Empty the input field
-                    this.inputText = this.add.text(
-                        300,
-                        lineNum,
-                        (lsMap.get(state) as string) || "",
-                        {
-                            fontSize: "32px",
-                            color: "#fff",
+        this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
+            if (event.key === "Enter") {
+                const newText = this.inputField.value;
+                if (newText.trim() !== "") {
+                    if (newText.trim() == "ls") {
+                        this.inputField.value = ""; // Empty the input field
+                        this.addTextToContainer("agent09: " + newText);
+                        this.addTextToContainer(lsMap.get(state) as string);
+                    } else if (newText.substring(0, 3) == "cd ") {
+                        let cdInput: string = newText.substring(3);
+                        // CD .. FUNCTIONALITY BELOW
+                        const backState = cdBack.get(state);
+                        const cdState = cdMap.get(state);
+                        if (backState !== undefined && cdInput == "..") {
+                            state = backState;
+                            this.stateText.setText(state);
+                            this.inputField.value = ""; // Empty the input field
+                            this.addTextToContainer("agent09: " + newText);
                         }
-                    );
-                    lineNum += 50;
+                        // CD FUNCTIONALITY BELOW
+                        else if (
+                            cdState !== undefined &&
+                            cdMap.get(state)?.includes(cdInput)
+                        ) {
+                            state = newText.substring(3);
+                            this.stateText.setText(state);
+                            this.inputField.value = ""; // Empty the input field
+                            this.addTextToContainer("agent09: " + newText);
+                        }
+                        // CD DIRECTORY NOT FOUND BELOW
+                        else {
+                            this.inputField.value = ""; // Empty the input field
+                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer("Directory not found");
+                        }
+                    } else if (newText.substring(0, 4) == "man ") {
+                        let manInput: string = newText.substring(4);
 
-                    this.inputText = this.add.text(300, lineNum, "user07: ", {
-                        fontSize: "32px",
-                        color: "#fff",
-                    });
-                } else if (newText.substring(0, 3) == "cd ") {
-                    this.inputText.setText(
-                        this.inputText.text + newText + "\n"
-                    );
-
-                    let cdInput: string = newText.substring(3);
-
-                    // CD .. FUNCTIONALITY BELOW
-                    const backState = cdBack.get(state);
-                    if (backState !== undefined && cdInput == "..") {
-                        state = backState;
-                        this.stateText.setText(state);
-                        this.inputField.value = ""; // Empty the input field
+                        const manState = manMap.get(manInput);
+                        if (manState !== undefined) {
+                            this.inputField.value = ""; // Empty the input field
+                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                manMap.get(manInput) as string
+                            );
+                        } else {
+                            this.inputField.value = ""; // Empty the input field
+                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                "Command '" + manInput + "' not found"
+                            );
+                        }
                     }
-
-                    // CD FUNCTIONALITY BELOW
-                    const cdState = cdMap.get(state);
-                    if (
-                        cdState !== undefined &&
-                        cdMap.get(state)?.includes(cdInput)
-                    ) {
-                        state = newText.substring(3);
-
-                        this.stateText.setText(state);
-
-                        this.inputField.value = ""; // Empty the input field
-
-                        this.inputText = this.add.text(
-                            300,
-                            lineNum,
-                            "user07: ",
-                            {
-                                fontSize: "32px",
-                                color: "#fff",
-                            }
-                        );
-                    }
-
-                    // CD DIRECTORY NOT FOUND BELOW
+                    // NONSENSE INPUT BELOW
                     else {
                         this.inputField.value = ""; // Empty the input field
-
-                        this.inputText = this.add.text(
-                            300,
-                            lineNum,
-                            "Directory not found",
-                            {
-                                fontSize: "32px",
-                                color: "#fff",
-                            }
-                        );
-
-                        lineNum += 50;
-
-                        this.inputText = this.add.text(
-                            300,
-                            lineNum,
-                            "user07: ",
-                            {
-                                fontSize: "32px",
-                                color: "#fff",
-                            }
-                        );
+                        this.addTextToContainer("agent09: " + newText);
                     }
-                }
-                // NONSENSE INPUT BELOW
-                else {
-                    this.inputText.setText(
-                        this.inputText.text + newText + "\n"
-                    );
-                    this.inputField.value = ""; // Empty the input field
-                    this.inputText = this.add.text(300, lineNum, "user07: ", {
-                        fontSize: "32px",
-                        color: "#fff",
-                    });
                 }
             }
         });
 
-        // Add text object to display input text
-        this.inputText = this.add.text(300, 100, "user07: ", {
-            fontSize: "32px",
-            color: "#fff",
-        });
-
-        this.stateText = this.add.text(850, 100, state, {
+        this.stateText = this.add.text(20, 100, state, {
             fontSize: "62px",
             color: "#fff",
         });
     }
 
     update() {}
+
+    addTextToContainer(text: string) {
+        this.inputContainer.y -= 32.9;
+        // Create a text object for the provided string
+        const newText = this.add.text(0, 0, text, {
+            fontSize: "32px",
+            color: "#fff",
+        });
+
+        // Add the new text object to the container
+        this.inputContainer.add(newText);
+
+        // Reposition text objects vertically within the container
+        this.repositionTextObjects();
+    }
+
+    repositionTextObjects() {
+        let yPos = 0;
+
+        // Loop through all text objects in the container and position them vertically
+        this.inputContainer.iterate((child: Phaser.GameObjects.GameObject) => {
+            if (child instanceof Phaser.GameObjects.Text) {
+                child.y = yPos;
+                yPos += child.height;
+            }
+        });
+    }
 }
