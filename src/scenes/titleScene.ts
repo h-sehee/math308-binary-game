@@ -6,6 +6,9 @@ export default class TitleScene extends Phaser.Scene {
     }
 
     create() {
+        //Add music
+        const music = this.sound.add('backgroundMusic');
+        music.play({ loop: true });
         //Background & Logo Image
         this.add.image(
             this.cameras.main.displayWidth * 0.5,
