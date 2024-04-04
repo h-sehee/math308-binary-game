@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 
+
 export default class MainScene extends Phaser.Scene {
 
     /* ---------------     START BUTTON    ------------------- */
@@ -9,11 +10,12 @@ export default class MainScene extends Phaser.Scene {
     /* ---------------     PLAY BUTTON    ------------------- */
     playButton: Phaser.GameObjects.Text;
 
-    constructor() {
-        super({ key: "MainScene" });
-    }
 
     create() {
+       
+    }
+
+    update() {
         /* ---------------     BACKGROUND COLOUR    ------------------- */
         this.cameras.main.setBackgroundColor("#702963");
         /* ---------------     START BUTTON    ------------------- */

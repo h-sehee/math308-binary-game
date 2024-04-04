@@ -1,6 +1,9 @@
 import Phaser from "phaser";
 import MainScene from "./scenes/mainScene";
 import PreloadScene from "./scenes/preloadScene";
+import TerminalScene from "./scenes/terminalScene";
+
+import UIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
 
 import OptionsScene from "./scenes/optionsScene";
 import LevelScene from "./scenes/levelScene";
@@ -25,7 +28,8 @@ export const CONFIG = {
         height: DEFAULT_HEIGHT,
     },
 
-    scene: [PreloadScene, MainScene, OptionsScene, LevelScene, PauseScene, StartScene, Level_1_scene],
+    scene: [PreloadScene, MainScene, OptionsScene, LevelScene, PauseScene, StartScene, Level_1_scene, TerminalScene],
+
     physics: {
         default: "arcade",
         arcade: {
@@ -42,5 +46,17 @@ export const CONFIG = {
     render: {
         pixelArt: false,
         antialias: true,
+    },
+    dom: {
+        createContainer: true,
+    },
+    plugins: {
+        scene: [
+            {
+                key: "rexUI",
+                plugin: UIPlugin,
+                mapping: "rexUI",
+            },
+        ],
     },
 };
