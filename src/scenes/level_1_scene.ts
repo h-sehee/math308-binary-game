@@ -6,7 +6,7 @@ export default class Level_1_scene extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private stars?: Phaser.Physics.Arcade.Group;
     private spikes?: Phaser.Physics.Arcade.Group;
-
+    private terminal?: Phaser.Physics.Arcade.Group;
     private score = 0;
     private scoreText?: Phaser.GameObjects.Text;
 
@@ -137,6 +137,21 @@ export default class Level_1_scene extends Phaser.Scene {
             undefined,
             this
         );
+        this.terminal = this.physics.add.group();
+        this.physics.add.collider(this.terminal, this.platforms);
+        this.terminal.create(1200, 500, "star");
+        this.physics.add.collider(this.terminal, this.platforms);
+        this.physics.add.overlap(
+            this.player,
+            this.terminal,
+            this.handleTerminal,
+            undefined,
+            this
+        );
+    }
+
+    private handleTerminal() {
+        this.scene.start("TerminalScene");
     }
 
     private handleHitSpike() {
