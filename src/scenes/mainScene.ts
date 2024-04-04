@@ -5,6 +5,7 @@ import { createTheseusAnims } from "../anims/theseusAnims";
 import RedEyesSkeleton from "../enemies/redEyesSkeleton";
 import "../player/theseus";
 import Theseus from "../player/theseus";
+import { sceneEvents } from "../events/eventsCenter";
 
 export type Collidable =
     | Phaser.Types.Physics.Arcade.GameObjectWithBody
@@ -122,6 +123,16 @@ export default class MainScene extends Phaser.Scene {
         const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(100);
 
         this.theseus?.handleDamage(dir);
+
+        sceneEvents.emit("player-health-changed", this.theseus?.health);
+
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off(
+                "player-health-changed",
+                this.handlePlayerEnemyCollision,
+                this
+            );
+        });
     }
 
     update() {
