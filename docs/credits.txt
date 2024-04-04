@@ -1,0 +1,4 @@
+Credits for Boolean Bonanza
+
+Boolean block textures: Alex Trexler
+Block break sound: Cork by Blender Foundation (submitted by Lamoot) https://opengameart.org/content/cork

@@ -19,6 +19,7 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         }
         this.recenterGrid();
         scene.add.existing(this);
+        scene.sound.add("block-break");
     }
 
     public createRandomBlock(row: number, col: number): BooleanBlock {
@@ -101,8 +102,10 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
             for (const statement of foundTruthy) {
                 if (statement.type === "row") {
                     this.removeRow(statement.index);
+                    this.scene.sound.play("block-break", { volume: 0.6 });
                 } else {
                     this.removeColumn(statement.index);
+                    this.scene.sound.play("block-break", { volume: 0.6 });
                 }
                 hasUpdated = true;
             }
