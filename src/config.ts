@@ -38,6 +38,9 @@ export const CONFIG = {
         pixelArt: false,
         antialias: true,
     },
+    dom: {
+        createContainer: true,
+    },
     plugins: {
         scene: [
             {
