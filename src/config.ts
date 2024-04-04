@@ -1,6 +1,9 @@
 import Phaser from "phaser";
 import MainScene from "./scenes/mainScene";
 import PreloadScene from "./scenes/preloadScene";
+import TerminalScene from "./scenes/terminalScene";
+
+import UIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -17,7 +20,7 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, MainScene],
+    scene: [PreloadScene, MainScene, TerminalScene],
     physics: {
         default: "arcade",
         arcade: {
@@ -34,5 +37,14 @@ export const CONFIG = {
     render: {
         pixelArt: false,
         antialias: true,
+    },
+    plugins: {
+        scene: [
+            {
+                key: "rexUI",
+                plugin: UIPlugin,
+                mapping: "rexUI",
+            },
+        ],
     },
 };
