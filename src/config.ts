@@ -8,7 +8,7 @@ const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
 
 export const CONFIG = {
-    title: "My Untitled Phaser 3 Game",
+    title: "Terminal 0",
     version: "0.0.1",
     type: Phaser.AUTO,
     backgroundColor: "#ffffff",
