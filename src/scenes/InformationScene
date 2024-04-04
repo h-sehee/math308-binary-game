@@ -7,11 +7,31 @@ export default class InformationScene extends Phaser.Scene {
 
     create(): void {
         //Screen for topic information
-        this.add.image(400, 300, "inside")
+        this.add.image(400, 300, "inside").setOrigin(0, 0);
         //Add text information
-        this.add.text(100, 100, 'Our Purpose', { font: '60px Arial', fill: '#ffffff'});
-        this.add.text(100, 100, 'What is I/O Scheduling', { font: '40px Arial', fill: '#ffffff' })
-        
+        this.add.text(100, 300, 'Our Purpose', { font: '60px Arial', fill: '#ffffff'});
+        this.add.text(100, 260, 'What is I/O Scheduling', { font: '40px Arial', fill: '#ffffff' })
 
+        const paragraph = "I/O, input-output, scheduling ensures that time spent on"
+                          "operations is used efficiently and is minimized. This" 
+                          "assures for increased processing speed, better system"
+                          "responsiveness, and better throughput."
+                          
+        const paragraph2 = "Algorithms help to manage challenges such as different"
+                           "size priorities, read and write operations, and"
+                           "characteristics of the storage device like time taken"
+                           "for operations."
+        
+        this.add.text(100, 200, paragraph, {
+            font: '18px Arial',
+            fill: '#ffffff',
+            wordWrap: { width: 600 }
+        });
+
+        this.add.text(100, 200, paragraph2, {
+            font: '18px Arial',
+            fill: '#ffffff',
+            wordWrap: { width: 600 }
+        });                    
     }
 }
