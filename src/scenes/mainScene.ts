@@ -106,6 +106,10 @@ export default class MainScene extends Phaser.Scene {
         this.redEyesSkeletons.children.iterate((c) => {
             const redEyesSkeleton = c as RedEyesSkeleton;
             redEyesSkeleton.setTarget(this.theseus!);
+            redEyesSkeleton.body?.setSize(
+                (redEyesSkeleton.width = 15),
+                (redEyesSkeleton.height = 30)
+            );
             return true;
         });
     }

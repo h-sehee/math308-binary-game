@@ -29,23 +29,27 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
     preUpdate(t: number, dt: number) {
         super.preUpdate(t, dt);
 
-        if (!this.target) {
+        if (!this.target || !this.body) {
             return;
         }
 
         if (this.x <= this.target.x && Math.abs(this.x - this.target.x) > 30) {
             this.anims.play("redEyesSkeleton-run-side", true);
             this.scaleX = -1;
+            this.body.offset.x = 16;
         } else if (
             this.x > this.target.x &&
             Math.abs(this.x - this.target.x) > 30
         ) {
             this.anims.play("redEyesSkeleton-run-side", true);
             this.scaleX = 1;
+            this.body.offset.x = 0;
         } else if (this.y <= this.target.y) {
             this.anims.play("redEyesSkeleton-run-down", true);
+            this.body.offset.y = 4;
         } else if (this.y > this.target.y) {
             this.anims.play("redEyesSkeleton-run-up", true);
+            this.body.offset.y = 4;
         }
         this.scene.physics.moveTo(this, this.target.x, this.target.y, 50);
     }
