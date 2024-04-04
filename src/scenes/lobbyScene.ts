@@ -75,28 +75,46 @@ class LobbyScene extends Phaser.Scene {
     }
     update() {
         // Check for keyboard input and move the player accordingly
-        if (this.cursors) {
+        const keyboard = this.input.keyboard;
+
+        if (keyboard) {
             // Handle diagonal movement
-            if (this.cursors.up.isDown && this.cursors.left.isDown) {
+            if (
+                keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W).isDown &&
+                keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A).isDown
+            ) {
                 this.characterMovement.moveUpLeft();
-            } else if (this.cursors.up.isDown && this.cursors.right.isDown) {
+            } else if (
+                keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W).isDown &&
+                keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D).isDown
+            ) {
                 this.characterMovement.moveUpRight();
-            } else if (this.cursors.down.isDown && this.cursors.left.isDown) {
+            } else if (
+                keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S).isDown &&
+                keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A).isDown
+            ) {
                 this.characterMovement.moveDownLeft();
-            } else if (this.cursors.down.isDown && this.cursors.right.isDown) {
+            } else if (
+                keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S).isDown &&
+                keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D).isDown
+            ) {
                 this.characterMovement.moveDownRight();
             } else {
                 // Handle individual directions
-                if (this.cursors.up.isDown) {
+                if (keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W).isDown) {
                     this.characterMovement.moveUp();
-                } else if (this.cursors.down.isDown) {
+                } else if (
+                    keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S).isDown
+                ) {
                     this.characterMovement.moveDown();
                 } else {
                     this.characterMovement.stopY(); // Stop vertical movement if no up/down keys are pressed
                 }
-                if (this.cursors.left.isDown) {
+                if (keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A).isDown) {
                     this.characterMovement.moveLeft();
-                } else if (this.cursors.right.isDown) {
+                } else if (
+                    keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D).isDown
+                ) {
                     this.characterMovement.moveRight();
                 } else {
                     this.characterMovement.stopX(); // Stop horizontal movement if no left/right keys are pressed
