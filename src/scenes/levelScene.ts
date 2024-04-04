@@ -31,7 +31,7 @@ export default class LevelScene extends Phaser.Scene {
             .text(400, 400, "level1", { color: "#0f0" })
             .setInteractive()
             .on("pointerdown", () => {
-                this.updateLevelClicked(this.level1);
+                this.updateLevelClicked();
             })
             .on("pointerover", () => {
                 this.enterButtonHoverState(this.level1);
@@ -44,7 +44,7 @@ export default class LevelScene extends Phaser.Scene {
             .text(400, 500, "level2", { color: "#0f0" })
             .setInteractive()
             .on("pointerdown", () => {
-                this.updateLevelClicked(this.level2);
+                this.updateLevelClicked();
             })
             .on("pointerover", () => {
                 this.enterButtonHoverState(this.level2);
@@ -58,8 +58,8 @@ export default class LevelScene extends Phaser.Scene {
         this.scene.start("MainScene");
     }
 
-    updateLevelClicked(level: Phaser.GameObjects.Text) {
-        this.scene.start(level.text + "Scene");
+    updateLevelClicked() {
+        this.scene.start("Level_1_scene");
     }
 
     enterButtonHoverState(button: Phaser.GameObjects.Text) {
