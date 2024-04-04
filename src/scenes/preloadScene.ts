@@ -6,6 +6,9 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image("background", "assets/img/background.jpg");
+        //this.load.image("maze", "assets/img/maze.jpeg");
+        this.load.image("Minotaur", "assets/img/Minotaur.jpg");
         this.load.image("base_tiles", "assets/tileset.png");
         this.load.tilemapTiledJSON("tilemap", "assets/dungeon_background.json");
 
@@ -26,6 +29,6 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start("MainScene");
+        this.scene.start("TitleScene");
     }
 }

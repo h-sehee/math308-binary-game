@@ -20,7 +20,7 @@ export default class MainScene extends Phaser.Scene {
     private hit = 0;
 
     constructor() {
-        super({ key: "MainScene" });
+        super({ key: "mainScene" });
     }
 
     create() {
