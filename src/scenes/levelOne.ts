@@ -25,7 +25,7 @@ export default class levelOne extends Phaser.Scene {
         this.platforms = this.physics.add.staticGroup();
         const ground = this.platforms.create(
             2048,
-            857,
+            1700,
             "ground"
         ) as Phaser.Physics.Arcade.Sprite;
         ground.setScale(2).refreshBody();
