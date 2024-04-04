@@ -16,7 +16,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     create() {
-        this.blockGrid = new BlockGrid(this, 400, 150, 5);
+        this.blockGrid = new BlockGrid(this, 5);
         this.fpsText = new FpsText(this);
 
         this.input.on("pointerdown", this.mouseClick, this);
@@ -60,12 +60,9 @@ export default class MainScene extends Phaser.Scene {
         currentlyOver: Array<Phaser.GameObjects.GameObject>
     ) {
         if (currentlyOver[0] instanceof BooleanBlock) {
-            // typeguard to make sure clicked on object is a BooleanBlock
             if (this.locationBuffer == undefined) {
-                // store location in buffer if it is empty
                 this.locationBuffer = currentlyOver[0].getGridLocation();
             } else {
-                // switch the blocks if the buffer is full
                 this.blockGrid.switchBlocks(
                     currentlyOver[0].getGridLocation(),
                     this.locationBuffer
