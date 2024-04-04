@@ -83,5 +83,4 @@ export default class MainScene extends Phaser.Scene {
     updatePlayClicked() {
         this.scene.start("LevelScene");
     }
-    update() {}
 }
