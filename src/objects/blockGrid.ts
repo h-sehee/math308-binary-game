@@ -98,14 +98,14 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         let hasUpdated = false;
 
         if (foundTruthy && foundTruthy.length > 0) {
-            foundTruthy.forEach((statement) => {
+            for (const statement of foundTruthy) {
                 if (statement.type === "row") {
                     this.removeRow(statement.index);
                 } else {
                     this.removeColumn(statement.index);
                 }
                 hasUpdated = true;
-            });
+            }
             if (hasUpdated) {
                 this.updateBlockPositions();
             }
