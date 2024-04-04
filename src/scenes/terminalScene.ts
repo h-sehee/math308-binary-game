@@ -24,7 +24,7 @@ export default class TextInputScene extends Phaser.Scene {
 
         // Create a mask for the container
         const maskGraphics = this.make.graphics();
-        maskGraphics.fillRect(300, 125, 680, 500);
+        maskGraphics.fillRect(300, 125, 1080, 500);
         const mask = new Phaser.Display.Masks.GeometryMask(this, maskGraphics);
 
         this.inputContainer.setMask(mask);
@@ -36,6 +36,7 @@ export default class TextInputScene extends Phaser.Scene {
         const lsMap = new Map<string, string>();
         const cdMap = new Map<string, string[]>();
         const cdBack = new Map<string, string>();
+        const manMap = new Map<string, string>();
 
         lsMap.set("home", "dog cat backpack");
         lsMap.set("backpack", "camera wrench zapgun");
@@ -47,6 +48,8 @@ export default class TextInputScene extends Phaser.Scene {
         cdBack.set("dog", "home");
         cdBack.set("cat", "home");
         cdBack.set("backpack", "home");
+
+        manMap.set("alfred", "Alfred: How can I be of service agent09?");
 
         // Add text input field
         this.inputField = document.createElement("input");
@@ -97,6 +100,23 @@ export default class TextInputScene extends Phaser.Scene {
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
                             this.addTextToContainer("Directory not found");
+                        }
+                    } else if (newText.substring(0, 4) == "man ") {
+                        let manInput: string = newText.substring(4);
+
+                        const manState = manMap.get(manInput);
+                        if (manState !== undefined) {
+                            this.inputField.value = ""; // Empty the input field
+                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                manMap.get(manInput) as string
+                            );
+                        } else {
+                            this.inputField.value = ""; // Empty the input field
+                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                "Command '" + manInput + "' not found"
+                            );
                         }
                     }
                     // NONSENSE INPUT BELOW
