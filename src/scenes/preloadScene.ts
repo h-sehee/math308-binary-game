@@ -12,6 +12,9 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("not-block", "assets/blocks/Not.png");
         this.load.image("true-block", "assets/blocks/True.png");
         this.load.image("false-block", "assets/blocks/False.png");
+        this.load.image("menu-backplate", "assets/menu/menuBackplate.png");
+        this.load.image("play-button", "assets/menu/playButton.png");
+        this.load.audio("button-press", "assets/audio/effects/click.mp3");
         this.load.audio("block-break", "assets/audio/effects/cork.mp3");
         this.load.audio(
             "gameplay-music",
