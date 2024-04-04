@@ -58,12 +58,14 @@ export default class Shift1 extends Phaser.Scene {
             holder.ticket = new Ticket(this, holder.x, 134, [1, 2], holder);
             this.tickets.push(holder.ticket);
         });
+
         this.currentOrder = new CurrentOrder(this, 900, 110, 240, 240);
         this.initStations();
         this.setNextTicket();
     }
 
     initStations() {
+        // will probably abstract this to a kitchen object and make them public fields
         this.service = new Service(
             this,
             this.cameras.main.centerX + 16,

@@ -2,6 +2,8 @@ import Phaser from "phaser";
 
 export default abstract class Station extends Phaser.GameObjects.Zone {
     duration: number;
+    timer: Phaser.GameObjects.Sprite; // will be the dial timer
+    // needs to hold reference to current task/ingredient on station
 
     constructor(
         scene: Phaser.Scene,
