@@ -2,6 +2,7 @@ import Phaser from "phaser";
 //import PhaserLogo from "../objects/phaserLogo";
 import FpsText from "../objects/fpsText";
 //background image by rawpixel.com
+//audio for title scene by Darren Curtis
 export default class MainScene extends Phaser.Scene {
     fpsText: FpsText;
 
@@ -11,7 +12,15 @@ export default class MainScene extends Phaser.Scene {
 
     create() {
         this.fpsText = new FpsText(this);
-        const background = this.add.image(400, 300, "background");
+        const background = this.add.image(
+            this.cameras.main.width / 2,
+            this.cameras.main.height / 2,
+            "background"
+        );
+        let X = this.cameras.main.width / background.width;
+        let Y = this.cameras.main.height / background.height;
+        let scale = Math.max(X, Y);
+        background.setScale(scale).setScrollFactor(0);
         background.setDepth(0);
 
         this.add
@@ -20,9 +29,9 @@ export default class MainScene extends Phaser.Scene {
                 this.cameras.main.height / 3,
                 "Infamia di Creti",
                 {
-                    fontSize: "60px",
+                    fontSize: "100px",
                     fontFamily: "Academy Engraved LET",
-                    strokeThickness: 4,
+                    strokeThickness: 6,
                     stroke: "0xffffff",
                     //strokeAlpha: 1
                 }
@@ -35,7 +44,7 @@ export default class MainScene extends Phaser.Scene {
                 this.cameras.main.height / 1.75,
                 "Enter the Maze",
                 {
-                    fontSize: "40px",
+                    fontSize: "50px",
                     fontFamily: "Academy Engraved LET",
                     strokeThickness: 4,
                     stroke: "0xffffff",
@@ -57,7 +66,7 @@ export default class MainScene extends Phaser.Scene {
         this.add
             .text(this.cameras.main.width - 15, 15, message, {
                 color: "#000000",
-                fontSize: "24px",
+                fontSize: "5px",
             })
             .setOrigin(1, 0);
     }
