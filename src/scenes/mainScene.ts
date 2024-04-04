@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 
 export default class MainScene extends Phaser.Scene {
+
     /* ---------------     START BUTTON    ------------------- */
     startButton: Phaser.GameObjects.Text;
     /* ---------------     OPTION BUTTON    ------------------- */
@@ -80,6 +81,5 @@ export default class MainScene extends Phaser.Scene {
     updatePlayClicked() {
         this.scene.start("LevelScene");
     }
-
     update() {}
 }
