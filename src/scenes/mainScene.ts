@@ -10,6 +10,7 @@ export default class MainScene extends Phaser.Scene {
     timer: Phaser.Time.TimerEvent;
     timeLimitInSeconds: number = 120;
     timerText: Phaser.GameObjects.Text;
+    gameplayMusic: Phaser.Sound.BaseSound;
 
     constructor() {
         super({ key: "MainScene" });
@@ -18,6 +19,8 @@ export default class MainScene extends Phaser.Scene {
     create() {
         this.blockGrid = new BlockGrid(this, 5);
         this.fpsText = new FpsText(this);
+        this.gameplayMusic = this.sound.add("gameplay-music");
+        this.gameplayMusic.play({ volume: 0.3 });
 
         this.input.on("pointerdown", this.mouseClick, this);
 
@@ -34,6 +37,7 @@ export default class MainScene extends Phaser.Scene {
             callback: () => {
                 this.timeLimitInSeconds--;
                 if (this.timeLimitInSeconds <= 0) {
+                    this.gameplayMusic.pause();
                     this.scene.start("NextScene"); // Replace 'NextScene' with the key of our next scene
                     //For the next scene we should display the score and then give them the option to play again
                 }
