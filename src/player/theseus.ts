@@ -64,25 +64,28 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         if (this.healthState === HealthState.DAMAGE) {
             return;
         }
-        this.setVelocity(dir.x, dir.y);
 
         --this._health;
+
         if (this._health <= 0) {
             this.healthState = HealthState.DEAD;
             this.anims.play("faune-faint");
+            this.setVelocity(0, 0);
         } else {
+            this.setVelocity(dir.x, dir.y);
             this.setTint(0xff0000);
             this.healthState = HealthState.DAMAGE;
             this.damageTime = 0;
             this.alpha = 0.5;
             this.scene.time.delayedCall(1000, () => {
-                this.clearTint();
+                //this.clearTint();
                 this.alpha = 1;
             });
         }
     }
 
     preUpdate(t: number, dt: number) {
+        super.preUpdate(t, dt);
         switch (this.healthState) {
             case HealthState.IDLE:
                 break;
@@ -94,7 +97,6 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
                     this.damageTime = 0;
                 }
                 break;
-            case HealthState.DEAD:
         }
     }
 
@@ -132,33 +134,28 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
             this.setVelocity(-speed, 0);
             this.scaleX = -1;
             this.body.offset.x = 24;
-
             this.sword?.setX(this.x - 5);
         } else if (keyD?.isDown) {
             this.anims.play("faune-run-side", true);
             this.setVelocity(speed, 0);
             this.scaleX = 1;
             this.body.offset.x = 8;
-
             this.sword?.setX(this.x + 5);
         } else if (keyW?.isDown) {
             this.anims.play("faune-run-up", true);
             this.setVelocity(0, -speed);
             this.body.offset.y = 4;
-
             this.sword?.setX(this.x + 5);
             this.sword?.setY(this.y);
         } else if (keyS?.isDown) {
             this.anims.play("faune-run-down", true);
             this.setVelocity(0, speed);
-
             this.sword?.setX(this.x + 5);
         } else {
             const parts = this.anims.currentAnim?.key.split("-") as string[];
             parts[1] = "idle";
             this.anims.play(parts.join("-"));
             this.setVelocity(0, 0);
-
             this.sword?.setX(this.x + 5);
         }
 
@@ -170,6 +167,7 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         );
 
         this.sword?.setRotation(angle + Math.PI / 4);
+        // this.sword?.body?.offset.;
 
         if (this.mouse?.isDown && this.canAttack) {
             const swordSlash = this.scene.physics.add.sprite(

@@ -1,14 +1,6 @@
 import Phaser from "phaser";
 
-// enum Direction {
-//     UP,
-//     DOWN,
-//     LEFT,
-//     RIGHT,
-// }
-
 export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
-    // private direction = Direction.DOWN;
     private target?: Phaser.Physics.Arcade.Sprite;
 
     constructor(

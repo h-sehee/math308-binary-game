@@ -86,8 +86,8 @@ export default class MainScene extends Phaser.Scene {
             const redEyesSkeleton = c as RedEyesSkeleton;
             redEyesSkeleton.setTarget(this.theseus!);
             redEyesSkeleton.body?.setSize(
-                (redEyesSkeleton.width = 15),
-                (redEyesSkeleton.height = 30)
+                redEyesSkeleton.width * 0.6,
+                redEyesSkeleton.height * 0.8
             );
             return true;
         });
