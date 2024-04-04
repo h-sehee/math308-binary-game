@@ -9,10 +9,17 @@ export default class MainScene extends Phaser.Scene {
     private theseus?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private sword?: Phaser.Physics.Arcade.Sprite;
+    private swordSlash?: Phaser.Physics.Arcade.Sprite;
+    private mouse?: Phaser.Input.Pointer;
+    private canAttack: boolean;
 
     constructor() {
         super({ key: "MainScene" });
     }
+
+    // setSwordSlashes(swordSlashes: Phaser.Physics.Arcade.Group) {
+    //     this.swordSlashes = swordSlashes;
+    // }
 
     create() {
         this.cursors =
@@ -111,6 +118,21 @@ export default class MainScene extends Phaser.Scene {
         this.sword.setOrigin(0, 1);
 
         this.physics.add.collider(this.theseus, wallsLayer);
+
+        this.mouse = this.input.mousePointer;
+
+        this.anims.create({
+            key: "sword_attack",
+            frames: this.anims.generateFrameNames("swordSlash", {
+                start: 13,
+                end: 18,
+                prefix: "Classic_",
+                suffix: ".png",
+            }),
+            frameRate: 15,
+        });
+
+        this.canAttack = true;
     }
 
     update() {
@@ -178,5 +200,33 @@ export default class MainScene extends Phaser.Scene {
         );
 
         this.sword?.setRotation(angle + Math.PI / 4);
+
+        if (this.mouse?.isDown && this.canAttack) {
+            const swordSlash = this.physics.add.sprite(
+                this.sword?.x!,
+                this.sword?.y!,
+                "swordSlash",
+                "Classic_13.png"
+            );
+
+            swordSlash.setScale(0.3);
+            swordSlash.setRotation(angle - Math.PI / 4);
+            swordSlash.anims.play("sword_attack", true);
+
+            swordSlash.on(
+                Phaser.Animations.Events.ANIMATION_COMPLETE,
+                function () {
+                    swordSlash.destroy();
+                },
+                this
+            );
+
+            this.physics.moveTo(swordSlash, this.input.x, this.input.y, 200);
+            this.canAttack = false;
+
+            this.time.delayedCall(500, () => {
+                this.canAttack = true;
+            });
+        }
     }
 }
