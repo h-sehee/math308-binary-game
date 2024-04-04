@@ -20,16 +20,18 @@ export default class PreloadScene extends Phaser.Scene {
             url: "assets/img/title_bg.png",
         });
 
+        //Character Spritesheet
+        this.load.spritesheet("dude", "assets/img/Sprite.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+
         //Sounds
         this.load.audio("backgroundMusic", "assets/img/overcookedSound.mp3");
 
         this.load.image("kitchen1", "assets/img/cartoon-kitchen.jpg");
         this.load.image("kitchen2", "assets/img/restaurant_oven.jpg");
         this.load.image("tomato", "assets/img/Tomato.jpg");
-        this.load.spritesheet("dude", "assets/img/Sprite.png", {
-            frameWidth: 32,
-            frameHeight: 48,
-        });
     }
 
     create() {
