@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 import { sceneEvents } from "../events/eventsCenter";
+import "../weapons/sword";
+import Sword from "../weapons/sword";
 
 declare global {
     namespace Phaser.GameObjects {
@@ -26,7 +28,7 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
     private _health = 3;
 
-    private sword?: Phaser.Physics.Arcade.Sprite;
+    private sword?: Sword;
     private mouse?: Phaser.Input.Pointer;
 
     private canAttack = true;
@@ -52,14 +54,7 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
         this.mouse = this.scene.input.mousePointer;
 
-        this.sword = this.scene.physics.add.sprite(
-            this.x + 5,
-            this.y + 7,
-            "sword"
-        );
-
-        this.sword.setScale(0.5);
-        this.sword.setOrigin(0, 1);
+        this.sword = this.scene.add.sword(this.x + 5, this.y + 7, "sword");
 
         this.canAttack = true;
     }
@@ -88,7 +83,6 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
             this.damageTime = 0;
             this.alpha = 0.5;
             this.scene.time.delayedCall(1000, () => {
-                //this.clearTint();
                 this.alpha = 1;
             });
         }
@@ -108,6 +102,15 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
                 }
                 break;
         }
+    }
+
+    private handleAttack(angle: number) {
+        this.sword?.handleSwordSlash(angle);
+        this.canAttack = false;
+
+        this.scene.time.delayedCall(500, () => {
+            this.canAttack = true;
+        });
     }
 
     update(cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
@@ -180,36 +183,7 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         // this.sword?.body?.offset.;
 
         if (this.mouse?.isDown && this.canAttack) {
-            const swordSlash = this.scene.physics.add.sprite(
-                this.sword?.x!,
-                this.sword?.y!,
-                "swordSlash",
-                "Classic_13.png"
-            );
-
-            swordSlash.setScale(0.3);
-            swordSlash.setRotation(angle - Math.PI / 4);
-            swordSlash.anims.play("sword_attack", true);
-
-            swordSlash.on(
-                Phaser.Animations.Events.ANIMATION_COMPLETE,
-                function () {
-                    swordSlash.destroy();
-                },
-                this
-            );
-
-            this.scene.physics.moveTo(
-                swordSlash,
-                this.scene.input.x,
-                this.scene.input.y,
-                200
-            );
-            this.canAttack = false;
-
-            this.scene.time.delayedCall(500, () => {
-                this.canAttack = true;
-            });
+            this.handleAttack(angle);
         }
     }
 }
