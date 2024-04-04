@@ -59,6 +59,9 @@ export default class LevelSelect extends Phaser.Scene {
 
         this.physics.add.collider(this.player, this.platforms);
         this.cursors = this.input.keyboard?.createCursorKeys();
+        this.input.keyboard?.removeCapture(
+            Phaser.Input.Keyboard.KeyCodes.SPACE
+        );
 
         this.doors = this.physics.add.staticGroup();
 
