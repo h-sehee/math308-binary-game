@@ -34,7 +34,7 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (this.x <= this.target.x && Math.abs(this.x - this.target.x) > 30) {
-            this.anims.play("redEyesSkeleton-runsd-side", true);
+            this.anims.play("redEyesSkeleton-run-side", true);
             this.scaleX = -1;
         } else if (
             this.x > this.target.x &&
