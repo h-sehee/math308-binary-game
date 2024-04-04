@@ -87,15 +87,25 @@ export default class TextInputScene extends Phaser.Scene {
 
                     // CD .. FUNCTIONALITY BELOW
                     const backState = cdBack.get(state);
+                    const cdState = cdMap.get(state);
+
                     if (backState !== undefined && cdInput == "..") {
                         state = backState;
                         this.stateText.setText(state);
                         this.inputField.value = ""; // Empty the input field
+                        this.inputText = this.add.text(
+                            300,
+                            lineNum,
+                            "user07: ",
+                            {
+                                fontSize: "32px",
+                                color: "#fff",
+                            }
+                        );
                     }
 
                     // CD FUNCTIONALITY BELOW
-                    const cdState = cdMap.get(state);
-                    if (
+                    else if (
                         cdState !== undefined &&
                         cdMap.get(state)?.includes(cdInput)
                     ) {
