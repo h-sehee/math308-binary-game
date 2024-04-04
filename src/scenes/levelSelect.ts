@@ -91,7 +91,7 @@ export default class LevelSelect extends Phaser.Scene {
     }
 
     private handleChangeScene() {
-        this.scene.start("Level01");
+        this.scene.start("LoadingScene");
     }
     update() {
         if (!this.cursors) {
