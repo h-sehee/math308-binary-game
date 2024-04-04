@@ -1,9 +1,12 @@
 import Phaser from "phaser";
 import PreloadScene from "./scenes/preloadScene";
 import TitleScene from "./scenes/TitleScene";
+import GameUI from "./scenes/GameUI";
+import GameOver from "./scenes/GameOver";
+import MainScene from "./scenes/mainScene";
 
-const DEFAULT_WIDTH = 1920;
-const DEFAULT_HEIGHT = 1080;
+const DEFAULT_WIDTH = 320;
+const DEFAULT_HEIGHT = 320;
 
 export const CONFIG = {
     title: "My Untitled Phaser 3 Game",
@@ -17,12 +20,11 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, TitleScene],
+    scene: [PreloadScene, TitleScene, MainScene, GameUI, GameOver],
     physics: {
         default: "arcade",
         arcade: {
             debug: false,
-            gravity: { y: 300 },
         },
     },
     input: {

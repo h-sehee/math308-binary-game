@@ -1,13 +1,14 @@
 import Phaser from "phaser";
 //import PhaserLogo from "../objects/phaserLogo";
 import FpsText from "../objects/fpsText";
+//import PreloadScene from "./preloadScene";
 //background image by rawpixel.com
 //audio for title scene by Darren Curtis
-export default class MainScene extends Phaser.Scene {
+export default class TitleScene extends Phaser.Scene {
     fpsText: FpsText;
 
     constructor() {
-        super({ key: "MainScene" });
+        super({ key: "TitleScene" });
     }
 
     create() {
@@ -29,7 +30,7 @@ export default class MainScene extends Phaser.Scene {
                 this.cameras.main.height / 3,
                 "Infamia di Creti",
                 {
-                    fontSize: "100px",
+                    fontSize: "35px",
                     fontFamily: "Academy Engraved LET",
                     strokeThickness: 6,
                     stroke: "0xffffff",
@@ -41,10 +42,10 @@ export default class MainScene extends Phaser.Scene {
         const startGame = this.add
             .text(
                 this.cameras.main.width / 2,
-                this.cameras.main.height / 1.75,
+                this.cameras.main.height / 1.5,
                 "Enter the Maze",
                 {
-                    fontSize: "50px",
+                    fontSize: "25px",
                     fontFamily: "Academy Engraved LET",
                     strokeThickness: 4,
                     stroke: "0xffffff",
