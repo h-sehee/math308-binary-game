@@ -21,6 +21,8 @@ export default class PreloadScene extends Phaser.Scene {
             "assets/skeleton_red_eyes.png",
             "assets/skeleton_red_eyes.json"
         );
+        this.load.image("heart-empty", "assets/ui_heart_empty.png");
+        this.load.image("heart-full", "assets/ui_heart_full.png");
     }
 
     create() {

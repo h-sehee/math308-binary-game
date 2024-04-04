@@ -3,25 +3,27 @@ import { debugDraw } from "../utils/debug";
 import { createRedEyesSkeletonAnims } from "../anims/enemyAnims";
 import { createTheseusAnims } from "../anims/theseusAnims";
 import RedEyesSkeleton from "../enemies/redEyesSkeleton";
+import "../player/theseus";
+import Theseus from "../player/theseus";
 
 export type Collidable =
     | Phaser.Types.Physics.Arcade.GameObjectWithBody
     | Phaser.Tilemaps.Tile;
 
 export default class MainScene extends Phaser.Scene {
-    private theseus?: Phaser.Physics.Arcade.Sprite;
+    private theseus?: Theseus;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
-    private sword?: Phaser.Physics.Arcade.Sprite;
-    private swordSlash?: Phaser.Physics.Arcade.Sprite;
     private redEyesSkeletons?: Phaser.Physics.Arcade.Group;
-    private mouse?: Phaser.Input.Pointer;
-    private canAttack: boolean;
+    private playerEnemyCollider?: Phaser.Physics.Arcade.Collider;
+
+    private hit = 0;
 
     constructor() {
         super({ key: "MainScene" });
     }
 
     create() {
+        this.scene.run("game-ui");
         createTheseusAnims(this.anims);
         createRedEyesSkeletonAnims(this.anims);
 
@@ -45,40 +47,18 @@ export default class MainScene extends Phaser.Scene {
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
         map.createLayer("objects", tileset);
-        map.createLayer("door", tileset);
+        const doorLayer = map.createLayer(
+            "door",
+            tileset
+        ) as Phaser.Tilemaps.TilemapLayer;
 
         wallsLayer.setCollisionByProperty({ collides: true });
+        doorLayer.setCollisionByProperty({ collides: true });
 
         debugDraw(wallsLayer, this, false);
+        debugDraw(doorLayer, this, false);
 
-        this.theseus = this.physics.add.sprite(
-            160,
-            160,
-            "faune",
-            "walk-down-3.png"
-        );
-
-        this.theseus.body?.setSize(
-            (this.theseus.width = 20),
-            (this.theseus.height = 25)
-        );
-
-        this.theseus.anims.play("faune-idle-down");
-
-        this.sword = this.physics.add.sprite(
-            this.theseus.x + 5,
-            this.theseus.y + 7,
-            "sword"
-        );
-
-        this.sword.setScale(0.5);
-        this.sword.setOrigin(0, 1);
-
-        this.physics.add.collider(this.theseus, wallsLayer);
-
-        this.canAttack = true;
-
-        this.mouse = this.input.mousePointer;
+        this.theseus = this.add.theseus(160, 160, "faune");
 
         this.anims.create({
             key: "sword_attack",
@@ -101,8 +81,6 @@ export default class MainScene extends Phaser.Scene {
             "skeleton_red_eyes"
         );
 
-        this.physics.add.collider(this.redEyesSkeletons, wallsLayer);
-
         this.redEyesSkeletons.children.iterate((c) => {
             const redEyesSkeleton = c as RedEyesSkeleton;
             redEyesSkeleton.setTarget(this.theseus!);
@@ -112,100 +90,50 @@ export default class MainScene extends Phaser.Scene {
             );
             return true;
         });
+
+        this.physics.add.collider(this.theseus, wallsLayer);
+        this.physics.add.collider(this.theseus, doorLayer);
+
+        this.physics.add.collider(this.redEyesSkeletons, wallsLayer);
+        this.physics.add.collider(this.redEyesSkeletons, doorLayer);
+
+        this.playerEnemyCollider = this.physics.add.collider(
+            this.redEyesSkeletons,
+            this.theseus,
+            this.handlePlayerEnemyCollision,
+            undefined,
+            this
+        );
+    }
+
+    private handlePlayerEnemyCollision(
+        obj1:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        obj2:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const redEyesSkeleton = obj2 as RedEyesSkeleton;
+
+        const dx = this.theseus!.x - redEyesSkeleton.x;
+        const dy = this.theseus!.y - redEyesSkeleton.y;
+
+        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(100);
+
+        this.theseus?.handleDamage(dir);
     }
 
     update() {
-        if (!this.cursors || !this.theseus || !this.theseus.body) {
-            return;
+        if (this.hit > 0) {
+            ++this.hit;
+            if (this.hit > 10) {
+                this.hit = 0;
+            }
         }
 
-        const speed = 100;
-
-        this.sword?.setY(this.theseus.y + 7);
-
-        const keyA = this.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.A
-        );
-        const keyS = this.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.S
-        );
-        const keyD = this.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.D
-        );
-        const keyW = this.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.W
-        );
-
-        if (keyA?.isDown) {
-            this.theseus.anims.play("faune-run-side", true);
-            this.theseus.setVelocity(-speed, 0);
-            this.theseus.scaleX = -1;
-            this.theseus.body.offset.x = 24;
-
-            this.sword?.setX(this.theseus.x - 5);
-        } else if (keyD?.isDown) {
-            this.theseus.anims.play("faune-run-side", true);
-            this.theseus.setVelocity(speed, 0);
-            this.theseus.scaleX = 1;
-            this.theseus.body.offset.x = 8;
-
-            this.sword?.setX(this.theseus.x + 5);
-        } else if (keyW?.isDown) {
-            this.theseus.anims.play("faune-run-up", true);
-            this.theseus.setVelocity(0, -speed);
-            this.theseus.body.offset.y = 4;
-
-            this.sword?.setX(this.theseus.x + 5);
-            this.sword?.setY(this.theseus.y);
-        } else if (keyS?.isDown) {
-            this.theseus.anims.play("faune-run-down", true);
-            this.theseus.setVelocity(0, speed);
-
-            this.sword?.setX(this.theseus.x + 5);
-        } else {
-            const parts = this.theseus.anims.currentAnim?.key.split(
-                "-"
-            ) as string[];
-            parts[1] = "idle";
-            this.theseus.anims.play(parts.join("-"));
-            this.theseus.setVelocity(0, 0);
-        }
-
-        let angle = Phaser.Math.Angle.Between(
-            this.sword?.x!,
-            this.sword?.y!,
-            this.input.x,
-            this.input.y
-        );
-
-        this.sword?.setRotation(angle + Math.PI / 4);
-
-        if (this.mouse?.isDown && this.canAttack) {
-            const swordSlash = this.physics.add.sprite(
-                this.sword?.x!,
-                this.sword?.y!,
-                "swordSlash",
-                "Classic_13.png"
-            );
-
-            swordSlash.setScale(0.3);
-            swordSlash.setRotation(angle - Math.PI / 4);
-            swordSlash.anims.play("sword_attack", true);
-
-            swordSlash.on(
-                Phaser.Animations.Events.ANIMATION_COMPLETE,
-                function () {
-                    swordSlash.destroy();
-                },
-                this
-            );
-
-            this.physics.moveTo(swordSlash, this.input.x, this.input.y, 200);
-            this.canAttack = false;
-
-            this.time.delayedCall(500, () => {
-                this.canAttack = true;
-            });
+        if (this.theseus) {
+            this.theseus.update(this.cursors!);
         }
     }
 }
