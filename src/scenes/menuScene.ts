@@ -2,17 +2,24 @@ import Phaser from "phaser";
 
 export default class MenuScene extends Phaser.Scene {
     playButton: Phaser.GameObjects.Image;
+    menuMusic: Phaser.Sound.BaseSound;
 
     constructor() {
         super({ key: "MenuScene" });
     }
 
     create() {
-        this.add.image(640, 360, "menu-backplate");
+        this.add.image(640, 360, "menu-backplate"); // backplate image for title and background
+
+        // main menu music
+        this.menuMusic = this.sound.add("menu-music", { loop: true });
+        this.menuMusic.play();
+
+        // play button for 5x5 mode
         this.playButton = new Phaser.GameObjects.Image(
             this,
             640,
-            300,
+            400,
             "play-button"
         );
         this.playButton
@@ -22,8 +29,10 @@ export default class MenuScene extends Phaser.Scene {
         this.add.existing(this.playButton);
     }
 
+    // run when play button is pressed
     clickPlay() {
         this.sound.play("button-press");
+        this.menuMusic.stop();
         this.scene.start("MainScene");
     }
 }

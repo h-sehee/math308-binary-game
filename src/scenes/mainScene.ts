@@ -37,7 +37,7 @@ export default class MainScene extends Phaser.Scene {
             callback: () => {
                 this.timeLimitInSeconds--;
                 if (this.timeLimitInSeconds <= 0) {
-                    this.gameplayMusic.pause();
+                    this.gameplayMusic.stop();
                     this.scene.start("NextScene"); // Replace 'NextScene' with the key of our next scene
                     //For the next scene we should display the score and then give them the option to play again
                 }
