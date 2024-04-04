@@ -15,14 +15,10 @@ export default class mainMenu extends Phaser.Scene {
             .image(screenWidth, screenHeight, "pond")
             .setDisplaySize(screenWidth, screenHeight);
 
-        this.add.text(150, 150, "CROSS THE POND");
+        this.add.text(150, 150, "LEVEL 1");
         this.button = this.add
             .text(100, 100, "Click Here to Start", { color: "#0f000" })
             .setInteractive();
-
-        this.button.on("pointerDown", () => {
-            this.scene.start("levelOne");
-        });
     }
 
     update() {}
