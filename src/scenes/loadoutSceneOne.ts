@@ -45,7 +45,7 @@ export default class LoadoutSceneOne extends Phaser.Scene {
             }
         );
 
-        this.createClickableText(
+        /*this.createClickableText(
             3150,
             850,
             "- LOCKED",
@@ -70,7 +70,7 @@ export default class LoadoutSceneOne extends Phaser.Scene {
             "#ff0000",
             "#00000000",
             () => {}
-        );
+        );*/
     }
 
     createClickableText(

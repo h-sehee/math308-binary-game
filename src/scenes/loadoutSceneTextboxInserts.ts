@@ -10,23 +10,156 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
 
     create() {
         this.createEditableText(
-            100,
-            200,
-            "Click to edit...",
+            890,
+            292,
+            "CLASS",
             "#000000",
             "transparent",
-            "16px",
+            "70px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
             }
         );
         this.createEditableText(
-            500,
-            700,
-            "Try again...",
+            640,
+            650,
+            "ATTRIBUTE:TYPE;",
             "#000000",
             "transparent",
-            "16px",
+            "50px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            640,
+            470,
+            "ATTRIBUTE:TYPE;",
+            "#000000",
+            "transparent",
+            "50px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            868,
+            880,
+            "ATTRIBUTE:TYPE",
+            "#000000",
+            "transparent",
+            "22px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            1087,
+            880,
+            "ATTRIBUTE:TYPE",
+            "#000000",
+            "transparent",
+            "22px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            600,
+            945,
+            "this.ATTRIBUTE = ATTRIBUTE;",
+            "#000000",
+            "transparent",
+            "35px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            600,
+            1025,
+            "this.ATTRIBUTE = ATTRIBUTE;",
+            "#000000",
+            "transparent",
+            "35px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+
+        this.createEditableText(
+            1920,
+            292,
+            "CLASS",
+            "#000000",
+            "transparent",
+            "70px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            1670,
+            650,
+            "ATTRIBUTE:TYPE;",
+            "#000000",
+            "transparent",
+            "50px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            1670,
+            470,
+            "ATTRIBUTE:TYPE;",
+            "#000000",
+            "transparent",
+            "50px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            1896,
+            878,
+            "ATTRIBUTE:TYPE",
+            "#000000",
+            "transparent",
+            "22px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            2117,
+            878,
+            "ATTRIBUTE:TYPE",
+            "#000000",
+            "transparent",
+            "22px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            1630,
+            942,
+            "this.ATTRIBUTE = ATTRIBUTE;",
+            "#000000",
+            "transparent",
+            "35px",
+            (newValue: string) => {
+                console.log("Text input updated to:", newValue);
+            }
+        );
+        this.createEditableText(
+            1630,
+            1022,
+            "this.ATTRIBUTE = ATTRIBUTE;",
+            "#000000",
+            "transparent",
+            "35px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
             }
