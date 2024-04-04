@@ -11,9 +11,8 @@ export default class MainScene extends Phaser.Scene {
 
     create() {
         this.fpsText = new FpsText(this);
-        this.add.image(400, 300, "background");
-        //this.add.image(100, 100, "maze");
-        //maze.setDepth(background.depth + 2);
+        const background = this.add.image(400, 300, "background");
+        background.setDepth(0);
 
         this.add
             .text(
