@@ -39,9 +39,35 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
     public switchBlocks(indexA: [number, number], indexB: [number, number]) {
         let blockA = this.blockMatrix[indexA[0]][indexA[1]];
         let blockB = this.blockMatrix[indexB[0]][indexB[1]];
+        blockA.setGridLocation(indexB);
+        blockB.setGridLocation(indexA);
         this.blockMatrix[indexA[0]][indexA[1]] = blockB;
         this.blockMatrix[indexB[0]][indexB[1]] = blockA;
-        this.updateBlockPositions();
+        // promises used to ensure the swap animation is complete before blocks are eliminated
+        const promise1 = new Promise<void>((resolve: () => void) => {
+            this.scene.tweens.add({
+                targets: blockA,
+                x: indexB[1] * (this.blockSize + this.blockSpacing),
+                y: indexB[0] * (this.blockSize + this.blockSpacing),
+                ease: "Linear",
+                duration: 300,
+                onComplete: resolve,
+            });
+        });
+        const promise2 = new Promise<void>((resolve: () => void) => {
+            this.scene.tweens.add({
+                targets: blockB,
+                x: indexA[1] * (this.blockSize + this.blockSpacing),
+                y: indexA[0] * (this.blockSize + this.blockSpacing),
+                ease: "Linear",
+                duration: 300,
+                onComplete: resolve,
+            });
+        });
+        // once both tweens are finished, the matrix will be checked for truthiness
+        Promise.all([promise1, promise2]).then(() => {
+            this.checkForTruthy();
+        });
     }
 
     public evaluateBooleanExpression(blocks: Array<BooleanBlock>): boolean {

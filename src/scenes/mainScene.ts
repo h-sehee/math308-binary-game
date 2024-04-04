@@ -72,7 +72,6 @@ export default class MainScene extends Phaser.Scene {
                     this.locationBuffer
                 );
                 this.locationBuffer = undefined;
-                this.blockGrid.checkForTruthy();
             }
         }
     }
