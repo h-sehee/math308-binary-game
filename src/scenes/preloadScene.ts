@@ -6,18 +6,18 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     preload() {
-        //Logo, Play Button, and Background Assets
+        //Title Logo, Play Button, and Background Assets
         this.load.image({
             key: "title_logo",
-            url: "assets/img/schedulsine_logo.png",
+            url: "assets/img/title_assets/schedulsine_logo.png",
         });
         this.load.image({
             key: "play_bttn",
-            url: "assets/img/play_bttn.png",
+            url: "assets/img/title_assets/play_bttn.png",
         });
         this.load.image({
             key: "title_bg",
-            url: "assets/img/title_bg.png",
+            url: "assets/img/title_assets/title_bg.png",
         });
 
         //Character Spritesheet
@@ -27,7 +27,7 @@ export default class PreloadScene extends Phaser.Scene {
         });
 
         //Sounds
-        this.load.audio("backgroundMusic", "assets/img/overcookedSound.mp3");
+        this.load.audio("backgroundMusic", "assets/sounds/overcookedSound.mp3");
 
         this.load.image("kitchen1", "assets/img/cartoon-kitchen.jpg");
         this.load.image("kitchen2", "assets/img/restaurant_oven.jpg");
