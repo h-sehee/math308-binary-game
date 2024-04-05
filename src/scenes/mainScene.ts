@@ -13,6 +13,8 @@ export type Collidable =
 
 export default class MainScene extends Phaser.Scene {
     private theseus?: Theseus;
+    private map: Phaser.Tilemaps.Tilemap;
+    private doorLayer: Phaser.Tilemaps.TilemapLayer;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private redEyesSkeletons?: Phaser.Physics.Arcade.Group;
     private playerEnemyCollider?: Phaser.Physics.Arcade.Collider;
@@ -34,30 +36,31 @@ export default class MainScene extends Phaser.Scene {
         this.input.setDefaultCursor("crosshair");
 
         this.add.image(0, 0, "base_tiles");
-        const map = this.make.tilemap({ key: "tilemap" });
-        const tileset = map.addTilesetImage(
+        this.map = this.make.tilemap({ key: "tilemap" });
+        const tileset = this.map.addTilesetImage(
             "dungeon",
             "base_tiles",
             16,
             16
         ) as Phaser.Tilemaps.Tileset;
 
-        map.createLayer("ground", tileset);
-        const wallsLayer = map.createLayer(
+        this.map.createLayer("ground", tileset);
+        const wallsLayer = this.map.createLayer(
             "wall",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
-        map.createLayer("objects", tileset);
-        const doorLayer = map.createLayer(
+        this.map.createLayer("objects", tileset);
+        this.map.createLayer("door-open", tileset);
+        this.doorLayer = this.map.createLayer(
             "door",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
 
         wallsLayer.setCollisionByProperty({ collides: true });
-        doorLayer.setCollisionByProperty({ collides: true });
+        this.doorLayer.setCollisionByProperty({ collides: true });
 
         debugDraw(wallsLayer, this, false);
-        debugDraw(doorLayer, this, false);
+        debugDraw(this.doorLayer, this, false);
 
         this.theseus = this.add.theseus(160, 160, "faune");
 
@@ -75,12 +78,13 @@ export default class MainScene extends Phaser.Scene {
         this.redEyesSkeletons = this.physics.add.group({
             classType: RedEyesSkeleton,
         });
-
-        this.redEyesSkeletons.get(
-            Phaser.Math.Between(80, 268),
-            Phaser.Math.Between(80, 268),
-            "skeleton_red_eyes"
-        );
+        for (let i = 0; i < 3; i++) {
+            this.redEyesSkeletons.get(
+                Phaser.Math.Between(80, 268),
+                Phaser.Math.Between(80, 268),
+                "skeleton_red_eyes"
+            );
+        }
 
         this.redEyesSkeletons.children.iterate((c) => {
             const redEyesSkeleton = c as RedEyesSkeleton;
@@ -93,10 +97,10 @@ export default class MainScene extends Phaser.Scene {
         });
 
         this.physics.add.collider(this.theseus, wallsLayer);
-        this.physics.add.collider(this.theseus, doorLayer);
+        this.physics.add.collider(this.theseus, this.doorLayer);
 
         this.physics.add.collider(this.redEyesSkeletons, wallsLayer);
-        this.physics.add.collider(this.redEyesSkeletons, doorLayer);
+        this.physics.add.collider(this.redEyesSkeletons, this.doorLayer);
 
         this.playerEnemyCollider = this.physics.add.collider(
             this.redEyesSkeletons,
@@ -120,6 +124,8 @@ export default class MainScene extends Phaser.Scene {
                 }
             }
         );
+
+        this.events.once("enemyDefeated", this.handleEnemyDefeated, this);
     }
 
     private handlePlayerEnemyCollision(
@@ -170,7 +176,13 @@ export default class MainScene extends Phaser.Scene {
         this.events.emit("swordSlashHit", swordSlash);
 
         redEyesSkeleton.handleDamage();
-        console.log(redEyesSkeleton.health);
+    }
+
+    private handleEnemyDefeated() {
+        this.doorLayer.setVisible(false);
+        this.doorLayer.setCollisionByProperty({ collides: false });
+        console.log(this.doorLayer);
+        console.log("door open");
     }
 
     update() {
@@ -179,6 +191,11 @@ export default class MainScene extends Phaser.Scene {
             if (this.hit > 10) {
                 this.hit = 0;
             }
+        }
+
+        const enemyRemained = this.redEyesSkeletons?.getChildren();
+        if (enemyRemained!.length === 0) {
+            this.events.emit("enemyDefeated");
         }
 
         if (this.theseus) {

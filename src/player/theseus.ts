@@ -32,6 +32,7 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
     private mouse?: Phaser.Input.Pointer;
 
     private canAttack = true;
+    private invincibility = false;
     private _gameOver = false;
 
     get health() {
@@ -66,6 +67,9 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         if (this.healthState === HealthState.DAMAGE) {
             return;
         }
+        if (this.invincibility) {
+            return;
+        }
 
         --this._health;
 
@@ -82,8 +86,10 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
             this.healthState = HealthState.DAMAGE;
             this.damageTime = 0;
             this.alpha = 0.5;
+            this.invincibility = true;
             this.scene.time.delayedCall(1000, () => {
                 this.alpha = 1;
+                this.invincibility = false;
             });
         }
     }
