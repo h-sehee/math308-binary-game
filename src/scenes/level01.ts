@@ -23,6 +23,7 @@ export default class TextInputScene extends Phaser.Scene {
         //     .setDisplaySize(this.scale.width, this.scale.height);
 
         this.add.image(100, 700, "spy");
+        this.add.image(100, 700, "prompt");
         this.add.image(1150, 100, "alfredicon").setDisplaySize(130, 130);
         this.add.image(75, 100, "pin").setDisplaySize(30, 40);
 
@@ -30,7 +31,7 @@ export default class TextInputScene extends Phaser.Scene {
 
         // Create a mask for the container
         const maskGraphics = this.make.graphics();
-        maskGraphics.fillRect(300, 125, 1080, 500);
+        maskGraphics.fillRect(300, 185, 1080, 500);
         const mask = new Phaser.Display.Masks.GeometryMask(this, maskGraphics);
 
         this.inputContainer.setMask(mask);
@@ -61,8 +62,17 @@ export default class TextInputScene extends Phaser.Scene {
 
         manMap.set(
             "ls",
-            "Alfred: Remember, the 'ls' command\n is useful for viewing your surroundings."
+            "Alfred: Remember, the 'ls' command\nis useful for viewing your surroundings."
         );
+        manMap.set(
+            "rm",
+            "Alfred: Remember, the 'rm' command\nneutralizes enemy files."
+        );
+        manMap.set(
+            "cd",
+            "Alfred: Do recall, the 'cd' command\npermits you to navigate through rooms and items."
+        );
+        manMap.set("alfred", "Alfred: How could I be of service agent09?");
 
         // Add text input field
         this.inputField = document.createElement("input");
@@ -161,10 +171,10 @@ export default class TextInputScene extends Phaser.Scene {
                             ) {
                                 // Level completion logic here
                                 this.addTextToContainer(
-                                    "Objective complete: Classified file removed. \n Good job, agent!"
+                                    "Objective complete: Classified file removed. \nGood job, agent!"
                                 );
                                 this.time.delayedCall(
-                                    2000,
+                                    3000,
                                     this.loadLevel,
                                     [],
                                     this
@@ -211,9 +221,15 @@ export default class TextInputScene extends Phaser.Scene {
 
         if (!text.includes("\n")) {
             this.inputContainer.y -= 24.7;
-            console.log(text.length);
         } else {
             this.inputContainer.y -= 49.3;
+        }
+
+        if (text.includes("Alfred: ")) {
+            newText.setColor("gold");
+        }
+        if (text.includes("Objective complete: ")) {
+            newText.setColor("red");
         }
 
         // Add the new text object to the container
