@@ -4,6 +4,24 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
     textInput: HTMLInputElement;
     textbox: Phaser.GameObjects.DOMElement;
 
+    classOneDef: boolean = false;
+    attrOneTopDef: boolean = false;
+    attrOneBotDef: boolean = false;
+    constrOneLeft: boolean = false;
+    constrOneRight: boolean = false;
+    constrOneTop: boolean = false;
+    constrOneBot: boolean = false;
+
+    classTwoDef: boolean = false;
+    attrTwoTopDef: boolean = false;
+    attrTwoBotDef: boolean = false;
+    constrTwoLeft: boolean = false;
+    constrTwoRight: boolean = false;
+    constrTwoTop: boolean = false;
+    constrTwoBot: boolean = false;
+
+    alpha: boolean = true;
+
     constructor() {
         super({ key: "LoadoutSceneTextboxInserts", active: true });
     }
@@ -18,6 +36,12 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "70px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (newValue == "Gun") {
+                    console.log("Set continue to true");
+                    this.classOneDef = true;
+                } else {
+                    this.classOneDef = false;
+                }
             }
         );
         this.createEditableText(
@@ -29,6 +53,25 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "50px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "Close:Scope;" ||
+                    newValue == "Close: Scope;" ||
+                    newValue == "Close :Scope;" ||
+                    newValue == "Eagle:Scope;" ||
+                    newValue == "Eagle: Scope;" ||
+                    newValue == "Eagle :Scope;" ||
+                    newValue == "Speed:Magazine;" ||
+                    newValue == "Speed: Magazine;" ||
+                    newValue == "Speed :Magazine;" ||
+                    newValue == "Drum:Magazine;" ||
+                    newValue == "Drum: Magazine;" ||
+                    newValue == "Drum :Magazine;"
+                ) {
+                    console.log("Set continue to true");
+                    this.attrOneBotDef = true;
+                } else {
+                    this.attrOneBotDef = false;
+                }
             }
         );
         this.createEditableText(
@@ -40,6 +83,25 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "50px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "Close:Scope;" ||
+                    newValue == "Close: Scope;" ||
+                    newValue == "Close :Scope;" ||
+                    newValue == "Eagle:Scope;" ||
+                    newValue == "Eagle: Scope;" ||
+                    newValue == "Eagle :Scope;" ||
+                    newValue == "Speed:Magazine;" ||
+                    newValue == "Speed: Magazine;" ||
+                    newValue == "Speed :Magazine;" ||
+                    newValue == "Drum:Magazine;" ||
+                    newValue == "Drum: Magazine;" ||
+                    newValue == "Drum :Magazine;"
+                ) {
+                    console.log("Set continue to true");
+                    this.attrOneTopDef = true;
+                } else {
+                    this.attrOneTopDef = false;
+                }
             }
         );
         this.createEditableText(
@@ -51,6 +113,25 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "22px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "Close:Scope;" ||
+                    newValue == "Close: Scope;" ||
+                    newValue == "Close :Scope;" ||
+                    newValue == "Eagle:Scope;" ||
+                    newValue == "Eagle: Scope;" ||
+                    newValue == "Eagle :Scope;" ||
+                    newValue == "Speed:Magazine;" ||
+                    newValue == "Speed: Magazine;" ||
+                    newValue == "Speed :Magazine;" ||
+                    newValue == "Drum:Magazine;" ||
+                    newValue == "Drum: Magazine;" ||
+                    newValue == "Drum :Magazine;"
+                ) {
+                    console.log("Set continue to true");
+                    this.constrOneLeft = true;
+                } else {
+                    this.constrOneLeft = false;
+                }
             }
         );
         this.createEditableText(
@@ -62,6 +143,25 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "22px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "Close:Scope;" ||
+                    newValue == "Close: Scope;" ||
+                    newValue == "Close :Scope;" ||
+                    newValue == "Eagle:Scope;" ||
+                    newValue == "Eagle: Scope;" ||
+                    newValue == "Eagle :Scope;" ||
+                    newValue == "Speed:Magazine;" ||
+                    newValue == "Speed: Magazine;" ||
+                    newValue == "Speed :Magazine;" ||
+                    newValue == "Drum:Magazine;" ||
+                    newValue == "Drum: Magazine;" ||
+                    newValue == "Drum :Magazine;"
+                ) {
+                    console.log("Set continue to true");
+                    this.constrOneRight = true;
+                } else {
+                    this.constrOneRight = false;
+                }
             }
         );
         this.createEditableText(
@@ -73,6 +173,29 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "35px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "this.Close = Close;" ||
+                    newValue == "this.Close=Close;" ||
+                    newValue == "this.Close =Close;" ||
+                    newValue == "this.Close=Close;" ||
+                    newValue == "this.Eagle = Eagle;" ||
+                    newValue == "this.Eagle =Eagle;" ||
+                    newValue == "this.Eagle= Eagle;" ||
+                    newValue == "this.Eagle=Eagle;" ||
+                    newValue == "this.Speed = Speed;" ||
+                    newValue == "this.Speed= Speed;" ||
+                    newValue == "this.Speed =Speed;" ||
+                    newValue == "this.Speed=Speed;" ||
+                    newValue == "this.Drum = Drum;" ||
+                    newValue == "this.Drum= Drum;" ||
+                    newValue == "this.Drum =Drum;" ||
+                    newValue == "this.Drum=Drum;"
+                ) {
+                    console.log("Set continue to true");
+                    this.constrOneTop = true;
+                } else {
+                    this.constrOneTop = false;
+                }
             }
         );
         this.createEditableText(
@@ -84,6 +207,29 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "35px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "this.Close = Close;" ||
+                    newValue == "this.Close=Close;" ||
+                    newValue == "this.Close =Close;" ||
+                    newValue == "this.Close=Close;" ||
+                    newValue == "this.Eagle = Eagle;" ||
+                    newValue == "this.Eagle =Eagle;" ||
+                    newValue == "this.Eagle= Eagle;" ||
+                    newValue == "this.Eagle=Eagle;" ||
+                    newValue == "this.Speed = Speed;" ||
+                    newValue == "this.Speed= Speed;" ||
+                    newValue == "this.Speed =Speed;" ||
+                    newValue == "this.Speed=Speed;" ||
+                    newValue == "this.Drum = Drum;" ||
+                    newValue == "this.Drum= Drum;" ||
+                    newValue == "this.Drum =Drum;" ||
+                    newValue == "this.Drum=Drum;"
+                ) {
+                    console.log("Set continue to true");
+                    this.constrOneBot = true;
+                } else {
+                    this.constrOneBot = false;
+                }
             }
         );
 
@@ -96,6 +242,12 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "70px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (newValue == "Clothes") {
+                    console.log("Set continue to true");
+                    this.classOneDef = true;
+                } else {
+                    this.classOneDef = false;
+                }
             }
         );
         this.createEditableText(
@@ -107,6 +259,25 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "50px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "Poncho:Shirt;" ||
+                    newValue == "Poncho: Shirt;" ||
+                    newValue == "Poncho :Shirt;" ||
+                    newValue == "Vest:Shirt;" ||
+                    newValue == "Vest: Shirt;" ||
+                    newValue == "Vest :Shirt;" ||
+                    newValue == "Overalls:Pants;" ||
+                    newValue == "Overalls: Pants;" ||
+                    newValue == "Overalls :Pants;" ||
+                    newValue == "Cargo:Pants;" ||
+                    newValue == "Cargo: Pants;" ||
+                    newValue == "Cargo :Pants;"
+                ) {
+                    console.log("Set continue to true");
+                    this.attrTwoTopDef = true;
+                } else {
+                    this.attrTwoTopDef = false;
+                }
             }
         );
         this.createEditableText(
@@ -118,6 +289,25 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "50px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "Poncho:Shirt;" ||
+                    newValue == "Poncho: Shirt;" ||
+                    newValue == "Poncho :Shirt;" ||
+                    newValue == "Vest:Shirt;" ||
+                    newValue == "Vest: Shirt;" ||
+                    newValue == "Vest :Shirt;" ||
+                    newValue == "Overalls:Pants;" ||
+                    newValue == "Overalls: Pants;" ||
+                    newValue == "Overalls :Pants;" ||
+                    newValue == "Cargo:Pants;" ||
+                    newValue == "Cargo: Pants;" ||
+                    newValue == "Cargo :Pants;"
+                ) {
+                    console.log("Set continue to true");
+                    this.attrTwoBotDef = true;
+                } else {
+                    this.attrTwoBotDef = false;
+                }
             }
         );
         this.createEditableText(
@@ -129,6 +319,25 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "22px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "Poncho:Shirt;" ||
+                    newValue == "Poncho: Shirt;" ||
+                    newValue == "Poncho :Shirt;" ||
+                    newValue == "Vest:Shirt;" ||
+                    newValue == "Vest: Shirt;" ||
+                    newValue == "Vest :Shirt;" ||
+                    newValue == "Overalls:Pants;" ||
+                    newValue == "Overalls: Pants;" ||
+                    newValue == "Overalls :Pants;" ||
+                    newValue == "Cargo:Pants;" ||
+                    newValue == "Cargo: Pants;" ||
+                    newValue == "Cargo :Pants;"
+                ) {
+                    console.log("Set continue to true");
+                    this.constrTwoLeft = true;
+                } else {
+                    this.constrTwoLeft = false;
+                }
             }
         );
         this.createEditableText(
@@ -140,6 +349,25 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "22px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "Poncho:Shirt;" ||
+                    newValue == "Poncho: Shirt;" ||
+                    newValue == "Poncho :Shirt;" ||
+                    newValue == "Vest:Shirt;" ||
+                    newValue == "Vest: Shirt;" ||
+                    newValue == "Vest :Shirt;" ||
+                    newValue == "Overalls:Pants;" ||
+                    newValue == "Overalls: Pants;" ||
+                    newValue == "Overalls :Pants;" ||
+                    newValue == "Cargo:Pants;" ||
+                    newValue == "Cargo: Pants;" ||
+                    newValue == "Cargo :Pants;"
+                ) {
+                    console.log("Set continue to true");
+                    this.constrTwoRight = true;
+                } else {
+                    this.constrTwoRight = false;
+                }
             }
         );
         this.createEditableText(
@@ -151,6 +379,29 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "35px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "this.Poncho = Poncho;" ||
+                    newValue == "this.Poncho= Poncho;" ||
+                    newValue == "this.Poncho =Poncho;" ||
+                    newValue == "this.Poncho=Poncho;" ||
+                    newValue == "this.Vest = Vest;" ||
+                    newValue == "this.Vest= Vest;" ||
+                    newValue == "this.Vest =Vest;" ||
+                    newValue == "this.Vest=Vest;" ||
+                    newValue == "this.Overalls = Overalls;" ||
+                    newValue == "this.Overalls= Overalls;" ||
+                    newValue == "this.Overalls =Overalls;" ||
+                    newValue == "this.Overalls=Overalls;" ||
+                    newValue == "this.Cargo = Cargo;" ||
+                    newValue == "this.Cargo= Cargo;" ||
+                    newValue == "this.Cargo =Cargo;" ||
+                    newValue == "this.Cargo=Cargo;"
+                ) {
+                    console.log("Set continue to true");
+                    this.constrTwoTop = true;
+                } else {
+                    this.constrTwoTop = false;
+                }
             }
         );
         this.createEditableText(
@@ -162,6 +413,29 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             "35px",
             (newValue: string) => {
                 console.log("Text input updated to:", newValue);
+                if (
+                    newValue == "this.Poncho = Poncho;" ||
+                    newValue == "this.Poncho= Poncho;" ||
+                    newValue == "this.Poncho =Poncho;" ||
+                    newValue == "this.Poncho=Poncho;" ||
+                    newValue == "this.Vest = Vest;" ||
+                    newValue == "this.Vest= Vest;" ||
+                    newValue == "this.Vest =Vest;" ||
+                    newValue == "this.Vest=Vest;" ||
+                    newValue == "this.Overalls = Overalls;" ||
+                    newValue == "this.Overalls= Overalls;" ||
+                    newValue == "this.Overalls =Overalls;" ||
+                    newValue == "this.Overalls=Overalls;" ||
+                    newValue == "this.Cargo = Cargo;" ||
+                    newValue == "this.Cargo= Cargo;" ||
+                    newValue == "this.Cargo =Cargo;" ||
+                    newValue == "this.Cargo=Cargo;"
+                ) {
+                    console.log("Set continue to true");
+                    this.constrTwoBot = true;
+                } else {
+                    this.constrTwoBot = false;
+                }
             }
         );
 
@@ -186,6 +460,37 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         this.textbox.on("pointerdown", () => {
             this.textInput.focus();
         });
+
+        this.createClickableText(
+            1025,
+            1450,
+            "SUBMIT CODE",
+            "#000000",
+            "#00ff00",
+            () => {
+                // If statement for full release
+                /*if (
+                    this.classOneDef &&
+                    this.attrOneTopDef &&
+                    this.attrOneBotDef &&
+                    this.constrOneLeft &&
+                    this.constrOneRight &&
+                    this.constrOneTop &&
+                    this.constrOneBot &&
+                    this.classTwoDef &&
+                    this.attrTwoTopDef &&
+                    this.attrTwoBotDef &&
+                    this.constrTwoLeft &&
+                    this.constrTwoRight &&
+                    this.constrTwoTop &&
+                    this.constrTwoBot
+                )*/
+                //If statement for alpha version
+                if (this.alpha) {
+                    this.scene.start("levelOne");
+                }
+            }
+        );
     }
 
     createEditableText(
@@ -244,6 +549,27 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         this.events.once("shutdown", () =>
             document.body.removeChild(inputElement)
         );
+    }
+
+    createClickableText(
+        x: number,
+        y: number,
+        text: string,
+        textColor: string,
+        backdrop: string,
+        onClick: () => void
+    ): void {
+        // Predefined style for all clickable text instances
+        const style: Phaser.Types.GameObjects.Text.TextStyle = {
+            fontFamily: "Arial",
+            fontSize: "100px",
+            color: textColor,
+            align: "center",
+            backgroundColor: backdrop,
+        };
+
+        const textObject = this.add.text(x, y, text, style).setInteractive();
+        textObject.on("pointerdown", onClick);
     }
 
     update() {}
