@@ -15,10 +15,12 @@ export default class TextInputScene extends Phaser.Scene {
 
     create() {
         // Add a background
-        this.add
-            .image(0, 0, "Level1Background")
-            .setOrigin(0, 0)
-            .setDisplaySize(this.scale.width, this.scale.height);
+        this.add.rectangle(640, 360, 1280, 720, 0x000);
+
+        // this.add
+        //     .image(0, 0, "Level1Background")
+        //     .setOrigin(0, 0)
+        //     .setDisplaySize(this.scale.width, this.scale.height);
         // this.add.image(100, 200, "alfred");
         this.add.image(100, 700, "spy");
         this.add.image(1150, 100, "alfredicon").setDisplaySize(130, 130);
@@ -50,6 +52,10 @@ export default class TextInputScene extends Phaser.Scene {
         lsMap.set("secret_folder", "classified_file");
 
         cdMap.set("home", ["dog", "cat", "backpack", "secret_folder"]);
+
+        cdBack.set("dog", "home");
+        cdBack.set("cat", "home");
+        cdBack.set("backpack", "home");
 
         rmMap.set("secret_folder", ["classified_file"]);
 
