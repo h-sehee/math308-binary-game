@@ -1,7 +1,22 @@
 import Phaser from "phaser";
 
+enum HealthState {
+    IDLE,
+    DAMAGE,
+    DEAD,
+}
+
 export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
     private target?: Phaser.Physics.Arcade.Sprite;
+
+    private healthState = HealthState.IDLE;
+    private damageTime = 0;
+
+    private _health = 20;
+
+    get health() {
+        return this._health;
+    }
 
     constructor(
         scene: Phaser.Scene,
@@ -18,8 +33,42 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
         this.target = target;
     }
 
+    handleDamage() {
+        if (this._health <= 0) {
+            return;
+        }
+        if (this.healthState === HealthState.DAMAGE) {
+            return;
+        }
+
+        this._health -= 5;
+
+        if (this._health <= 0) {
+            this.healthState = HealthState.DEAD;
+            this.setVelocity(0, 0);
+            this.destroy();
+        } else {
+            this.setTint(0xff0000);
+            this.healthState = HealthState.DAMAGE;
+            this.damageTime = 0;
+        }
+    }
+
     preUpdate(t: number, dt: number) {
         super.preUpdate(t, dt);
+
+        switch (this.healthState) {
+            case HealthState.IDLE:
+                break;
+            case HealthState.DAMAGE:
+                this.damageTime += dt;
+                if (this.damageTime >= 250) {
+                    this.healthState = HealthState.IDLE;
+                    this.setTint(0xffffff);
+                    this.damageTime = 0;
+                }
+                break;
+        }
 
         if (!this.target || !this.body) {
             return;

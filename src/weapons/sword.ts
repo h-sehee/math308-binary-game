@@ -14,6 +14,8 @@ declare global {
 }
 
 export default class Sword extends Phaser.Physics.Arcade.Sprite {
+    private swordslash?: Phaser.Physics.Arcade.Sprite;
+
     constructor(
         scene: Phaser.Scene,
         x: number,
@@ -32,13 +34,20 @@ export default class Sword extends Phaser.Physics.Arcade.Sprite {
             "Classic_13.png"
         );
 
+        swordSlash.body.setSize(
+            swordSlash.width * 0.4,
+            swordSlash.height * 0.4
+        );
+
+        this.scene.events.emit("swordSlashCreated", swordSlash);
+
         swordSlash.setScale(0.3);
         swordSlash.setRotation(angle - Math.PI / 4);
         swordSlash.anims.play("sword_attack", true);
 
         swordSlash.on(
             Phaser.Animations.Events.ANIMATION_COMPLETE,
-            function () {
+            () => {
                 swordSlash.destroy();
             },
             this
@@ -49,6 +58,13 @@ export default class Sword extends Phaser.Physics.Arcade.Sprite {
             this.scene.input.x,
             this.scene.input.y,
             200
+        );
+
+        this.scene.events.on(
+            "swordSlashHit",
+            (swordSlash: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
+                swordSlash.destroy();
+            }
         );
     }
 

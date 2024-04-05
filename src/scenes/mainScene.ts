@@ -105,6 +105,21 @@ export default class MainScene extends Phaser.Scene {
             undefined,
             this
         );
+
+        this.events.on(
+            "swordSlashCreated",
+            (swordSlash: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
+                if (this.redEyesSkeletons) {
+                    this.physics.add.collider(
+                        swordSlash,
+                        this.redEyesSkeletons,
+                        this.handleEnemySwordAttacked,
+                        undefined,
+                        this
+                    );
+                }
+            }
+        );
     }
 
     private handlePlayerEnemyCollision(
@@ -139,6 +154,23 @@ export default class MainScene extends Phaser.Scene {
                 this.scene.start("GameOver");
             });
         }
+    }
+
+    private handleEnemySwordAttacked(
+        obj1:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        obj2:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const redEyesSkeleton = obj2 as RedEyesSkeleton;
+        const swordSlash =
+            obj1 as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+        this.events.emit("swordSlashHit", swordSlash);
+
+        redEyesSkeleton.handleDamage();
+        console.log(redEyesSkeleton.health);
     }
 
     update() {
