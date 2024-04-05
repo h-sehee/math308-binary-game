@@ -14,10 +14,11 @@ export default class PreloadScene extends Phaser.Scene {
         );
         this.load.image("ground", "assets/img/LevelImg/ground.png");
         this.load.image("platform", "assets/img/LevelImg/platform.png");
-        this.load.image("base", "assets/img/platform.png");
-        this.load.image("tiles", "assets/img/tilemap_packed.png");
-        this.load.tilemapTiledJSON("tilemap", "assets/levelOneMap.json");
+        //this.load.image("tiles", "assets/img/tilemap_packed.png");
+        //this.load.tilemapTiledJSON("tilemap", "assets/levelOneMap.json");
         //Charicters, rewards, enamys
+        this.load.image("baddie1", "assets/img/LevelImg/baddie_1.png");
+        this.load.image("checkpoint", "assets/img/LevelImg/checkpoint.png");
         this.load.image("star", "assets/img/star.png");
         this.load.image("bomb", "assets/img/bomb.png");
         this.load.spritesheet("dude", "assets/img/dude.png", {

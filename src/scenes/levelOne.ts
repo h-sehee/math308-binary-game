@@ -8,11 +8,12 @@ export default class levelOne extends Phaser.Scene {
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private stars?: Phaser.Physics.Arcade.Group;
+    private checkpoint: Phaser.Physics.Arcade.StaticGroup;
 
     private score = 0;
     private scoreText?: Phaser.GameObjects.Text;
 
-    private bombs?: Phaser.Physics.Arcade.Group;
+    private baddie?: Phaser.Physics.Arcade.Group;
 
     private gameOver = false;
 
@@ -22,8 +23,9 @@ export default class levelOne extends Phaser.Scene {
 
     create() {
         this.add.image(2048, 857, "levelBackg");
-        this.add.image(3072, 857, "levelBackg");
+        //this.add.image(3072, 857, "levelBackg");
         this.platforms = this.physics.add.staticGroup();
+        this.checkpoint = this.physics.add.staticGroup();
         const ground = this.platforms.create(
             2048,
             1700,
@@ -31,12 +33,12 @@ export default class levelOne extends Phaser.Scene {
         ) as Phaser.Physics.Arcade.Sprite;
         ground.setScale(2).refreshBody();
 
-        this.platforms.create(600, 400, "platform");
+        this.platforms.create(600, 800, "platform");
         this.platforms.create(50, 1200, "platform");
-        this.platforms.create(1000, 220, "platform");
-        this.platforms.create(3400, 1600, "platform");
-        this.platforms.create(2000, 1500, "platform");
-        this.platforms.create(3000, 1600, "platform");
+        this.platforms.create(1000, 400, "platform");
+        this.platforms.create(3400, 900, "platform");
+        this.platforms.create(2000, 1100, "platform");
+        this.platforms.create(3000, 1200, "platform");
 
         this.player = this.physics.add.sprite(100, 450, "dude");
         this.player.setBounce(0.2);
@@ -69,13 +71,14 @@ export default class levelOne extends Phaser.Scene {
         });
 
         this.physics.add.collider(this.player, this.platforms);
+        this.physics.add.collider(this.player, this.platforms);
 
         this.cursors = this.input.keyboard?.createCursorKeys();
 
         this.stars = this.physics.add.group({
             key: "star",
-            repeat: 11,
-            setXY: { x: 12, y: 0, stepX: 70 },
+            repeat: 15,
+            setXY: { x: 30, y: 0, stepX: 250 },
         });
 
         this.stars.children.iterate((c) => {
@@ -98,19 +101,31 @@ export default class levelOne extends Phaser.Scene {
             color: "#000",
         });
 
-        this.bombs = this.physics.add.group();
+        this.baddie = this.physics.add.group();
 
-        this.physics.add.collider(this.bombs, this.platforms);
+        this.physics.add.collider(this.baddie, this.platforms);
         this.physics.add.collider(
             this.player,
-            this.bombs,
-            this.handleHitBomb,
+            this.baddie,
+            this.handleHitBaddie,
+            undefined,
+            this
+        );
+
+        this.physics.add.collider(
+            this.player,
+            this.checkpoint,
+            this.handleHitCheckpoint,
             undefined,
             this
         );
     }
+    private handleHitCheckpoint() {
+        this.scene.launch("LoadoutSceneTextboxInserts");
+        this.scene.start("LoadoutSceneOne");
+    }
 
-    private handleHitBomb() {
+    private handleHitBaddie() {
         this.physics.pause();
         this.player?.setTint(0xff0000);
         this.player?.anims.play("turn");
@@ -143,15 +158,17 @@ export default class levelOne extends Phaser.Scene {
                         ? Phaser.Math.Between(400, 800)
                         : Phaser.Math.Between(0, 400);
 
-                const bomb: Phaser.Physics.Arcade.Image = this.bombs?.create(
-                    x,
-                    16,
-                    "bomb"
-                );
-                bomb.setBounce(1);
-                bomb.setCollideWorldBounds(true);
-                bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                const baddie1: Phaser.Physics.Arcade.Image =
+                    this.baddie?.create(x, 16, "baddie1");
+                baddie1.setBounce(1);
+                baddie1.setCollideWorldBounds(true);
+                baddie1.setVelocity(Phaser.Math.Between(-200, 200), 20);
             }
+            this.checkpoint.create(
+                4000,
+                1250,
+                "checkpoint"
+            ) as Phaser.Physics.Arcade.Sprite;
         }
     }
 
@@ -171,7 +188,7 @@ export default class levelOne extends Phaser.Scene {
         }
 
         if (this.cursors.up.isDown && this.player?.body?.touching.down) {
-            this.player.setVelocityY(-330);
+            this.player.setVelocityY(-550);
         }
     }
 }
