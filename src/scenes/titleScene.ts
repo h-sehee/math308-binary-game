@@ -30,7 +30,7 @@ export default class TitleScene extends Phaser.Scene {
         );
         play_btn
             .setInteractive()
-            .on("pointerdown", () => this.scene.start("InformationScene"))
+            .on("pointerdown", () => this.scene.start("informationScene"))
             .on("pointerover", () => play_btn.setScale(1.1))
             .on("pointerout", () => play_btn.setScale(1));
     }
