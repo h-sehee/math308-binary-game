@@ -179,6 +179,9 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
             this.scaleX = -1;
             this.body.offset.x = 24;
             this.weapon.setX(this.x - 5);
+            if (this.weaponType === "bow") {
+                this.weapon.setX(this.x - 8);
+            }
         } else if (keyD?.isDown) {
             this.anims.play("faune-run-side", true);
             this.setVelocity(speed, 0);
@@ -195,6 +198,9 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
             this.anims.play("faune-run-down", true);
             this.setVelocity(0, speed);
             this.weapon.setX(this.x + 5);
+            if (this.weaponType === "bow") {
+                this.weapon.setY(this.y + 15);
+            }
         } else {
             const parts = this.anims.currentAnim?.key.split("-") as string[];
             parts[1] = "idle";

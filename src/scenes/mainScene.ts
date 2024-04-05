@@ -119,10 +119,10 @@ export default class MainScene extends Phaser.Scene {
 
         this.events.on(
             "arrowCreated",
-            (swordSlash: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
+            (arrow: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
                 if (this.redEyesSkeletons) {
                     this.physics.add.collider(
-                        swordSlash,
+                        arrow,
                         this.redEyesSkeletons,
                         this.handleEnemyBowAttacked,
                         undefined,
