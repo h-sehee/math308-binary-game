@@ -40,6 +40,8 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
     private invincibility = false;
     private _gameOver = false;
 
+    private shiftKeyPressed = false;
+
     get health() {
         return this._health;
     }
@@ -206,17 +208,26 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         );
 
         if (keyShift?.isDown) {
-            if (this.weaponType === "sword") {
-                this.weaponType = "bow";
-                this.weapon.setVisible(false);
-                this.weapon = this.bow!;
-                this.weapon.setVisible(true);
-            } else if (this.weaponType === "bow") {
-                this.weaponType = "sword";
-                this.weapon.setVisible(false);
-                this.weapon = this.sword!;
-                this.weapon.setVisible(true);
+            if (!this.shiftKeyPressed) {
+                this.shiftKeyPressed = true;
+                console.log("shift key is down");
+                if (this.weaponType === "sword") {
+                    this.weaponType = "bow";
+                    this.weapon.setVisible(false);
+                    this.weapon = this.bow!;
+                    this.weapon.setVisible(true);
+                    sceneEvents.emit("player-weapon-changed", this.weaponType);
+                } else if (this.weaponType === "bow") {
+                    this.weaponType = "sword";
+                    this.weapon.setVisible(false);
+                    this.weapon = this.sword!;
+                    this.weapon.setVisible(true);
+                    sceneEvents.emit("player-weapon-changed", this.weaponType);
+                }
             }
+        }
+        if (keyShift?.isUp) {
+            this.shiftKeyPressed = false;
         }
 
         let angle = Phaser.Math.Angle.Between(

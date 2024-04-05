@@ -64,30 +64,10 @@ export default class MainScene extends Phaser.Scene {
 
         this.theseus = this.add.theseus(160, 160, "faune");
 
-        // this.anims.create({
-        //     key: "sword_attack",
-        //     frames: this.anims.generateFrameNames("swordSlash", {
-        //         start: 13,
-        //         end: 18,
-        //         prefix: "Classic_",
-        //         suffix: ".png",
-        //     }),
-        //     frameRate: 15,
-        // });
-
-        // this.anims.create({
-        //     key: "bow_attack",
-        //     frames: this.anims.generateFrameNames("bow", {
-        //         start: 1,
-        //         end: 8,
-        //         prefix: "Bow-",
-        //         suffix: ".png",
-        //     }),
-        // });
-
         this.redEyesSkeletons = this.physics.add.group({
             classType: RedEyesSkeleton,
         });
+
         for (let i = 0; i < 3; i++) {
             this.redEyesSkeletons.get(
                 Phaser.Math.Between(80, 268),
