@@ -15,7 +15,6 @@ export default class LoadingScene1 extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("background", "assets/level01background.png");
         this.load.image("alfredicon", "assets/alfredicon.png");
     }
 
