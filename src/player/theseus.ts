@@ -234,9 +234,6 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
         if (this.mouse?.isDown && this.canAttack) {
             this.handleAttack(angle);
-            if (this.weapon instanceof Bow) {
-                this.anims.play("bow", true);
-            }
         }
     }
 }

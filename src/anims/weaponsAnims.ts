@@ -20,7 +20,7 @@ const createWeaponsAnims = (anims: Phaser.Animations.AnimationManager) => {
             prefix: "Bow-",
             suffix: ".png",
         }),
-        frameRate: 15,
+        frameRate: 20,
     });
 };
 

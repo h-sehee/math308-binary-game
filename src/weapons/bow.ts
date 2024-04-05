@@ -39,6 +39,8 @@ export default class Bow extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.events.emit("arrowCreated", arrow);
 
+        this.anims.play("bow_attack", true);
+
         arrow.setScale(0.3);
         arrow.setRotation(angle - Math.PI / 4);
 
