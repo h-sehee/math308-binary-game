@@ -23,9 +23,9 @@ export default class TextInputScene extends Phaser.Scene {
         //     .setDisplaySize(this.scale.width, this.scale.height);
 
         this.add.image(100, 700, "spy");
-        this.add.image(100, 700, "prompt");
-        this.add.image(1150, 100, "alfredicon").setDisplaySize(130, 130);
-        this.add.image(75, 100, "pin").setDisplaySize(30, 40);
+        this.add.image(630, 100, "prompt").setDisplaySize(360, 110);
+        this.add.image(155, 100, "alfredicon").setDisplaySize(130, 130);
+        this.add.image(1050, 100, "pin").setDisplaySize(30, 40);
 
         this.inputContainer = this.add.container(360, 520);
 
@@ -57,6 +57,7 @@ export default class TextInputScene extends Phaser.Scene {
         cdBack.set("dog", "home");
         cdBack.set("cat", "home");
         cdBack.set("backpack", "home");
+        cdBack.set("secret_folder", "home");
 
         rmMap.set("secret_folder", ["classified_file"]);
 
@@ -199,8 +200,8 @@ export default class TextInputScene extends Phaser.Scene {
             }
         });
 
-        this.stateText = this.add.text(95, 90, state, {
-            fontSize: "27px",
+        this.stateText = this.add.text(1075, 95, state, {
+            fontSize: "24px",
             color: "#fff",
         });
         this.events.on("shutdown", this.removeInputField, this);
