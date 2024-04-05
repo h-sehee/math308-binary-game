@@ -12,6 +12,8 @@ export default class GameScene extends Phaser.Scene {
     private robo?: Phaser.Physics.Arcade.Sprite;
     private rugged_wizard?: Phaser.Physics.Arcade.Sprite;
     private evilDialogue?: Phaser.GameObjects.Text;
+    private userInput: string = "";
+
 
     constructor() {
         super({ key: "GameScene" });
@@ -76,6 +78,14 @@ export default class GameScene extends Phaser.Scene {
 
         this.evilDialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
         this.evilDialogue.setScrollFactor(0);
+
+        
+        if (this.input.keyboard && this.input.keyboard.checkDown(this.input.keyboard.addKey('ENTER'), 500)) {
+            if (this.userInput === "ls") {
+                this.roboDialogue.setText("file1    file2");
+            }
+            this.userInput = "";
+        }
     }
 
     update() {
@@ -110,6 +120,7 @@ export default class GameScene extends Phaser.Scene {
 
             if (npcDistance < 100) {
                 this.handleRoboInteraction();
+                this.handleTextInput();
             } else {
                 this.roboDialogue?.setText(""); 
             }       
@@ -131,6 +142,16 @@ export default class GameScene extends Phaser.Scene {
     handleRuggedInteraction = () => {
         // Display textbox with NPC dialogue
         this.evilDialogue?.setText("You better be careful...");
+    }
+
+    handleTextInput = () => {
+        this.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
+            if (/^[a-zA-Z0-9]$/.test(event.key)) {
+                this.userInput += event.key;
+            } else if (event.key === "Backspace") { // Handle backspace
+                this.userInput = this.userInput.slice(0, -1);
+            }
+        });
     }
 
     /* private enableWASDKeys() {
