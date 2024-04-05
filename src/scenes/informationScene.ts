@@ -14,7 +14,7 @@ export default class informationScene extends Phaser.Scene {
         //Add text information
         this.add.text(100, 260, "What is I/O Scheduling?", {
             font: "50px Arial",
-            color: "#ffffff",
+            color: "#000000",
         });
 
         const paragraph =
@@ -31,18 +31,18 @@ export default class informationScene extends Phaser.Scene {
 
         this.add.text(100, 200, paragraph, {
             font: "18px Arial",
-            color: "#ffffff",
+            color: "#000000",
             wordWrap: { width: 600 },
         });
 
         this.add.text(100, 200, paragraph2, {
             font: "18px Arial",
-            color: "#ffffff",
+            color: "#000000",
             wordWrap: { width: 600 },
         });
 
         let nextButton = this.add
-            .text(100, 200, "Next", { font: "20px Arial", color: "#0f0" })
+            .text(100, 200, "Next", { font: "20px Arial", color: "#FFD700" })
             .setInteractive();
 
         //Button clck event
