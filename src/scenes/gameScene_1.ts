@@ -7,16 +7,18 @@ export default class Game_1 extends Phaser.Scene {
 
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
+    private tomato?: Phaser.Physics.Arcade.Group;
 
     create() {
-
         this.add.image(400, 300, "tomato");
         //temporary image
         this.add.image(640, 280, "kitchen1");
 
-
-
-
+        this.tomato = this.physics.add.group({
+            key: "tomato",
+            repeat: 11,
+            setXY: { x: 12, y: 0, stepX: 70 },
+        });
 
         //Creates player input and player object.
         this.cursors = this.input.keyboard?.createCursorKeys();
