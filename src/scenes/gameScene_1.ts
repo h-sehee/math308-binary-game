@@ -1,4 +1,7 @@
 import Phaser from "phaser";
+export type Collidable =
+    | Phaser.Types.Physics.Arcade.GameObjectWithBody
+    | Phaser.Tilemaps.Tile;
 
 export default class Game_1 extends Phaser.Scene {
     constructor() {
@@ -8,6 +11,9 @@ export default class Game_1 extends Phaser.Scene {
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private tomato?: Phaser.Physics.Arcade.Group;
+
+    private score = 0;
+    private scoreText?: Phaser.GameObjects.Text;
 
     create() {
         this.add.image(400, 300, "tomato");
@@ -19,6 +25,13 @@ export default class Game_1 extends Phaser.Scene {
             repeat: 11,
             setXY: { x: 12, y: 0, stepX: 70 },
         });
+
+        this.tomato.children.iterate((c) => {
+            const child = c as Phaser.Physics.Arcade.Image;
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+            return true;
+        });
+
 
         //Creates player input and player object.
         this.cursors = this.input.keyboard?.createCursorKeys();
