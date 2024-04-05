@@ -125,7 +125,7 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
             this.anims.play("redEyesSkeleton-run-up", true);
             this.body.offset.y = 4;
         }
-        //this.scene.physics.moveTo(this, this.target.x, this.target.y, 50);
+        this.scene.physics.moveTo(this, this.target.x, this.target.y, 50);
     }
 
     update() {
