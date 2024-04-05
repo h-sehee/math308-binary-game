@@ -22,6 +22,7 @@ export default class levelOne extends Phaser.Scene {
 
     create() {
         this.add.image(2048, 857, "levelBackg");
+        this.add.image(3072, 857, "levelBackg");
         this.platforms = this.physics.add.staticGroup();
         const ground = this.platforms.create(
             2048,
@@ -31,8 +32,11 @@ export default class levelOne extends Phaser.Scene {
         ground.setScale(2).refreshBody();
 
         this.platforms.create(600, 400, "platform");
-        this.platforms.create(50, 250, "platform");
-        this.platforms.create(750, 220, "platform");
+        this.platforms.create(50, 1200, "platform");
+        this.platforms.create(1000, 220, "platform");
+        this.platforms.create(3400, 1600, "platform");
+        this.platforms.create(2000, 1500, "platform");
+        this.platforms.create(3000, 1600, "platform");
 
         this.player = this.physics.add.sprite(100, 450, "dude");
         this.player.setBounce(0.2);

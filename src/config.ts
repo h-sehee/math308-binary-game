@@ -5,6 +5,7 @@ import LoadoutSceneOne from "./scenes/loadoutSceneOne";
 import LoadoutSceneGun from "./scenes/loadoutSceneGun";
 import LoadoutSceneClothes from "./scenes/loadoutSceneClothes";
 import levelOne from "./scenes/levelOne";
+import levelOnetry from "./scenes/level1";
 
 const DEFAULT_WIDTH = 4096;
 const DEFAULT_HEIGHT = 1714;
@@ -28,6 +29,7 @@ export const CONFIG = {
         LoadoutSceneGun,
         LoadoutSceneClothes,
         levelOne,
+        levelOnetry,
     ],
     physics: {
         default: "arcade",

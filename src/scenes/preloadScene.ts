@@ -15,6 +15,8 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("ground", "assets/img/LevelImg/ground.png");
         this.load.image("platform", "assets/img/LevelImg/platform.png");
         this.load.image("base", "assets/img/platform.png");
+        this.load.image("tiles", "assets/img/tilemap_packed.png");
+        this.load.tilemapTiledJSON("tilemap", "assets/levelOneMap.json");
         //Charicters, rewards, enamys
         this.load.image("star", "assets/img/star.png");
         this.load.image("bomb", "assets/img/bomb.png");
