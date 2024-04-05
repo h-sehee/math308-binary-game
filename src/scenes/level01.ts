@@ -15,7 +15,10 @@ export default class TextInputScene extends Phaser.Scene {
 
     create() {
         // Add a background
-        this.add.rectangle(640, 360, 1280, 720, 0x000);
+        this.add
+            .image(0, 0, "Level1Background")
+            .setOrigin(0, 0)
+            .setDisplaySize(this.scale.width, this.scale.height);
         // this.add.image(100, 200, "alfred");
         this.add.image(100, 700, "spy");
         this.add.image(1150, 100, "alfredicon").setDisplaySize(130, 130);
@@ -76,7 +79,10 @@ export default class TextInputScene extends Phaser.Scene {
                         this.addTextToContainer("agent09: " + newText);
                         this.addTextToContainer(lsMap.get(state) as string);
                     } else if (newText.substring(0, 3) == "cd ") {
-                        let cdInput: string = newText.substring(3);
+                        let cdInput: string = newText.substring(
+                            3,
+                            newText.length
+                        );
                         // CD .. FUNCTIONALITY BELOW
                         const backState = cdBack.get(state);
                         const cdState = cdMap.get(state);
@@ -146,7 +152,13 @@ export default class TextInputScene extends Phaser.Scene {
                             ) {
                                 // Level completion logic here
                                 this.addTextToContainer(
-                                    "Objective complete: Classified file removed. Good job, agent!"
+                                    "Objective complete: Classified file removed. \n Good job, agent!"
+                                );
+                                this.time.delayedCall(
+                                    2000,
+                                    this.loadLevel,
+                                    [],
+                                    this
                                 );
                             }
                         } else {
@@ -172,8 +184,13 @@ export default class TextInputScene extends Phaser.Scene {
             fontSize: "27px",
             color: "#fff",
         });
+        this.events.on("shutdown", this.removeInputField, this);
     }
-
+    removeInputField() {
+        if (this.inputField.parentElement) {
+            this.inputField.parentElement.removeChild(this.inputField);
+        }
+    }
     update() {}
 
     addTextToContainer(text: string) {
@@ -201,5 +218,10 @@ export default class TextInputScene extends Phaser.Scene {
                 yPos += child.height;
             }
         });
+    }
+
+    loadLevel() {
+        this.removeInputField();
+        this.scene.start("LevelSelect");
     }
 }
