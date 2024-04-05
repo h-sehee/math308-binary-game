@@ -9,6 +9,15 @@ export default class Game_1 extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
 
     create() {
+
+        this.add.image(400, 300, "tomato");
+        //temporary image
+        this.add.image(640, 280, "kitchen1");
+
+
+
+
+
         //Creates player input and player object.
         this.cursors = this.input.keyboard?.createCursorKeys();
         this.player = this.physics.add.sprite(
