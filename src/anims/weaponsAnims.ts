@@ -9,7 +9,7 @@ const createWeaponsAnims = (anims: Phaser.Animations.AnimationManager) => {
             prefix: "Classic_",
             suffix: ".png",
         }),
-        frameRate: 15,
+        frameRate: 20,
     });
 
     anims.create({
