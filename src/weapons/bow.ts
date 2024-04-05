@@ -29,13 +29,14 @@ export default class Bow extends Phaser.Physics.Arcade.Sprite {
     ) {
         super(scene, x, y, texture, frame);
         this._damage = 3;
+        this.anims.play("bow-idle");
     }
 
     handleArrow(angle: number) {
         const arrow = this.scene.physics.add.image(this.x, this.y, "arrow");
+        arrow.setScale(2, 2);
 
-        arrow.body.setSize(arrow.width * 1.5, arrow.height * 1.5);
-        arrow.setScale(-1, -1);
+        arrow.body.setSize(arrow.width * 0.8, arrow.height * 0.8);
 
         this.scene.events.emit("arrowCreated", arrow);
 
@@ -48,7 +49,7 @@ export default class Bow extends Phaser.Physics.Arcade.Sprite {
             arrow,
             this.scene.input.x,
             this.scene.input.y,
-            200
+            250
         );
 
         this.scene.events.on(

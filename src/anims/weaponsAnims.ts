@@ -13,6 +13,11 @@ const createWeaponsAnims = (anims: Phaser.Animations.AnimationManager) => {
     });
 
     anims.create({
+        key: "bow-idle",
+        frames: [{ key: "bow", frame: "Bow-1.png" }],
+    });
+
+    anims.create({
         key: "bow_attack",
         frames: anims.generateFrameNames("bow", {
             start: 1,
