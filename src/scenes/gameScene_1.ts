@@ -22,10 +22,9 @@ export default class Game_1 extends Phaser.Scene {
 
         this.tomato = this.physics.add.group({
             key: "tomato",
-            repeat: 11,
-            setXY: { x: 350, y: 20, stepX: 70 },
+            repeat: 10,
+            setXY: { x: 200, y: 20, stepX: 100 },
         });
-
 
         //Creates player input and player object.
         this.cursors = this.input.keyboard?.createCursorKeys();
@@ -82,7 +81,6 @@ export default class Game_1 extends Phaser.Scene {
             frameRate: 10,
             repeat: -1,
         });
-
     }
 
     update() {
