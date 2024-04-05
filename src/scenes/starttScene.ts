@@ -1,3 +1,4 @@
+import * as cowsay from "cowsay";
 import Phaser from "phaser";
 import FpsText from "../objects/fpsText";
 // CODE FOR createSpeechBubbles() HEAVILY REFERENCED FROM HERE: https://github.com/phaserjs/examples/blob/master/public/src/game%20objects/text/speech%20bubble.js
@@ -15,9 +16,7 @@ export default class StartScene extends Phaser.Scene {
         // dummy data to avoid undefined error on first use of cycleDialogue()
         this.bubbleData = { bubbleNum: 0, showBubble: {} };
         // for input
-        var spaceBar = this.input.keyboard?.addKey(
-            Phaser.Input.Keyboard.KeyCodes.SPACE
-        );
+        var spaceBar = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.F5);
 
         spaceBar?.on("down", () => {
             this.cycleDialogue(
@@ -81,7 +80,54 @@ export default class StartScene extends Phaser.Scene {
             Object.values(this.bubbleData)[0],
             Object.values(this.bubbleData)[1]
         );
+
+        // TERMINAL (0)
+        // -- Sizing constants
+        const terminalWidth = 1280 / 2;
+        const terminalHeight = 400;
+        const terminalInputHeight = 32;
+        const terminalFontSize = '1.2em';
+        // -- Input
+        const terminalInput = document.createElement('input');
+        terminalInput.type = 'text';
+        terminalInput.style.outline = 'none';
+        terminalInput.style.border = 'none';
+        terminalInput.style.width = `${terminalWidth - 8}px`;
+        terminalInput.style.height = `${terminalInputHeight}px`;
+        terminalInput.style.padding = '0px';
+        terminalInput.style.margin = '0px';
+        terminalInput.style.backgroundColor = '#0000';
+        terminalInput.style.color = '#fff';
+        terminalInput.className = 'jetbrains-mono-normal';
+        terminalInput.style.backgroundImage = 'url("assets/img/terminal prompt.png")';
+        terminalInput.style.backgroundPosition = '8px 8px';
+        terminalInput.style.backgroundRepeat = 'no-repeat';
+        terminalInput.style.backgroundSize = '16px';
+        terminalInput.style.paddingLeft = '28px';
+        terminalInput.style.fontSize = terminalFontSize;
+        this.game.canvas.parentNode?.appendChild(terminalInput);
+        terminalInput.addEventListener('change', () => {
+            this.parseCommand(terminalInput.value);
+            terminalInput.value = '';
+        });
+        // -- Text
+        const terminalHistoryParent = document.createElement('div');
+        terminalHistoryParent.style.width = `${terminalWidth - 8}px`;
+        terminalHistoryParent.style.height = `${terminalHeight - terminalInputHeight}px`;
+        terminalHistoryParent.style.padding = '0px';
+        terminalHistoryParent.style.margin = '0px';
+        terminalHistoryParent.style.backgroundColor = '#0000';
+        terminalHistoryParent.style.color = '#fff';
+        terminalHistoryParent.className = 'jetbrains-mono-normal';
+        terminalHistoryParent.style.fontSize = terminalFontSize;
+        terminalHistoryParent.style.display = 'inline';
+        terminalHistoryParent.innerHTML = '<p id="terminal-history" style="white-space: pre-wrap"></p>';
+        // -- Background
+        this.add.rectangle(terminalWidth / 2 + 8, 720 - terminalHeight / 2, terminalWidth + 16, terminalHeight, 0x000000, 0x40);
+        this.add.dom(terminalWidth / 2 + 22, 720 - terminalHeight / 2, terminalHistoryParent);
+        this.add.dom(terminalWidth / 2 + 8, 720 - terminalInputHeight / 2, terminalInput);
     }
+
     // for opening file animation
     // for controlling when speech bubbles spawn
     cycleDialogue(bubbleNum: number, showBubble: object) {
@@ -137,6 +183,7 @@ export default class StartScene extends Phaser.Scene {
         bubbleNum = bubbleNum + 1;
         this.bubbleData = { bubbleNum, showBubble };
     }
+
     // for making the speech bubble graphics
     createSpeechBubble(
         x: number,
@@ -212,6 +259,38 @@ export default class StartScene extends Phaser.Scene {
         bubble.visible = false;
 
         return { bubble, content };
+    }
+
+    parseCommand(text: string) {
+        if (text.length === 0) {
+            return;
+        }
+
+        const terminalHistory = document.getElementById('terminal-history');
+        if (!terminalHistory) {
+            return;
+        }
+
+        text = text.trim();
+        const command = text.split(' ')[0];
+        switch (command) {
+            case 'echo': {
+                // todo: need to move command code to different functions, they're fine here for now
+                terminalHistory.innerText = text.substring(4).trim();
+                return;
+            }
+            case 'cowsay': {
+                terminalHistory.innerText = cowsay.say({
+                    text: text.substring(6).trim(),
+                    //f: 'kitty',
+                });
+                return;
+            }
+            default: {
+                terminalHistory.innerText = 'Unknown command.';
+                return;
+            }
+        }
     }
 
     update() {

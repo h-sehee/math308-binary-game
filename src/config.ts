@@ -19,6 +19,10 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
+    parent: 'phaser-game',
+    dom: {
+        createContainer: true
+    },
     scene: [PreloadScene, MainScene, StartScene],
     physics: {
         default: "arcade",

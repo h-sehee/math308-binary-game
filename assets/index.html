@@ -26,6 +26,10 @@
 
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
     <title><%= htmlWebpackPlugin.options.gameName %></title>
     <style>
       html,
@@ -33,6 +37,12 @@
         height: 100%;
         margin: 0;
         background-color: #000000;
+      }
+      .jetbrains-mono-normal {
+        font-family: "JetBrains Mono", monospace;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
       }
     </style>
 
