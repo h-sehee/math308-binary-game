@@ -1,188 +1,207 @@
 {
-	"textures": [
-		{
-			"image": "bow.png",
-			"format": "RGBA8888",
-			"size": {
-				"w": 105,
-				"h": 104
-			},
-			"scale": 1,
-			"frames": [
-				{
-					"filename": "Bow-2.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 36,
-						"h": 35
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 34,
-						"h": 34
-					},
-					"frame": {
-						"x": 1,
-						"y": 1,
-						"w": 34,
-						"h": 34
-					}
-				},
-				{
-					"filename": "Bow-4.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 36,
-						"h": 35
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 3,
-						"w": 35,
-						"h": 32
-					},
-					"frame": {
-						"x": 37,
-						"y": 1,
-						"w": 35,
-						"h": 32
-					}
-				},
-				{
-					"filename": "Bow-6.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 36,
-						"h": 35
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 28,
-						"h": 32
-					},
-					"frame": {
-						"x": 74,
-						"y": 1,
-						"w": 28,
-						"h": 32
-					}
-				},
-				{
-					"filename": "Bow-3.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 36,
-						"h": 35
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 2,
-						"w": 34,
-						"h": 33
-					},
-					"frame": {
-						"x": 37,
-						"y": 35,
-						"w": 34,
-						"h": 33
-					}
-				},
-				{
-					"filename": "Bow-5.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 36,
-						"h": 35
-					},
-					"spriteSourceSize": {
-						"x": 2,
-						"y": 5,
-						"w": 34,
-						"h": 30
-					},
-					"frame": {
-						"x": 1,
-						"y": 37,
-						"w": 34,
-						"h": 30
-					}
-				},
-				{
-					"filename": "Bow-1.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 36,
-						"h": 35
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 33,
-						"h": 33
-					},
-					"frame": {
-						"x": 1,
-						"y": 70,
-						"w": 33,
-						"h": 33
-					}
-				},
-				{
-					"filename": "Bow-7.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 36,
-						"h": 35
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 33,
-						"h": 33
-					},
-					"frame": {
-						"x": 36,
-						"y": 70,
-						"w": 33,
-						"h": 33
-					}
-				},
-				{
-					"filename": "Bow-8.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 36,
-						"h": 35
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 33,
-						"h": 33
-					},
-					"frame": {
-						"x": 71,
-						"y": 70,
-						"w": 33,
-						"h": 33
-					}
-				}
-			]
-		}
-	],
-	"meta": {
-		"app": "https://www.codeandweb.com/texturepacker",
-		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:0934ccb1690b9c9db2ebea2660d43118:a11023113d4874d2f34859a9f82c8f2e:62a0a56f07376f8151f2ab25904fdad2$"
-	}
+  "frames": {
+    "Bow-4.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 33,
+        "h": 30
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 4,
+        "w": 33,
+        "h": 30
+      },
+      "sourceSize": {
+        "w": 36,
+        "h": 35
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Bow-5.png": {
+      "frame": {
+        "x": 33,
+        "y": 0,
+        "w": 33,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 6,
+        "w": 33,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 36,
+        "h": 35
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Bow-1.png": {
+      "frame": {
+        "x": 66,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 36,
+        "h": 35
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Bow-2.png": {
+      "frame": {
+        "x": 33,
+        "y": 29,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 1,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 36,
+        "h": 35
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Bow-7.png": {
+      "frame": {
+        "x": 0,
+        "y": 30,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 36,
+        "h": 35
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Bow-8.png": {
+      "frame": {
+        "x": 98,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 36,
+        "h": 35
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Bow-3.png": {
+      "frame": {
+        "x": 130,
+        "y": 0,
+        "w": 32,
+        "h": 31
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 3,
+        "w": 32,
+        "h": 31
+      },
+      "sourceSize": {
+        "w": 36,
+        "h": 35
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Bow-6.png": {
+      "frame": {
+        "x": 162,
+        "y": 0,
+        "w": 27,
+        "h": 30
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 1,
+        "w": 27,
+        "h": 30
+      },
+      "sourceSize": {
+        "w": 36,
+        "h": 35
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "texture.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 192,
+      "h": 62
+    },
+    "scale": 1
+  }
 }
