@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import { sceneEvents } from "../events/eventsCenter";
 import "../weapons/sword";
 import Sword from "../weapons/sword";
+import "../weapons/bow";
+import Bow from "../weapons/bow";
 
 declare global {
     namespace Phaser.GameObjects {
@@ -28,7 +30,10 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
     private _health = 3;
 
+    private weapon: Sword | Bow;
+    private weaponType: string;
     private sword?: Sword;
+    private bow?: Bow;
     private mouse?: Phaser.Input.Pointer;
 
     private canAttack = true;
@@ -43,8 +48,8 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         return this._gameOver;
     }
 
-    get getSword() {
-        return this.sword;
+    get getWeapon() {
+        return this.weapon;
     }
 
     constructor(
@@ -58,8 +63,17 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         this.anims.play("faune-idle-down");
 
         this.mouse = this.scene.input.mousePointer;
+        this.weaponType = "sword";
 
         this.sword = this.scene.add.sword(this.x + 5, this.y + 7, "sword");
+        this.bow = this.scene.add.bow(this.x + 5, this.y + 7, "bow");
+        if (this.weaponType === "sword") {
+            this.weapon = this.sword;
+            this.bow.setVisible(false);
+        } else if (this.weaponType === "bow") {
+            this.weapon = this.bow;
+            this.sword.setVisible(false);
+        }
 
         this.canAttack = true;
     }
@@ -115,8 +129,13 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
     }
 
     private handleAttack(angle: number) {
-        this.sword?.handleSwordSlash(angle);
         this.canAttack = false;
+
+        if (this.weapon instanceof Sword) {
+            this.weapon.handleSwordSlash(angle);
+        } else if (this.weapon instanceof Bow) {
+            this.weapon.handleArrow(angle);
+        }
 
         this.scene.time.delayedCall(500, () => {
             this.canAttack = true;
@@ -137,7 +156,7 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
         const speed = 100;
 
-        this.sword?.setY(this.y + 7);
+        this.weapon.setY(this.y + 7);
 
         const keyA = this.scene.input.keyboard?.addKey(
             Phaser.Input.Keyboard.KeyCodes.A
@@ -157,43 +176,67 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
             this.setVelocity(-speed, 0);
             this.scaleX = -1;
             this.body.offset.x = 24;
-            this.sword?.setX(this.x - 5);
+            this.weapon.setX(this.x - 5);
         } else if (keyD?.isDown) {
             this.anims.play("faune-run-side", true);
             this.setVelocity(speed, 0);
             this.scaleX = 1;
             this.body.offset.x = 8;
-            this.sword?.setX(this.x + 5);
+            this.weapon.setX(this.x + 5);
         } else if (keyW?.isDown) {
             this.anims.play("faune-run-up", true);
             this.setVelocity(0, -speed);
             this.body.offset.y = 4;
-            this.sword?.setX(this.x + 5);
-            this.sword?.setY(this.y);
+            this.weapon.setX(this.x + 5);
+            this.weapon.setY(this.y);
         } else if (keyS?.isDown) {
             this.anims.play("faune-run-down", true);
             this.setVelocity(0, speed);
-            this.sword?.setX(this.x + 5);
+            this.weapon.setX(this.x + 5);
         } else {
             const parts = this.anims.currentAnim?.key.split("-") as string[];
             parts[1] = "idle";
             this.anims.play(parts.join("-"));
             this.setVelocity(0, 0);
-            this.sword?.setX(this.x + 5);
+            this.weapon.setX(this.x + 5);
+        }
+
+        const keyShift = this.scene.input.keyboard?.addKey(
+            Phaser.Input.Keyboard.KeyCodes.SHIFT
+        );
+
+        if (keyShift?.isDown) {
+            if (this.weaponType === "sword") {
+                this.weaponType = "bow";
+                this.weapon.setVisible(false);
+                this.weapon = this.bow!;
+                this.weapon.setVisible(true);
+            } else if (this.weaponType === "bow") {
+                this.weaponType = "sword";
+                this.weapon.setVisible(false);
+                this.weapon = this.sword!;
+                this.weapon.setVisible(true);
+            }
         }
 
         let angle = Phaser.Math.Angle.Between(
-            this.sword?.x!,
-            this.sword?.y!,
+            this.weapon.x!,
+            this.weapon.y!,
             this.scene.input.x,
             this.scene.input.y
         );
 
-        this.sword?.setRotation(angle + Math.PI / 4);
-        // this.sword?.body?.offset.;
+        if (this.weaponType === "sword") {
+            this.weapon.setRotation(angle + Math.PI / 4);
+        } else if (this.weaponType === "bow") {
+            this.weapon.setRotation(angle + (Math.PI * 4) / 5);
+        }
 
         if (this.mouse?.isDown && this.canAttack) {
             this.handleAttack(angle);
+            if (this.weapon instanceof Bow) {
+                this.anims.play("bow", true);
+            }
         }
     }
 }
