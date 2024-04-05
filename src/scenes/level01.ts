@@ -76,7 +76,10 @@ export default class TextInputScene extends Phaser.Scene {
                         this.addTextToContainer("agent09: " + newText);
                         this.addTextToContainer(lsMap.get(state) as string);
                     } else if (newText.substring(0, 3) == "cd ") {
-                        let cdInput: string = newText.substring(3);
+                        let cdInput: string = newText.substring(
+                            3,
+                            newText.length
+                        );
                         // CD .. FUNCTIONALITY BELOW
                         const backState = cdBack.get(state);
                         const cdState = cdMap.get(state);
@@ -146,7 +149,13 @@ export default class TextInputScene extends Phaser.Scene {
                             ) {
                                 // Level completion logic here
                                 this.addTextToContainer(
-                                    "Objective complete: Classified file removed. Good job, agent!"
+                                    "Objective complete: Classified file removed. \n Good job, agent!"
+                                );
+                                this.time.delayedCall(
+                                    2000,
+                                    this.loadLevel,
+                                    [],
+                                    this
                                 );
                             }
                         } else {
@@ -172,8 +181,13 @@ export default class TextInputScene extends Phaser.Scene {
             fontSize: "27px",
             color: "#fff",
         });
+        this.events.on("shutdown", this.removeInputField, this);
     }
-
+    removeInputField() {
+        if (this.inputField.parentElement) {
+            this.inputField.parentElement.removeChild(this.inputField);
+        }
+    }
     update() {}
 
     addTextToContainer(text: string) {
@@ -201,5 +215,10 @@ export default class TextInputScene extends Phaser.Scene {
                 yPos += child.height;
             }
         });
+    }
+
+    loadLevel() {
+        this.removeInputField();
+        this.scene.start("LevelSelect");
     }
 }
