@@ -184,5 +184,13 @@ export default class MainScene extends Phaser.Scene {
         if (this.theseus) {
             this.theseus.update(this.cursors!);
         }
+
+        if (this.redEyesSkeletons) {
+            this.redEyesSkeletons.children.iterate((c) => {
+                const redEyesSkeleton = c as RedEyesSkeleton;
+                redEyesSkeleton.update();
+                return true;
+            });
+        }
     }
 }
