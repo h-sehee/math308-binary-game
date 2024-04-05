@@ -21,7 +21,7 @@ export default class TextInputScene extends Phaser.Scene {
         //     .image(0, 0, "Level1Background")
         //     .setOrigin(0, 0)
         //     .setDisplaySize(this.scale.width, this.scale.height);
-        // this.add.image(100, 200, "alfred");
+
         this.add.image(100, 700, "spy");
         this.add.image(1150, 100, "alfredicon").setDisplaySize(130, 130);
         this.add.image(75, 100, "pin").setDisplaySize(30, 40);
@@ -59,7 +59,10 @@ export default class TextInputScene extends Phaser.Scene {
 
         rmMap.set("secret_folder", ["classified_file"]);
 
-        manMap.set("alfred", "Alfred: How can I be of service agent09?");
+        manMap.set(
+            "ls",
+            "Alfred: Remember, the 'ls' command\n is useful for viewing your surroundings."
+        );
 
         // Add text input field
         this.inputField = document.createElement("input");
@@ -200,12 +203,18 @@ export default class TextInputScene extends Phaser.Scene {
     update() {}
 
     addTextToContainer(text: string) {
-        this.inputContainer.y -= 32.9;
         // Create a text object for the provided string
         const newText = this.add.text(0, 0, text, {
-            fontSize: "32px",
+            fontSize: "24px",
             color: "#fff",
         });
+
+        if (!text.includes("\n")) {
+            this.inputContainer.y -= 24.7;
+            console.log(text.length);
+        } else {
+            this.inputContainer.y -= 49.3;
+        }
 
         // Add the new text object to the container
         this.inputContainer.add(newText);
