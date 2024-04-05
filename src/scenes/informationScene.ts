@@ -43,6 +43,19 @@ export default class informationScene extends Phaser.Scene {
             })
             .setInteractive();
 
+        let backButton = this.add
+            .text(100, 625, "Back", {
+                font: "50px Arial",
+                color: "#ffffff",
+                backgroundColor: "rgba(255, 255, 255, 0.4)",
+            })
+            .setInteractive();
+
+        backButton.on("pointerdown", () => {
+            // switch to previous scene
+            this.scene.start("informationScene");
+        });
+
         //Button clck event
         nextButton.on("pointerdown", () => {
             // switch to next scene
