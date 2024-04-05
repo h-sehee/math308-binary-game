@@ -5,7 +5,10 @@ export default class InformationScene2 extends Phaser.Scene {
         super({ key: "InformationScene2" });
     }
 
-    create(): void {
+    create() {
+        //Add music
+        const music = this.sound.add("backgroundMusic");
+        music.play({ loop: true });
         //Screen for topic information
         let graphics = this.add.graphics({ fillStyle: { color: 0xa0522d } });
         //Add text information
