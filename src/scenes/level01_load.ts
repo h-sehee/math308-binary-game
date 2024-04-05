@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class LoadingScene extends Phaser.Scene {
+export default class LoadingScene1 extends Phaser.Scene {
     private content: string[];
     private line: string[];
     private wordIndex: number;
@@ -10,7 +10,7 @@ export default class LoadingScene extends Phaser.Scene {
     private currentLineLength: number;
 
     constructor() {
-        super({ key: "LoadingScene" });
+        super({ key: "LoadingScene1" });
     }
 
     preload() {

@@ -251,7 +251,7 @@ export default class LevelSelect extends Phaser.Scene {
         }
         if (this.cursors.up.isDown && this.player?.body?.touching.down) {
             if (this.door1) {
-                this.scene.start("TerminalScene");
+                this.scene.start("LoadingScene1");
             } else if (this.door2) {
                 this.scene.start("TerminalScene");
             } else if (this.door3) {
