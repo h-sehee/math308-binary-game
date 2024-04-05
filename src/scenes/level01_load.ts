@@ -1,14 +1,13 @@
 import Phaser from "phaser";
 
 export default class LoadingScene1 extends Phaser.Scene {
-    private content: string[];
-    private wordDelay: number;
-    private lineDelay: number;
-    private startX: number;
-    private startY: number;
-    private currentLine: Phaser.GameObjects.Text;
-    private lineIndex: number;
-    private lines: string[];
+    private content: string[]; // text to display
+    private charDelay: number; // delay between characters
+    private lineDelay: number; // delay between lines
+    private startX: number; // start X position of the text
+    private startY: number; // start Y position of the text
+    private currentLine: Phaser.GameObjects.Text; // Text object to display the current line
+    private lineIndex: number; // index of the current line
 
     constructor() {
         super({ key: "LoadingScene1" });
@@ -19,18 +18,24 @@ export default class LoadingScene1 extends Phaser.Scene {
     }
 
     create() {
-        this.resetScene();
+        this.resetScene(); // helper to reset intial values on load
+
+        //adding assets
         this.add.rectangle(640, 360, 1280, 720, 0x000);
         this.add.image(1150, 100, "alfredicon").setDisplaySize(130, 130);
+
+        //display text
         this.displayNextLine();
 
+        // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
-            this.scene.restart();
             this.scene.start("Level01");
         });
     }
+
     resetScene() {
-        this.wordDelay = 25;
+        // helper to reset intial values on load
+        this.charDelay = 25;
         this.lineDelay = 100;
         this.startX = 100;
         this.startY = 200;
@@ -47,12 +52,13 @@ export default class LoadingScene1 extends Phaser.Scene {
             " - 'man <command>' to display the manual for a specific command.",
             "Press 'Enter' to start the mission. Good luck, agent09!",
         ];
-
-        this.lines = this.content.join("\n").split("\n"); // Split the content into lines
     }
+
+    // helper to display text line by line, calling typeText to animate
     displayNextLine() {
-        if (this.lineIndex < this.lines.length) {
-            const line = this.lines[this.lineIndex++];
+        if (this.lineIndex < this.content.length) {
+            const line = this.content[this.lineIndex++];
+            // Create a new text object for the current line
             this.currentLine = this.add.text(
                 this.startX,
                 this.startY + 22 * (this.lineIndex - 1),
@@ -63,22 +69,24 @@ export default class LoadingScene1 extends Phaser.Scene {
                     color: "#fff",
                 }
             );
-
-            // Call the method to start typing text one character at a time
+            // Start typing the line
             this.typeText(line);
         }
     }
 
+    // helper to animate text typing
     typeText(line: string) {
+        // split the line into characters
         const characters = line.split("");
         let i = 0;
+        // add a delayed event for each character
         this.time.addEvent({
-            delay: this.wordDelay,
+            delay: this.charDelay,
             repeat: characters.length - 1,
             callback: () => {
                 this.currentLine.text += characters[i++];
                 if (i === characters.length) {
-                    // Once the line is completed, wait a bit before starting the next line
+                    // once all characters are added, add a delayed event to display the next line
                     this.time.delayedCall(
                         this.lineDelay,
                         this.displayNextLine,
