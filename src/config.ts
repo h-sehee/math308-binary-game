@@ -1,9 +1,14 @@
 import Phaser from "phaser";
 import MainScene from "./scenes/mainScene";
 import PreloadScene from "./scenes/preloadScene";
+import LoadoutSceneTextboxInserts from "./scenes/loadoutSceneTextboxInserts";
 import LoadoutSceneOne from "./scenes/loadoutSceneOne";
 import LoadoutSceneGun from "./scenes/loadoutSceneGun";
+import LoadoutSceneGunMagazine from "./scenes/loadoutSceneGunMagazine";
+import LoadoutSceneGunScope from "./scenes/loadoutSceneGunScope";
 import LoadoutSceneClothes from "./scenes/loadoutSceneClothes";
+import LoadoutSceneClothesShirt from "./scenes/loadoutSceneClothesShirt";
+import LoadoutSceneClothesPants from "./scenes/loadoutSceneClothesPants";
 import levelOne from "./scenes/levelOne";
 import levelOnetry from "./scenes/level1";
 
@@ -26,8 +31,13 @@ export const CONFIG = {
         PreloadScene,
         MainScene,
         LoadoutSceneOne,
+        LoadoutSceneTextboxInserts,
         LoadoutSceneGun,
+        LoadoutSceneGunMagazine,
+        LoadoutSceneGunScope,
         LoadoutSceneClothes,
+        LoadoutSceneClothesPants,
+        LoadoutSceneClothesShirt,
         levelOne,
         levelOnetry,
     ],

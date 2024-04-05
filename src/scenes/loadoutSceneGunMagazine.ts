@@ -1,8 +1,8 @@
 import Phaser from "phaser";
 
-export default class LoadoutSceneGun extends Phaser.Scene {
+export default class LoadoutSceneGunMagazine extends Phaser.Scene {
     constructor() {
-        super({ key: "LoadoutSceneGun" });
+        super({ key: "LoadoutSceneGunMagazine" });
     }
 
     create() {
@@ -12,7 +12,7 @@ export default class LoadoutSceneGun extends Phaser.Scene {
         this.createClickableText(
             2950,
             250,
-            "Gun:",
+            "Magazines:",
             "#ff0000",
             "#00000000",
             () => {}
@@ -21,25 +21,19 @@ export default class LoadoutSceneGun extends Phaser.Scene {
         this.createClickableText(
             3150,
             450,
-            "- :Scope",
+            "- Speed",
             "#ff0000",
             "#00000000",
-            () => {
-                this.scene.start("LoadoutSceneGunScope");
-                this.scene.bringToTop("LoadoutSceneTextboxInserts");
-            }
+            () => {}
         );
 
         this.createClickableText(
             3150,
             650,
-            "- :Magazine",
+            "- Drum",
             "#ff0000",
             "#00000000",
-            () => {
-                this.scene.start("LoadoutSceneGunMagazine");
-                this.scene.bringToTop("LoadoutSceneTextboxInserts");
-            }
+            () => {}
         );
 
         this.createClickableText(
@@ -76,8 +70,7 @@ export default class LoadoutSceneGun extends Phaser.Scene {
             "#ffffff",
             "#654321",
             () => {
-                this.scene.start("LoadoutSceneOne");
-                this.scene.bringToTop("LoadoutSceneTextboxInserts");
+                this.scene.start("LoadoutSceneGun");
             }
         );
     }

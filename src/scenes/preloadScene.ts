@@ -30,7 +30,12 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     create() {
-        //this.scene.start("LoadoutSceneOne");
-        this.scene.start("levelOne");
+        // Start First Scene
+
+        this.scene.launch("LoadoutSceneTextboxInserts");
+        this.scene.start("LoadoutSceneOne");
+        //this.scene.start("LoadoutSceneTextboxInserts");
+        //this.scene.start("levelOne");
+        //this.scene.start("LoadoutSceneTextboxTest");
     }
 }

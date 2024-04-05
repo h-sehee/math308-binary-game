@@ -21,25 +21,31 @@ export default class LoadoutSceneClothes extends Phaser.Scene {
         this.createClickableText(
             3150,
             450,
-            "- Shirt",
+            "- :Shirt",
             "#ff0000",
             "#00000000",
-            () => {}
+            () => {
+                this.scene.start("LoadoutSceneClothesShirt");
+                this.scene.bringToTop("LoadoutSceneTextboxInserts");
+            }
         );
 
         this.createClickableText(
             3150,
             650,
-            "- Pants",
+            "- :Pants",
             "#ff0000",
             "#00000000",
-            () => {}
+            () => {
+                this.scene.start("LoadoutSceneClothesPants");
+                this.scene.bringToTop("LoadoutSceneTextboxInserts");
+            }
         );
 
         this.createClickableText(
             3150,
             850,
-            "- Shoes",
+            "- LOCKED",
             "#ff0000",
             "#00000000",
             () => {}
@@ -71,6 +77,7 @@ export default class LoadoutSceneClothes extends Phaser.Scene {
             "#654321",
             () => {
                 this.scene.start("LoadoutSceneOne");
+                this.scene.bringToTop("LoadoutSceneTextboxInserts");
             }
         );
     }
