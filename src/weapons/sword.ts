@@ -15,6 +15,11 @@ declare global {
 
 export default class Sword extends Phaser.Physics.Arcade.Sprite {
     private swordslash?: Phaser.Physics.Arcade.Sprite;
+    private _damage: number;
+
+    get damage() {
+        return this._damage;
+    }
 
     constructor(
         scene: Phaser.Scene,
@@ -24,6 +29,7 @@ export default class Sword extends Phaser.Physics.Arcade.Sprite {
         frame?: string | number
     ) {
         super(scene, x, y, texture, frame);
+        this._damage = 5;
     }
 
     handleSwordSlash(angle: number) {

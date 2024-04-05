@@ -35,7 +35,7 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
         this.target = target;
     }
 
-    handleDamage() {
+    handleDamage(damage: number) {
         if (this._health <= 0) {
             return;
         }
@@ -43,7 +43,7 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
             return;
         }
 
-        this._health -= 5;
+        this._health -= damage;
 
         if (this._health <= 0) {
             this.healthState = HealthState.DEAD;

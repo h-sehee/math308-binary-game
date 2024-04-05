@@ -43,6 +43,10 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         return this._gameOver;
     }
 
+    get getSword() {
+        return this.sword;
+    }
+
     constructor(
         scene: Phaser.Scene,
         x: number,

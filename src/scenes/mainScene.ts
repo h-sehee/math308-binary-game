@@ -19,8 +19,6 @@ export default class MainScene extends Phaser.Scene {
     private redEyesSkeletons?: Phaser.Physics.Arcade.Group;
     private playerEnemyCollider?: Phaser.Physics.Arcade.Collider;
 
-    private hit = 0;
-
     constructor() {
         super({ key: "mainScene" });
     }
@@ -175,7 +173,9 @@ export default class MainScene extends Phaser.Scene {
             obj1 as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
         this.events.emit("swordSlashHit", swordSlash);
 
-        redEyesSkeleton.handleDamage();
+        if (this.theseus?.getSword) {
+            redEyesSkeleton.handleDamage(this.theseus.getSword.damage);
+        }
     }
 
     private handleEnemyDefeated() {
@@ -186,13 +186,6 @@ export default class MainScene extends Phaser.Scene {
     }
 
     update() {
-        if (this.hit > 0) {
-            ++this.hit;
-            if (this.hit > 10) {
-                this.hit = 0;
-            }
-        }
-
         const enemyRemained = this.redEyesSkeletons?.getChildren();
         if (enemyRemained!.length === 0) {
             this.events.emit("enemyDefeated");
