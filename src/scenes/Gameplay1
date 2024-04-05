@@ -1,7 +1,0 @@
-import Phaser from "phaser";
-
-export default class Gameplay1 extends Phaser.Scene {
-    constructor() {
-        super({ key: "Gameplay1" });
-    }
-}

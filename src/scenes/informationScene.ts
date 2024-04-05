@@ -1,16 +1,16 @@
 import Phaser from "phaser";
 
-export default class InformationScene extends Phaser.Scene {
+export default class informationScene extends Phaser.Scene {
     constructor() {
-        super({ key: "InformationScene" });
+        super({ key: "informationScene" });
     }
 
-    create() {
+    create(): void {
+        //Screen for topic information
         //Add music
         const music = this.sound.add("backgroundMusic");
         music.play({ loop: true });
-        //Screen for topic information
-        let graphics = this.add.graphics({ fillStyle: { color: 0xa0522d } });
+        //let graphics = this.add.graphics({ fillStyle: { color: 0xa0522d } });
         //Add text information
         this.add.text(100, 260, "What is I/O Scheduling?", {
             font: "50px Arial",
@@ -48,7 +48,7 @@ export default class InformationScene extends Phaser.Scene {
         //Button clck event
         nextButton.on("pointerdown", () => {
             // switch to next scene
-            this.scene.start("InformationScene2");
+            this.scene.start("informationScene2");
         });
     }
 }
