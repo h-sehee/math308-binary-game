@@ -23,13 +23,7 @@ export default class Game_1 extends Phaser.Scene {
         this.tomato = this.physics.add.group({
             key: "tomato",
             repeat: 11,
-            setXY: { x: 12, y: 0, stepX: 70 },
-        });
-
-        this.tomato.children.iterate((c) => {
-            const child = c as Phaser.Physics.Arcade.Image;
-            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-            return true;
+            setXY: { x: 350, y: 20, stepX: 70 },
         });
 
 
@@ -88,6 +82,7 @@ export default class Game_1 extends Phaser.Scene {
             frameRate: 10,
             repeat: -1,
         });
+
     }
 
     update() {
