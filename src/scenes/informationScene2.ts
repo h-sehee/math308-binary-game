@@ -14,7 +14,7 @@ export default class informationScene2 extends Phaser.Scene {
         //Add text information
         this.add.text(100, 260, "Algorithms", {
             font: "50px Arial",
-            color: "#ffffff",
+            color: "#000000",
         });
 
         const paragraph3 = "First-Come, First-Served (FCFS)";
@@ -27,12 +27,12 @@ export default class informationScene2 extends Phaser.Scene {
 
         this.add.text(100, 200, paragraph3, {
             font: "22px Arial",
-            color: "#ffffff",
+            color: "#000000",
             wordWrap: { width: 600 },
         });
 
         let nextButton2 = this.add
-            .text(100, 200, "Next", { font: "20px Arial", color: "#0f0" })
+            .text(100, 200, "Next", { font: "20px Arial", color: "#FFD700" })
             .setInteractive();
 
         //Button clck event
