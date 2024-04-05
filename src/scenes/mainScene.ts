@@ -92,6 +92,8 @@ export default class MainScene extends Phaser.Scene {
         this.physics.add.collider(this.redEyesSkeletons, wallsLayer);
         this.physics.add.collider(this.redEyesSkeletons, this.doorLayer);
 
+        this.physics.add.collider(this.redEyesSkeletons, this.redEyesSkeletons);
+
         this.playerEnemyCollider = this.physics.add.collider(
             this.redEyesSkeletons,
             this.theseus,

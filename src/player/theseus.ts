@@ -210,7 +210,6 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         if (keyShift?.isDown) {
             if (!this.shiftKeyPressed) {
                 this.shiftKeyPressed = true;
-                console.log("shift key is down");
                 if (this.weaponType === "sword") {
                     this.weaponType = "bow";
                     this.weapon.setVisible(false);
