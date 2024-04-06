@@ -8,11 +8,18 @@ export default class LoadingScene1 extends Phaser.Scene {
     private startY: number; // start Y position of the text
     private currentLine: Phaser.GameObjects.Text; // Text object to display the current line
     private lineIndex: number; // index of the current line
+    private lvl2: boolean;
+    private lvl3: boolean;
+    private lvl4: boolean;
 
     constructor() {
         super({ key: "LoadingScene1" });
     }
-
+    init(data: { lvl1: boolean; lvl2: boolean; lvl3: boolean; lvl4: boolean }) {
+        this.lvl2 = data.lvl2;
+        this.lvl3 = data.lvl3;
+        this.lvl4 = data.lvl4;
+    }
     preload() {
         this.load.image("alfredicon", "assets/alfredicon.png");
     }
@@ -30,7 +37,11 @@ export default class LoadingScene1 extends Phaser.Scene {
 
         // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
-            this.scene.start("Level01");
+            this.scene.start("Level01", {
+                lvl1: this.lvl2,
+                lvl2: this.lvl3,
+                lvl3: this.lvl4,
+            });
         });
     }
 
