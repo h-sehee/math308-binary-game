@@ -13,7 +13,7 @@ export default class GameScene extends Phaser.Scene {
     private rugged_wizard?: Phaser.Physics.Arcade.Sprite;
     private evilDialogue?: Phaser.GameObjects.Text;
     private userInput: string = "";
-
+    private consoleDialogue?: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: "GameScene" });
@@ -66,12 +66,13 @@ export default class GameScene extends Phaser.Scene {
         });
         this.cursor = this.input.keyboard?.createCursorKeys();
 
-        this.add.text(165, 280, "Level A", {
-            fontSize: "90px",
-            color: "red",
-        });
+        const eventEmitter = new Phaser.Events.EventEmitter();
+        this.terminalManager = new TerminalManager(eventEmitter);
 
-        this.terminalManager = new TerminalManager();
+        // Listen for the userInput event
+        eventEmitter.on("userInput", (userInput: string) => {
+            this.handleUserInput(userInput);
+        });
 
         this.roboDialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
         this.roboDialogue.setScrollFactor(0);
@@ -79,13 +80,9 @@ export default class GameScene extends Phaser.Scene {
         this.evilDialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
         this.evilDialogue.setScrollFactor(0);
 
+        this.consoleDialogue = this.add.text(100, 160, "testing", { fontSize: '24px', color: 'green', backgroundColor: '#000000' });
+        this.consoleDialogue.setScrollFactor(0);
         
-        if (this.input.keyboard && this.input.keyboard.checkDown(this.input.keyboard.addKey('ENTER'), 500)) {
-            if (this.userInput === "ls") {
-                this.roboDialogue.setText("file1    file2");
-            }
-            this.userInput = "";
-        }
     }
 
     update() {
@@ -120,7 +117,6 @@ export default class GameScene extends Phaser.Scene {
 
             if (npcDistance < 100) {
                 this.handleRoboInteraction();
-                this.handleTextInput();
             } else {
                 this.roboDialogue?.setText(""); 
             }       
@@ -136,7 +132,7 @@ export default class GameScene extends Phaser.Scene {
 
     handleRoboInteraction = () => {
         // Display textbox with NPC dialogue
-        this.roboDialogue?.setText("Hello! I'm here to help - I have some files for you!\nTry typing 'ls' and hit enter.\nThis will show you all my folders and files.");
+        this.roboDialogue?.setText("Hello! I'm here to help - I have some files for you!\nTry typing 'ls' and hit enter.");
     }
 
     handleRuggedInteraction = () => {
@@ -144,14 +140,17 @@ export default class GameScene extends Phaser.Scene {
         this.evilDialogue?.setText("You better be careful...");
     }
 
-    handleTextInput = () => {
-        this.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
-            if (/^[a-zA-Z0-9]$/.test(event.key)) {
-                this.userInput += event.key;
-            } else if (event.key === "Backspace") { // Handle backspace
-                this.userInput = this.userInput.slice(0, -1);
-            }
-        });
+    handleConsoleText = (text: string) => {
+        if (text === "ls") {
+            this.consoleDialogue?.setText("file1      file2");
+        }
+    }
+
+    handleUserInput = (userInput: string) => {
+        console.log("Recieved Input:", userInput);
+        if (userInput === "$> ls") {   
+            this.handleConsoleText("ls");      
+        }
     }
 
     /* private enableWASDKeys() {
