@@ -15,7 +15,7 @@ export default class TextInputScene extends Phaser.Scene {
 
     create() {
         // Add a background
-        this.add.rectangle(640, 360, 1280, 720, 0x000);
+        this.add.rectangle(640, 360, 1280, 720, 0x333);
 
         this.add.image(100, 700, "spy");
         this.add.image(1150, 100, "alfredicon").setDisplaySize(130, 130);

@@ -15,7 +15,7 @@ export default class TextInputScene extends Phaser.Scene {
 
     create() {
         // Add a background
-        this.add.rectangle(640, 360, 1280, 720, 0x000);
+        this.add.rectangle(640, 360, 1280, 720, 0x333);
 
         // this.add
         //     .image(0, 0, "Level1Background")
