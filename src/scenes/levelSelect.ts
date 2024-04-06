@@ -309,7 +309,7 @@ export default class LevelSelect extends Phaser.Scene {
                     },
                 });
             } else {
-                this.player.setVelocityY(-300);
+                this.player.setVelocityY(-6000);
             }
         } else if (this.cursors.down.isDown) {
             this.player?.setVelocityY(300);
