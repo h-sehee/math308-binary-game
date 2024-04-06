@@ -9,9 +9,19 @@ export default class LevelSelect extends Phaser.Scene {
     private door2?: boolean = false;
     private door3?: boolean = false;
     private door4?: boolean = false;
+    private lvl2?: boolean = false;
+    private lvl3?: boolean = false;
+    private lvl4?: boolean = false;
     constructor() {
         super({ key: "LevelSelect" });
     }
+
+    init(data: { lvl1: boolean; lvl2: boolean; lvl3: boolean; lvl4: boolean }) {
+        this.lvl2 = data.lvl2;
+        this.lvl3 = data.lvl3;
+        this.lvl4 = data.lvl4;
+    }
+
     create() {
         this.platforms = this.physics.add.staticGroup();
 
@@ -150,7 +160,7 @@ export default class LevelSelect extends Phaser.Scene {
         const closed_door2 = this.doors.create(
             500,
             507,
-            "lockedDoor"
+            this.lvl2 ? "closed_metal_door" : "lockedDoor"
         ) as Phaser.Physics.Arcade.Sprite;
         closed_door2.setScale(0.25).refreshBody();
         closed_door2.setVisible(true);
@@ -163,23 +173,25 @@ export default class LevelSelect extends Phaser.Scene {
         open_door2.setScale(0.25).refreshBody();
         open_door2.setVisible(false);
 
-        this.physics.add.overlap(this.player, closed_door2, () => {
-            closed_door2.setVisible(false);
-            open_door2.setVisible(true);
-            this.door2 = true;
-            this.time.delayedCall(50, () => {
-                closed_door2.setVisible(true);
-                open_door2.setVisible(false);
-                this.door2 = false;
-            });
-        });
+        this.lvl2
+            ? this.physics.add.overlap(this.player, closed_door2, () => {
+                  closed_door2.setVisible(false);
+                  open_door2.setVisible(true);
+                  this.door2 = true;
+                  this.time.delayedCall(50, () => {
+                      closed_door2.setVisible(true);
+                      open_door2.setVisible(false);
+                      this.door2 = false;
+                  });
+              })
+            : null;
 
         //door3 code
 
         const closed_door3 = this.doors.create(
             800,
             507,
-            "lockedDoor"
+            this.lvl3 ? "closed_metal_door" : "lockedDoor"
         ) as Phaser.Physics.Arcade.Sprite;
         closed_door3.setScale(0.25).refreshBody();
         closed_door3.setVisible(true);
@@ -192,23 +204,25 @@ export default class LevelSelect extends Phaser.Scene {
         open_door3.setScale(0.25).refreshBody();
         open_door3.setVisible(false);
 
-        this.physics.add.overlap(this.player, closed_door3, () => {
-            closed_door3.setVisible(false);
-            open_door3.setVisible(true);
-            this.door3 = true;
-            this.time.delayedCall(50, () => {
-                closed_door3.setVisible(true);
-                open_door3.setVisible(false);
-                this.door3 = false;
-            });
-        });
+        this.lvl3
+            ? this.physics.add.overlap(this.player, closed_door3, () => {
+                  closed_door3.setVisible(false);
+                  open_door3.setVisible(true);
+                  this.door3 = true;
+                  this.time.delayedCall(50, () => {
+                      closed_door3.setVisible(true);
+                      open_door3.setVisible(false);
+                      this.door3 = false;
+                  });
+              })
+            : null;
 
         //door4 code
 
         const closed_door4 = this.doors.create(
             1100,
             507,
-            "lockedDoor"
+            this.lvl4 ? "closed_metal_door" : "lockedDoor"
         ) as Phaser.Physics.Arcade.Sprite;
         closed_door4.setScale(0.25).refreshBody();
         closed_door4.setVisible(true);
@@ -221,19 +235,25 @@ export default class LevelSelect extends Phaser.Scene {
         open_door4.setScale(0.25).refreshBody();
         open_door4.setVisible(false);
 
-        this.physics.add.overlap(this.player, closed_door4, () => {
-            closed_door4.setVisible(false);
-            open_door4.setVisible(true);
-            this.door4 = true;
-            this.time.delayedCall(50, () => {
-                closed_door4.setVisible(true);
-                open_door4.setVisible(false);
-                this.door4 = false;
-            });
-        });
+        this.lvl4
+            ? this.physics.add.overlap(this.player, closed_door4, () => {
+                  closed_door4.setVisible(false);
+                  open_door4.setVisible(true);
+                  this.door4 = true;
+                  this.time.delayedCall(50, () => {
+                      closed_door4.setVisible(true);
+                      open_door4.setVisible(false);
+                      this.door4 = false;
+                  });
+              })
+            : null;
     }
 
     update() {
+        let lvl2 = this.lvl2;
+        let lvl3 = this.lvl3;
+        let lvl4 = this.lvl4;
+
         if (!this.cursors) {
             return;
         }
@@ -259,7 +279,11 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
-                            this.scene.start("LoadingScene1");
+                            this.scene.start("LoadingScene1", {
+                                lvl2,
+                                lvl3,
+                                lvl4,
+                            });
                         });
                     },
                 });
@@ -274,7 +298,7 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
-                            this.scene.start("LoadingScene1");
+                            this.scene.start();
                         });
                     },
                 });
@@ -289,7 +313,7 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
-                            this.scene.start("LoadingScene1");
+                            this.scene.start();
                         });
                     },
                 });
@@ -304,12 +328,12 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
-                            this.scene.start("LoadingScene1");
+                            this.scene.start();
                         });
                     },
                 });
             } else {
-                this.player.setVelocityY(-6000);
+                this.player.setVelocityY(-300);
             }
         } else if (this.cursors.down.isDown) {
             this.player?.setVelocityY(300);
