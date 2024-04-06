@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class LoadingScene1 extends Phaser.Scene {
+export default class IntroScene extends Phaser.Scene {
     private content: string[]; // text to display
     private charDelay: number; // delay between characters
     private lineDelay: number; // delay between lines
@@ -10,7 +10,7 @@ export default class LoadingScene1 extends Phaser.Scene {
     private lineIndex: number; // index of the current line
 
     constructor() {
-        super({ key: "LoadingScene1" });
+        super({ key: "IntroScene" });
     }
 
     preload() {
@@ -23,14 +23,14 @@ export default class LoadingScene1 extends Phaser.Scene {
         //adding assets
         this.add.rectangle(640, 360, 1280, 720, 0x000);
         this.add.image(150, 100, "alfredicon").setDisplaySize(130, 130);
-        // this.add.image(150, 480, "spyicon").setDisplaySize(130, 130);
+        this.add.image(150, 480, "spyicon").setDisplaySize(130, 130);
 
         //display text
         this.displayNextLine();
 
         // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
-            this.scene.start("Level01");
+            this.scene.start("LevelSelect");
         });
     }
 
@@ -42,24 +42,26 @@ export default class LoadingScene1 extends Phaser.Scene {
         this.startY = 90;
         this.lineIndex = 0;
         this.content = [
-            "Your mission, should you choose to accept it,",
-            "involves critical file manipulation. You need to",
-            "navigate to the 'secret_folder' and remove the 'classified_file'.",
-            "Here are the commands at your disposal:",
+            "Agent09, this is Alfred speaking.",
             " ",
-            " - 'ls' to list the contents of the current directory.",
+            "Sorry to call you so late into the evening, but it",
+            "appears we've got a situation on our hands. Namuh Yortsed, CEO of",
+            "Yortsed Corp, has set his sights on the city's power supply.",
+            "Intelligence suggests he's planning a hostile takeover and if",
+            "he succeeds, he'll wield unprecedented control over the",
+            "very lifeblood of this city.",
             " ",
-            " - 'cd <directory>' to change the current directory.",
-            "                    Use 'cd ..' to go back.",
+            "Amidst the shadow of Namuh, emerge as the city's beacon of hope.",
+            "Utilize the tools given to you Agent09.",
             " ",
-            " - 'rm <file>' to neutralize a file.",
+            "Just as you have in the past.",
             " ",
-            " - 'man <command>' to display the manual for a specific command.",
             " ",
-            "You can always run 'man alfred' for additional assistance",
-            "to reach the end of a mission.",
             " ",
-            "Remove the blueprint to delve deeper into Yortsed Corp's operations.",
+            " ",
+
+            "...",
+            " ",
             " ",
             " ",
             "                  [Enter] to Continue",
