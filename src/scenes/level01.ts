@@ -14,16 +14,14 @@ export default class TextInputScene extends Phaser.Scene {
     preload() {}
 
     create() {
-        // Add a background
-        this.add.rectangle(640, 360, 1280, 720, 0x333);
+        this.add.rectangle(640, 360, 1280, 720, 0x000);
 
         // this.add
         //     .image(0, 0, "Level1Background")
         //     .setOrigin(0, 0)
         //     .setDisplaySize(this.scale.width, this.scale.height);
 
-        this.add.image(100, 700, "spy");
-        this.add.image(630, 100, "prompt").setDisplaySize(360, 110);
+        this.add.image(640, 100, "prompt").setDisplaySize(560, 110);
         this.add.image(155, 100, "alfredicon").setDisplaySize(130, 130);
         this.add.image(1050, 100, "pin").setDisplaySize(30, 40);
 
@@ -195,6 +193,9 @@ export default class TextInputScene extends Phaser.Scene {
                     else {
                         this.inputField.value = ""; // Empty the input field
                         this.addTextToContainer("agent09: " + newText);
+                        this.addTextToContainer(
+                            "Command '" + newText + "' not found"
+                        );
                     }
                 }
             }
