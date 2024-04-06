@@ -10,7 +10,7 @@ window.addEventListener("load", () => {
                 ...CONFIG.physics.arcade,
                 gravity: {
                     x: 0, // Add the missing 'x' property
-                    y: 200,
+                    y: 450,
                 },
             },
         },

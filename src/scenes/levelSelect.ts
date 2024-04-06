@@ -19,10 +19,8 @@ export default class LevelSelect extends Phaser.Scene {
             .image(0, 0, "LevelSelectBackground")
             .setOrigin(0, 0)
             .setDisplaySize(this.scale.width, this.scale.height);
-        // Calculate the width of the ground based on the width of the game scene
         const groundWidth = this.scale.width;
 
-        // Adjust the x position to start from the left edge of the game scene
         const groundX = groundWidth / 2;
 
         const ground = this.platforms.create(
@@ -80,7 +78,7 @@ export default class LevelSelect extends Phaser.Scene {
             .refreshBody()
             .setTint(808080);
 
-        this.player = this.physics.add.sprite(492, 500, "dude");
+        this.player = this.physics.add.sprite(70, 400, "dude");
         this.player.setCollideWorldBounds(true);
         this.player.setDepth(1);
 
@@ -152,7 +150,7 @@ export default class LevelSelect extends Phaser.Scene {
         const closed_door2 = this.doors.create(
             500,
             507,
-            "closed_metal_door"
+            "lockedDoor"
         ) as Phaser.Physics.Arcade.Sprite;
         closed_door2.setScale(0.25).refreshBody();
         closed_door2.setVisible(true);
@@ -181,7 +179,7 @@ export default class LevelSelect extends Phaser.Scene {
         const closed_door3 = this.doors.create(
             800,
             507,
-            "closed_metal_door"
+            "lockedDoor"
         ) as Phaser.Physics.Arcade.Sprite;
         closed_door3.setScale(0.25).refreshBody();
         closed_door3.setVisible(true);
@@ -210,7 +208,7 @@ export default class LevelSelect extends Phaser.Scene {
         const closed_door4 = this.doors.create(
             1100,
             507,
-            "closed_metal_door"
+            "lockedDoor"
         ) as Phaser.Physics.Arcade.Sprite;
         closed_door4.setScale(0.25).refreshBody();
         closed_door4.setVisible(true);
@@ -240,29 +238,81 @@ export default class LevelSelect extends Phaser.Scene {
             return;
         }
         if (this.cursors.left.isDown) {
-            this.player?.setVelocityX(-400);
+            this.player?.setVelocityX(-200);
             this.player?.anims.play("left", true);
         } else if (this.cursors.right.isDown) {
-            this.player?.setVelocityX(400);
+            this.player?.setVelocityX(200);
             this.player?.anims.play("right", true);
         } else {
             this.player?.setVelocityX(0);
             this.player?.anims.play("turn");
         }
+
         if (this.cursors.up.isDown && this.player?.body?.touching.down) {
             if (this.door1) {
-                this.scene.start("LoadingScene1");
-            } else if (this.door2) {
-                this.scene.start("LoadingScene1");
-            } else if (this.door3) {
-                this.scene.start("LoadingScene1");
-            } else if (this.door4) {
-                this.scene.start("LoadingScene1");
+                this.tweens.add({
+                    targets: this.player,
+                    duration: 500,
+                    scaleX: 0,
+                    scaleY: 0,
+                    angle: 360,
+                    y: "-=40",
+                    onComplete: () => {
+                        this.time.delayedCall(1000, () => {
+                            this.scene.start("LoadingScene1");
+                        });
+                    },
+                });
+            }
+            if (this.door2) {
+                this.tweens.add({
+                    targets: this.player,
+                    duration: 500,
+                    scaleX: 0,
+                    scaleY: 0,
+                    angle: 360,
+                    y: "-=40",
+                    onComplete: () => {
+                        this.time.delayedCall(1000, () => {
+                            this.scene.start("LoadingScene1");
+                        });
+                    },
+                });
+            }
+            if (this.door3) {
+                this.tweens.add({
+                    targets: this.player,
+                    duration: 500,
+                    scaleX: 0,
+                    scaleY: 0,
+                    angle: 360,
+                    y: "-=40",
+                    onComplete: () => {
+                        this.time.delayedCall(1000, () => {
+                            this.scene.start("LoadingScene1");
+                        });
+                    },
+                });
+            }
+            if (this.door4) {
+                this.tweens.add({
+                    targets: this.player,
+                    duration: 500,
+                    scaleX: 0,
+                    scaleY: 0,
+                    angle: 360,
+                    y: "-=40",
+                    onComplete: () => {
+                        this.time.delayedCall(1000, () => {
+                            this.scene.start("LoadingScene1");
+                        });
+                    },
+                });
             } else {
-                this.player.setVelocityY(-330);
+                this.player.setVelocityY(-300);
             }
         } else if (this.cursors.down.isDown) {
-            this.player?.setVelocityY(330);
+            this.player?.setVelocityY(300);
         }
     }
 }
