@@ -15,20 +15,23 @@ export default class TextInputScene extends Phaser.Scene {
 
     create() {
         // Add a background
-        this.add
-            .image(0, 0, "Level1Background")
-            .setOrigin(0, 0)
-            .setDisplaySize(this.scale.width, this.scale.height);
-        // this.add.image(100, 200, "alfred");
+        this.add.rectangle(640, 360, 1280, 720, 0x000);
+
+        // this.add
+        //     .image(0, 0, "Level1Background")
+        //     .setOrigin(0, 0)
+        //     .setDisplaySize(this.scale.width, this.scale.height);
+
         this.add.image(100, 700, "spy");
-        this.add.image(1150, 100, "alfredicon").setDisplaySize(130, 130);
-        this.add.image(75, 100, "pin").setDisplaySize(30, 40);
+        this.add.image(630, 100, "prompt").setDisplaySize(360, 110);
+        this.add.image(155, 100, "alfredicon").setDisplaySize(130, 130);
+        this.add.image(1050, 100, "pin").setDisplaySize(30, 40);
 
         this.inputContainer = this.add.container(360, 520);
 
         // Create a mask for the container
         const maskGraphics = this.make.graphics();
-        maskGraphics.fillRect(300, 125, 1080, 500);
+        maskGraphics.fillRect(300, 185, 1080, 500);
         const mask = new Phaser.Display.Masks.GeometryMask(this, maskGraphics);
 
         this.inputContainer.setMask(mask);
@@ -51,9 +54,26 @@ export default class TextInputScene extends Phaser.Scene {
 
         cdMap.set("home", ["dog", "cat", "backpack", "secret_folder"]);
 
+        cdBack.set("dog", "home");
+        cdBack.set("cat", "home");
+        cdBack.set("backpack", "home");
+        cdBack.set("secret_folder", "home");
+
         rmMap.set("secret_folder", ["classified_file"]);
 
-        manMap.set("alfred", "Alfred: How can I be of service agent09?");
+        manMap.set(
+            "ls",
+            "Alfred: Remember, the 'ls' command\nis useful for viewing your surroundings."
+        );
+        manMap.set(
+            "rm",
+            "Alfred: Remember, the 'rm' command\nneutralizes enemy files."
+        );
+        manMap.set(
+            "cd",
+            "Alfred: Do recall, the 'cd' command\npermits you to navigate through rooms and items."
+        );
+        manMap.set("alfred", "Alfred: How could I be of service agent09?");
 
         // Add text input field
         this.inputField = document.createElement("input");
@@ -152,10 +172,10 @@ export default class TextInputScene extends Phaser.Scene {
                             ) {
                                 // Level completion logic here
                                 this.addTextToContainer(
-                                    "Objective complete: Classified file removed. \n Good job, agent!"
+                                    "Objective complete: Classified file removed. \nGood job, agent!"
                                 );
                                 this.time.delayedCall(
-                                    2000,
+                                    3000,
                                     this.loadLevel,
                                     [],
                                     this
@@ -180,8 +200,8 @@ export default class TextInputScene extends Phaser.Scene {
             }
         });
 
-        this.stateText = this.add.text(95, 90, state, {
-            fontSize: "27px",
+        this.stateText = this.add.text(1075, 95, state, {
+            fontSize: "24px",
             color: "#fff",
         });
         this.events.on("shutdown", this.removeInputField, this);
@@ -194,12 +214,24 @@ export default class TextInputScene extends Phaser.Scene {
     update() {}
 
     addTextToContainer(text: string) {
-        this.inputContainer.y -= 32.9;
         // Create a text object for the provided string
         const newText = this.add.text(0, 0, text, {
-            fontSize: "32px",
+            fontSize: "24px",
             color: "#fff",
         });
+
+        if (!text.includes("\n")) {
+            this.inputContainer.y -= 24.7;
+        } else {
+            this.inputContainer.y -= 49.3;
+        }
+
+        if (text.includes("Alfred: ")) {
+            newText.setColor("gold");
+        }
+        if (text.includes("Objective complete: ")) {
+            newText.setColor("red");
+        }
 
         // Add the new text object to the container
         this.inputContainer.add(newText);
