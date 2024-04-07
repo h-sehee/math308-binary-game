@@ -48,7 +48,7 @@ export default class PreloadScene extends Phaser.Scene {
         );
         this.load.spritesheet(
             "robot_walk_UL",
-            "assets/sprites/robot_walk_up_right.png",
+            "assets/sprites/robot_walk_up_left.png",
             {
                 frameWidth: 18,
                 frameHeight: 22,
