@@ -6,9 +6,16 @@ export default class LevelZero extends Phaser.Scene {
     private key?: Phaser.Physics.Arcade.Sprite;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private spikes?: Phaser.Physics.Arcade.StaticGroup;
-    private ladder?: Phaser.Physics.Arcade.Image;
-    private plank?: Phaser.Physics.Arcade.Image;
+    private ladder?: Phaser.Physics.Arcade.Sprite;
+    private plank?: Phaser.Physics.Arcade.Sprite;
     private door?: Phaser.Physics.Arcade.Image;
+
+    private stackpack: Phaser.Physics.Arcade.Sprite[] = [];
+    private collectedItems: Phaser.Physics.Arcade.Sprite[] = []; // To track all collected items (even after they're popped from stackpack)
+    private stackpackText?: Phaser.GameObjects.Text;
+    private keyE?: Phaser.Input.Keyboard.Key;
+    //private keyF?: Phaser.Input.Keyboard.Key;
+    private keyEPressed: boolean = false; // Flag to check if 'E' was pressed to prevent picking up multiple items from one long key press
 
     constructor() {
         super({ key: "Level0" });
@@ -16,6 +23,7 @@ export default class LevelZero extends Phaser.Scene {
 
     preload() {
         this.load.image("level0-background", "assets/level0-background.jpg");
+
         this.load.spritesheet("key", "assets/key.png", {
             frameWidth: 768 / 24,
             frameHeight: 32,
@@ -139,30 +147,71 @@ export default class LevelZero extends Phaser.Scene {
         this.spikes.create(1000, 675, "spike").setScale(0.75, 0.75);
 
         this.ladder = this.physics.add
-            .image(1100, 50, "ladder")
+            .sprite(1100, 50, "ladder")
             .setScale(0.5, 0.5);
         this.ladder.setCollideWorldBounds(true);
 
         this.plank = this.physics.add
-            .image(350, 200, "plank")
+            .sprite(350, 200, "plank")
             .setScale(0.5, 0.5);
         this.plank.setCollideWorldBounds(true);
         this.physics.add.collider(this.plank, this.platforms);
 
         this.door = this.physics.add.image(865, 150, "door").setScale(0.1, 0.1);
         this.physics.add.collider(this.door, this.platforms);
+
+        // Define keys 'e' and 'f' for collecting and using items respectively
+        this.keyE = this.input.keyboard?.addKey(
+            Phaser.Input.Keyboard.KeyCodes.E
+        );
+        /*const keyF = this.input.keyboard?.addKey(
+            Phaser.Input.Keyboard.KeyCodes.F
+        );*/
+
+        this.stackpackText = this.add.text(16, 16, "Stackpack:", {
+            fontSize: "24px",
+            color: "#000000",
+        });
+    }
+
+    private updateStackpackText() {
+        if (this.stackpackText && this.stackpack.length > 0) {
+            let text = "Stackpack:\n";
+            this.stackpack.forEach((item, index) => {
+                text += `Item ${index + 1}: ${item.texture.key}\n`;
+            });
+            this.stackpackText.setText(text);
+        }
+    }
+
+    private collectItem(item: Phaser.Physics.Arcade.Sprite) {
+        if (this.collectedItems.includes(item)) {
+            return;
+        }
+
+        // Add the item to the player's stackpack
+        this.stackpack.push(item);
+
+        // Add the item to the grand list of collected items
+        this.collectedItems.push(item);
+
+        // Disable the item (remove it from the scene and hide it)
+        item.disableBody(true, true);
+
+        this.updateStackpackText();
     }
 
     update() {
         if (this.key) {
             this.key.anims.play("turn", true);
         }
+
         if (this.player && this.cursors) {
             if (this.cursors.right.isDown) {
-                this.player.setVelocityX(160);
+                this.player.setVelocityX(290);
                 this.player.anims.play("right", true);
             } else if (this.cursors.left.isDown) {
-                this.player.setVelocityX(-160);
+                this.player.setVelocityX(-290);
                 this.player.anims.play("left", true);
             } else {
                 this.player.setVelocityX(0);
@@ -173,6 +222,50 @@ export default class LevelZero extends Phaser.Scene {
                 this.player.setVelocityY(-500);
                 this.player.anims.play("jump_right", true);
             }
+        }
+
+        // Check if 'E' key is pressed
+        if (this.player && this.keyE?.isDown && !this.keyEPressed) {
+            this.keyEPressed = true; // Set the flag for the E key being pressed to true
+
+            // Check if the player is close enough to the key, ladder, or plank, and if so, collect it
+            if (
+                this.key &&
+                Phaser.Math.Distance.Between(
+                    this.player.x,
+                    this.player.y,
+                    this.key.x,
+                    this.key.y
+                ) < 100
+            ) {
+                this.collectItem(this.key);
+            }
+            if (
+                this.ladder &&
+                Phaser.Math.Distance.Between(
+                    this.player.x,
+                    this.player.y,
+                    this.ladder.x,
+                    this.ladder.y
+                ) < 100
+            ) {
+                this.collectItem(this.ladder);
+            }
+            if (
+                this.plank &&
+                Phaser.Math.Distance.Between(
+                    this.player.x,
+                    this.player.y,
+                    this.plank.x,
+                    this.plank.y
+                ) < 100
+            ) {
+                this.collectItem(this.plank);
+            }
+        }
+        // Check if 'E' key is released
+        if (this.keyE?.isUp) {
+            this.keyEPressed = false; // Reset the keyEPressed flag when the E key is released
         }
     }
 }
