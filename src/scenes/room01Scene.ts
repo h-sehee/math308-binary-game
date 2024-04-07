@@ -1,44 +1,32 @@
 import Phaser from "phaser";
-import Player from "../objects/player";
 
 import { CONFIG } from "../config";
 import { CharacterMovement } from "../util/playerMovement";
 import { gameState } from "../objects/gameState";
 
 class room01Scene extends Phaser.Scene {
+    private gameState: gameState;
     private player?: Phaser.Physics.Arcade.Sprite;
     private characterMovement: CharacterMovement;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     constructor() {
         super({ key: "room01Scene" });
     }
-
+    init(data: { gameState: gameState }) {
+        this.gameState = data.gameState;
+    }
     preload() {}
 
     create() {
-        const player = new Player(
-            "Player 1",
-            5,
-            2,
-            ["Sword", "Bow"],
-            ["Potion", "Key"]
-        );
-        const initialLevel = 0;
-        const hasAnims = false;
-        const initialGameState = new gameState(player, initialLevel, hasAnims);
-
         const map = this.make.tilemap({ key: "room01" });
         const tileset = map.addTilesetImage("tilemap", "tiles"); //name of tilemap ON TILED, then name of key in preloader scene
         if (tileset) {
-            const ground = map.createLayer("ground", tileset);
-            const walls = map.createLayer("walls", tileset);
-            walls?.setCollisionByProperty({ collides: true });
-            walls?.setScale(1);
-            ground?.setScale(1);
+            const tilesLayer = map.createLayer("Tile Layer 1", tileset);
+            tilesLayer?.setCollisionByProperty({ collides: true });
 
             const debugGraphics = this.add.graphics().setAlpha(0.7);
             if (CONFIG.physics.arcade.debug) {
-                walls?.renderDebug(debugGraphics, {
+                tilesLayer?.renderDebug(debugGraphics, {
                     tileColor: null,
                     collidingTileColor: new Phaser.Display.Color(
                         243,
@@ -49,19 +37,24 @@ class room01Scene extends Phaser.Scene {
                     faceColor: new Phaser.Display.Color(30, 39, 37, 255),
                 });
             }
-            this.player = this.physics.add.sprite(100, 100, "player");
-            this.player.setScale(0.25);
+            this.player = this.physics.add.sprite(176, 315, "robot_idle");
             this.characterMovement = new CharacterMovement(
                 this.player,
                 this,
                 100,
-                initialGameState,
-                0.25
+                this.gameState
             );
-            if (walls) {
-                this.physics.add.collider(this.player, walls);
+            if (tilesLayer) {
+                this.physics.add.collider(this.player, tilesLayer);
             }
-            this.cursors = this.input.keyboard?.createCursorKeys();
+            //camera follows player
+            this.cameras.main.startFollow(this.player, true);
+
+            //decreases player hitbox size
+            this.player.body?.setSize(
+                this.player.width * 0.85,
+                this.player.height * 0.8
+            );
         }
     }
     update() {

@@ -11,20 +11,17 @@ export class CharacterMovement {
     private speed: number;
     private diagonalSpeed: number;
     private gameState: gameState;
-    private playerScale: number;
 
     constructor(
         player: Phaser.Physics.Arcade.Sprite,
         scene: Phaser.Scene,
         speed: number,
-        gameState: gameState,
-        playerScale: number
+        gameState: gameState
     ) {
         this.player = player;
         this.scene = scene;
         this.speed = speed;
         this.gameState = gameState;
-        this.playerScale = playerScale;
         this.diagonalSpeed = this.speed / Math.sqrt(2);
         if (!this.gameState.hasAnims) {
             this.initAnimations();
@@ -39,7 +36,7 @@ export class CharacterMovement {
             frames: this.scene.anims.generateFrameNumbers("robot_walk_D", {
                 start: 0,
                 end: 5,
-            }), // Frames for the second row
+            }),
             frameRate: 10,
             repeat: -1,
         });
@@ -48,7 +45,7 @@ export class CharacterMovement {
             frames: this.scene.anims.generateFrameNumbers("robot_walk_U", {
                 start: 0,
                 end: 5,
-            }), // Frames for the second row
+            }),
             frameRate: 10,
             repeat: -1,
         });
@@ -57,7 +54,7 @@ export class CharacterMovement {
             frames: this.scene.anims.generateFrameNumbers("robot_walk_UL", {
                 start: 0,
                 end: 5,
-            }), // Frames for the second row
+            }),
             frameRate: 10,
             repeat: -1,
         });
@@ -66,7 +63,7 @@ export class CharacterMovement {
             frames: this.scene.anims.generateFrameNumbers("robot_walk_UR", {
                 start: 0,
                 end: 5,
-            }), // Frames for the second row
+            }),
             frameRate: 10,
             repeat: -1,
         });
@@ -75,7 +72,7 @@ export class CharacterMovement {
             frames: this.scene.anims.generateFrameNumbers("robot_walk_DL", {
                 start: 0,
                 end: 5,
-            }), // Frames for the second row
+            }),
             frameRate: 10,
             repeat: -1,
         });
@@ -84,7 +81,7 @@ export class CharacterMovement {
             frames: this.scene.anims.generateFrameNumbers("robot_walk_DR", {
                 start: 0,
                 end: 5,
-            }), // Frames for the second row
+            }),
             frameRate: 10,
             repeat: -1,
         });
@@ -93,7 +90,7 @@ export class CharacterMovement {
             frames: this.scene.anims.generateFrameNumbers("robot_idle", {
                 start: 0,
                 end: 3,
-            }), // Frames for the second row
+            }),
             frameRate: 10,
             repeat: -1,
         });
