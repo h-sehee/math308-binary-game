@@ -31,8 +31,8 @@ export default class MenuScene extends Phaser.Scene {
 
     // run when play button is pressed
     clickPlay() {
-        this.sound.play("button-press");
+        this.sound.play("button-press", { volume: 0.4 });
         this.menuMusic.stop();
-        this.scene.start("MainScene");
+        this.scene.start("FiveByFiveLevel");
     }
 }

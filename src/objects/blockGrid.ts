@@ -36,7 +36,10 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         return this.blockMatrix[index[0]][index[1]];
     }
 
-    public switchBlocks(indexA: [number, number], indexB: [number, number]) {
+    public switchBlocks(
+        indexA: [number, number],
+        indexB: [number, number]
+    ): Array<Promise<void>> {
         let blockA = this.blockMatrix[indexA[0]][indexA[1]];
         let blockB = this.blockMatrix[indexB[0]][indexB[1]];
         blockA.setGridLocation(indexB);
@@ -44,7 +47,7 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         this.blockMatrix[indexA[0]][indexA[1]] = blockB;
         this.blockMatrix[indexB[0]][indexB[1]] = blockA;
         // promises used to ensure the swap animation is complete before blocks are eliminated
-        const promise1 = new Promise<void>((resolve: () => void) => {
+        let promise1 = new Promise<void>((resolve: () => void) => {
             this.scene.tweens.add({
                 targets: blockA,
                 x: indexB[1] * (this.blockSize + this.blockSpacing),
@@ -54,7 +57,7 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
                 onComplete: resolve,
             });
         });
-        const promise2 = new Promise<void>((resolve: () => void) => {
+        let promise2 = new Promise<void>((resolve: () => void) => {
             this.scene.tweens.add({
                 targets: blockB,
                 x: indexA[1] * (this.blockSize + this.blockSpacing),
@@ -64,10 +67,8 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
                 onComplete: resolve,
             });
         });
-        // once both tweens are finished, the matrix will be checked for truthiness
-        Promise.all([promise1, promise2]).then(() => {
-            this.checkForTruthy();
-        });
+        // returns promises of the tweens so that the scene can check truthiness after they finish
+        return [promise1, promise2];
     }
 
     public evaluateBooleanExpression(blocks: Array<BooleanBlock>): boolean {
@@ -120,7 +121,7 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         return outArray;
     }
 
-    public checkForTruthy(): boolean {
+    public checkForTruthy(): number {
         let foundTruthy = this.findTruthyStatements();
         let hasUpdated = false;
 
@@ -139,7 +140,11 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
                 this.updateBlockPositions();
             }
         }
-        return hasUpdated;
+        // returns number of truthy statements found
+        if (foundTruthy instanceof Array) {
+            return foundTruthy.length;
+        }
+        return 0;
     }
 
     public removeRow(rowIndex: number) {

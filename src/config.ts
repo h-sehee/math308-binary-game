@@ -1,7 +1,7 @@
 import Phaser from "phaser";
-import MainScene from "./scenes/mainScene";
 import PreloadScene from "./scenes/preloadScene";
 import MenuScene from "./scenes/menuScene";
+import FiveByFiveLevel from "./scenes/fiveByFiveLevel";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -18,7 +18,7 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, MainScene, MenuScene],
+    scene: [PreloadScene, MenuScene, FiveByFiveLevel],
     physics: {
         default: "arcade",
         arcade: {
