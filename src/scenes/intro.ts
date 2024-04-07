@@ -78,7 +78,8 @@ export default class IntroScene extends Phaser.Scene {
                 this.startY + 22 * (this.lineIndex - 1),
                 "",
                 {
-                    fontFamily: "Courier New",
+                    fontFamily: "Monospace",
+
                     fontSize: "24px",
                     color: "#fff",
                 }
