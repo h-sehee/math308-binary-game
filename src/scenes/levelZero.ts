@@ -69,9 +69,6 @@ export default class LevelZero extends Phaser.Scene {
             this.cameras.main.height / backgroundImage.height
         );
 
-        this.key = this.physics.add.sprite(1225, 450, "key").setScale(2.5, 2.5);
-        this.key.setCollideWorldBounds(true);
-
         this.anims.create({
             key: "turn",
             frames: this.anims.generateFrameNumbers("key", {
@@ -125,37 +122,46 @@ export default class LevelZero extends Phaser.Scene {
 
         this.cursors = this.input.keyboard?.createCursorKeys();
 
+        // Create platforms
         this.platforms = this.physics.add.staticGroup();
-        const group = this.platforms.create(
+        const ground = this.platforms.create(
             650,
-            800,
+            790,
             "level0-platform"
         ) as Phaser.Physics.Arcade.Image;
 
-        group.setScale(5).refreshBody();
+        ground.setScale(5).refreshBody();
+        ground.setAlpha(0); // Hide the ground platform
 
-        this.platforms.create(350, 595, "level0-platform").setScale(1, 1);
+        this.platforms.create(350, 585, "level0-platform").setScale(1, 1);
         this.platforms.create(650, 500, "level0-platform").setScale(0.75, 0.75);
         this.platforms.create(850, 300, "level0-platform").setScale(1, 0.75);
 
         this.physics.add.collider(this.player, this.platforms);
 
-        this.spikes = this.physics.add.staticGroup();
-        this.spikes.create(850, 675, "spike").setScale(0.75, 0.75);
-        this.spikes.create(900, 675, "spike").setScale(0.75, 0.75);
-        this.spikes.create(950, 675, "spike").setScale(0.75, 0.75);
-        this.spikes.create(1000, 675, "spike").setScale(0.75, 0.75);
+        // Create objects: key, ladder, plank, spikes, door
+        this.key = this.physics.add.sprite(1225, 450, "key").setScale(2.5, 2.5);
+        this.key.setCollideWorldBounds(true);
+        this.physics.add.collider(this.key, this.platforms);
 
         this.ladder = this.physics.add
             .sprite(1100, 50, "ladder")
             .setScale(0.5, 0.5);
         this.ladder.setCollideWorldBounds(true);
+        this.physics.add.collider(this.ladder, this.platforms);
 
         this.plank = this.physics.add
             .sprite(350, 200, "plank")
             .setScale(0.5, 0.5);
         this.plank.setCollideWorldBounds(true);
         this.physics.add.collider(this.plank, this.platforms);
+
+        this.spikes = this.physics.add.staticGroup();
+        this.spikes.create(850, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(900, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(950, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(1000, 675, "spike").setScale(0.75, 0.75);
+        this.physics.add.collider(this.spikes, this.platforms);
 
         this.door = this.physics.add.image(865, 150, "door").setScale(0.1, 0.1);
         this.physics.add.collider(this.door, this.platforms);
@@ -202,10 +208,12 @@ export default class LevelZero extends Phaser.Scene {
     }
 
     update() {
+        // Key animation
         if (this.key) {
             this.key.anims.play("turn", true);
         }
 
+        // Move the gal with arrow keys
         if (this.player && this.cursors) {
             if (this.cursors.right.isDown) {
                 this.player.setVelocityX(290);
@@ -219,7 +227,7 @@ export default class LevelZero extends Phaser.Scene {
             }
             if (this.cursors.up.isDown && this.player.body?.touching.down) {
                 console.log("here");
-                this.player.setVelocityY(-500);
+                this.player.setVelocityY(-530);
                 this.player.anims.play("jump_right", true);
             }
         }
