@@ -148,28 +148,99 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
     }
 
     public removeRow(rowIndex: number) {
-        this.blockMatrix[rowIndex].forEach((block) => {
-            block.destroy();
+        // Collect animations in an array of promises to know when all animations have completed
+        const animPromises = this.blockMatrix[rowIndex].map(
+            (block) =>
+                new Promise<void>((resolve) => {
+                    const breakKey = this.getBreakAnimationKey(block);
+
+                    // Create and play the animation
+                    const anim = this.scene.add
+                        .sprite(
+                            block.x + this.blockSize / 2 + 350,
+                            block.y + this.blockSize / 2 + 80,
+                            breakKey
+                        )
+                        .setOrigin(0.5, 0.5)
+                        .setDepth(10);
+
+                    anim.play(breakKey);
+                    anim.on("animationcomplete", () => {
+                        // When animation completes, destroy the sprite and resolve the promise
+                        anim.destroy();
+                        resolve();
+                    });
+
+                    // Destroy the block immediately (consider destroying after animation if needed)
+                    block.destroy();
+                })
+        );
+
+        // When all animations are completed, perform clean up
+        Promise.all(animPromises).then(() => {
+            // Remove the blocks from the grid and adjust the grid accordingly
+            this.blockMatrix.splice(rowIndex, 1);
+            this.addNewRow();
+            this.updateBlockPositions();
         });
-        this.blockMatrix.splice(rowIndex, 1);
-        this.addNewRow();
+    }
+
+    public getBreakAnimationKey(block: BooleanBlock): string {
+        switch (block.getBlockType()) {
+            case "true":
+                return "greenBreak";
+            case "false":
+                return "redBreak";
+            case "and":
+                return "blueBreak";
+            case "or":
+                return "purpleBreak";
+            case "not":
+                return "yellowBreak";
+            default:
+                throw new Error(`Unknown block type: ${block.getBlockType()}`);
+        }
     }
 
     public removeColumn(colIndex: number) {
-        for (let i = 0; i < this.blockMatrix.length; i++) {
-            let blockToRemove = this.blockMatrix[i][colIndex];
-            blockToRemove.destroy();
-        }
+        // Collect animations in an array of promises to know when all animations have completed
+        const animPromises = this.blockMatrix.map(
+            (row) =>
+                new Promise<void>((resolve) => {
+                    const block = row[colIndex];
+                    const breakKey = this.getBreakAnimationKey(block);
 
-        for (let i = 0; i < this.blockMatrix.length; i++) {
-            this.blockMatrix[i].splice(colIndex, 1);
-        }
+                    // Create and play the animation
+                    const anim = this.scene.add
+                        .sprite(
+                            block.x + this.blockSize / 2 + 350, // Adjust the horizontal position
+                            block.y + this.blockSize / 2 + 80, // Adjust the vertical position
+                            breakKey
+                        )
+                        .setOrigin(0.5, 0.5)
+                        .setDepth(10);
 
-        for (let i = 0; i < this.blockMatrix.length; i++) {
-            let block = this.createRandomBlock(i, colIndex);
-            this.blockMatrix[i].splice(colIndex, 0, block);
-            this.add(block);
-        }
+                    anim.play(breakKey);
+                    anim.on("animationcomplete", () => {
+                        // When animation completes, destroy the sprite and resolve the promise
+                        anim.destroy();
+                        resolve();
+                    });
+
+                    // Destroy the block immediately (consider destroying after animation if needed)
+                    block.destroy();
+                })
+        );
+
+        // When all animations are completed, perform clean up
+        Promise.all(animPromises).then(() => {
+            // Remove the blocks from the grid and adjust the grid accordingly
+            for (let i = 0; i < this.blockMatrix.length; i++) {
+                this.blockMatrix[i].splice(colIndex, 1);
+            }
+            this.addNewColumn();
+            this.updateBlockPositions();
+        });
     }
 
     public addNewColumn() {

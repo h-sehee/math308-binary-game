@@ -18,6 +18,10 @@ export default class FiveByFiveLevel extends Phaser.Scene {
         super({ key: "FiveByFiveLevel" });
     }
 
+    preload() {
+        // Preload assets if not done in PreloadScene, otherwise this is not needed
+    }
+
     create() {
         this.blockGrid = new BlockGrid(this, 5);
         this.fpsText = new FpsText(this);
@@ -36,13 +40,12 @@ export default class FiveByFiveLevel extends Phaser.Scene {
             .setOrigin(1, 0);
 
         this.timer = this.time.addEvent({
-            delay: 1000, // 1 second
+            delay: 1000,
             callback: () => {
                 this.timeLimitInSeconds--;
                 if (this.timeLimitInSeconds <= 0) {
                     this.gameplayMusic.stop();
-                    this.scene.start("NextScene"); // Replace 'NextScene' with the key of our next scene
-                    //For the next scene we should display the score and then give them the option to play again
+                    this.scene.start("NextScene"); // Ensure you have a 'NextScene'
                 }
             },
             callbackScope: this,
@@ -60,6 +63,61 @@ export default class FiveByFiveLevel extends Phaser.Scene {
                 }
             )
             .setOrigin(1, 1);
+
+        // Create break animations
+        this.createBreakAnimations();
+    }
+
+    // Function to create break animations
+    private createBreakAnimations() {
+        const breakConfig = {
+            frameRate: 10,
+            repeat: 0,
+            hideOnComplete: true,
+        };
+
+        // Animation creation for each color
+        this.anims.create({
+            key: "greenBreak",
+            frames: this.anims.generateFrameNumbers("green-break", {
+                start: 0,
+                end: 5,
+            }),
+            ...breakConfig,
+        });
+        // Repeat for other colors
+        this.anims.create({
+            key: "redBreak",
+            frames: this.anims.generateFrameNumbers("red-break", {
+                start: 0,
+                end: 5,
+            }),
+            ...breakConfig,
+        });
+        this.anims.create({
+            key: "yellowBreak",
+            frames: this.anims.generateFrameNumbers("yellow-break", {
+                start: 0,
+                end: 5,
+            }),
+            ...breakConfig,
+        });
+        this.anims.create({
+            key: "blueBreak",
+            frames: this.anims.generateFrameNumbers("blue-break", {
+                start: 0,
+                end: 5,
+            }),
+            ...breakConfig,
+        });
+        this.anims.create({
+            key: "purpleBreak",
+            frames: this.anims.generateFrameNumbers("purple-break", {
+                start: 0,
+                end: 5,
+            }),
+            ...breakConfig,
+        });
     }
 
     mouseClick(
@@ -67,12 +125,13 @@ export default class FiveByFiveLevel extends Phaser.Scene {
         currentlyOver: Array<Phaser.GameObjects.GameObject>
     ) {
         if (currentlyOver[0] instanceof BooleanBlock) {
+            const currentLocation = currentlyOver[0].getGridLocation();
             if (this.locationBuffer == undefined) {
-                this.locationBuffer = currentlyOver[0].getGridLocation();
-            } else {
+                this.locationBuffer = currentLocation;
+            } else if (this.locationBuffer !== currentLocation) {
                 let promises: Array<Promise<void>> =
                     this.blockGrid.switchBlocks(
-                        currentlyOver[0].getGridLocation(),
+                        currentLocation,
                         this.locationBuffer
                     );
                 this.locationBuffer = undefined;
