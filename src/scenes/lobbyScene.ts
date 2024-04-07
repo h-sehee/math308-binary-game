@@ -54,14 +54,13 @@ class LobbyScene extends Phaser.Scene {
                     faceColor: new Phaser.Display.Color(30, 39, 37, 255),
                 });
             }
-            this.player = this.physics.add.sprite(100, 100, "player");
-            this.player.setScale(0.25);
+            this.player = this.physics.add.sprite(100, 100, "robot_idle");
             this.characterMovement = new CharacterMovement(
-                this.player,
-                this,
-                100,
-                initialGameState,
-                0.25
+                this.player, //player
+                this, //current scene
+                100, //speed
+                initialGameState, //for anim check (doesnt re-initialize anims more than once)
+                1 //sprite scale
             );
             if (walls) {
                 this.physics.add.collider(this.player, walls);
