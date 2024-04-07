@@ -15,6 +15,7 @@ export default class LevelZero extends Phaser.Scene {
     private stackpackText?: Phaser.GameObjects.Text;
     private keyE?: Phaser.Input.Keyboard.Key;
     //private keyF?: Phaser.Input.Keyboard.Key;
+    private keyEPressed: boolean = false; // Flag to check if 'E' was pressed to prevent picking up multiple items from one long key press
 
     constructor() {
         super({ key: "Level0" });
@@ -159,7 +160,7 @@ export default class LevelZero extends Phaser.Scene {
         this.door = this.physics.add.image(865, 150, "door").setScale(0.1, 0.1);
         this.physics.add.collider(this.door, this.platforms);
 
-        // Define keys 'E' and 'F' for collecting and using items respectively
+        // Define keys 'e' and 'f' for collecting and using items respectively
         this.keyE = this.input.keyboard?.addKey(
             Phaser.Input.Keyboard.KeyCodes.E
         );
@@ -169,7 +170,7 @@ export default class LevelZero extends Phaser.Scene {
 
         this.stackpackText = this.add.text(16, 16, "Stackpack:", {
             fontSize: "24px",
-            color: "#fff",
+            color: "#000000",
         });
     }
 
@@ -224,7 +225,9 @@ export default class LevelZero extends Phaser.Scene {
         }
 
         // Check if 'E' key is pressed
-        if (this.player && this.keyE?.isDown) {
+        if (this.player && this.keyE?.isDown && !this.keyEPressed) {
+            this.keyEPressed = true; // Set the flag for the E key being pressed to true
+
             // Check if the player is close enough to the key, ladder, or plank, and if so, collect it
             if (
                 this.key &&
@@ -259,6 +262,10 @@ export default class LevelZero extends Phaser.Scene {
             ) {
                 this.collectItem(this.plank);
             }
+        }
+        // Check if 'E' key is released
+        if (this.keyE?.isUp) {
+            this.keyEPressed = false; // Reset the keyEPressed flag when the E key is released
         }
     }
 }
