@@ -1,8 +1,14 @@
+import Phaser from "phaser";
+
 export class TerminalManager {
     private inputElement: HTMLInputElement;
     private readonly prompt: string = "$> ";
 
-    constructor() {
+    private eventEmitter: Phaser.Events.EventEmitter;
+
+
+    constructor(eventEmitter: Phaser.Events.EventEmitter) {
+        this.eventEmitter = eventEmitter;
         this.inputElement = document.createElement("input");
         this.inputElement.type = "text";
 
@@ -30,7 +36,7 @@ export class TerminalManager {
         if (event.key === "Enter") {
             const userInput = this.inputElement.value;
             console.log("User input:", userInput);
-
+            this.eventEmitter.emit("userInput", userInput);
             // Clear input field after processing
             this.inputElement.value = this.prompt;
         }

@@ -12,6 +12,8 @@ export default class GameScene extends Phaser.Scene {
     private robo?: Phaser.Physics.Arcade.Sprite;
     private rugged_wizard?: Phaser.Physics.Arcade.Sprite;
     private evilDialogue?: Phaser.GameObjects.Text;
+    private userInput: string = "";
+    private consoleDialogue?: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: "GameScene" });
@@ -64,18 +66,23 @@ export default class GameScene extends Phaser.Scene {
         });
         this.cursor = this.input.keyboard?.createCursorKeys();
 
-        this.add.text(165, 280, "Level A", {
-            fontSize: "90px",
-            color: "red",
-        });
+        const eventEmitter = new Phaser.Events.EventEmitter();
+        this.terminalManager = new TerminalManager(eventEmitter);
 
-        this.terminalManager = new TerminalManager();
+        // Listen for the userInput event
+        eventEmitter.on("userInput", (userInput: string) => {
+            this.handleUserInput(userInput);
+        });
 
         this.roboDialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
         this.roboDialogue.setScrollFactor(0);
 
         this.evilDialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
         this.evilDialogue.setScrollFactor(0);
+
+        this.consoleDialogue = this.add.text(100, 160, "", { fontSize: '24px', color: 'green', backgroundColor: '#000000' });
+        this.consoleDialogue.setScrollFactor(0);
+        
     }
 
     update() {
@@ -125,12 +132,25 @@ export default class GameScene extends Phaser.Scene {
 
     handleRoboInteraction = () => {
         // Display textbox with NPC dialogue
-        this.roboDialogue?.setText("Hello! I'm here to help - I have some files for you!\nTry typing 'ls' and hit enter.\nThis will show you all my folders and files.");
+        this.roboDialogue?.setText("Hello! I'm here to help - I have some files for you!\nTry typing 'ls' and hit enter.");
     }
 
     handleRuggedInteraction = () => {
         // Display textbox with NPC dialogue
         this.evilDialogue?.setText("You better be careful...");
+    }
+
+    handleConsoleText = (text: string) => {
+        if (text === "ls") {
+            this.consoleDialogue?.setText("aboutMe  tools");
+        }
+    }
+
+    handleUserInput = (userInput: string) => {
+        console.log("Recieved Input:", userInput);
+        if (userInput === "$> ls") {   
+            this.handleConsoleText("ls");      
+        }
     }
 
     /* private enableWASDKeys() {
