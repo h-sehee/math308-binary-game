@@ -2,15 +2,21 @@ import Phaser from "phaser";
 
 export default class TextInputScene extends Phaser.Scene {
     private stateText: Phaser.GameObjects.Text;
-
     private inputField: HTMLInputElement;
-
     private inputContainer: Phaser.GameObjects.Container;
+    private lvl2: boolean;
+    private lvl3: boolean;
+    private lvl4: boolean;
 
     constructor() {
         super({ key: "Level01" });
     }
 
+    init(data: { lvl1: boolean; lvl2: boolean; lvl3: boolean; lvl4: boolean }) {
+        this.lvl2 = data.lvl2;
+        this.lvl3 = data.lvl3;
+        this.lvl4 = data.lvl4;
+    }
     preload() {}
 
     create() {
@@ -277,6 +283,10 @@ export default class TextInputScene extends Phaser.Scene {
 
     loadLevel() {
         this.removeInputField();
-        this.scene.start("LevelSelect");
+        this.scene.start("LevelSelect", {
+            lvl2: true,
+            lvl3: this.lvl3,
+            lvl4: this.lvl4,
+        });
     }
 }
