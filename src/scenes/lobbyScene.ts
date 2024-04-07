@@ -54,7 +54,7 @@ class LobbyScene extends Phaser.Scene {
                     faceColor: new Phaser.Display.Color(30, 39, 37, 255),
                 });
             }
-            this.player = this.physics.add.sprite(100, 100, "robot_idle");
+            this.player = this.physics.add.sprite(150, 200, "robot_idle");
             this.characterMovement = new CharacterMovement(
                 this.player, //player
                 this, //current scene
@@ -68,8 +68,7 @@ class LobbyScene extends Phaser.Scene {
             if (objects) {
                 this.physics.add.collider(this.player, objects);
             }
-
-            this.cursors = this.input.keyboard?.createCursorKeys();
+            this.cameras.main.startFollow(this.player, true);
         }
     }
     update() {
