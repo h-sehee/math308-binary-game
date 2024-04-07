@@ -80,7 +80,7 @@ export default class GameScene extends Phaser.Scene {
         this.evilDialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
         this.evilDialogue.setScrollFactor(0);
 
-        this.consoleDialogue = this.add.text(100, 160, "testing", { fontSize: '24px', color: 'green', backgroundColor: '#000000' });
+        this.consoleDialogue = this.add.text(100, 160, "", { fontSize: '24px', color: 'green', backgroundColor: '#000000' });
         this.consoleDialogue.setScrollFactor(0);
         
     }
