@@ -16,6 +16,10 @@ class LobbyScene extends Phaser.Scene {
     preload() {}
 
     create() {
+        //setting up crosshair
+        this.input.mouse?.disableContextMenu();
+        this.input.setDefaultCursor("crosshair");
+
         const player = new Player(
             "Player 1",
             5,
@@ -24,23 +28,31 @@ class LobbyScene extends Phaser.Scene {
             ["Potion", "Key"]
         );
         const initialLevel = 0;
-        const hasAnims = false;
-        const initialGameState = new gameState(player, initialLevel, hasAnims);
+        const initialGameState = new gameState(player, initialLevel, false);
 
         const map = this.make.tilemap({ key: "lobby" });
         const tileset = map.addTilesetImage("tilemap", "tiles"); //name of tilemap ON TILED, then name of key in preloader scene
         if (tileset) {
-            const ground = map.createLayer("Ground", tileset);
+            //loads in the layers of the tilemap
+            const floor = map.createLayer("Floor", tileset);
             const walls = map.createLayer("Walls", tileset);
-            const objects = map.createLayer("Objects", tileset);
-            const smallObjs = map.createLayer("Smalls", tileset);
-            walls?.setCollisionByProperty({ collides: true });
-            objects?.setCollisionByProperty({ collides: true });
-            walls?.setScale(1);
-            ground?.setScale(1);
-            objects?.setScale(1);
-            smallObjs?.setScale(1);
+            const structs = map.createLayer("Structs", tileset);
+            const aboveFloor = map.createLayer("AboveFloor", tileset);
+            const decor = map.createLayer("Decor", tileset);
 
+            //allows collision with tiles that have the collides key
+            walls?.setCollisionByProperty({ collides: true });
+            structs?.setCollisionByProperty({ collides: true });
+            decor?.setCollisionByProperty({ collides: true });
+            floor?.setCollisionByProperty({ gameStart: true });
+
+            walls?.setScale(1);
+            floor?.setScale(1);
+            structs?.setScale(1);
+            aboveFloor?.setScale(1);
+            decor?.setScale(1);
+
+            //to see walls highlighted on debugging
             const debugGraphics = this.add.graphics().setAlpha(0.7);
             if (CONFIG.physics.arcade.debug) {
                 walls?.renderDebug(debugGraphics, {
@@ -54,21 +66,41 @@ class LobbyScene extends Phaser.Scene {
                     faceColor: new Phaser.Display.Color(30, 39, 37, 255),
                 });
             }
-            this.player = this.physics.add.sprite(150, 200, "robot_idle");
+
+            this.player = this.physics.add.sprite(176, 315, "robot_idle");
             this.characterMovement = new CharacterMovement(
                 this.player, //player
                 this, //current scene
                 100, //speed
-                initialGameState, //for anim check (doesnt re-initialize anims more than once)
-                1 //sprite scale
+                initialGameState //for anim check (doesnt re-initialize anims more than once)
             );
+            //declaring colliders
             if (walls) {
                 this.physics.add.collider(this.player, walls);
             }
-            if (objects) {
-                this.physics.add.collider(this.player, objects);
+            if (structs) {
+                this.physics.add.collider(this.player, structs);
             }
+            if (decor) {
+                this.physics.add.collider(this.player, decor);
+            }
+            if (floor) {
+                this.physics.add.collider(this.player, floor, () => {
+                    // Transition to room01Scene.ts when collision occurs
+                    this.scene.start("room01Scene", {
+                        gameState: initialGameState,
+                    });
+                });
+            }
+
+            //camera follows player
             this.cameras.main.startFollow(this.player, true);
+
+            //decreases player hitbox size
+            this.player.body?.setSize(
+                this.player.width * 0.85,
+                this.player.height * 0.8
+            );
         }
     }
     update() {

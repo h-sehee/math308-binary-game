@@ -3,6 +3,7 @@ import PreloadScene from "./scenes/preloadScene";
 import TitleScene from "./scenes/titleScene";
 
 import LobbyScene from "./scenes/lobbyScene";
+import room01Scene from "./scenes/room01Scene";
 
 const DEFAULT_WIDTH = 400;
 const DEFAULT_HEIGHT = 250;
@@ -11,7 +12,7 @@ export const CONFIG = {
     title: "Bash The Dungeon",
     version: "0.0.1",
     type: Phaser.AUTO,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#B0BEC5",
     scale: {
         parent: "phaser-game",
         mode: Phaser.Scale.FIT,
@@ -19,7 +20,7 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, TitleScene, LobbyScene],
+    scene: [PreloadScene, TitleScene, LobbyScene, room01Scene],
     physics: {
         default: "arcade",
         arcade: {
