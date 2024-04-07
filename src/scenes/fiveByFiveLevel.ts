@@ -2,8 +2,9 @@ import Phaser from "phaser";
 import BlockGrid from "../objects/blockGrid";
 import FpsText from "../objects/fpsText";
 import BooleanBlock from "../objects/booleanBlock";
+import ScoreDisplay from "../objects/scoreDisplay";
 
-export default class MainScene extends Phaser.Scene {
+export default class FiveByFiveLevel extends Phaser.Scene {
     fpsText: FpsText;
     locationBuffer: [number, number] | undefined;
     blockGrid: BlockGrid;
@@ -11,9 +12,10 @@ export default class MainScene extends Phaser.Scene {
     timeLimitInSeconds: number = 120;
     timerText: Phaser.GameObjects.Text;
     gameplayMusic: Phaser.Sound.BaseSound;
+    scoreDisplay: ScoreDisplay;
 
     constructor() {
-        super({ key: "MainScene" });
+        super({ key: "FiveByFiveLevel" });
     }
 
     create() {
@@ -21,6 +23,7 @@ export default class MainScene extends Phaser.Scene {
         this.fpsText = new FpsText(this);
         this.gameplayMusic = this.sound.add("gameplay-music");
         this.gameplayMusic.play({ volume: 0.3 });
+        this.scoreDisplay = new ScoreDisplay(this, 620, 30);
 
         this.input.on("pointerdown", this.mouseClick, this);
 
@@ -67,11 +70,16 @@ export default class MainScene extends Phaser.Scene {
             if (this.locationBuffer == undefined) {
                 this.locationBuffer = currentlyOver[0].getGridLocation();
             } else {
-                this.blockGrid.switchBlocks(
-                    currentlyOver[0].getGridLocation(),
-                    this.locationBuffer
-                );
+                let promises: Array<Promise<void>> =
+                    this.blockGrid.switchBlocks(
+                        currentlyOver[0].getGridLocation(),
+                        this.locationBuffer
+                    );
                 this.locationBuffer = undefined;
+                Promise.all(promises).then(() => {
+                    const matches: number = this.blockGrid.checkForTruthy();
+                    this.scoreDisplay.incrementScore(matches);
+                });
             }
         }
     }
