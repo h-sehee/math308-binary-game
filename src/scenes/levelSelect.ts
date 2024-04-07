@@ -279,6 +279,8 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
+                            this.sound.stopAll();
+
                             this.scene.start("LoadingScene1", {
                                 lvl2,
                                 lvl3,
@@ -298,6 +300,8 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
+                            this.sound.stopAll();
+
                             this.scene.start();
                         });
                     },
@@ -313,6 +317,8 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
+                            this.sound.stopAll();
+
                             this.scene.start();
                         });
                     },
@@ -328,6 +334,8 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
+                            this.sound.stopAll();
+
                             this.scene.start();
                         });
                     },

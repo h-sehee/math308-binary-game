@@ -13,7 +13,9 @@ export default class TitleScene extends Phaser.Scene {
 
     create() {
         this.add.image(640, 360, "titlescreen");
-
+        let menuMusic = this.sound.add("menuMusic", { loop: false });
+        menuMusic.play();
+        menuMusic.setSeek(10);
         this.clickButton = this.add
             .text(515, 440, "[Enter] to Start", {
                 color: "#fff",

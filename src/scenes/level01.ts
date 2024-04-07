@@ -29,6 +29,7 @@ export default class TextInputScene extends Phaser.Scene {
         let ding = this.sound.add("ding", { loop: false });
         let cdDing = this.sound.add("lsDing", { loop: false });
         let lsDing = this.sound.add("cdDing", { loop: false });
+        let cdBackDing = this.sound.add("cdBackDing", { loop: false });
 
         this.inputContainer = this.add.container(360, 520);
 
@@ -128,6 +129,8 @@ export default class TextInputScene extends Phaser.Scene {
                         const backState = cdBack.get(state);
                         const cdState = cdMap.get(state);
                         if (backState !== undefined && cdInput == "..") {
+                            cdBackDing.play();
+
                             state = backState;
                             this.stateText.setText(state);
                             this.inputField.value = ""; // Empty the input field
@@ -147,6 +150,8 @@ export default class TextInputScene extends Phaser.Scene {
                         }
                         // CD DIRECTORY NOT FOUND BELOW
                         else {
+                            ding.play();
+
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
                             this.addTextToContainer("Directory not found");
@@ -207,6 +212,8 @@ export default class TextInputScene extends Phaser.Scene {
                                 );
                             }
                         } else {
+                            ding.play();
+
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
                             this.addTextToContainer(
