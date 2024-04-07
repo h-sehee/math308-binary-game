@@ -142,7 +142,7 @@ export default class GameScene extends Phaser.Scene {
 
     handleConsoleText = (text: string) => {
         if (text === "ls") {
-            this.consoleDialogue?.setText("file1      file2");
+            this.consoleDialogue?.setText("aboutMe  tools");
         }
     }
 
