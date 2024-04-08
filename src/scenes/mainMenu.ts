@@ -70,6 +70,7 @@ export default class mainMenu extends Phaser.Scene {
             button.setBackgroundColor("#87ceeb");
         });
 
+        console.log("attaching listener to button");
         button.on("pointerdown", () => {
             console.log("Button clicked!");
             this.scene.start("levelOne");
