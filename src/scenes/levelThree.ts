@@ -62,6 +62,4 @@ export default class levelThree extends Phaser.Scene {
         stone7.setScale(0.5, 0.4);
         stone8.setScale(0.5, 0.4);
     }
-
-    update() {}
 }
