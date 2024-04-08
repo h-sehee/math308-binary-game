@@ -2,7 +2,7 @@ import Phaser from "phaser";
 
 export default class levelOnePass extends Phaser.Scene {
     constructor() {
-        super({ key: "levelOnePass", active: false });
+        super({ key: "levelTwoPass", active: false });
     }
 
     create() {
