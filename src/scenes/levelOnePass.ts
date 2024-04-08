@@ -31,7 +31,7 @@ export default class levelOnePass extends Phaser.Scene {
 
         // make buttons to change to level two
         const nextLevel = this.add
-            .text(500, 500, "Click Here to Start", {
+            .text(500, 500, "Next Level", {
                 color: "#ffffff",
                 fontSize: "32px",
                 fixedWidth: 425,
