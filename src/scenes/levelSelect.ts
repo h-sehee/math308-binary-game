@@ -13,6 +13,8 @@ export default class LevelSelect extends Phaser.Scene {
     private lvl2?: boolean = false;
     private lvl3?: boolean = false;
     private lvl4?: boolean = false;
+    private username: string;
+
     private lvl5?: boolean = false;
 
     constructor() {
@@ -20,15 +22,22 @@ export default class LevelSelect extends Phaser.Scene {
     }
 
     init(data: {
+        username: string;
+
         lvl1: boolean;
+
         lvl2: boolean;
+
         lvl3: boolean;
+
         lvl4: boolean;
+
         lvl5: boolean;
     }) {
         this.lvl2 = data.lvl2;
         this.lvl3 = data.lvl3;
         this.lvl4 = data.lvl4;
+        this.username = data.username;
         this.lvl5 = data.lvl5;
     }
 
@@ -350,7 +359,10 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
+                            this.sound.stopAll();
+
                             this.scene.start("LoadingScene1", {
+                                username: this.username,
                                 lvl2,
                                 lvl3,
                                 lvl4,
@@ -370,6 +382,8 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
+                            this.sound.stopAll();
+
                             this.scene.start();
                         });
                     },
@@ -385,6 +399,8 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
+                            this.sound.stopAll();
+
                             this.scene.start();
                         });
                     },
@@ -415,6 +431,25 @@ export default class LevelSelect extends Phaser.Scene {
                     y: "-=40",
                     onComplete: () => {
                         this.time.delayedCall(1000, () => {
+                            this.sound.stopAll();
+
+                            this.scene.start();
+                        });
+                    },
+                });
+            }
+            if (this.door5) {
+                this.tweens.add({
+                    targets: this.player,
+                    duration: 500,
+                    scaleX: 0,
+                    scaleY: 0,
+                    angle: 360,
+                    y: "-=40",
+                    onComplete: () => {
+                        this.time.delayedCall(1000, () => {
+                            this.sound.stopAll();
+
                             this.scene.start();
                         });
                     },

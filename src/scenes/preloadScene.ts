@@ -16,9 +16,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("shield", "assets/shield.png");
         this.load.image("ground", "assets/platform.png");
         this.load.image("prompt", "assets/PromptBox.png");
-        this.load.image("sky", "assets/sky.png");
-        this.load.image("star", "assets/star.png");
-        this.load.image("bomb", "assets/bomb.png");
+
         this.load.image("closed_metal_door", "assets/closed_metal_door.png");
         this.load.image("lockedDoor", "assets/lockedDoor.png");
         this.load.image("arrow", "assets/arrow.png");
@@ -38,6 +36,14 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("forest", "assets/forest.jpg");
         this.load.image("matrix", "assets/matrix.png");
         this.load.image("evil", "assets/evil.jpg");
+
+        this.load.audio("ding", ["assets/ding.mp3"]);
+        this.load.audio("cdDing", ["assets/cdDing.mp3"]);
+        this.load.audio("lsDing", ["assets/lsDing.mp3"]);
+        this.load.audio("cdBackDing", ["assets/cdBackDing.mp3"]);
+        this.load.audio("manDing", ["assets/manDing.mp3"]);
+        this.load.audio("menuMusic", ["assets/menuMusic.mp3"]);
+        this.load.audio("alfredDeathMusic", ["assets/alfredDeathMusic.mp3"]);
     }
 
     create() {

@@ -11,28 +11,36 @@ export default class LoadingScene1 extends Phaser.Scene {
     private lvl2: boolean;
     private lvl3: boolean;
     private lvl4: boolean;
+    private username: string;
     private lvl5: boolean;
 
     constructor() {
         super({ key: "LoadingScene1" });
     }
-    init(data: { lvl2: boolean; lvl3: boolean; lvl4: boolean; lvl5: boolean }) {
+    init(data: {
+        username: string;
+
+        lvl2: boolean;
+        lvl3: boolean;
+        lvl4: boolean;
+        lvl5: boolean;
+    }) {
         this.lvl2 = data.lvl2;
         this.lvl3 = data.lvl3;
         this.lvl4 = data.lvl4;
+        this.username = data.username;
         this.lvl5 = data.lvl5;
     }
+
     preload() {
         this.load.image("alfredicon", "assets/alfredicon.png");
     }
 
     create() {
-        this.resetScene(); // helper to reset intial values on load
+        this.resetScene();
 
-        //adding assets
         this.add.rectangle(640, 360, 1280, 720, 0x000);
         this.add.image(150, 100, "alfredicon").setDisplaySize(130, 130);
-        // this.add.image(150, 480, "spyicon").setDisplaySize(130, 130);
 
         //display text
         this.displayNextLine();
@@ -58,7 +66,8 @@ export default class LoadingScene1 extends Phaser.Scene {
         this.content = [
             "Your mission, should you choose to accept it,",
             "involves critical file manipulation. You need to",
-            "navigate to the 'secret_folder' and remove the 'classified_file'.",
+            "navigate to the 'control_room' and disable the 'surveillance_camera'.",
+            " ",
             "Here are the commands at your disposal:",
             " ",
             " - 'ls' to list the contents of the current directory.",
@@ -70,10 +79,10 @@ export default class LoadingScene1 extends Phaser.Scene {
             " ",
             " - 'man <command>' to display the manual for a specific command.",
             " ",
-            "You can always run 'man alfred' for additional assistance",
-            "to reach the end of a mission.",
+            "You can always run 'man alfred' for additional",
+            "assistance to reach the end of a mission.",
             " ",
-            "Remove the blueprint to delve deeper into Yortsed Corp's operations.",
+            "Disable the camera to advance further into Yortsed Corp.",
             " ",
             " ",
             "                  [Enter] to Continue",
@@ -90,7 +99,6 @@ export default class LoadingScene1 extends Phaser.Scene {
                 this.startY + 22 * (this.lineIndex - 1),
                 "",
                 {
-                    fontFamily: "Courier New",
                     fontSize: "24px",
                     color: "#fff",
                 }

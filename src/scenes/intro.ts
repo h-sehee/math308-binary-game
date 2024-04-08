@@ -11,15 +11,23 @@ export default class IntroScene extends Phaser.Scene {
     private lvl2: boolean;
     private lvl3: boolean;
     private lvl4: boolean;
+    private username: string;
 
     constructor() {
         super({ key: "IntroScene" });
     }
 
-    init(data: { lvl1: boolean; lvl2: boolean; lvl3: boolean; lvl4: boolean }) {
+    init(data: {
+        username: string;
+        lvl1: boolean;
+        lvl2: boolean;
+        lvl3: boolean;
+        lvl4: boolean;
+    }) {
         this.lvl2 = data.lvl2;
         this.lvl3 = data.lvl3;
         this.lvl4 = data.lvl4;
+        this.username = "Agent " + data.username;
     }
     preload() {
         this.load.image("alfredicon", "assets/alfredicon.png");
@@ -39,6 +47,7 @@ export default class IntroScene extends Phaser.Scene {
         // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
             this.scene.start("LevelSelect", {
+                username: this.username,
                 lvl2: this.lvl2,
                 lvl3: this.lvl3,
                 lvl4: this.lvl4,
@@ -54,7 +63,7 @@ export default class IntroScene extends Phaser.Scene {
         this.startY = 90;
         this.lineIndex = 0;
         this.content = [
-            "Agent09, this is Alfred speaking.",
+            this.username + ", this is Alfred speaking.",
             " ",
             "Sorry to call you so late into the evening, but it",
             "appears we've got a situation on our hands. Namuh Yortsed, CEO of",
@@ -64,7 +73,7 @@ export default class IntroScene extends Phaser.Scene {
             "very lifeblood of this city.",
             " ",
             "Amidst the shadow of Namuh, emerge as the city's beacon of hope.",
-            "Utilize the tools given to you Agent09.",
+            "Utilize the tools given to you " + this.username + ".",
             " ",
             "Just as you have in the past.",
             " ",
@@ -90,7 +99,6 @@ export default class IntroScene extends Phaser.Scene {
                 this.startY + 22 * (this.lineIndex - 1),
                 "",
                 {
-                    fontFamily: "Courier New",
                     fontSize: "24px",
                     color: "#fff",
                 }
