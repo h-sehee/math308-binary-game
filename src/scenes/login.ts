@@ -91,15 +91,18 @@ export default class TextInputScene extends Phaser.Scene {
         accessGranted.visible = false;
 
         // Keyboard event listener for the Enter key
-        this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
+        const enterListener = (event: KeyboardEvent) => {
             if (event.key === "Enter") {
                 const username = this.inputField.value;
+
                 this.inputField.value = ""; // Empty the input field
                 loginText.visible = false;
                 authorizationText.visible = false;
 
                 // Play sound
                 lsDing.play();
+
+                this.input.keyboard?.removeListener("keydown", enterListener);
 
                 this.removeInputField();
 
@@ -128,20 +131,19 @@ export default class TextInputScene extends Phaser.Scene {
                         }
                     }
 
-                    // Start a timer for the next loading bar to appear after some delay
                     this.time.delayedCall(100, () => {
-                        // Hide the current loading bar
                         loadingBars[currentBarIndex - 1].visible = false;
 
-                        // Show the next loading bar recursively
                         showNextLoadingBar();
                     });
                 };
 
-                // Start showing loading bars
                 showNextLoadingBar();
             }
-        });
+        };
+
+        this.input.keyboard?.on("keydown", enterListener);
+
         this.events.on("shutdown", this.removeInputField, this);
     }
     removeInputField() {

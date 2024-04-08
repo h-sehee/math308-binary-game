@@ -4,6 +4,7 @@ export default class TextInputScene extends Phaser.Scene {
     private stateText: Phaser.GameObjects.Text;
     private inputField: HTMLInputElement;
     private inputContainer: Phaser.GameObjects.Container;
+    private timer: Phaser.GameObjects.Text;
     private lvl2: boolean;
     private lvl3: boolean;
     private lvl4: boolean;
@@ -119,6 +120,12 @@ export default class TextInputScene extends Phaser.Scene {
                 fontFamily: "Monospace",
             }
         );
+
+        const timer = this.add.text(40, 859, "30", {
+            color: "red",
+            fontSize: "37px",
+            fontFamily: "Monospace",
+        });
 
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
@@ -246,6 +253,32 @@ export default class TextInputScene extends Phaser.Scene {
                 }
             }
         });
+
+        let time = 30;
+
+        this.timer = this.add.text(75, 655, time.toString(), {
+            fontSize: "50px",
+            color: "red",
+        });
+
+        const updateTimer = () => {
+            this.timer.setText(time.toString());
+
+            if (time > 0) {
+                this.time.delayedCall(1000, updateTimer);
+            }
+            time--;
+
+            if (time == 0) {
+                this.scene.start("LevelSelect", {
+                    lvl2: false,
+                    lvl3: this.lvl3,
+                    lvl4: this.lvl4,
+                });
+            }
+        };
+
+        updateTimer();
 
         this.stateText = this.add.text(1075, 95, state, {
             fontSize: "24px",
