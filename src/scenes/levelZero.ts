@@ -12,7 +12,7 @@ export default class LevelZero extends Phaser.Scene {
 
     private stack: Phaser.GameObjects.Sprite[] = [];
     private collectedItems: Phaser.GameObjects.Sprite[] = []; // To track all collected items (even after they're popped from stack)
-    private stackText?: Phaser.GameObjects.Text;
+    //private stackText?: Phaser.GameObjects.Text;
     private keyE?: Phaser.Input.Keyboard.Key;
     private keyF?: Phaser.Input.Keyboard.Key;
     private keyEPressed: boolean = false; // Flag to check if 'E' was pressed to prevent picking up multiple items from one long key press
@@ -73,7 +73,7 @@ export default class LevelZero extends Phaser.Scene {
 
         const stackpack = this.add
             .image(0, 0, "stackpack")
-            .setOrigin(-5.4, -0.02);
+            .setPosition(1170, 165);
         stackpack.setScale(0.26, 0.26);
 
         this.anims.create({
@@ -150,18 +150,28 @@ export default class LevelZero extends Phaser.Scene {
         this.key = this.add.sprite(1200, 650, "key").setScale(2.5, 2.5);
         this.physics.add.collider(this.key, this.platforms);
 
-        this.ladder = this.add.sprite(1100, 550, "ladder").setScale(0.5, 0.5);
+        this.ladder = this.add.sprite(1050, 550, "ladder").setScale(0.5, 0.5);
 
-        this.plank = this.add.sprite(350, 500, "plank").setScale(0.5, 0.5);
+        this.plank = this.add.sprite(350, 530, "plank").setScale(0.5, 0.5);
 
         this.spikes = this.physics.add.staticGroup();
-        this.spikes.create(850, 675, "spike").setScale(0.75, 0.75);
-        this.spikes.create(900, 675, "spike").setScale(0.75, 0.75);
-        this.spikes.create(950, 675, "spike").setScale(0.75, 0.75);
-        this.spikes.create(1000, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(780, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(830, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(880, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(930, 675, "spike").setScale(0.75, 0.75);
 
         this.door = this.physics.add.image(865, 150, "door").setScale(0.1, 0.1);
         this.physics.add.collider(this.door, this.platforms);
+
+        // Set the depth of the character/player sprite to a high value
+        this.player.setDepth(1);
+
+        // Set the depth of other game objects to lower values
+        this.key.setDepth(0);
+        this.ladder.setDepth(0);
+        this.plank.setDepth(0);
+        this.spikes.setDepth(0);
+        this.door.setDepth(0);
 
         // Define keys 'E' and 'F' for collecting and using items respectively
         this.keyE = this.input.keyboard?.addKey(
@@ -171,13 +181,13 @@ export default class LevelZero extends Phaser.Scene {
             Phaser.Input.Keyboard.KeyCodes.F
         );
 
-        this.stackText = this.add.text(16, 16, "Stackpack:", {
+        /*this.stackText = this.add.text(16, 16, "Stackpack:", {
             fontSize: "24px",
             color: "#000000",
-        });
+        });*/
     }
 
-    private updateStackText() {
+    /*private updateStackText() {
         if (this.stackText && this.stack.length > 0) {
             let text = "Stackpack:\n";
             this.stack.forEach((item, index) => {
@@ -185,18 +195,23 @@ export default class LevelZero extends Phaser.Scene {
             });
             this.stackText.setText(text);
         }
-    }
+    }*/
 
     private updateStackView() {
-        let prevItemHeight = 0;
+        const offsetX = 1170; // starting X position for stack items
+        const offsetY = 270; // starting Y position for stack items
+        const padding = 20;
 
-        this.stack.forEach((item, index) => {
-            index;
-            const stackItemX = 1170;
-            const stackItemY = (index + 1) * (prevItemHeight * 0.5 + 10) + 70;
+        let currTotalHeight = 0;
+
+        this.stack.forEach((item) => {
+            // Calculate and set (x, y) position of stack items in stackpack view
+            item.setOrigin(0.5, 0);
+            const stackItemX = offsetX;
+            const stackItemY =
+                offsetY - item.displayHeight - currTotalHeight - padding;
+            currTotalHeight += item.displayHeight + padding;
             item.setPosition(stackItemX, stackItemY);
-            console.log(prevItemHeight, stackItemY, item.displayHeight);
-            prevItemHeight = item.displayHeight;
         });
     }
 
@@ -205,7 +220,7 @@ export default class LevelZero extends Phaser.Scene {
             return;
         }
 
-        // Scale down the collected item
+        // Scale down the collected item to prepare it for stackpack view
         const currScale = item.scaleX;
         item.setScale(currScale * 0.5);
 
@@ -215,7 +230,7 @@ export default class LevelZero extends Phaser.Scene {
         // Add the item to the grand list of collected items
         this.collectedItems.push(item);
 
-        this.updateStackText();
+        //this.updateStackText();
         this.updateStackView();
     }
 
@@ -225,10 +240,18 @@ export default class LevelZero extends Phaser.Scene {
 
         // Enable the item (make it visible and active in the scene)
         if (poppedItem) {
-            //pass
+            // Set scale back to normal
+            const currScale = poppedItem.scaleX;
+            poppedItem.setScale(currScale * 2);
+
+            // Set item origin back to default (center)
+            poppedItem.setOrigin(0.5, 0.5);
+
+            // Move popped item to location it will be used
+            poppedItem.setPosition(400, 200);
         }
 
-        this.updateStackText();
+        //this.updateStackText();
         this.updateStackView();
     }
 
