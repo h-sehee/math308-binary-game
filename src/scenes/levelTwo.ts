@@ -24,7 +24,7 @@ export default class levelTwo extends Phaser.Scene {
         levelName.setStroke("#ffd700", 16);
 
         this.add.image(150, 500, "duck").setScale(0.4);
-        this.add.image(100, 500, "duck").setScale(0.4);
+        this.add.image(50, 500, "duck").setScale(0.4);
         this.add.image(950, 250, "duck").setScale(0.4);
 
         // connection lines
@@ -33,11 +33,15 @@ export default class levelTwo extends Phaser.Scene {
 
         graphics.beginPath();
         graphics.moveTo(500, 400);
-        graphics.lineTo(275, 500);
-        graphics.lineTo(700, 600);
-        graphics.lineTo(750, 450);
+        graphics.lineTo(275, 435);
+        graphics.lineTo(650, 600);
+        graphics.lineTo(740, 480);
+        graphics.lineTo(790, 375);
+        graphics.lineTo(400, 525);
         graphics.lineTo(500, 400);
-        graphics.lineTo(700, 600);
+        graphics.lineTo(650, 600);
+        graphics.lineTo(500, 400);
+        graphics.lineTo(790, 375);
 
         graphics.strokePath();
 
@@ -45,11 +49,11 @@ export default class levelTwo extends Phaser.Scene {
         this.stone = this.physics.add.staticGroup();
 
         const stone1 = this.stone.create(500, 400, "stone");
-        const stone2 = this.stone.create(275, 500, "stone");
-        const stone3 = this.stone.create(700, 600, "stone");
-        const stone4 = this.stone.create(750, 450, "stone");
-        const stone5 = this.stone.create(800, 300, "stone");
-        const stone6 = this.stone.create(700, 600, "stone");
+        const stone2 = this.stone.create(275, 435, "stone");
+        const stone3 = this.stone.create(650, 600, "stone");
+        const stone4 = this.stone.create(740, 480, "stone");
+        const stone5 = this.stone.create(790, 375, "stone");
+        const stone6 = this.stone.create(400, 525, "stone");
 
         stone1.setScale(0.5, 0.4);
         stone2.setScale(0.5, 0.4);
