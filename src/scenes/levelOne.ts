@@ -14,7 +14,12 @@ export default class levelOne extends Phaser.Scene {
 
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
-            .setDisplaySize(screenWidth, screenHeight);
+            .setDisplaySize(screenWidth, screenHeight)
+            // change when levels work
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.scene.start("levelOnePass");
+            });
 
         const levelName = this.add.text(25, 25, "Level 1", {
             fontFamily: "Arial Black",
@@ -52,6 +57,8 @@ export default class levelOne extends Phaser.Scene {
         stone2.setScale(0.5, 0.4);
         stone3.setScale(0.5, 0.4);
         stone4.setScale(0.5, 0.4);
+
+        // end level
     }
 
     update() {}
