@@ -17,6 +17,7 @@ export default class LevelZero extends Phaser.Scene {
     private keyF?: Phaser.Input.Keyboard.Key;
     private keyEPressed: boolean = false; // Flag to check if 'E' was pressed to prevent picking up multiple items from one long key press
     private keyFPressed: boolean = false; // Flag to check if 'E' was pressed to prevent using multiple items from one long key press
+    private lastDirection: string = "right";
 
     constructor() {
         super({ key: "Level0" });
@@ -43,6 +44,11 @@ export default class LevelZero extends Phaser.Scene {
         this.load.spritesheet(
             "gal_idle_right",
             "assets/Pink_Monster_Idle_4.png",
+            { frameWidth: 32, frameHeight: 32 }
+        );
+        this.load.spritesheet(
+            "gal_idle_left",
+            "assets/Pink_Monster_Idle_Left4.png",
             { frameWidth: 32, frameHeight: 32 }
         );
         this.load.spritesheet(
@@ -113,6 +119,15 @@ export default class LevelZero extends Phaser.Scene {
         this.anims.create({
             key: "idle_right",
             frames: this.anims.generateFrameNumbers("gal_idle_right", {
+                start: 0,
+                end: 3,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+        this.anims.create({
+            key: "idle_left",
+            frames: this.anims.generateFrameNumbers("gal_idle_left", {
                 start: 0,
                 end: 3,
             }),
@@ -262,21 +277,29 @@ export default class LevelZero extends Phaser.Scene {
         }
 
         // Move the gal with arrow keys
+        // Inside your update function or wherever you handle player movement
         if (this.player && this.cursors) {
             if (this.cursors.right.isDown) {
                 this.player.setVelocityX(290);
                 this.player.anims.play("right", true);
+                this.lastDirection = "right"; // Update last direction
             } else if (this.cursors.left.isDown) {
                 this.player.setVelocityX(-290);
                 this.player.anims.play("left", true);
+                this.lastDirection = "left"; // Update last direction
             } else {
                 this.player.setVelocityX(0);
-                this.player.anims.play("idle_right", true);
+                // Check last direction and play corresponding idle animation
+                if (this.lastDirection === "right") {
+                    this.player.anims.play("idle_right", true);
+                } else {
+                    this.player.anims.play("idle_left", true);
+                }
             }
             if (this.cursors.up.isDown && this.player.body?.touching.down) {
                 console.log("here");
-                this.player.setVelocityY(-530);
                 this.player.anims.play("jump_right", true);
+                this.player.setVelocityY(-530);
             }
         }
 
