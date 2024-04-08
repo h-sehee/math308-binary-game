@@ -11,26 +11,33 @@ export default class LoadingScene1 extends Phaser.Scene {
     private lvl2: boolean;
     private lvl3: boolean;
     private lvl4: boolean;
+    private username: string;
 
     constructor() {
         super({ key: "LoadingScene1" });
     }
-    init(data: { lvl1: boolean; lvl2: boolean; lvl3: boolean; lvl4: boolean }) {
+    init(data: {
+        username: string;
+        lvl1: boolean;
+        lvl2: boolean;
+        lvl3: boolean;
+        lvl4: boolean;
+    }) {
         this.lvl2 = data.lvl2;
         this.lvl3 = data.lvl3;
         this.lvl4 = data.lvl4;
+        this.username = data.username;
     }
+
     preload() {
         this.load.image("alfredicon", "assets/alfredicon.png");
     }
 
     create() {
-        this.resetScene(); // helper to reset intial values on load
+        this.resetScene();
 
-        //adding assets
         this.add.rectangle(640, 360, 1280, 720, 0x000);
         this.add.image(150, 100, "alfredicon").setDisplaySize(130, 130);
-        // this.add.image(150, 480, "spyicon").setDisplaySize(130, 130);
 
         //display text
         this.displayNextLine();
@@ -38,6 +45,7 @@ export default class LoadingScene1 extends Phaser.Scene {
         // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
             this.scene.start("Level01", {
+                username: this.username,
                 lvl1: this.lvl2,
                 lvl2: this.lvl3,
                 lvl3: this.lvl4,

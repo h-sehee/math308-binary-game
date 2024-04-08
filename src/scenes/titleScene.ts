@@ -12,10 +12,11 @@ export default class TitleScene extends Phaser.Scene {
     preload() {}
 
     create() {
-        this.add.image(640, 360, "titlescreen");
         let menuMusic = this.sound.add("menuMusic", { loop: false });
         menuMusic.play();
         menuMusic.setSeek(10);
+        this.add.image(640, 360, "titlescreen");
+
         this.clickButton = this.add
             .text(515, 440, "[Enter] to Start", {
                 color: "#fff",
@@ -34,7 +35,7 @@ export default class TitleScene extends Phaser.Scene {
             });
 
         this.input.keyboard?.once("keydown-ENTER", () => {
-            this.scene.start("IntroScene");
+            this.scene.start("LoginScene");
         });
     }
 
