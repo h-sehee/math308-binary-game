@@ -22,18 +22,17 @@ export default class TextInputScene extends Phaser.Scene {
     create() {
         this.add.rectangle(640, 360, 1280, 720, 0x000);
 
-        // this.add
-        //     .image(0, 0, "Level1Background")
-        //     .setOrigin(0, 0)
-        //     .setDisplaySize(this.scale.width, this.scale.height);
-
         this.add.image(640, 100, "prompt").setDisplaySize(560, 110);
         this.add.image(155, 100, "alfredicon").setDisplaySize(130, 130);
         this.add.image(1050, 100, "pin").setDisplaySize(30, 40);
 
+        let ding = this.sound.add("ding", { loop: false });
+        let cdDing = this.sound.add("lsDing", { loop: false });
+        let lsDing = this.sound.add("cdDing", { loop: false });
+        let cdBackDing = this.sound.add("cdBackDing", { loop: false });
+
         this.inputContainer = this.add.container(360, 520);
 
-        // Create a mask for the container
         const maskGraphics = this.make.graphics();
         maskGraphics.fillRect(300, 185, 1080, 500);
         const mask = new Phaser.Display.Masks.GeometryMask(this, maskGraphics);
@@ -50,20 +49,24 @@ export default class TextInputScene extends Phaser.Scene {
         const manMap = new Map<string, string>();
         const rmMap = new Map<string, string[]>(); // Map to track removable files
 
-        lsMap.set("home", "dog cat backpack secret_folder");
-        lsMap.set("backpack", "camera wrench zapgun");
-        lsMap.set("dog", "dogToy");
-        lsMap.set("cat", "catToy");
-        lsMap.set("secret_folder", "classified_file");
+        lsMap.set("home", "break_room closet control_room");
+        lsMap.set("break_room", "suitcase vending_machine chair table");
+        lsMap.set("closet", "cardboard_box wires hazmat_suit");
+        lsMap.set("control_room", "surveillance_camera monitor apple_juice");
+        lsMap.set("suitcase", "namuhs_glasses batteries papers apple");
+        lsMap.set("cardboard_box", "papers");
 
-        cdMap.set("home", ["dog", "cat", "backpack", "secret_folder"]);
+        cdMap.set("home", ["break_room", "closet", "control_room"]);
+        cdMap.set("break_room", ["suitcase"]);
+        cdMap.set("closet", ["cardboard_box"]);
 
-        cdBack.set("dog", "home");
-        cdBack.set("cat", "home");
-        cdBack.set("backpack", "home");
-        cdBack.set("secret_folder", "home");
+        cdBack.set("break_room", "home");
+        cdBack.set("closet", "home");
+        cdBack.set("control_room", "home");
+        cdBack.set("suitcase", "break_room");
+        cdBack.set("cardboard_box", "closet");
 
-        rmMap.set("secret_folder", ["classified_file"]);
+        rmMap.set("control_room", ["surveillance_camera"]);
 
         manMap.set(
             "ls",
@@ -77,7 +80,10 @@ export default class TextInputScene extends Phaser.Scene {
             "cd",
             "Alfred: Do recall, the 'cd' command\npermits you to navigate through rooms and items."
         );
-        manMap.set("alfred", "Alfred: How could I be of service agent09?");
+        manMap.set(
+            "alfred",
+            "Alfred: Try using the 'cd' command to traverse through\ndifferent areas. Then use 'rm' to remove critical files."
+        );
 
         // Add text input field
         this.inputField = document.createElement("input");
@@ -94,11 +100,23 @@ export default class TextInputScene extends Phaser.Scene {
         this.inputField.style.transform = "translate(-50%, -50%)";
         document.body.appendChild(this.inputField);
 
+        this.add.text(
+            410,
+            59,
+            "Enter the 'control_room' and neutralize the \n'surveillance_camera' so you can proceed\ninto the next area. Namuh has security\nroaming the area so time is of the essence.",
+            {
+                color: "#fff",
+                fontSize: "17px",
+                fontFamily: "Monospace",
+            }
+        );
+
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
                 const newText = this.inputField.value;
                 if (newText.trim() !== "") {
                     if (newText.trim() == "ls") {
+                        lsDing.play();
                         this.inputField.value = ""; // Empty the input field
                         this.addTextToContainer("agent09: " + newText);
                         this.addTextToContainer(lsMap.get(state) as string);
@@ -111,6 +129,8 @@ export default class TextInputScene extends Phaser.Scene {
                         const backState = cdBack.get(state);
                         const cdState = cdMap.get(state);
                         if (backState !== undefined && cdInput == "..") {
+                            cdBackDing.play();
+
                             state = backState;
                             this.stateText.setText(state);
                             this.inputField.value = ""; // Empty the input field
@@ -121,6 +141,8 @@ export default class TextInputScene extends Phaser.Scene {
                             cdState !== undefined &&
                             cdMap.get(state)?.includes(cdInput)
                         ) {
+                            cdDing.play();
+
                             state = newText.substring(3);
                             this.stateText.setText(state);
                             this.inputField.value = ""; // Empty the input field
@@ -128,6 +150,8 @@ export default class TextInputScene extends Phaser.Scene {
                         }
                         // CD DIRECTORY NOT FOUND BELOW
                         else {
+                            ding.play();
+
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
                             this.addTextToContainer("Directory not found");
@@ -143,6 +167,8 @@ export default class TextInputScene extends Phaser.Scene {
                                 manMap.get(manInput) as string
                             );
                         } else {
+                            ding.play();
+
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
                             this.addTextToContainer(
@@ -171,12 +197,12 @@ export default class TextInputScene extends Phaser.Scene {
 
                             // Check if the level's objective is achieved, e.g., if all required files are removed
                             if (
-                                state === "secret_folder" &&
-                                !files.includes("classified_file")
+                                state === "control_room" &&
+                                !files.includes("surveillance_camera")
                             ) {
                                 // Level completion logic here
                                 this.addTextToContainer(
-                                    "Objective complete: Classified file removed. \nGood job, agent!"
+                                    "Objective complete: Classified file removed. \nGood work, agent09!"
                                 );
                                 this.time.delayedCall(
                                     3000,
@@ -186,6 +212,8 @@ export default class TextInputScene extends Phaser.Scene {
                                 );
                             }
                         } else {
+                            ding.play();
+
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
                             this.addTextToContainer(
@@ -197,6 +225,7 @@ export default class TextInputScene extends Phaser.Scene {
                     }
                     // NONSENSE INPUT BELOW
                     else {
+                        ding.play();
                         this.inputField.value = ""; // Empty the input field
                         this.addTextToContainer("agent09: " + newText);
                         this.addTextToContainer(
@@ -237,7 +266,7 @@ export default class TextInputScene extends Phaser.Scene {
             newText.setColor("gold");
         }
         if (text.includes("Objective complete: ")) {
-            newText.setColor("red");
+            newText.setColor("lime");
         }
 
         // Add the new text object to the container
