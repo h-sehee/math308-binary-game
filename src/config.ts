@@ -2,13 +2,14 @@ import Phaser from "phaser";
 import PreloadScene from "./scenes/preloadScene";
 import MenuScene from "./scenes/menuScene";
 import FiveByFiveLevel from "./scenes/fiveByFiveLevel";
+import PostLevelScene from "./scenes/postLevelScene";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
 
 export const CONFIG = {
     title: "Boolean Bonanza",
-    version: "0.0.1",
+    version: "0.1.1",
     type: Phaser.AUTO,
     backgroundColor: "#ffffff",
     scale: {
@@ -18,7 +19,7 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, MenuScene, FiveByFiveLevel],
+    scene: [PreloadScene, MenuScene, FiveByFiveLevel, PostLevelScene],
     physics: {
         default: "arcade",
         arcade: {
