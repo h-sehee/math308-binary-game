@@ -9,7 +9,7 @@ export default class FiveByFiveLevel extends Phaser.Scene {
     locationBuffer: [number, number] | undefined;
     blockGrid: BlockGrid;
     timer: Phaser.Time.TimerEvent;
-    timeLimitInSeconds: number = 120;
+    timeLimitInSeconds: number;
     timerText: Phaser.GameObjects.Text;
     gameplayMusic: Phaser.Sound.BaseSound;
     scoreDisplay: ScoreDisplay;
@@ -23,10 +23,11 @@ export default class FiveByFiveLevel extends Phaser.Scene {
     }
 
     create() {
+        this.timeLimitInSeconds = 120;
         this.blockGrid = new BlockGrid(this, 5);
         this.fpsText = new FpsText(this);
         this.gameplayMusic = this.sound.add("gameplay-music");
-        this.gameplayMusic.play({ volume: 0.3 });
+        this.gameplayMusic.play({ volume: 0.3, loop: true });
         this.scoreDisplay = new ScoreDisplay(this, 620, 30);
 
         this.input.on("pointerdown", this.mouseClick, this);
@@ -45,7 +46,9 @@ export default class FiveByFiveLevel extends Phaser.Scene {
                 this.timeLimitInSeconds--;
                 if (this.timeLimitInSeconds <= 0) {
                     this.gameplayMusic.stop();
-                    this.scene.start("NextScene"); // Ensure you have a 'NextScene'
+                    this.scene.start("PostLevelScene", {
+                        finalScore: this.scoreDisplay.getScore(),
+                    });
                 }
             },
             callbackScope: this,
