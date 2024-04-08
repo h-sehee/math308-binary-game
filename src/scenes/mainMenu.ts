@@ -7,6 +7,13 @@ export default class mainMenu extends Phaser.Scene {
         super({ key: "mainMenu" });
     }
 
+    preload() {
+        this.load.spritesheet("duck", "assets/duck.png", {
+            frameWidth: 37,
+            frameHeight: 45,
+        });
+    }
+
     create() {
         const { width, height } = this.sys.game.config;
         const screenWidth: number = Number(width);
@@ -18,7 +25,23 @@ export default class mainMenu extends Phaser.Scene {
             .image(screenWidth / 2, screenHeight / 2, "pond")
             .setDisplaySize(screenWidth, screenHeight);
 
-        this.add.image(600, 200, "duck");
+        //duck jumping animation
+        this.anims.create({
+            key: "jump",
+            frames: this.anims.generateFrameNumbers("duck"),
+            frameRate: 20,
+        });
+
+        const sprite = this.add.sprite(450, 200, "duck");
+
+        this.tweens.add({
+            targets: sprite,
+            x: 750,
+            duration: 8800,
+            ease: "Linear",
+        });
+
+        //this.add.image(600, 200, "duck");
 
         const title = this.add.text(225, 350, "CROSS THE POND", {
             fontFamily: "Arial Black",
