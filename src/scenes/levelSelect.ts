@@ -10,12 +10,12 @@ export default class LevelSelect extends Phaser.Scene {
     private door3?: boolean = false;
     private door4?: boolean = false;
     private door5?: boolean = false;
+    private lvl1?: boolean = true;
     private lvl2?: boolean = false;
     private lvl3?: boolean = false;
     private lvl4?: boolean = false;
-    private username: string;
-
     private lvl5?: boolean = false;
+    private username: string;
 
     constructor() {
         super({ key: "LevelSelect" });
@@ -145,7 +145,7 @@ export default class LevelSelect extends Phaser.Scene {
         this.doors = this.physics.add.staticGroup();
         this.doors.setDepth(0);
 
-        //backwards door
+        //go back door
 
         const wallDoor = this.doors.create(
             48,
@@ -169,171 +169,86 @@ export default class LevelSelect extends Phaser.Scene {
                 wallDoor.setVisible(true);
                 backDoor.setVisible(false);
                 this.time.delayedCall(1000, () => {
-                    this.scene.start("IntroScene");
+                    this.scene.start("IntroScene"), { username: this.username };
                 });
             });
         });
 
-        //door1 code
+        //level doors
 
-        const closed_door1 = this.doors.create(
-            500,
-            507,
-            "closed_metal_door"
-        ) as Phaser.Physics.Arcade.Sprite;
-        closed_door1.setScale(0.25).refreshBody();
-        closed_door1.setVisible(true);
+        const doorPositions = [
+            {
+                x: 500,
+                state: this.lvl1,
+                door: this.door1,
+                scene: "LoadingScene1",
+            },
+            { x: 950, state: this.lvl2, door: this.door2, scene: "" },
+            { x: 1400, state: this.lvl3, door: this.door3, scene: "" },
+            { x: 1850, state: this.lvl4, door: this.door4, scene: "" },
+            { x: 2300, state: this.lvl5, door: this.door5, scene: "" },
+        ];
 
-        const open_door1 = this.doors.create(
-            500,
-            507,
-            "open_metal_door"
-        ) as Phaser.Physics.Arcade.Sprite;
-        open_door1.setScale(0.25).refreshBody();
-        open_door1.setVisible(false);
+        doorPositions.forEach((pos) => {
+            const closedDoor = this.doors?.create(
+                pos.x,
+                507,
+                pos.state ? "closed_metal_door" : "lockedDoor"
+            ) as Phaser.Physics.Arcade.Sprite;
+            closedDoor.setScale(0.25).refreshBody();
+            closedDoor.setVisible(true);
+            const openDoor = this.doors?.create(
+                pos.x,
+                507,
+                "open_metal_door"
+            ) as Phaser.Physics.Arcade.Sprite;
+            openDoor.setScale(0.25).refreshBody();
+            openDoor.setVisible(false);
 
-        this.physics.add.overlap(this.player, closed_door1, () => {
-            closed_door1.setVisible(false);
-            open_door1.setVisible(true);
-            this.door1 = true;
-            this.time.delayedCall(50, () => {
-                closed_door1.setVisible(true);
-                open_door1.setVisible(false);
-                this.door1 = false;
-            });
+            pos.state && this.player
+                ? this.physics.add.overlap(this.player, closedDoor, () => {
+                      closedDoor.setVisible(false);
+                      openDoor.setVisible(true);
+                      this.time.delayedCall(50, () => {
+                          closedDoor.setVisible(true);
+                          openDoor.setVisible(false);
+                      });
+
+                      if (
+                          openDoor.visible &&
+                          this.input.keyboard?.checkDown(
+                              this.input.keyboard.addKey(
+                                  Phaser.Input.Keyboard.KeyCodes.UP
+                              ),
+                              500
+                          )
+                      ) {
+                          this.tweens.add({
+                              targets: this.player,
+                              duration: 500,
+                              scaleX: 0,
+                              scaleY: 0,
+                              angle: 360,
+                              y: "-=40",
+                              onComplete: () => {
+                                  this.time.delayedCall(1000, () => {
+                                      this.sound.stopAll();
+                                      this.scene.start(pos.scene, {
+                                          username: this.username,
+                                          lvl2: this.lvl2,
+                                          lvl3: this.lvl3,
+                                          lvl4: this.lvl4,
+                                          lvl5: this.lvl5,
+                                      });
+                                  });
+                              },
+                          });
+                      }
+                  })
+                : null;
         });
-
-        //door2 code
-
-        const closed_door2 = this.doors.create(
-            950,
-            507,
-            this.lvl2 ? "closed_metal_door" : "lockedDoor"
-        ) as Phaser.Physics.Arcade.Sprite;
-        closed_door2.setScale(0.25).refreshBody();
-        closed_door2.setVisible(true);
-
-        const open_door2 = this.doors.create(
-            950,
-            507,
-            "open_metal_door"
-        ) as Phaser.Physics.Arcade.Sprite;
-        open_door2.setScale(0.25).refreshBody();
-        open_door2.setVisible(false);
-
-        this.lvl2
-            ? this.physics.add.overlap(this.player, closed_door2, () => {
-                  closed_door2.setVisible(false);
-                  open_door2.setVisible(true);
-                  this.door2 = true;
-                  this.time.delayedCall(50, () => {
-                      closed_door2.setVisible(true);
-                      open_door2.setVisible(false);
-                      this.door2 = false;
-                  });
-              })
-            : null;
-
-        //door3 code
-
-        const closed_door3 = this.doors.create(
-            1400,
-            507,
-            this.lvl3 ? "closed_metal_door" : "lockedDoor"
-        ) as Phaser.Physics.Arcade.Sprite;
-        closed_door3.setScale(0.25).refreshBody();
-        closed_door3.setVisible(true);
-
-        const open_door3 = this.doors.create(
-            1400,
-            507,
-            "open_metal_door"
-        ) as Phaser.Physics.Arcade.Sprite;
-        open_door3.setScale(0.25).refreshBody();
-        open_door3.setVisible(false);
-
-        this.lvl3
-            ? this.physics.add.overlap(this.player, closed_door3, () => {
-                  closed_door3.setVisible(false);
-                  open_door3.setVisible(true);
-                  this.door3 = true;
-                  this.time.delayedCall(50, () => {
-                      closed_door3.setVisible(true);
-                      open_door3.setVisible(false);
-                      this.door3 = false;
-                  });
-              })
-            : null;
-
-        //door4 code
-
-        const closed_door4 = this.doors.create(
-            1850,
-            507,
-            this.lvl4 ? "closed_metal_door" : "lockedDoor"
-        ) as Phaser.Physics.Arcade.Sprite;
-        closed_door4.setScale(0.25).refreshBody();
-        closed_door4.setVisible(true);
-
-        const open_door4 = this.doors.create(
-            1850,
-            507,
-            "open_metal_door"
-        ) as Phaser.Physics.Arcade.Sprite;
-        open_door4.setScale(0.25).refreshBody();
-        open_door4.setVisible(false);
-
-        this.lvl4
-            ? this.physics.add.overlap(this.player, closed_door4, () => {
-                  closed_door4.setVisible(false);
-                  open_door4.setVisible(true);
-                  this.door4 = true;
-                  this.time.delayedCall(50, () => {
-                      closed_door4.setVisible(true);
-                      open_door4.setVisible(false);
-                      this.door4 = false;
-                  });
-              })
-            : null;
-
-        //door5 code
-
-        const closed_door5 = this.doors.create(
-            2300,
-            507,
-            this.lvl5 ? "closed_metal_door" : "lockedDoor"
-        ) as Phaser.Physics.Arcade.Sprite;
-        closed_door5.setScale(0.25).refreshBody();
-        closed_door5.setVisible(true);
-
-        const open_door5 = this.doors.create(
-            2300,
-            507,
-            "open_metal_door"
-        ) as Phaser.Physics.Arcade.Sprite;
-        open_door5.setScale(0.25).refreshBody();
-        open_door5.setVisible(false);
-
-        this.lvl5
-            ? this.physics.add.overlap(this.player, closed_door5, () => {
-                  closed_door5.setVisible(false);
-                  open_door5.setVisible(true);
-                  this.door5 = true;
-                  this.time.delayedCall(50, () => {
-                      closed_door5.setVisible(true);
-                      open_door5.setVisible(false);
-                      this.door5 = false;
-                  });
-              })
-            : null;
     }
-
     update() {
-        let lvl2 = this.lvl2;
-        let lvl3 = this.lvl3;
-        let lvl4 = this.lvl4;
-        let lvl5 = this.lvl5;
-
         if (!this.cursors) {
             return;
         }
@@ -349,114 +264,7 @@ export default class LevelSelect extends Phaser.Scene {
         }
 
         if (this.cursors.up.isDown && this.player?.body?.touching.down) {
-            if (this.door1) {
-                this.tweens.add({
-                    targets: this.player,
-                    duration: 500,
-                    scaleX: 0,
-                    scaleY: 0,
-                    angle: 360,
-                    y: "-=40",
-                    onComplete: () => {
-                        this.time.delayedCall(1000, () => {
-                            this.sound.stopAll();
-
-                            this.scene.start("LoadingScene1", {
-                                username: this.username,
-                                lvl2,
-                                lvl3,
-                                lvl4,
-                                lvl5,
-                            });
-                        });
-                    },
-                });
-            }
-            if (this.door2) {
-                this.tweens.add({
-                    targets: this.player,
-                    duration: 500,
-                    scaleX: 0,
-                    scaleY: 0,
-                    angle: 360,
-                    y: "-=40",
-                    onComplete: () => {
-                        this.time.delayedCall(1000, () => {
-                            this.sound.stopAll();
-
-                            this.scene.start();
-                        });
-                    },
-                });
-            }
-            if (this.door3) {
-                this.tweens.add({
-                    targets: this.player,
-                    duration: 500,
-                    scaleX: 0,
-                    scaleY: 0,
-                    angle: 360,
-                    y: "-=40",
-                    onComplete: () => {
-                        this.time.delayedCall(1000, () => {
-                            this.sound.stopAll();
-
-                            this.scene.start();
-                        });
-                    },
-                });
-            }
-            if (this.door4) {
-                this.tweens.add({
-                    targets: this.player,
-                    duration: 500,
-                    scaleX: 0,
-                    scaleY: 0,
-                    angle: 360,
-                    y: "-=40",
-                    onComplete: () => {
-                        this.time.delayedCall(1000, () => {
-                            this.scene.start();
-                        });
-                    },
-                });
-            }
-            if (this.door5) {
-                this.tweens.add({
-                    targets: this.player,
-                    duration: 500,
-                    scaleX: 0,
-                    scaleY: 0,
-                    angle: 360,
-                    y: "-=40",
-                    onComplete: () => {
-                        this.time.delayedCall(1000, () => {
-                            this.sound.stopAll();
-
-                            this.scene.start();
-                        });
-                    },
-                });
-            }
-            if (this.door5) {
-                this.tweens.add({
-                    targets: this.player,
-                    duration: 500,
-                    scaleX: 0,
-                    scaleY: 0,
-                    angle: 360,
-                    y: "-=40",
-                    onComplete: () => {
-                        this.time.delayedCall(1000, () => {
-                            this.sound.stopAll();
-
-                            this.scene.start();
-                        });
-                    },
-                });
-            } else {
-                this.player.setVelocityY(-300);
-            }
+            this.player.setVelocityY(-300);
         } else if (this.cursors.down.isDown) {
             this.player?.setVelocityY(300);
         }

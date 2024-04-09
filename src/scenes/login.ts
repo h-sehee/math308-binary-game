@@ -102,7 +102,7 @@ export default class TextInputScene extends Phaser.Scene {
                 // Play sound
                 lsDing.play();
 
-                this.input.keyboard?.removeListener("keydown", enterListener);
+                // this.input.keyboard?.removeListener("keydown", enterListener);
 
                 this.removeInputField();
 

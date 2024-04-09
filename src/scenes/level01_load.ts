@@ -46,10 +46,10 @@ export default class LoadingScene1 extends Phaser.Scene {
         // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
             this.scene.start("Level01", {
-                username: this.username,
-                lvl1: this.lvl2,
-                lvl2: this.lvl3,
-                lvl3: this.lvl4,
+                lvl2: this.lvl2,
+                lvl3: this.lvl3,
+                lvl4: this.lvl4,
+                lvl5: this.lvl5,
             });
         });
     }

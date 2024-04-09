@@ -128,6 +128,11 @@ export default class TextInputScene extends Phaser.Scene {
                 fontFamily: "Monospace",
             }
         );
+
+        this.input.keyboard?.removeCapture(
+            Phaser.Input.Keyboard.KeyCodes.SPACE
+        );
+
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
                 const newText = this.inputField.value;
