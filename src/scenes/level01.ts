@@ -4,18 +4,35 @@ export default class TextInputScene extends Phaser.Scene {
     private stateText: Phaser.GameObjects.Text;
     private inputField: HTMLInputElement;
     private inputContainer: Phaser.GameObjects.Container;
+    private timer: Phaser.GameObjects.Text;
     private lvl2: boolean;
     private lvl3: boolean;
     private lvl4: boolean;
+    private username: string;
+    private lvl5: boolean;
 
     constructor() {
         super({ key: "Level01" });
     }
 
-    init(data: { lvl1: boolean; lvl2: boolean; lvl3: boolean; lvl4: boolean }) {
+    init(data: {
+        username: string;
+
+        lvl1: boolean;
+
+        lvl2: boolean;
+
+        lvl3: boolean;
+
+        lvl4: boolean;
+
+        lvl5: boolean;
+    }) {
         this.lvl2 = data.lvl2;
         this.lvl3 = data.lvl3;
         this.lvl4 = data.lvl4;
+        this.username = data.username;
+        this.lvl5 = data.lvl5;
     }
     preload() {}
 
@@ -27,9 +44,10 @@ export default class TextInputScene extends Phaser.Scene {
         this.add.image(1050, 100, "pin").setDisplaySize(30, 40);
 
         let ding = this.sound.add("ding", { loop: false });
-        let cdDing = this.sound.add("lsDing", { loop: false });
-        let lsDing = this.sound.add("cdDing", { loop: false });
+        let lsDing = this.sound.add("lsDing", { loop: false });
+        let cdDing = this.sound.add("cdDing", { loop: false });
         let cdBackDing = this.sound.add("cdBackDing", { loop: false });
+        let manDing = this.sound.add("manDing", { loop: false });
 
         this.inputContainer = this.add.container(360, 520);
 
@@ -39,7 +57,7 @@ export default class TextInputScene extends Phaser.Scene {
 
         this.inputContainer.setMask(mask);
 
-        this.addTextToContainer("Alfred: Welcome back agent09!");
+        this.addTextToContainer("Alfred: Welcome back " + this.username + "!");
 
         let state: string = "home";
 
@@ -103,12 +121,16 @@ export default class TextInputScene extends Phaser.Scene {
         this.add.text(
             410,
             59,
-            "Enter the 'control_room' and neutralize the \n'surveillance_camera' so you can proceed\ninto the next area. Namuh has security\nroaming the area so time is of the essence.",
+            "Enter the 'control_room' and remove the \n'surveillance_camera' so you can proceed\ninto the next area. Namuh has security\nroaming the area so time is of the essence.",
             {
                 color: "#fff",
                 fontSize: "17px",
                 fontFamily: "Monospace",
             }
+        );
+
+        this.input.keyboard?.removeCapture(
+            Phaser.Input.Keyboard.KeyCodes.SPACE
         );
 
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
@@ -156,11 +178,13 @@ export default class TextInputScene extends Phaser.Scene {
                             this.addTextToContainer("agent09: " + newText);
                             this.addTextToContainer("Directory not found");
                         }
+                        // MAN INPUT BELOW
                     } else if (newText.substring(0, 4) == "man ") {
                         let manInput: string = newText.substring(4);
 
                         const manState = manMap.get(manInput);
                         if (manState !== undefined) {
+                            manDing.play();
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
                             this.addTextToContainer(
@@ -236,6 +260,32 @@ export default class TextInputScene extends Phaser.Scene {
             }
         });
 
+        let time = 30;
+
+        this.timer = this.add.text(75, 655, time.toString(), {
+            fontSize: "50px",
+            color: "red",
+        });
+
+        const updateTimer = () => {
+            this.timer.setText(time.toString());
+
+            if (time > 0) {
+                this.time.delayedCall(1000, updateTimer);
+            }
+            time--;
+
+            if (time == 0) {
+                this.scene.start("LevelSelect", {
+                    lvl2: false,
+                    lvl3: this.lvl3,
+                    lvl4: this.lvl4,
+                });
+            }
+        };
+
+        updateTimer();
+
         this.stateText = this.add.text(1075, 95, state, {
             fontSize: "24px",
             color: "#fff",
@@ -294,6 +344,7 @@ export default class TextInputScene extends Phaser.Scene {
             lvl2: true,
             lvl3: this.lvl3,
             lvl4: this.lvl4,
+            lvl5: this.lvl5,
         });
     }
 }

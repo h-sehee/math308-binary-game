@@ -19,6 +19,10 @@ export default class PreloadScene extends Phaser.Scene {
 
         this.load.image("closed_metal_door", "assets/closed_metal_door.png");
         this.load.image("lockedDoor", "assets/lockedDoor.png");
+        this.load.image("arrow", "assets/arrow.png");
+        this.load.image("backwardsDoor", "assets/backwardsDoor.png");
+        this.load.image("wallDoor", "assets/wallDoor.png");
+
         this.load.image(
             "LevelSelectBackground",
             "assets/LevelSelectBackground.png"
@@ -42,7 +46,9 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.audio("cdDing", ["assets/cdDing.mp3"]);
         this.load.audio("lsDing", ["assets/lsDing.mp3"]);
         this.load.audio("cdBackDing", ["assets/cdBackDing.mp3"]);
+        this.load.audio("manDing", ["assets/manDing.mp3"]);
         this.load.audio("menuMusic", ["assets/menuMusic.mp3"]);
+        this.load.audio("alfredDeathMusic", ["assets/alfredDeathMusic.mp3"]);
     }
 
     create() {
