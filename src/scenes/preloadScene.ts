@@ -9,7 +9,7 @@ export default class PreloadScene extends Phaser.Scene {
         //Title Logo, Play Button, and Background Assets
         this.load.image({
             key: "title_logo",
-            url: "assets/img/title_assets/schedulsine_logo.png",
+            url: "assets/img/title_assets/schedulsine_logo2.png",
         });
         this.load.image({
             key: "play_bttn",
