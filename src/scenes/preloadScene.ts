@@ -16,7 +16,7 @@ export default class PreloadScene extends Phaser.Scene {
             "robot_walk_DR",
             "assets/sprites/robot_walk_down_right.png",
             {
-                //use this for straight right
+                //also use this for straight right
                 frameWidth: 18,
                 frameHeight: 22,
             }
@@ -25,7 +25,7 @@ export default class PreloadScene extends Phaser.Scene {
             "robot_walk_DL",
             "assets/sprites/robot_walk_down_left.png",
             {
-                // use this for straight left
+                //also use this for straight left
                 frameWidth: 18,
                 frameHeight: 22,
             }
@@ -60,6 +60,54 @@ export default class PreloadScene extends Phaser.Scene {
             {
                 frameWidth: 18,
                 frameHeight: 22,
+            }
+        );
+        this.load.spritesheet(
+            "demon_idle",
+            "assets/sprites/demon_walk_right.png",
+            {
+                frameWidth: 32,
+                frameHeight: 36,
+            }
+        );
+        this.load.spritesheet(
+            "demon_walk_R",
+            "assets/sprites/demon_walk_right.png",
+            {
+                frameWidth: 32,
+                frameHeight: 36,
+            }
+        );
+        this.load.spritesheet(
+            "demon_walk_L",
+            "assets/sprites/demon_walk_left.png",
+            {
+                frameWidth: 32,
+                frameHeight: 36,
+            }
+        );
+        this.load.spritesheet(
+            "chort_idle",
+            "assets/sprites/chort_walk_right.png",
+            {
+                frameWidth: 16,
+                frameHeight: 23,
+            }
+        );
+        this.load.spritesheet(
+            "chort_walk_R",
+            "assets/sprites/chort_walk_right.png",
+            {
+                frameWidth: 16,
+                frameHeight: 23,
+            }
+        );
+        this.load.spritesheet(
+            "chort_walk_L",
+            "assets/sprites/chort_walk_left.png",
+            {
+                frameWidth: 16,
+                frameHeight: 23,
             }
         );
         this.load.image("tiles", "assets/tiles/tilemap.png");
