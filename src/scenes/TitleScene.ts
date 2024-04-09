@@ -54,7 +54,7 @@ export default class TitleScene extends Phaser.Scene {
             )
             .setOrigin(0.5);
         startGame.setInteractive();
-        startGame.on("pointerdown", () => this.scene.start("mainScene"));
+        startGame.on("pointerdown", () => this.scene.start("tutorial"));
 
         this.tweens.add({
             targets: startGame,

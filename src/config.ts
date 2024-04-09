@@ -4,6 +4,7 @@ import TitleScene from "./scenes/TitleScene";
 import GameUI from "./scenes/GameUI";
 import GameOver from "./scenes/GameOver";
 import MainScene from "./scenes/mainScene";
+import Tutorial from "./scenes/Tutorial";
 
 const DEFAULT_WIDTH = 320;
 const DEFAULT_HEIGHT = 320;
@@ -20,7 +21,7 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, TitleScene, MainScene, GameUI, GameOver],
+    scene: [PreloadScene, TitleScene, Tutorial, MainScene, GameUI, GameOver],
     physics: {
         default: "arcade",
         arcade: {
