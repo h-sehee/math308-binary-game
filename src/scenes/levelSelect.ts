@@ -5,11 +5,6 @@ export default class LevelSelect extends Phaser.Scene {
     private player?: Phaser.Physics.Arcade.Sprite;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private doors?: Phaser.Physics.Arcade.StaticGroup;
-    private door1?: boolean = false;
-    private door2?: boolean = false;
-    private door3?: boolean = false;
-    private door4?: boolean = false;
-    private door5?: boolean = false;
     private lvl1?: boolean = true;
     private lvl2?: boolean = false;
     private lvl3?: boolean = false;
@@ -44,7 +39,6 @@ export default class LevelSelect extends Phaser.Scene {
     create() {
         this.platforms = this.physics.add.staticGroup();
 
-        // Set light grey background
         this.cameras.main.setBackgroundColor("#A9A9A9");
 
         const groundWidth = this.scale.width;
@@ -70,17 +64,16 @@ export default class LevelSelect extends Phaser.Scene {
 
         this.add.image(1175, 330, "arrow").setScale(0.5);
 
-        const leftWall = this.platforms.create(-357, 0, "ground");
-        leftWall.setOrigin(0, 0);
-        leftWall.setScale(1, this.scale.height); // Adjust height to match the screen height
-        leftWall.refreshBody();
-        leftWall.setTint(808080);
+        const walls = [{ x: -357 }, { x: 2555 }];
 
-        const rightWall = this.platforms.create(2555, 0, "ground");
-        rightWall.setOrigin(0, 0);
-        rightWall.setScale(1, this.scale.height); // Adjust height to match the screen height
-        rightWall.refreshBody();
-        rightWall.setTint(808080);
+        walls.forEach((pos) => {
+            this.platforms
+                ?.create(pos.x, 0, "ground")
+                .setOrigin(0, 0)
+                .setScale(1, this.scale.height)
+                .refreshBody()
+                .setTint(808080);
+        });
 
         // Title Text
 
@@ -164,11 +157,11 @@ export default class LevelSelect extends Phaser.Scene {
             wallDoor.setVisible(false);
             backDoor.setVisible(true);
             this.player?.setVisible(false);
-
-            this.time.delayedCall(1000, () => {
+            this.player?.setY(590);
+            this.time.delayedCall(600, () => {
                 wallDoor.setVisible(true);
                 backDoor.setVisible(false);
-                this.time.delayedCall(1000, () => {
+                this.time.delayedCall(600, () => {
                     this.scene.start("IntroScene"), { username: this.username };
                 });
             });
@@ -180,13 +173,12 @@ export default class LevelSelect extends Phaser.Scene {
             {
                 x: 500,
                 state: this.lvl1,
-                door: this.door1,
                 scene: "LoadingScene1",
             },
-            { x: 950, state: this.lvl2, door: this.door2, scene: "" },
-            { x: 1400, state: this.lvl3, door: this.door3, scene: "" },
-            { x: 1850, state: this.lvl4, door: this.door4, scene: "" },
-            { x: 2300, state: this.lvl5, door: this.door5, scene: "" },
+            { x: 950, state: this.lvl2, scene: "" },
+            { x: 1400, state: this.lvl3, scene: "" },
+            { x: 1850, state: this.lvl4, scene: "" },
+            { x: 2300, state: this.lvl5, scene: "" },
         ];
 
         doorPositions.forEach((pos) => {
