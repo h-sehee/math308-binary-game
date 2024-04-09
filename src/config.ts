@@ -3,6 +3,7 @@ import PreloadScene from "./scenes/preloadScene";
 import MenuScene from "./scenes/menuScene";
 import FiveByFiveLevel from "./scenes/fiveByFiveLevel";
 import PostLevelScene from "./scenes/postLevelScene";
+import ThreeByThreeLevel from "./scenes/threeByThreeLevel";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -19,7 +20,13 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, MenuScene, FiveByFiveLevel, PostLevelScene],
+    scene: [
+        PreloadScene,
+        MenuScene,
+        FiveByFiveLevel,
+        PostLevelScene,
+        ThreeByThreeLevel,
+    ],
     physics: {
         default: "arcade",
         arcade: {
