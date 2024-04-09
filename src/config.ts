@@ -1,5 +1,15 @@
 import Phaser from "phaser";
-import MainScene from "./scenes/mainScene";
+import levelOne from "./scenes/levelOne";
+import levelOnePass from "./scenes/levelOnePass";
+import levelTwo from "./scenes/levelTwo";
+import levelTwoPass from "./scenes/levelTwoPass";
+import levelThree from "./scenes/levelThree";
+import levelThreePass from "./scenes/levelThreePass";
+import levelFour from "./scenes/levelFour";
+import levelFourPass from "./scenes/levelFourPass";
+import levelFive from "./scenes/levelFive";
+import endScreen from "./scenes/endScreen";
+import mainMenu from "./scenes/mainMenu";
 import PreloadScene from "./scenes/preloadScene";
 
 const DEFAULT_WIDTH = 1280;
@@ -17,7 +27,20 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, MainScene],
+    scene: [
+        PreloadScene,
+        mainMenu,
+        levelOne,
+        levelTwo,
+        levelThree,
+        levelFour,
+        levelFive,
+        levelOnePass,
+        levelTwoPass,
+        levelThreePass,
+        levelFourPass,
+        endScreen,
+    ],
     physics: {
         default: "arcade",
         arcade: {
