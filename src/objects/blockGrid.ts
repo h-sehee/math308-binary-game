@@ -29,15 +29,6 @@ export default class BlockGrid extends Phaser.GameObjects.Container {
         scene.sound.add("block-break");
     }
 
-    // public createRandomBlock(row: number, col: number): BooleanBlock {
-    //     let blockList: Array<string> = ["and", "or", "not", "true", "false"];
-    //     let blockType = blockList[Math.floor(Math.random() * blockList.length)];
-    //     let x = col * (this.blockSize + this.blockSpacing);
-    //     let y = row * (this.blockSize + this.blockSpacing);
-    //     let block = new BooleanBlock(this.scene, x, y, blockType, [row, col]);
-    //     block.setInteractive();
-    //     return block;
-    // }
     public createRandomBlock(row: number, col: number): BooleanBlock {
         let blockList: Array<string> = ["and", "or", "true", "false"];
 
