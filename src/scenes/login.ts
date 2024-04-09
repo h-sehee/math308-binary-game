@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class TextInputScene extends Phaser.Scene {
+export default class LoginScene extends Phaser.Scene {
     private stateText: Phaser.GameObjects.Text;
     private inputField: HTMLInputElement;
     private inputContainer: Phaser.GameObjects.Container;
@@ -102,7 +102,7 @@ export default class TextInputScene extends Phaser.Scene {
                 // Play sound
                 lsDing.play();
 
-                // this.input.keyboard?.removeListener("keydown", enterListener);
+                this.input.keyboard?.removeListener("keydown", enterListener);
 
                 this.removeInputField();
 
