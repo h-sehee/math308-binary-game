@@ -13,6 +13,7 @@ export default class FiveByFiveLevel extends Phaser.Scene {
     timerText: Phaser.GameObjects.Text;
     gameplayMusic: Phaser.Sound.BaseSound;
     scoreDisplay: ScoreDisplay;
+    reshuffleButton: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: "FiveByFiveLevel" });
@@ -66,6 +67,11 @@ export default class FiveByFiveLevel extends Phaser.Scene {
                 }
             )
             .setOrigin(1, 1);
+
+        this.reshuffleButton = this.add
+            .text(100, 50, "Reshuffle", { color: "#000000" })
+            .setInteractive();
+        this.reshuffleButton.on("pointerdown", this.reshuffleBlocks, this);
 
         // Create break animations
         this.createBreakAnimations();
@@ -150,5 +156,13 @@ export default class FiveByFiveLevel extends Phaser.Scene {
         this.fpsText.update();
 
         this.timerText.setText(`Time: ${this.timeLimitInSeconds}`);
+    }
+
+    reshuffleBlocks() {
+        // Clear existing block grid
+        this.blockGrid.destroy();
+
+        // Generate new block grid with random blocks
+        this.blockGrid = new BlockGrid(this, 5);
     }
 }
