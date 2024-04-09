@@ -11,25 +11,23 @@ export default class LoadingScene1 extends Phaser.Scene {
     private lvl2: boolean;
     private lvl3: boolean;
     private lvl4: boolean;
-    private username: string;
     private lvl5: boolean;
+    private username: string;
 
     constructor() {
         super({ key: "LoadingScene1" });
     }
     init(data: {
         username: string;
-
+        lvl1: boolean;
         lvl2: boolean;
         lvl3: boolean;
         lvl4: boolean;
-        lvl5: boolean;
     }) {
         this.lvl2 = data.lvl2;
         this.lvl3 = data.lvl3;
         this.lvl4 = data.lvl4;
         this.username = data.username;
-        this.lvl5 = data.lvl5;
     }
 
     preload() {
@@ -48,10 +46,10 @@ export default class LoadingScene1 extends Phaser.Scene {
         // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
             this.scene.start("Level01", {
-                lvl2: this.lvl2,
-                lvl3: this.lvl3,
-                lvl4: this.lvl4,
-                lvl5: this.lvl5,
+                username: this.username,
+                lvl1: this.lvl2,
+                lvl2: this.lvl3,
+                lvl3: this.lvl4,
             });
         });
     }
