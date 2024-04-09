@@ -24,6 +24,7 @@ export default class Game_1 extends Phaser.Scene {
             key: "tomato",
             repeat: 10,
             setXY: { x: 200, y: 20, stepX: 100 },
+            collideWorldBounds: true,
         });
 
         //Creates player input and player object.
