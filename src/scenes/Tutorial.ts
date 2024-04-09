@@ -65,6 +65,9 @@ export default class Tutorial extends Phaser.Scene {
             this
         );
 
+        this.physics.add.collider(this.theseus, wallsLayer);
+        this.physics.add.collider(this.theseus, this.doorLayer);
+
         this.time.delayedCall(1000, () => {
             this.doorLayer.setCollisionByProperty({ collides: true }, false);
             this.doorLayer.setVisible(false);
