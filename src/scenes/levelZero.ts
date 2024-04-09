@@ -12,15 +12,11 @@ export default class LevelZero extends Phaser.Scene {
 
     private stack: Phaser.GameObjects.Sprite[] = [];
     private collectedItems: Phaser.GameObjects.Sprite[] = []; // To track all collected items (even after they're popped from stack)
-    //private stackText?: Phaser.GameObjects.Text;
     private keyE?: Phaser.Input.Keyboard.Key;
     private keyF?: Phaser.Input.Keyboard.Key;
     private keyEPressed: boolean = false; // Flag to check if 'E' was pressed to prevent picking up multiple items from one long key press
     private keyFPressed: boolean = false; // Flag to check if 'E' was pressed to prevent using multiple items from one long key press
     private lastDirection: string = "right";
-
-    private collectingItem: boolean = false; // Flag to make sure user can't enter key input while push animation is happening
-    private usingItem: boolean = false; // Flag to make sure user can't enter key input while pop animation is happening
 
     constructor() {
         super({ key: "Level0" });
@@ -198,22 +194,7 @@ export default class LevelZero extends Phaser.Scene {
         this.keyF = this.input.keyboard?.addKey(
             Phaser.Input.Keyboard.KeyCodes.F
         );
-
-        /*this.stackText = this.add.text(16, 16, "Stackpack:", {
-            fontSize: "24px",
-            color: "#000000",
-        });*/
     }
-
-    /*private updateStackText() {
-        if (this.stackText && this.stack.length > 0) {
-            let text = "Stackpack:\n";
-            this.stack.forEach((item, index) => {
-                text += `Item ${index + 1}: ${item.texture.key}\n`;
-            });
-            this.stackText.setText(text);
-        }
-    }*/
 
     private updateStackView() {
         const offsetX = 1170; // starting X position for stack items
@@ -237,19 +218,14 @@ export default class LevelZero extends Phaser.Scene {
                 y: stackItemY,
                 duration: 800,
                 ease: "Cubic.InOut",
-                onComplete: () => {
-                    this.collectingItem = false;
-                },
             });
         });
     }
 
     private collectItem(item: Phaser.GameObjects.Sprite) {
-        if (this.collectedItems.includes(item) || this.collectingItem) {
+        if (this.collectedItems.includes(item)) {
             return;
         }
-
-        this.collectingItem = true;
 
         // Save the x and y scales of the collected item
         const currScaleX = item.scaleX;
@@ -294,17 +270,18 @@ export default class LevelZero extends Phaser.Scene {
         // Add the item to the grand list of collected items
         this.collectedItems.push(item);
 
-        //this.updateStackText();
         this.updateStackView();
     }
 
     private useItem() {
-        // If a push or pop animation is currently in progress, don't pop
-        if (this.usingItem || this.collectingItem || this.stack.length === 0) {
+        const isTweening = this.tweens
+            .getTweens()
+            .some((tween) => tween.isPlaying());
+
+        // If a push or pop animation is currently in progress, don't pop (cuz it causes a bug)
+        if (isTweening) {
             return;
         }
-
-        this.usingItem = true;
 
         // Remove the top item from the stackpack
         const poppedItem = this.stack.pop();
@@ -329,15 +306,12 @@ export default class LevelZero extends Phaser.Scene {
                         alpha: 1, // Fade in
                         duration: 300,
                         onComplete: () => {
-                            this.usingItem = false;
+                            this.updateStackView();
                         },
                     });
                 },
             });
         }
-
-        //this.updateStackText();
-        this.updateStackView();
     }
 
     update() {
