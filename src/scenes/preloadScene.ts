@@ -23,6 +23,43 @@ export default class PreloadScene extends Phaser.Scene {
             "gameplay-music",
             "assets/audio/music/contemplation.mp3"
         );
+        this.load.spritesheet(
+            "green-break",
+            "assets/effects/effects/green.png",
+            {
+                frameWidth: 192, // width of each frame
+                frameHeight: 192, // height of each frame
+                endFrame: 5, // number of frames in the spritesheet
+            }
+        );
+        this.load.spritesheet("red-break", "assets/effects/effects/red.png", {
+            frameWidth: 192, // width of each frame
+            frameHeight: 192, // height of each frame
+            endFrame: 5, // number of frames in the spritesheet
+        });
+        this.load.spritesheet(
+            "yellow-break",
+            "assets/effects/effects/yellow.png",
+            {
+                frameWidth: 192, // width of each frame
+                frameHeight: 192, // height of each frame
+                endFrame: 5, // number of frames in the spritesheet
+            }
+        );
+        this.load.spritesheet("blue-break", "assets/effects/effects/blue.png", {
+            frameWidth: 192, // width of each frame
+            frameHeight: 192, // height of each frame
+            endFrame: 5, // number of frames in the spritesheet
+        });
+        this.load.spritesheet(
+            "purple-break",
+            "assets/effects/effects/purple.png",
+            {
+                frameWidth: 192, // width of each frame
+                frameHeight: 192, // height of each frame
+                endFrame: 5, // number of frames in the spritesheet
+            }
+        );
     }
 
     create() {

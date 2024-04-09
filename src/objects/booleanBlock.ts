@@ -47,11 +47,11 @@ export default class BooleanBlock extends Phaser.GameObjects.Image {
         return this.gridLocation;
     }
 
-    public setGridLocation(newGridLication: [number, number]) {
-        this.gridLocation = newGridLication;
+    public setGridLocation(newGridLocation: [number, number]): void {
+        this.gridLocation = newGridLocation;
     }
 
-    public getBlockType() {
+    public getBlockType(): string {
         return this.blockType;
     }
 }
