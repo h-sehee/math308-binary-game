@@ -19,6 +19,9 @@ export default class LevelZero extends Phaser.Scene {
     private keyFPressed: boolean = false; // Flag to check if 'E' was pressed to prevent using multiple items from one long key press
     private lastDirection: string = "right";
 
+    private collectingItem: boolean = false; // Flag to make sure user can't enter key input while push animation is happening
+    private usingItem: boolean = false; // Flag to make sure user can't enter key input while pop animation is happening
+
     constructor() {
         super({ key: "Level0" });
     }
@@ -234,14 +237,19 @@ export default class LevelZero extends Phaser.Scene {
                 y: stackItemY,
                 duration: 800,
                 ease: "Cubic.InOut",
+                onComplete: () => {
+                    this.collectingItem = false;
+                },
             });
         });
     }
 
     private collectItem(item: Phaser.GameObjects.Sprite) {
-        if (this.collectedItems.includes(item)) {
+        if (this.collectedItems.includes(item) || this.collectingItem) {
             return;
         }
+
+        this.collectingItem = true;
 
         // Save the x and y scales of the collected item
         const currScaleX = item.scaleX;
@@ -291,6 +299,13 @@ export default class LevelZero extends Phaser.Scene {
     }
 
     private useItem() {
+        // If a push or pop animation is currently in progress, don't pop
+        if (this.usingItem || this.collectingItem || this.stack.length === 0) {
+            return;
+        }
+
+        this.usingItem = true;
+
         // Remove the top item from the stackpack
         const poppedItem = this.stack.pop();
 
@@ -313,6 +328,9 @@ export default class LevelZero extends Phaser.Scene {
                         scaleY: poppedItem.scaleY * 2,
                         alpha: 1, // Fade in
                         duration: 300,
+                        onComplete: () => {
+                            this.usingItem = false;
+                        },
                     });
                 },
             });
