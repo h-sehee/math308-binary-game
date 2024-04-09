@@ -247,28 +247,37 @@ export default class LevelZero extends Phaser.Scene {
         const currScaleX = item.scaleX;
         const currScaleY = item.scaleY;
 
-        // Animation to scale up the collected item
+        // Animation to make item bigger, then smaller, and then fly up to stackpack
         this.tweens.add({
             targets: item,
             scaleX: currScaleX * 1.5, // Scale up item size for a bit
             scaleY: currScaleY * 1.5,
-            duration: 120,
+            duration: 180,
             ease: "Exponential.InOut",
             onComplete: () => {
-                // After scaling up, move item to the stackpack view
                 this.tweens.add({
                     targets: item,
-                    x: 1170,
-                    y: -10, // Y position of item before it is dropped into its actual position in stackpack
-                    scaleX: currScaleX * 0.5, // Scale down the item for stackpack view
-                    scaleY: currScaleY * 0.5,
-                    rotation: Math.PI * 2, // Rotate the item while moving it to stackpack
-                    duration: 900,
-                    ease: "Cubic.In", // Make animation smooth
+                    scaleX: currScaleX, // Scale down item back to normal
+                    scaleY: currScaleY,
+                    duration: 150,
+                    ease: "Exponential.InOut",
                     onComplete: () => {
-                        // After the animation completes, add the item to the stack
-                        this.stack.push(item);
-                        this.updateStackView();
+                        // Move item to the stackpack view
+                        this.tweens.add({
+                            targets: item,
+                            x: 1170,
+                            y: -10, // Y position of item before it is dropped into its actual position in stackpack
+                            scaleX: currScaleX * 0.5, // Scale down the item for stackpack view
+                            scaleY: currScaleY * 0.5,
+                            rotation: Math.PI * 2, // Rotate the item while moving it to stackpack
+                            duration: 940,
+                            ease: "Cubic.In",
+                            onComplete: () => {
+                                // Add the item to the stack
+                                this.stack.push(item);
+                                this.updateStackView();
+                            },
+                        });
                     },
                 });
             },
