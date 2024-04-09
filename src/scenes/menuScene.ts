@@ -53,6 +53,5 @@ export default class MenuScene extends Phaser.Scene {
         this.sound.play("button-press", { volume: 0.4 });
         this.menuMusic.stop();
         this.scene.start(sceneKey);
-        this.scene.start(sceneKey);
     }
 }
