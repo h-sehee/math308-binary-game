@@ -56,8 +56,8 @@ export default class MainScene extends Phaser.Scene {
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
 
-        wallsLayer.setCollisionByProperty({ collides: true });
-        this.doorLayer.setCollisionByProperty({ collides: true });
+        wallsLayer.setCollisionByProperty({ collides: true }, true);
+        this.doorLayer.setCollisionByProperty({ collides: true }, true);
 
         debugDraw(wallsLayer, this, false);
         debugDraw(this.doorLayer, this, false);
@@ -205,10 +205,8 @@ export default class MainScene extends Phaser.Scene {
     }
 
     private handleEnemyDefeated() {
+        this.doorLayer.setCollisionByProperty({ collides: true }, false);
         this.doorLayer.setVisible(false);
-        this.doorLayer.setCollisionByProperty({ collides: false });
-        console.log(this.doorLayer);
-        console.log("door open");
     }
 
     update() {
