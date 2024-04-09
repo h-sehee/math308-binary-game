@@ -226,7 +226,15 @@ export default class LevelZero extends Phaser.Scene {
             const stackItemY =
                 offsetY - item.displayHeight - currTotalHeight - padding;
             currTotalHeight += item.displayHeight + padding;
-            item.setPosition(stackItemX, stackItemY);
+
+            // Animation to drop the item into its position in the stackpack
+            this.tweens.add({
+                targets: item,
+                x: stackItemX,
+                y: stackItemY,
+                duration: 800,
+                ease: "Cubic.InOut",
+            });
         });
     }
 
@@ -235,12 +243,36 @@ export default class LevelZero extends Phaser.Scene {
             return;
         }
 
-        // Scale down the collected item to prepare it for stackpack view
-        const currScale = item.scaleX;
-        item.setScale(currScale * 0.5);
+        // Save the x and y scales of the collected item
+        const currScaleX = item.scaleX;
+        const currScaleY = item.scaleY;
 
-        // Add the item to the player's stackpack
-        this.stack.push(item);
+        // Animation to scale up the collected item
+        this.tweens.add({
+            targets: item,
+            scaleX: currScaleX * 1.5, // Scale up item size for a bit
+            scaleY: currScaleY * 1.5,
+            duration: 120,
+            ease: "Exponential.InOut",
+            onComplete: () => {
+                // After scaling up, move item to the stackpack view
+                this.tweens.add({
+                    targets: item,
+                    x: 1170,
+                    y: -10, // Y position of item before it is dropped into its actual position in stackpack
+                    scaleX: currScaleX * 0.5, // Scale down the item for stackpack view
+                    scaleY: currScaleY * 0.5,
+                    rotation: Math.PI * 2, // Rotate the item while moving it to stackpack
+                    duration: 900,
+                    ease: "Cubic.In", // Make animation smooth
+                    onComplete: () => {
+                        // After the animation completes, add the item to the stack
+                        this.stack.push(item);
+                        this.updateStackView();
+                    },
+                });
+            },
+        });
 
         // Add the item to the grand list of collected items
         this.collectedItems.push(item);
@@ -253,17 +285,28 @@ export default class LevelZero extends Phaser.Scene {
         // Remove the top item from the stackpack
         const poppedItem = this.stack.pop();
 
-        // Enable the item (make it visible and active in the scene)
         if (poppedItem) {
-            // Set scale back to normal
-            const currScale = poppedItem.scaleX;
-            poppedItem.setScale(currScale * 2);
+            // Animation to fade item out from stackpack and then fade in in its new location
+            this.tweens.add({
+                targets: poppedItem,
+                alpha: 0, // Fade out
+                duration: 200,
+                onComplete: () => {
+                    // Set item origin back to default (center)
+                    poppedItem.setOrigin(0.5, 0.5);
 
-            // Set item origin back to default (center)
-            poppedItem.setOrigin(0.5, 0.5);
+                    // Move popped item to location it will be used
+                    poppedItem.setPosition(400, 200);
 
-            // Move popped item to location it will be used
-            poppedItem.setPosition(400, 200);
+                    this.tweens.add({
+                        targets: poppedItem,
+                        scaleX: poppedItem.scaleX * 2,
+                        scaleY: poppedItem.scaleY * 2,
+                        alpha: 1, // Fade in
+                        duration: 300,
+                    });
+                },
+            });
         }
 
         //this.updateStackText();
