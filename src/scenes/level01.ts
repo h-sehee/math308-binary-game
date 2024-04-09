@@ -121,12 +121,6 @@ export default class TextInputScene extends Phaser.Scene {
             }
         );
 
-        const timer = this.add.text(40, 859, "30", {
-            color: "red",
-            fontSize: "37px",
-            fontFamily: "Monospace",
-        });
-
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
                 const newText = this.inputField.value;
