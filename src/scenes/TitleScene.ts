@@ -33,7 +33,7 @@ export default class TitleScene extends Phaser.Scene {
                 this.cameras.main.width,
                 this.cameras.main.height,
                 0x000000,
-                0.3
+                0.4
             )
             .setOrigin(0.5)
             .setDepth(999);

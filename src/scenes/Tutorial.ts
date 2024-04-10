@@ -77,6 +77,11 @@ export default class Tutorial extends Phaser.Scene {
                 weaponType: this.theseus?.weaponType,
             });
         });
+
+        this.input.keyboard?.on("keydown-ESC", () => {
+            this.scene.pause();
+            this.scene.run("pause", { currentScene: "tutorial" });
+        });
     }
 
     private handleEnterDoor() {
