@@ -32,8 +32,8 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
     private weapon: Sword | Bow;
     private _weaponType = "sword";
-    private sword?: Sword;
-    private bow?: Bow;
+    private sword: Sword;
+    private bow: Bow;
     private mouse?: Phaser.Input.Pointer;
 
     private canAttack = true;
@@ -83,25 +83,12 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         this.anims.play("faune-idle-down");
 
         this.mouse = this.scene.input.mousePointer;
-        // this._weaponType = "sword";
 
         this.sword = this.scene.add.sword(this.x + 5, this.y + 7, "sword");
         this.bow = this.scene.add.bow(this.x + 5, this.y + 7, "bow");
-        // this.weapon = this.sword;
-        // this.bow.setVisible(false);
-        console.log("theseus weapon:" + this._weaponType);
-        if (this._weaponType === "sword") {
-            this.weapon = this.sword;
-            this.bow.setVisible(false);
-        } else if (this._weaponType === "bow") {
-            this.weapon = this.bow;
-            this.sword.setVisible(false);
-        }
 
         this.canAttack = true;
     }
-
-    create() {}
 
     handleDamage(dir: Phaser.Math.Vector2) {
         if (this._health <= 0) {
@@ -150,6 +137,13 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
                     this.damageTime = 0;
                 }
                 break;
+        }
+        if (this._weaponType === "sword") {
+            this.weapon = this.sword;
+            this.bow.setVisible(false);
+        } else if (this._weaponType === "bow") {
+            this.weapon = this.bow;
+            this.sword.setVisible(false);
         }
     }
 

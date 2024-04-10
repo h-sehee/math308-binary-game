@@ -38,6 +38,7 @@ export default class MainScene extends Phaser.Scene {
         this.scene.run("game-ui", {
             hp: this.theseus?.health,
             threads: this.threads,
+            weaponType: this.theseus?.weaponType,
         });
         createTheseusAnims(this.anims);
         createRedEyesSkeletonAnims(this.anims);
