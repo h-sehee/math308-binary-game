@@ -172,6 +172,11 @@ export default class MainScene extends Phaser.Scene {
         });
 
         this.events.once("enemyDefeated", this.handleEnemyDefeated, this);
+
+        this.input.keyboard?.on("keydown-ESC", () => {
+            this.scene.pause();
+            this.scene.run("pause");
+        });
     }
 
     private handleEnterDoor() {
