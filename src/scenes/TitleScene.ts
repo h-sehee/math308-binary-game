@@ -81,6 +81,7 @@ export default class TitleScene extends Phaser.Scene {
 
         map.createLayer("ground", tileset);
         map.createLayer("wall", tileset) as Phaser.Tilemaps.TilemapLayer;
+        map.createLayer("door-open", tileset) as Phaser.Tilemaps.TilemapLayer;
 
         let music = this.sound.add("titleScene");
         music.loop = true;
