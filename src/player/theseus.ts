@@ -153,13 +153,15 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
         if (this.weapon instanceof Sword) {
             this.weapon.handleSwordSlash(angle);
+            this.scene.time.delayedCall(600, () => {
+                this.canAttack = true;
+            });
         } else if (this.weapon instanceof Bow) {
             this.weapon.handleArrow(angle);
+            this.scene.time.delayedCall(400, () => {
+                this.canAttack = true;
+            });
         }
-
-        this.scene.time.delayedCall(500, () => {
-            this.canAttack = true;
-        });
     }
 
     update(cursors: Phaser.Types.Input.Keyboard.CursorKeys) {

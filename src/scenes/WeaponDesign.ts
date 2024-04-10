@@ -13,7 +13,7 @@ export default class WeaponDesign extends Phaser.Scene {
                 this.cameras.main.width * 0.9,
                 this.cameras.main.height * 0.9,
                 0xffffff,
-                0.8
+                0.85
             )
             .setOrigin(0.5)
             .setDepth(999);
@@ -37,6 +37,10 @@ export default class WeaponDesign extends Phaser.Scene {
             resume.setFontSize("25px");
         });
         resume.on("pointerdown", () => {
+            this.scene.stop();
+            this.scene.resume("mainScene");
+        });
+        this.input.keyboard?.on("keydown-E", () => {
             this.scene.stop();
             this.scene.resume("mainScene");
         });

@@ -39,6 +39,7 @@ export default class Tutorial extends Phaser.Scene {
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
         map.createLayer("objects", tileset);
+        map.createLayer("entrance", tileset);
         this.doorOpened = map.createLayer(
             "door-open",
             tileset
