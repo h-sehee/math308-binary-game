@@ -6,9 +6,12 @@ export default class levelOne extends Phaser.Scene {
     //fpsText: FpsText;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
+    private lastPlayerDirection: string | null = null;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private stars?: Phaser.Physics.Arcade.Group;
     private checkpoint: Phaser.Physics.Arcade.StaticGroup;
+    private bullets?: Phaser.Physics.Arcade.Group;
+    private colliderInitialized = false;
 
     private score = 0;
     private scoreText?: Phaser.GameObjects.Text;
@@ -16,6 +19,10 @@ export default class levelOne extends Phaser.Scene {
     private baddie?: Phaser.Physics.Arcade.Group;
 
     private gameOver = false;
+
+    private canShoot = true;
+    private shootDelay = 500; // Delay in milliseconds between shots
+    private lastShotTime = 0;
 
     constructor() {
         super({ key: "levelOne" });
@@ -112,6 +119,28 @@ export default class levelOne extends Phaser.Scene {
             this
         );
 
+        /*this.physics.add.collider(
+            this.bullets!,
+            this.baddie!,
+            (bullet, enemy) => {
+                // When a bullet hits an enemy, disable both bullet and enemy
+                bullet.destroy();
+                enemy.destroy();
+            },
+            undefined,
+            this
+        );
+        this.physics.add.collider(
+            this.bullets!,
+            this.platforms,
+            (bullet) => {
+                // When a bullet hits a platform, disable it
+                bullet.destroy();
+            },
+            undefined,
+            this
+        );*/
+
         this.physics.add.collider(
             this.player,
             this.checkpoint,
@@ -119,7 +148,48 @@ export default class levelOne extends Phaser.Scene {
             undefined,
             this
         );
+        this.bullets = this.physics.add.group({
+            defaultKey: "stars",
+            maxSize: 10,
+            runChildUpdate: true,
+        });
     }
+    private shoot() {
+        const currentTime = this.time.now;
+
+        if (
+            currentTime - this.lastShotTime < this.shootDelay ||
+            !this.canShoot
+        ) {
+            return;
+        }
+        const bullet = this.bullets?.get(this.player?.x, this.player?.y);
+
+        if (bullet) {
+            bullet.setActive(true);
+            bullet.setVisible(true);
+            // Set bullet velocity based on player's direction
+            if (this.player?.anims.currentAnim?.key === "left") {
+                bullet.body.velocity.x = -1000; // Shoot left
+            } else if (this.player?.anims.currentAnim?.key === "right") {
+                bullet.body.velocity.x = 1000; // Shoot right
+            } else {
+                bullet.body.velocity.x =
+                    this.lastPlayerDirection === "left" ? -1000 : 1000; // Default to left if player's direction is unknown
+            }
+
+            this.lastShotTime = currentTime;
+
+            // Disable shooting temporarily
+            this.canShoot = false;
+
+            // Enable shooting after the delay
+            this.time.delayedCall(this.shootDelay, () => {
+                this.canShoot = true;
+            });
+        }
+    }
+
     private handleHitCheckpoint() {
         this.scene.launch("LoadoutSceneTextboxInserts");
         this.scene.start("LoadoutSceneOne");
@@ -179,16 +249,20 @@ export default class levelOne extends Phaser.Scene {
         if (this.cursors.left.isDown) {
             this.player?.setVelocityX(-160);
             this.player?.anims.play("left", true);
+            this.lastPlayerDirection = "left";
         } else if (this.cursors.right.isDown) {
             this.player?.setVelocityX(160);
             this.player?.anims.play("right", true);
+            this.lastPlayerDirection = "right";
         } else {
             this.player?.setVelocityX(0);
             this.player?.anims.play("turn");
         }
-
         if (this.cursors.up.isDown && this.player?.body?.touching.down) {
             this.player.setVelocityY(-550);
+        }
+        if (this.cursors.space.isDown) {
+            this.shoot();
         }
     }
 }
