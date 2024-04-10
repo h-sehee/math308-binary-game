@@ -8,7 +8,7 @@ export default class PreloadScene extends Phaser.Scene {
     preload() {
         this.load.image("background", "assets/img/background.jpg");
         //this.load.image("maze", "assets/img/maze.jpeg");
-        this.load.image("Minotaur", "assets/img/Minotaur.jpg");
+        //this.load.image("Minotaur", "assets/img/Minotaur.jpg");
         this.load.image("base_tiles", "assets/tileset.png");
         this.load.tilemapTiledJSON("tilemap", "assets/dungeon_background.json");
 
@@ -26,6 +26,9 @@ export default class PreloadScene extends Phaser.Scene {
         );
         this.load.image("heart-empty", "assets/ui_heart_empty.png");
         this.load.image("heart-full", "assets/ui_heart_full.png");
+
+        //Load the music for the titleScene
+        this.load.audio("titleScene", ["assets/Music/titleScene.mp3"]);
     }
 
     create() {
