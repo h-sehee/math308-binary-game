@@ -1,8 +1,14 @@
 import Phaser from "phaser";
 
 export default class Pause extends Phaser.Scene {
+    private previous: string;
+
     constructor() {
         super({ key: "pause" });
+    }
+
+    init(data: { currentScene: string }) {
+        this.previous = data.currentScene;
     }
 
     create() {
@@ -59,7 +65,7 @@ export default class Pause extends Phaser.Scene {
         });
         resume.on("pointerdown", () => {
             this.scene.stop();
-            this.scene.resume("mainScene");
+            this.scene.resume(this.previous);
         });
 
         const restart = this.add
@@ -88,7 +94,11 @@ export default class Pause extends Phaser.Scene {
         });
         restart.on("pointerdown", () => {
             this.scene.stop();
-            this.scene.stop("mainScene");
+            if (this.previous === "mainScene") {
+                this.scene.stop("mainScene");
+            } else if (this.previous === "tutorial") {
+                this.scene.stop("tutorial");
+            }
             this.scene.stop("game-ui");
             this.scene.start("TitleScene");
         });
