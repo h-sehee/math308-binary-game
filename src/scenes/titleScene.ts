@@ -25,7 +25,7 @@ export default class TitleScene extends Phaser.Scene {
             })
             .setInteractive()
             .on("pointerdown", () => {
-                this.scene.start("IntroScene");
+                this.scene.start("LoginScene");
             })
             .on("pointerover", () => {
                 this.enterButtonHoverState();

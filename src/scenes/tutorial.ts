@@ -66,7 +66,7 @@ export default class Tutorial extends Phaser.Scene {
         this.addTextToContainer(
             "Alfred: Welcome back " +
                 this.username +
-                ".\nIt has been quite a while so let's make sure\nyou are familiar with all the basic commands.\n\nType ls to see the surroundings of your current directory."
+                ".\n\nIt has been quite a while so let's make sure\nyou are familiar with all the basic commands.\n\nType 'ls' to display the surroundings of \nyour current directory.\n"
         );
 
         let state: string = "home";
@@ -134,17 +134,21 @@ export default class Tutorial extends Phaser.Scene {
                         this.addTextToContainer("agent09: " + newText);
                         this.addTextToContainer(lsMap.get(state) as string);
                         if (this.firstLsObjective && !this.secondLsObjective) {
-                            this.addTextToContainer(
-                                "Alfred: There is a door_lock. Try removing it with 'rm'."
-                            );
+                            this.time.delayedCall(1500, () => {
+                                this.addTextToContainer(
+                                    "\nAlfred: There is a door_lock.\n\nTry removing it with 'rm door_lock'.\n"
+                                );
+                            });
                             this.secondLsObjective = true;
                         } else if (
                             !this.firstLsObjective &&
                             !this.secondLsObjective
                         ) {
-                            this.addTextToContainer(
-                                "Alfred: Good job, now you can see that Namuhs \nheadquarters is nearby.\n\nUse your 'cd' command to enter that directory."
-                            );
+                            this.time.delayedCall(1500, () => {
+                                this.addTextToContainer(
+                                    "\nAlfred: Good job, now you can see that Namuh's \nheadquarters is nearby.\n\nUse the 'cd headquarters' command to enter the directory.\n"
+                                );
+                            });
                         }
                         this.firstLsObjective = true;
                     } else if (newText.substring(0, 3) == "cd ") {
@@ -163,9 +167,11 @@ export default class Tutorial extends Phaser.Scene {
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
                             if (!this.cdBackObjective) {
-                                this.addTextToContainer(
-                                    "Alfred: Great. Remember if you ever need assistance use 'man'.\nTry it now with 'man cd'."
-                                );
+                                this.time.delayedCall(1500, () => {
+                                    this.addTextToContainer(
+                                        "\nAlfred: Great. Remember if you ever need assistance use 'man'.\nTry it now with 'man cd'.\n"
+                                    );
+                                });
                             }
                             this.cdBackObjective = true;
                         }
@@ -181,9 +187,11 @@ export default class Tutorial extends Phaser.Scene {
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
                             if (!this.cdObjective) {
-                                this.addTextToContainer(
-                                    "Alfred: Great work. Your location has updated in the top right.\n\nNow view what's in the headquarters with the 'ls' command."
-                                );
+                                this.time.delayedCall(1500, () => {
+                                    this.addTextToContainer(
+                                        "\nAlfred: Great work. Your location has updated\nin the top right.\n\nNow view what's in the headquarters with the 'ls' command.\n"
+                                    );
+                                });
                             }
                             this.cdObjective = true;
                         }
@@ -207,6 +215,12 @@ export default class Tutorial extends Phaser.Scene {
                             this.addTextToContainer(
                                 manMap.get(manInput) as string
                             );
+                            this.time.delayedCall(1500, () => {
+                                this.addTextToContainer(
+                                    "\nAlfred: It seems you are ready to take on the mission.\n\nRemember that typing 'man alfred' will call me in for help.\n"
+                                );
+                            });
+
                             this.manObjective = true;
                         } else {
                             ding.play();
@@ -233,9 +247,11 @@ export default class Tutorial extends Phaser.Scene {
                                 "File '" + rmInput + "' removed successfully."
                             );
                             if (!this.rmObjective) {
-                                this.addTextToContainer(
-                                    "Alfred: Great you've removed the lock on the door\n\nTry leaving the area with 'cd ..'."
-                                );
+                                this.time.delayedCall(1500, () => {
+                                    this.addTextToContainer(
+                                        "\nAlfred: Perfect. You've removed the lock on the door.\n\nTry leaving the area with 'cd ..'.\n"
+                                    );
+                                });
                             }
                             this.rmObjective = true;
                         } else {
@@ -269,10 +285,14 @@ export default class Tutorial extends Phaser.Scene {
                 this.cdObjective &&
                 this.manObjective
             ) {
-                this.addTextToContainer(
-                    "Objective complete: Classified file removed. \nGood work, agent09!"
-                );
-                this.time.delayedCall(3000, this.loadLevel, [], this);
+                this.time.delayedCall(3000, () => {
+                    this.addTextToContainer(
+                        "Objective complete: Passed basic training. \nGood work, " +
+                            this.username +
+                            "!"
+                    );
+                    this.time.delayedCall(3000, this.loadLevel, [], this);
+                });
             }
         });
 
