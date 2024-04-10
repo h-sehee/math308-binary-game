@@ -30,6 +30,7 @@ export default class PreloadScene extends Phaser.Scene {
         //Load the music for the titleScene
         this.load.audio("titleScene", ["assets/Music/titleScene.mp3"]);
 
+        this.load.image("threads", "assets/threads.png");
         this.load.image("weaponBox", "assets/weaponBox.png");
         this.load.atlas("bow", "assets/bow.png", "assets/bow.json");
         this.load.image("arrow", "assets/arrow.png");

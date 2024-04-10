@@ -4,12 +4,11 @@ import { createTheseusAnims } from "../anims/theseusAnims";
 import { createWeaponsAnims } from "../anims/weaponsAnims";
 import "../player/theseus";
 import Theseus from "../player/theseus";
+// import { sceneEvents } from "../events/eventsCenter";
 
 export default class Tutorial extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private theseus?: Theseus;
-    private map: Phaser.Tilemaps.Tilemap;
-    private doorLayer: Phaser.Tilemaps.TilemapLayer;
     private doorOpened: Phaser.Tilemaps.TilemapLayer;
 
     constructor() {
@@ -26,36 +25,37 @@ export default class Tutorial extends Phaser.Scene {
         this.input.setDefaultCursor("crosshair");
 
         this.add.image(0, 0, "base_tiles");
-        this.map = this.make.tilemap({ key: "tilemap" });
-        const tileset = this.map.addTilesetImage(
+        const map = this.make.tilemap({ key: "tilemap" });
+        const tileset = map.addTilesetImage(
             "dungeon",
             "base_tiles",
             16,
             16
         ) as Phaser.Tilemaps.Tileset;
 
-        this.map.createLayer("ground", tileset);
-        const wallsLayer = this.map.createLayer(
+        map.createLayer("ground", tileset);
+        const wallsLayer = map.createLayer(
             "wall",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
-        this.map.createLayer("objects", tileset);
-        this.doorOpened = this.map.createLayer(
+        map.createLayer("objects", tileset);
+        this.doorOpened = map.createLayer(
             "door-open",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
-        this.doorLayer = this.map.createLayer(
+        const doorLayer = map.createLayer(
             "door",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
 
         wallsLayer.setCollisionByProperty({ collides: true }, true);
-        this.doorLayer.setCollisionByProperty({ collides: true }, true);
+        doorLayer.setCollisionByProperty({ collides: true }, true);
 
         debugDraw(wallsLayer, this, false);
-        debugDraw(this.doorLayer, this, false);
+        debugDraw(doorLayer, this, false);
 
-        this.theseus = this.add.theseus(160, 160, "faune");
+        this.theseus = this.add.theseus(160, 220, "faune");
+        this.theseus.canUseBow = false;
 
         this.physics.add.overlap(
             this.theseus,
@@ -66,17 +66,34 @@ export default class Tutorial extends Phaser.Scene {
         );
 
         this.physics.add.collider(this.theseus, wallsLayer);
-        this.physics.add.collider(this.theseus, this.doorLayer);
+        this.physics.add.collider(this.theseus, doorLayer);
 
         this.time.delayedCall(1000, () => {
-            this.doorLayer.setCollisionByProperty({ collides: true }, false);
-            this.doorLayer.setVisible(false);
+            doorLayer.setCollisionByProperty({ collides: true }, false);
+            doorLayer.setVisible(false);
+            this.scene.run("game-ui", {
+                hp: this.theseus?.health,
+                threads: 5,
+                weaponType: this.theseus?.weaponType,
+            });
         });
     }
 
     private handleEnterDoor() {
-        if (this.cursors?.space.isDown) {
-            this.scene.start("mainScene");
+        if (!this.theseus) {
+            return;
+        }
+        const tile = this.doorOpened.getTileAtWorldXY(
+            this.theseus.x,
+            this.theseus.y,
+            true
+        );
+        if (this.cursors?.space.isDown && tile.index != -1) {
+            this.scene.start("mainScene", {
+                hp: this.theseus.health,
+                threads: 5,
+                weaponType: "sword",
+            });
         }
     }
 

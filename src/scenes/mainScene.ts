@@ -16,16 +16,30 @@ export default class MainScene extends Phaser.Scene {
     private theseus?: Theseus;
     private map: Phaser.Tilemaps.Tilemap;
     private doorLayer: Phaser.Tilemaps.TilemapLayer;
+    private doorOpened: Phaser.Tilemaps.TilemapLayer;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private redEyesSkeletons?: Phaser.Physics.Arcade.Group;
     private playerEnemyCollider?: Phaser.Physics.Arcade.Collider;
+    private hp: number;
+    private threads: number;
+    private weapon: string;
 
     constructor() {
         super({ key: "mainScene" });
     }
 
+    init(data: { hp: number; threads: number; weaponType: string }) {
+        this.hp = data.hp;
+        this.threads = data.threads;
+        this.weapon = data.weaponType;
+    }
+
     create() {
-        this.scene.run("game-ui");
+        this.scene.run("game-ui", {
+            hp: this.theseus?.health,
+            threads: this.threads,
+            weaponType: this.theseus?.weaponType,
+        });
         createTheseusAnims(this.anims);
         createRedEyesSkeletonAnims(this.anims);
         createWeaponsAnims(this.anims);
@@ -50,7 +64,10 @@ export default class MainScene extends Phaser.Scene {
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
         this.map.createLayer("objects", tileset);
-        this.map.createLayer("door-open", tileset);
+        this.doorOpened = this.map.createLayer(
+            "door-open",
+            tileset
+        ) as Phaser.Tilemaps.TilemapLayer;
         this.doorLayer = this.map.createLayer(
             "door",
             tileset
@@ -63,17 +80,23 @@ export default class MainScene extends Phaser.Scene {
         debugDraw(this.doorLayer, this, false);
 
         this.theseus = this.add.theseus(160, 160, "faune");
+        this.theseus.health = this.hp;
+        this.theseus.weaponType = this.weapon;
+        // console.log("this.weapon: " + this.weapon);
+        // console.log("this.theseus.weaponType: " + this.theseus.weaponType);
 
         this.redEyesSkeletons = this.physics.add.group({
             classType: RedEyesSkeleton,
         });
 
         for (let i = 0; i < 3; i++) {
-            this.redEyesSkeletons.get(
-                Phaser.Math.Between(80, 268),
-                Phaser.Math.Between(80, 268),
-                "skeleton_red_eyes"
-            );
+            let posX = Phaser.Math.Between(80, 268);
+            let posY = Phaser.Math.Between(80, 268);
+            while ((posX > 140 && posX < 180) || (posY > 140 && posY < 180)) {
+                posX = Phaser.Math.Between(80, 268);
+                posY = Phaser.Math.Between(80, 268);
+            }
+            this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
         }
 
         this.redEyesSkeletons.children.iterate((c) => {
@@ -98,6 +121,14 @@ export default class MainScene extends Phaser.Scene {
             this.redEyesSkeletons,
             this.theseus,
             this.handlePlayerEnemyCollision,
+            undefined,
+            this
+        );
+
+        this.physics.add.overlap(
+            this.theseus,
+            this.doorOpened,
+            this.handleEnterDoor,
             undefined,
             this
         );
@@ -132,7 +163,33 @@ export default class MainScene extends Phaser.Scene {
             }
         );
 
+        this.events.on("gameRetry", () => {
+            if (!this.theseus) {
+                return;
+            }
+            this.theseus.health = this.hp;
+            this.threads = 5;
+        });
+
         this.events.once("enemyDefeated", this.handleEnemyDefeated, this);
+    }
+
+    private handleEnterDoor() {
+        if (!this.theseus) {
+            return;
+        }
+        const tile = this.doorOpened.getTileAtWorldXY(
+            this.theseus.x,
+            this.theseus.y,
+            true
+        );
+        if (this.cursors?.space.isDown && tile.index != -1) {
+            this.scene.start("mainScene", {
+                hp: this.theseus.health,
+                threads: this.threads - 1,
+                weaponType: this.theseus.weaponType,
+            });
+        }
     }
 
     private handlePlayerEnemyCollision(
