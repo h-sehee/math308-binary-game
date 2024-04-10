@@ -18,15 +18,10 @@ export default class LevelSelect extends Phaser.Scene {
 
     init(data: {
         username: string;
-
         lvl1: boolean;
-
         lvl2: boolean;
-
         lvl3: boolean;
-
         lvl4: boolean;
-
         lvl5: boolean;
     }) {
         this.lvl2 = data.lvl2;
@@ -42,8 +37,8 @@ export default class LevelSelect extends Phaser.Scene {
         this.cameras.main.setBackgroundColor("#A9A9A9");
 
         const groundWidth = this.scale.width;
-
-        const groundX = groundWidth / 2;
+        const groundX = this.scale.width / 2;
+        const groundX2 = groundWidth + groundWidth / 2;
 
         const ground = this.platforms.create(
             groundX,
@@ -55,7 +50,6 @@ export default class LevelSelect extends Phaser.Scene {
             .setScale(groundWidth / ground.width, 1)
             .refreshBody()
             .setTint(808080);
-        const groundX2 = groundWidth + groundWidth / 2;
         const ground2 = this.platforms.create(groundX2, 568, "ground");
         ground2
             .setScale(groundWidth / ground.width, 1)
