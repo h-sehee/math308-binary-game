@@ -26,6 +26,7 @@ export default class PreloadScene extends Phaser.Scene {
         );
         this.load.image("heart-empty", "assets/ui_heart_empty.png");
         this.load.image("heart-full", "assets/ui_heart_full.png");
+        this.load.audio("titleScene", ["assets/Music/titleScene.mp3"]);
         this.load.image("threads", "assets/threads.png");
         this.load.image("weaponBox", "assets/weaponBox.png");
         this.load.atlas("bow", "assets/bow.png", "assets/bow.json");
