@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
 import { createRedEyesSkeletonAnims } from "../anims/enemyAnims";
 import { createTheseusAnims } from "../anims/theseusAnims";
+import { createWeaponsAnims } from "../anims/weaponsAnims";
 import RedEyesSkeleton from "../enemies/redEyesSkeleton";
 import "../player/theseus";
 import Theseus from "../player/theseus";
@@ -13,11 +14,11 @@ export type Collidable =
 
 export default class MainScene extends Phaser.Scene {
     private theseus?: Theseus;
+    private map: Phaser.Tilemaps.Tilemap;
+    private doorLayer: Phaser.Tilemaps.TilemapLayer;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private redEyesSkeletons?: Phaser.Physics.Arcade.Group;
     private playerEnemyCollider?: Phaser.Physics.Arcade.Collider;
-
-    private hit = 0;
 
     constructor() {
         super({ key: "mainScene" });
@@ -27,6 +28,7 @@ export default class MainScene extends Phaser.Scene {
         this.scene.run("game-ui");
         createTheseusAnims(this.anims);
         createRedEyesSkeletonAnims(this.anims);
+        createWeaponsAnims(this.anims);
 
         this.cursors =
             this.input.keyboard?.createCursorKeys() as Phaser.Types.Input.Keyboard.CursorKeys;
@@ -34,53 +36,45 @@ export default class MainScene extends Phaser.Scene {
         this.input.setDefaultCursor("crosshair");
 
         this.add.image(0, 0, "base_tiles");
-        const map = this.make.tilemap({ key: "tilemap" });
-        const tileset = map.addTilesetImage(
+        this.map = this.make.tilemap({ key: "tilemap" });
+        const tileset = this.map.addTilesetImage(
             "dungeon",
             "base_tiles",
             16,
             16
         ) as Phaser.Tilemaps.Tileset;
 
-        map.createLayer("ground", tileset);
-        const wallsLayer = map.createLayer(
+        this.map.createLayer("ground", tileset);
+        const wallsLayer = this.map.createLayer(
             "wall",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
-        map.createLayer("objects", tileset);
-        const doorLayer = map.createLayer(
+        this.map.createLayer("objects", tileset);
+        this.map.createLayer("door-open", tileset);
+        this.doorLayer = this.map.createLayer(
             "door",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
 
-        wallsLayer.setCollisionByProperty({ collides: true });
-        doorLayer.setCollisionByProperty({ collides: true });
+        wallsLayer.setCollisionByProperty({ collides: true }, true);
+        this.doorLayer.setCollisionByProperty({ collides: true }, true);
 
         debugDraw(wallsLayer, this, false);
-        debugDraw(doorLayer, this, false);
+        debugDraw(this.doorLayer, this, false);
 
         this.theseus = this.add.theseus(160, 160, "faune");
-
-        this.anims.create({
-            key: "sword_attack",
-            frames: this.anims.generateFrameNames("swordSlash", {
-                start: 13,
-                end: 18,
-                prefix: "Classic_",
-                suffix: ".png",
-            }),
-            frameRate: 15,
-        });
 
         this.redEyesSkeletons = this.physics.add.group({
             classType: RedEyesSkeleton,
         });
 
-        this.redEyesSkeletons.get(
-            Phaser.Math.Between(80, 268),
-            Phaser.Math.Between(80, 268),
-            "skeleton_red_eyes"
-        );
+        for (let i = 0; i < 3; i++) {
+            this.redEyesSkeletons.get(
+                Phaser.Math.Between(80, 268),
+                Phaser.Math.Between(80, 268),
+                "skeleton_red_eyes"
+            );
+        }
 
         this.redEyesSkeletons.children.iterate((c) => {
             const redEyesSkeleton = c as RedEyesSkeleton;
@@ -93,10 +87,12 @@ export default class MainScene extends Phaser.Scene {
         });
 
         this.physics.add.collider(this.theseus, wallsLayer);
-        this.physics.add.collider(this.theseus, doorLayer);
+        this.physics.add.collider(this.theseus, this.doorLayer);
 
         this.physics.add.collider(this.redEyesSkeletons, wallsLayer);
-        this.physics.add.collider(this.redEyesSkeletons, doorLayer);
+        this.physics.add.collider(this.redEyesSkeletons, this.doorLayer);
+
+        this.physics.add.collider(this.redEyesSkeletons, this.redEyesSkeletons);
 
         this.playerEnemyCollider = this.physics.add.collider(
             this.redEyesSkeletons,
@@ -105,6 +101,38 @@ export default class MainScene extends Phaser.Scene {
             undefined,
             this
         );
+
+        this.events.on(
+            "swordSlashCreated",
+            (swordSlash: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
+                if (this.redEyesSkeletons) {
+                    this.physics.add.collider(
+                        swordSlash,
+                        this.redEyesSkeletons,
+                        this.handleEnemySwordAttacked,
+                        undefined,
+                        this
+                    );
+                }
+            }
+        );
+
+        this.events.on(
+            "arrowCreated",
+            (arrow: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
+                if (this.redEyesSkeletons) {
+                    this.physics.add.collider(
+                        arrow,
+                        this.redEyesSkeletons,
+                        this.handleEnemyBowAttacked,
+                        undefined,
+                        this
+                    );
+                }
+            }
+        );
+
+        this.events.once("enemyDefeated", this.handleEnemyDefeated, this);
     }
 
     private handlePlayerEnemyCollision(
@@ -141,16 +169,62 @@ export default class MainScene extends Phaser.Scene {
         }
     }
 
+    private handleEnemySwordAttacked(
+        obj1:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        obj2:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const redEyesSkeleton = obj2 as RedEyesSkeleton;
+        const swordSlash =
+            obj1 as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+        this.events.emit("swordSlashHit", swordSlash);
+
+        if (this.theseus?.getWeapon) {
+            redEyesSkeleton.handleDamage(this.theseus.getWeapon.damage);
+        }
+    }
+
+    private handleEnemyBowAttacked(
+        obj1:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        obj2:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const redEyesSkeleton = obj2 as RedEyesSkeleton;
+        const arrow = obj1 as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+        this.events.emit("arrowHit", arrow);
+
+        if (this.theseus?.getWeapon) {
+            redEyesSkeleton.handleDamage(this.theseus.getWeapon.damage);
+        }
+    }
+
+    private handleEnemyDefeated() {
+        this.doorLayer.setCollisionByProperty({ collides: true }, false);
+        this.doorLayer.setVisible(false);
+    }
+
     update() {
-        if (this.hit > 0) {
-            ++this.hit;
-            if (this.hit > 10) {
-                this.hit = 0;
-            }
+        const enemyRemained = this.redEyesSkeletons?.getChildren();
+        if (enemyRemained!.length === 0) {
+            this.events.emit("enemyDefeated");
         }
 
         if (this.theseus) {
             this.theseus.update(this.cursors!);
+        }
+
+        if (this.redEyesSkeletons) {
+            this.redEyesSkeletons.children.iterate((c) => {
+                const redEyesSkeleton = c as RedEyesSkeleton;
+                redEyesSkeleton.update();
+                return true;
+            });
         }
     }
 }

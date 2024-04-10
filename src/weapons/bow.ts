@@ -3,18 +3,17 @@ import Phaser from "phaser";
 declare global {
     namespace Phaser.GameObjects {
         interface GameObjectFactory {
-            sword(
+            bow(
                 x: number,
                 y: number,
                 texture: string,
                 frame?: string | number
-            ): Sword;
+            ): Bow;
         }
     }
 }
 
-export default class Sword extends Phaser.Physics.Arcade.Sprite {
-    private swordslash?: Phaser.Physics.Arcade.Sprite;
+export default class Bow extends Phaser.Physics.Arcade.Sprite {
     private _damage: number;
 
     get damage() {
@@ -29,47 +28,34 @@ export default class Sword extends Phaser.Physics.Arcade.Sprite {
         frame?: string | number
     ) {
         super(scene, x, y, texture, frame);
-        this._damage = 5;
+        this._damage = 3;
+        this.anims.play("bow-idle");
     }
 
-    handleSwordSlash(angle: number) {
-        const swordSlash = this.scene.physics.add.sprite(
-            this.x,
-            this.y,
-            "swordSlash",
-            "Classic_13.png"
-        );
+    handleArrow(angle: number) {
+        const arrow = this.scene.physics.add.image(this.x, this.y, "arrow");
+        arrow.setScale(2, 2);
 
-        swordSlash.body.setSize(
-            swordSlash.width * 0.4,
-            swordSlash.height * 0.4
-        );
+        arrow.body.setSize(arrow.width * 0.8, arrow.height * 0.8);
 
-        this.scene.events.emit("swordSlashCreated", swordSlash);
+        this.scene.events.emit("arrowCreated", arrow);
 
-        swordSlash.setScale(0.3);
-        swordSlash.setRotation(angle - Math.PI / 4);
-        swordSlash.anims.play("sword_attack", true);
+        this.anims.play("bow_attack", true);
 
-        swordSlash.on(
-            Phaser.Animations.Events.ANIMATION_COMPLETE,
-            () => {
-                swordSlash.destroy();
-            },
-            this
-        );
+        arrow.setScale(0.3);
+        arrow.setRotation(angle - Math.PI / 4);
 
         this.scene.physics.moveTo(
-            swordSlash,
+            arrow,
             this.scene.input.x,
             this.scene.input.y,
-            200
+            250
         );
 
         this.scene.events.on(
-            "swordSlashHit",
-            (swordSlash: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
-                swordSlash.destroy();
+            "arrowHit",
+            (arrow: Phaser.Types.Physics.Arcade.ImageWithDynamicBody) => {
+                arrow.destroy();
             }
         );
     }
@@ -78,7 +64,7 @@ export default class Sword extends Phaser.Physics.Arcade.Sprite {
 }
 
 Phaser.GameObjects.GameObjectFactory.register(
-    "sword",
+    "bow",
     function (
         this: Phaser.GameObjects.GameObjectFactory,
         x: number,
@@ -86,7 +72,7 @@ Phaser.GameObjects.GameObjectFactory.register(
         texture: string,
         frame?: string | number
     ) {
-        var sprite = new Sword(this.scene, x, y, texture, frame);
+        var sprite = new Bow(this.scene, x, y, texture, frame);
 
         this.displayList.add(sprite);
         this.updateList.add(sprite);
@@ -97,7 +83,7 @@ Phaser.GameObjects.GameObjectFactory.register(
         );
 
         sprite.setScale(0.5);
-        sprite.setOrigin(0, 1);
+        sprite.setOrigin(0.5, 0.5);
 
         return sprite;
     }
