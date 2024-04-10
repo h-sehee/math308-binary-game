@@ -10,6 +10,7 @@ export default class TextInputScene extends Phaser.Scene {
     private lvl4: boolean;
     private username: string;
     private lvl5: boolean;
+    private objectiveCompleted: boolean = false;
 
     constructor() {
         super({ key: "Level01" });
@@ -224,6 +225,7 @@ export default class TextInputScene extends Phaser.Scene {
                                 state === "control_room" &&
                                 !files.includes("surveillance_camera")
                             ) {
+                                this.objectiveCompleted = true;
                                 // Level completion logic here
                                 this.addTextToContainer(
                                     "Objective complete: Classified file removed. \nGood work, agent09!"
@@ -261,26 +263,32 @@ export default class TextInputScene extends Phaser.Scene {
         });
 
         let time = 30;
+        let lastUpdateTime = Date.now();
 
-        this.timer = this.add.text(75, 655, time.toString(), {
+        this.timer = this.add.text(75, 655, time.toFixed(2), {
             fontSize: "50px",
             color: "red",
         });
 
         const updateTimer = () => {
-            this.timer.setText(time.toString());
+            if (!this.objectiveCompleted) {
+                const currentTime = Date.now();
+                const elapsedTime = currentTime - lastUpdateTime;
 
-            if (time > 0) {
-                this.time.delayedCall(1000, updateTimer);
-            }
-            time--;
+                time -= elapsedTime / 1000; // Adjust time based on elapsed time in seconds
+                lastUpdateTime = currentTime; // Update the last update time
 
-            if (time == 0) {
-                this.scene.start("LevelSelect", {
-                    lvl2: false,
-                    lvl3: this.lvl3,
-                    lvl4: this.lvl4,
-                });
+                if (time > 0) {
+                    this.timer.setText(time.toFixed(2)); // Update the timer text
+                    this.time.delayedCall(10, updateTimer);
+                } else {
+                    this.timer.setText("0.00");
+                    this.scene.start("LevelSelect", {
+                        lvl2: this.lvl2,
+                        lvl3: this.lvl3,
+                        lvl4: this.lvl4,
+                    });
+                }
             }
         };
 
@@ -300,7 +308,6 @@ export default class TextInputScene extends Phaser.Scene {
     update() {}
 
     addTextToContainer(text: string) {
-        // Create a text object for the provided string
         const newText = this.add.text(0, 0, text, {
             fontSize: "24px",
             color: "#fff",

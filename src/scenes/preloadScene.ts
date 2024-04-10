@@ -30,8 +30,12 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("Level1Background", "assets/Level1Background.png");
         this.load.image("open_metal_door", "assets/open_metal_door.png");
         this.load.spritesheet("dude", "assets/dude.png", {
-            frameWidth: 32,
-            frameHeight: 48,
+            frameWidth: 240,
+            frameHeight: 405,
+        });
+        this.load.spritesheet("spy", "assets/idle.png", {
+            frameWidth: 180,
+            frameHeight: 405,
         });
         this.load.image("forest", "assets/forest.jpg");
         this.load.image("matrix", "assets/matrix.png");
