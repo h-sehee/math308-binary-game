@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class Level1Scene extends Phaser.Scene {
+export default class Tutorial extends Phaser.Scene {
     private stateText: Phaser.GameObjects.Text;
     private inputField: HTMLInputElement;
     private inputContainer: Phaser.GameObjects.Container;
@@ -10,10 +10,15 @@ export default class Level1Scene extends Phaser.Scene {
     private lvl4: boolean;
     private username: string;
     private lvl5: boolean;
-    private objectiveCompleted: boolean = false;
+    private firstLsObjective: boolean = false;
+    private secondLsObjective: boolean = false;
+    private cdObjective: boolean = false;
+    private cdBackObjective: boolean = false;
+    private manObjective: boolean = false;
+    private rmObjective: boolean = false;
 
     constructor() {
-        super({ key: "Level01" });
+        super({ key: "Tutorial" });
     }
 
     init(data: {
@@ -38,10 +43,9 @@ export default class Level1Scene extends Phaser.Scene {
     preload() {}
 
     create() {
-        this.objectiveCompleted = false;
         this.add.rectangle(640, 360, 1280, 720, 0x000);
 
-        this.add.image(640, 100, "prompt").setDisplaySize(560, 110);
+        // this.add.image(640, 100, "prompt").setDisplaySize(560, 110);
         this.add.image(155, 100, "alfredicon").setDisplaySize(130, 130);
         this.add.image(1050, 100, "pin").setDisplaySize(30, 40);
 
@@ -59,7 +63,11 @@ export default class Level1Scene extends Phaser.Scene {
 
         this.inputContainer.setMask(mask);
 
-        this.addTextToContainer("Alfred: Welcome back " + this.username + "!");
+        this.addTextToContainer(
+            "Alfred: Welcome back " +
+                this.username +
+                ".\nIt has been quite a while so let's make sure\nyou are familiar with all the basic commands.\n\nType ls to see the surroundings of your current directory."
+        );
 
         let state: string = "home";
 
@@ -69,36 +77,23 @@ export default class Level1Scene extends Phaser.Scene {
         const manMap = new Map<string, string>();
         const rmMap = new Map<string, string[]>(); // Map to track removable files
 
-        lsMap.set("home", "break_room closet control_room");
-        lsMap.set("break_room", "suitcase vending_machine chair table");
-        lsMap.set("closet", "cardboard_box wires hazmat_suit");
-        lsMap.set("control_room", "surveillance_camera monitor apple_juice");
-        lsMap.set("suitcase", "namuhs_glasses batteries papers apple");
-        lsMap.set("cardboard_box", "papers");
+        lsMap.set("home", "headquarters");
+        lsMap.set("headquarters", "door_lock");
 
-        cdMap.set("home", ["break_room", "closet", "control_room"]);
-        cdMap.set("break_room", ["suitcase"]);
-        cdMap.set("closet", ["cardboard_box"]);
+        cdMap.set("home", ["headquarters"]);
 
-        cdBack.set("break_room", "home");
-        cdBack.set("closet", "home");
-        cdBack.set("control_room", "home");
-        cdBack.set("suitcase", "break_room");
-        cdBack.set("cardboard_box", "closet");
+        cdBack.set("headquarters", "home");
 
-        rmMap.set("control_room", ["surveillance_camera"]);
+        rmMap.set("headquarters", ["door_lock"]);
 
         manMap.set(
             "ls",
-            "Alfred: Remember, the 'ls' command\nis useful for viewing your surroundings."
+            "Alfred: The 'ls' command\nis useful for viewing your surroundings."
         );
-        manMap.set(
-            "rm",
-            "Alfred: Remember, the 'rm' command\nneutralizes enemy files."
-        );
+        manMap.set("rm", "Alfred: The 'rm' command\nneutralizes enemy files.");
         manMap.set(
             "cd",
-            "Alfred: Do recall, the 'cd' command\npermits you to navigate through rooms and items."
+            "Alfred: The 'cd' command\npermits you to navigate through rooms and items."
         );
         manMap.set(
             "alfred",
@@ -119,17 +114,11 @@ export default class Level1Scene extends Phaser.Scene {
 
         this.inputField.style.transform = "translate(-50%, -50%)";
         document.body.appendChild(this.inputField);
-
-        this.add.text(
-            410,
-            59,
-            "Enter the 'control_room' and remove the \n'surveillance_camera' so you can proceed\ninto the next area. Namuh has security\nroaming the area so time is of the essence.",
-            {
-                color: "#fff",
-                fontSize: "17px",
-                fontFamily: "Monospace",
-            }
-        );
+        this.add.text(500, 59, "Tutorial", {
+            color: "#fff",
+            fontSize: "47px",
+            fontFamily: "Monospace",
+        });
 
         this.input.keyboard?.removeCapture(
             Phaser.Input.Keyboard.KeyCodes.SPACE
@@ -144,6 +133,20 @@ export default class Level1Scene extends Phaser.Scene {
                         this.inputField.value = ""; // Empty the input field
                         this.addTextToContainer("agent09: " + newText);
                         this.addTextToContainer(lsMap.get(state) as string);
+                        if (this.firstLsObjective && !this.secondLsObjective) {
+                            this.addTextToContainer(
+                                "Alfred: There is a door_lock. Try removing it with 'rm'."
+                            );
+                            this.secondLsObjective = true;
+                        } else if (
+                            !this.firstLsObjective &&
+                            !this.secondLsObjective
+                        ) {
+                            this.addTextToContainer(
+                                "Alfred: Good job, now you can see that Namuhs \nheadquarters is nearby.\n\nUse your 'cd' command to enter that directory."
+                            );
+                        }
+                        this.firstLsObjective = true;
                     } else if (newText.substring(0, 3) == "cd ") {
                         let cdInput: string = newText.substring(
                             3,
@@ -159,6 +162,12 @@ export default class Level1Scene extends Phaser.Scene {
                             this.stateText.setText(state);
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
+                            if (!this.cdBackObjective) {
+                                this.addTextToContainer(
+                                    "Alfred: Great. Remember if you ever need assistance use 'man'.\nTry it now with 'man cd'."
+                                );
+                            }
+                            this.cdBackObjective = true;
                         }
                         // CD FUNCTIONALITY BELOW
                         else if (
@@ -171,6 +180,12 @@ export default class Level1Scene extends Phaser.Scene {
                             this.stateText.setText(state);
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
+                            if (!this.cdObjective) {
+                                this.addTextToContainer(
+                                    "Alfred: Great work. Your location has updated in the top right.\n\nNow view what's in the headquarters with the 'ls' command."
+                                );
+                            }
+                            this.cdObjective = true;
                         }
                         // CD DIRECTORY NOT FOUND BELOW
                         else {
@@ -192,6 +207,7 @@ export default class Level1Scene extends Phaser.Scene {
                             this.addTextToContainer(
                                 manMap.get(manInput) as string
                             );
+                            this.manObjective = true;
                         } else {
                             ding.play();
 
@@ -204,7 +220,6 @@ export default class Level1Scene extends Phaser.Scene {
                     } else if (newText.substring(0, 3) == "rm ") {
                         let rmInput: string = newText.substring(3);
                         if (rmMap.get(state)?.includes(rmInput)) {
-                            // Remove the file from the listing and update the map
                             let files = lsMap.get(state) || "";
                             files = files
                                 .replace(rmInput, "")
@@ -212,32 +227,17 @@ export default class Level1Scene extends Phaser.Scene {
                                 .replace(/\s{2,}/g, " "); // Remove the file and extra spaces
                             lsMap.set(state, files);
 
-                            // Optionally, remove the file from the rmMap if you want to prevent further references
-                            // rmMap.get(state)?.splice(rmMap.get(state)?.indexOf(rmInput), 1);
-
                             this.inputField.value = ""; // Empty the input field
                             this.addTextToContainer("agent09: " + newText);
                             this.addTextToContainer(
                                 "File '" + rmInput + "' removed successfully."
                             );
-
-                            // Check if the level's objective is achieved, e.g., if all required files are removed
-                            if (
-                                state === "control_room" &&
-                                !files.includes("surveillance_camera")
-                            ) {
-                                this.objectiveCompleted = true;
-                                // Level completion logic here
+                            if (!this.rmObjective) {
                                 this.addTextToContainer(
-                                    "Objective complete: Classified file removed. \nGood work, agent09!"
-                                );
-                                this.time.delayedCall(
-                                    3000,
-                                    this.loadLevel,
-                                    [],
-                                    this
+                                    "Alfred: Great you've removed the lock on the door\n\nTry leaving the area with 'cd ..'."
                                 );
                             }
+                            this.rmObjective = true;
                         } else {
                             ding.play();
 
@@ -261,40 +261,20 @@ export default class Level1Scene extends Phaser.Scene {
                     }
                 }
             }
-        });
-
-        let time = 60;
-        let lastUpdateTime = Date.now();
-
-        this.timer = this.add.text(75, 655, time.toFixed(2), {
-            fontSize: "50px",
-            color: "red",
-        });
-
-        const updateTimer = () => {
-            if (!this.objectiveCompleted) {
-                const currentTime = Date.now();
-                const elapsedTime = currentTime - lastUpdateTime;
-
-                time -= elapsedTime / 1000; // Adjust time based on elapsed time in seconds
-                lastUpdateTime = currentTime; // Update the last update time
-
-                if (time > 0) {
-                    this.timer.setText(time.toFixed(2)); // Update the timer text
-                    this.time.delayedCall(10, updateTimer);
-                } else {
-                    this.timer.setText("0.00");
-                    this.scene.start("LevelSelect", {
-                        username: this.username,
-                        lvl2: this.lvl2,
-                        lvl3: this.lvl3,
-                        lvl4: this.lvl4,
-                    });
-                }
+            if (
+                this.firstLsObjective &&
+                this.secondLsObjective &&
+                this.cdBackObjective &&
+                this.rmObjective &&
+                this.cdObjective &&
+                this.manObjective
+            ) {
+                this.addTextToContainer(
+                    "Objective complete: Classified file removed. \nGood work, agent09!"
+                );
+                this.time.delayedCall(3000, this.loadLevel, [], this);
             }
-        };
-
-        updateTimer();
+        });
 
         this.stateText = this.add.text(1075, 95, state, {
             fontSize: "24px",
@@ -350,7 +330,7 @@ export default class Level1Scene extends Phaser.Scene {
         this.removeInputField();
         this.scene.start("LevelSelect", {
             username: this.username,
-            lvl2: true,
+            lvl2: this.lvl2,
             lvl3: this.lvl3,
             lvl4: this.lvl4,
             lvl5: this.lvl5,
