@@ -16,6 +16,7 @@ export default class MainScene extends Phaser.Scene {
     private theseus?: Theseus;
     private map: Phaser.Tilemaps.Tilemap;
     private doorLayer: Phaser.Tilemaps.TilemapLayer;
+    private doorOpened: Phaser.Tilemaps.TilemapLayer;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private redEyesSkeletons?: Phaser.Physics.Arcade.Group;
     private playerEnemyCollider?: Phaser.Physics.Arcade.Collider;
@@ -50,7 +51,10 @@ export default class MainScene extends Phaser.Scene {
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
         this.map.createLayer("objects", tileset);
-        this.map.createLayer("door-open", tileset);
+        this.doorOpened = this.map.createLayer(
+            "door-open",
+            tileset
+        ) as Phaser.Tilemaps.TilemapLayer;
         this.doorLayer = this.map.createLayer(
             "door",
             tileset
@@ -102,6 +106,14 @@ export default class MainScene extends Phaser.Scene {
             this
         );
 
+        this.physics.add.overlap(
+            this.theseus,
+            this.doorOpened,
+            this.handleEnterDoor,
+            undefined,
+            this
+        );
+
         this.events.on(
             "swordSlashCreated",
             (swordSlash: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) => {
@@ -133,6 +145,12 @@ export default class MainScene extends Phaser.Scene {
         );
 
         this.events.once("enemyDefeated", this.handleEnemyDefeated, this);
+    }
+
+    private handleEnterDoor() {
+        if (this.cursors?.space.isDown) {
+            this.scene.start("mainScene");
+        }
     }
 
     private handlePlayerEnemyCollision(

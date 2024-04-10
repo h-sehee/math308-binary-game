@@ -71,6 +71,7 @@ export default class Tutorial extends Phaser.Scene {
         this.time.delayedCall(1000, () => {
             this.doorLayer.setCollisionByProperty({ collides: true }, false);
             this.doorLayer.setVisible(false);
+            this.scene.run("game-ui");
         });
     }
 
