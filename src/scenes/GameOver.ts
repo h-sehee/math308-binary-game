@@ -44,7 +44,8 @@ export default class GameOver extends Phaser.Scene {
                     //strokeAlpha: 1
                 }
             )
-            .setOrigin(0.5);
+            .setOrigin(0.5)
+            .setDepth(1000);
 
         const retry = this.add
             .text(
@@ -59,7 +60,9 @@ export default class GameOver extends Phaser.Scene {
                     //strokeAlpha: 1
                 }
             )
-            .setOrigin(0.5);
+            .setOrigin(0.5)
+            .setDepth(1000);
+
         retry.setInteractive();
         retry.on("pointerdown", () => {
             this.scene.start("tutorial");
@@ -75,13 +78,18 @@ export default class GameOver extends Phaser.Scene {
             repeat: -1,
         });
 
-        const message = `Phaser v${Phaser.VERSION}`;
-        this.add
-            .text(this.cameras.main.width - 15, 15, message, {
-                color: "#000000",
-                fontSize: "5px",
-            })
-            .setOrigin(1, 0);
+        this.add.image(0, 0, "base_tiles");
+        const map = this.make.tilemap({ key: "tilemap" });
+        const tileset = map.addTilesetImage(
+            "dungeon",
+            "base_tiles",
+            16,
+            16
+        ) as Phaser.Tilemaps.Tileset;
+
+        map.createLayer("ground", tileset);
+        map.createLayer("wall", tileset) as Phaser.Tilemaps.TilemapLayer;
+        map.createLayer("door", tileset) as Phaser.Tilemaps.TilemapLayer;
     }
 
     update() {
