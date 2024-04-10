@@ -31,7 +31,7 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
     private _health = 3;
 
     private weapon: Sword | Bow;
-    private _weaponType: string;
+    private _weaponType = "sword";
     private sword?: Sword;
     private bow?: Bow;
     private mouse?: Phaser.Input.Pointer;
@@ -41,6 +41,8 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
     private _gameOver = false;
 
     private shiftKeyPressed = false;
+
+    private _canUseBow = true;
 
     get health() {
         return this._health;
@@ -66,6 +68,10 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         this._weaponType = newWeapon;
     }
 
+    set canUseBow(flag: boolean) {
+        this._canUseBow = flag;
+    }
+
     constructor(
         scene: Phaser.Scene,
         x: number,
@@ -77,10 +83,13 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         this.anims.play("faune-idle-down");
 
         this.mouse = this.scene.input.mousePointer;
-        this._weaponType = "sword";
+        // this._weaponType = "sword";
 
         this.sword = this.scene.add.sword(this.x + 5, this.y + 7, "sword");
         this.bow = this.scene.add.bow(this.x + 5, this.y + 7, "bow");
+        // this.weapon = this.sword;
+        // this.bow.setVisible(false);
+        console.log("theseus weapon:" + this._weaponType);
         if (this._weaponType === "sword") {
             this.weapon = this.sword;
             this.bow.setVisible(false);
@@ -91,6 +100,8 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
 
         this.canAttack = true;
     }
+
+    create() {}
 
     handleDamage(dir: Phaser.Math.Vector2) {
         if (this._health <= 0) {
@@ -226,7 +237,8 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         );
 
         if (keyShift?.isDown) {
-            if (!this.shiftKeyPressed) {
+            console.log(this._canUseBow);
+            if (!this.shiftKeyPressed && this._canUseBow) {
                 this.shiftKeyPressed = true;
                 if (this._weaponType === "sword") {
                     this._weaponType = "bow";

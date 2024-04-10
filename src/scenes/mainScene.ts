@@ -81,7 +81,8 @@ export default class MainScene extends Phaser.Scene {
         this.theseus = this.add.theseus(160, 160, "faune");
         this.theseus.health = this.hp;
         this.theseus.weaponType = this.weapon;
-        console.log(this.theseus.health);
+        // console.log("this.weapon: " + this.weapon);
+        // console.log("this.theseus.weaponType: " + this.theseus.weaponType);
 
         this.redEyesSkeletons = this.physics.add.group({
             classType: RedEyesSkeleton,

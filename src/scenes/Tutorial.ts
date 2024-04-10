@@ -56,7 +56,8 @@ export default class Tutorial extends Phaser.Scene {
         debugDraw(wallsLayer, this, false);
         debugDraw(this.doorLayer, this, false);
 
-        this.theseus = this.add.theseus(160, 160, "faune");
+        this.theseus = this.add.theseus(160, 220, "faune");
+        this.theseus.canUseBow = false;
         console.log(this.theseus.health);
 
         this.physics.add.overlap(
