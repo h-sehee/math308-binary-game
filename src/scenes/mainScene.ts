@@ -177,6 +177,11 @@ export default class MainScene extends Phaser.Scene {
             this.scene.pause();
             this.scene.run("pause", { currentScene: "mainScene" });
         });
+
+        this.input.keyboard?.on("keydown-E", () => {
+            this.scene.pause();
+            this.scene.run("weapon-design");
+        });
     }
 
     private handleEnterDoor() {

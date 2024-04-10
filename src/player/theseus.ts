@@ -88,6 +88,7 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
         this.bow = this.scene.add.bow(this.x + 5, this.y + 7, "bow");
 
         this.canAttack = true;
+        this.setDepth(500);
     }
 
     handleDamage(dir: Phaser.Math.Vector2) {
@@ -199,18 +200,21 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
             if (this.weaponType === "bow") {
                 this.weapon.setX(this.x - 8);
             }
+            this.weapon.setDepth(1000);
         } else if (keyD?.isDown) {
             this.anims.play("faune-run-side", true);
             this.setVelocity(speed, 0);
             this.scaleX = 1;
             this.body.offset.x = 8;
             this.weapon.setX(this.x + 5);
+            this.weapon.setDepth(1000);
         } else if (keyW?.isDown) {
             this.anims.play("faune-run-up", true);
             this.setVelocity(0, -speed);
             this.body.offset.y = 4;
             this.weapon.setX(this.x + 5);
             this.weapon.setY(this.y);
+            this.weapon.setDepth(0);
         } else if (keyS?.isDown) {
             this.anims.play("faune-run-down", true);
             this.setVelocity(0, speed);
@@ -218,6 +222,7 @@ export default class Theseus extends Phaser.Physics.Arcade.Sprite {
             if (this.weaponType === "bow") {
                 this.weapon.setY(this.y + 15);
             }
+            this.weapon.setDepth(1000);
         } else {
             const parts = this.anims.currentAnim?.key.split("-") as string[];
             parts[1] = "idle";

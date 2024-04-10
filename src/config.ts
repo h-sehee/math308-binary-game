@@ -6,6 +6,8 @@ import GameOver from "./scenes/GameOver";
 import MainScene from "./scenes/mainScene";
 import Tutorial from "./scenes/Tutorial";
 import Pause from "./scenes/Pause";
+import MazeMap from "./scenes/MazeMap";
+import WeaponDesign from "./scenes/WeaponDesign";
 
 const DEFAULT_WIDTH = 320;
 const DEFAULT_HEIGHT = 320;
@@ -30,6 +32,8 @@ export const CONFIG = {
         GameUI,
         GameOver,
         Pause,
+        MazeMap,
+        WeaponDesign,
     ],
     physics: {
         default: "arcade",
