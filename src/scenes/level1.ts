@@ -9,6 +9,10 @@ export default class level1 extends Phaser.Scene {
 
     preload() {
         this.load.image("background", "assets/img/background.png");
+        this.load.image(
+            "monkey-brown-pirate",
+            "assets/img/monkeys/monkey-brown-pirate.png"
+        );
     }
 
     create() {
@@ -19,6 +23,22 @@ export default class level1 extends Phaser.Scene {
         });
         this.add.rectangle(1000, 250, 600, 350, 0xffff);
         this.add.rectangle(1000, 650, 600, 450, 0x9999);
+
+        this.add.image(350, 325, "monkey-brown-pirate");
+
+        this.add.text(720, 100, "class Monkey:", {
+            fontSize: "42px",
+            color: "black",
+        });
+
+        this.add.text(750, 175, "color:", {
+            fontSize: "32px",
+            color: "black",
+        });
+        this.add.text(750, 250, "hat:", {
+            fontSize: "32px",
+            color: "black",
+        });
     }
 
     update() {}
