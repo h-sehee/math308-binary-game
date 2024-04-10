@@ -4,6 +4,8 @@ import FpsText from "../objects/fpsText";
 //import PreloadScene from "./preloadScene";
 //background image by rawpixel.com
 //audio for title scene by Darren Curtis
+//Music by <a href="https://pixabay.com/users/ob-lix-17147719/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=8009">OB-LIX</a> from <a href=
+//"https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=8009">Pixabay</a>
 export default class TitleScene extends Phaser.Scene {
     fpsText: FpsText;
 
@@ -37,7 +39,8 @@ export default class TitleScene extends Phaser.Scene {
                     //strokeAlpha: 1
                 }
             )
-            .setOrigin(0.5);
+            .setOrigin(0.5)
+            .setDepth(1000);
 
         const startGame = this.add
             .text(
@@ -45,14 +48,16 @@ export default class TitleScene extends Phaser.Scene {
                 this.cameras.main.height / 1.5,
                 "Enter the Maze",
                 {
-                    fontSize: "25px",
+                    fontSize: "20px",
                     fontFamily: "Academy Engraved LET",
                     strokeThickness: 4,
                     stroke: "0xffffff",
                     //strokeAlpha: 1
                 }
             )
-            .setOrigin(0.5);
+            .setOrigin(0.5)
+            .setDepth(1000);
+
         startGame.setInteractive();
         startGame.on("pointerdown", () => this.scene.start("tutorial"));
 
@@ -65,13 +70,22 @@ export default class TitleScene extends Phaser.Scene {
             repeat: -1,
         });
 
-        const message = `Phaser v${Phaser.VERSION}`;
-        this.add
-            .text(this.cameras.main.width - 15, 15, message, {
-                color: "#000000",
-                fontSize: "5px",
-            })
-            .setOrigin(1, 0);
+        this.add.image(0, 0, "base_tiles");
+        const map = this.make.tilemap({ key: "tilemap" });
+        const tileset = map.addTilesetImage(
+            "dungeon",
+            "base_tiles",
+            16,
+            16
+        ) as Phaser.Tilemaps.Tileset;
+
+        map.createLayer("ground", tileset);
+        map.createLayer("wall", tileset) as Phaser.Tilemaps.TilemapLayer;
+
+        let music = this.sound.add("titleScene");
+        music.loop = true;
+        music.play();
+        music.setVolume(1);
     }
 
     update() {
