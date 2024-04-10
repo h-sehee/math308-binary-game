@@ -24,6 +24,18 @@ export default class GameOver extends Phaser.Scene {
         background.setDepth(0);
 
         this.add
+            .rectangle(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 2,
+                this.cameras.main.width,
+                this.cameras.main.height,
+                0x000000,
+                0.8
+            )
+            .setOrigin(0.5)
+            .setDepth(999);
+
+        this.add
             .text(
                 this.cameras.main.width / 2,
                 this.cameras.main.height / 3,
@@ -50,32 +62,61 @@ export default class GameOver extends Phaser.Scene {
         const retry = this.add
             .text(
                 this.cameras.main.width / 2,
-                this.cameras.main.height / 1.5,
+                this.cameras.main.height / 1.5 - 40,
                 "Retry",
                 {
-                    fontSize: "25px",
+                    fontSize: "22px",
                     fontFamily: "Academy Engraved LET",
                     strokeThickness: 4,
                     stroke: "0xffffff",
-                    //strokeAlpha: 1
                 }
             )
             .setOrigin(0.5)
             .setDepth(1000);
 
         retry.setInteractive();
+        retry.on("pointerover", () => {
+            retry.setFontSize("25px");
+            retry.setShadow(1, 1, "#FFD300", 3, false, true);
+        });
+        retry.on("pointerout", () => {
+            retry.setFontSize("22px");
+            retry.setShadow(undefined);
+        });
         retry.on("pointerdown", () => {
             this.scene.start("tutorial");
             this.events.emit("gameRetry");
         });
 
-        this.tweens.add({
-            targets: retry,
-            scaleX: 1.1,
-            scaleY: 1.1,
-            duration: 1000,
-            yoyo: true,
-            repeat: -1,
+        const goTitle = this.add
+            .text(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 1.5,
+                "Return to Title",
+                {
+                    fontSize: "22px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 4,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+
+        goTitle.setInteractive();
+        goTitle.on("pointerover", () => {
+            goTitle.setFontSize("25px");
+            goTitle.setShadow(1, 1, "#FFD300", 3, false, true);
+        });
+        goTitle.on("pointerout", () => {
+            goTitle.setFontSize("22px");
+            goTitle.setShadow(undefined);
+        });
+        goTitle.on("pointerdown", () => {
+            this.scene.stop();
+            this.scene.stop("mainScene");
+            this.scene.stop("game-ui");
+            this.scene.start("TitleScene");
         });
 
         this.add.image(0, 0, "base_tiles");
