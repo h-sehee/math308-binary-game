@@ -4,6 +4,7 @@ import { createTheseusAnims } from "../anims/theseusAnims";
 import { createWeaponsAnims } from "../anims/weaponsAnims";
 import "../player/theseus";
 import Theseus from "../player/theseus";
+// import { sceneEvents } from "../events/eventsCenter";
 
 export default class Tutorial extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -56,6 +57,7 @@ export default class Tutorial extends Phaser.Scene {
         debugDraw(this.doorLayer, this, false);
 
         this.theseus = this.add.theseus(160, 160, "faune");
+        console.log(this.theseus.health);
 
         this.physics.add.overlap(
             this.theseus,
@@ -71,13 +73,17 @@ export default class Tutorial extends Phaser.Scene {
         this.time.delayedCall(1000, () => {
             this.doorLayer.setCollisionByProperty({ collides: true }, false);
             this.doorLayer.setVisible(false);
-            this.scene.run("game-ui");
+            this.scene.run("game-ui", { hp: this.theseus?.health, threads: 5 });
         });
     }
 
     private handleEnterDoor() {
         if (this.cursors?.space.isDown) {
-            this.scene.start("mainScene");
+            this.scene.start("mainScene", {
+                hp: this.theseus?.health,
+                threads: 5,
+                weaponType: "sword",
+            });
         }
     }
 

@@ -3,12 +3,19 @@ import { sceneEvents } from "../events/eventsCenter";
 
 export default class GameUI extends Phaser.Scene {
     private hearts: Phaser.GameObjects.Group;
+    private hp: number;
+    private threads: number;
     private weaponBox: Phaser.GameObjects.Image;
     private sword: Phaser.GameObjects.Image;
     private bow: Phaser.GameObjects.Sprite;
 
     constructor() {
         super({ key: "game-ui" });
+    }
+
+    init(data: { hp: number; threads: number }) {
+        this.hp = data.hp;
+        this.threads = data.threads;
     }
 
     create() {
@@ -21,6 +28,26 @@ export default class GameUI extends Phaser.Scene {
                 stepX: 16,
             },
             quantity: 3,
+        });
+
+        if (this.hp < 3) {
+            this.hearts.children.each((go, idx) => {
+                const heart = go as Phaser.GameObjects.Image;
+                if (idx < this.hp) {
+                    heart.setTexture("heart-full");
+                } else {
+                    heart.setTexture("heart-empty");
+                }
+                return true;
+            });
+        }
+
+        this.add.image(30, 50, "threads");
+        this.add.text(40, 41, `${this.threads}`, {
+            fontSize: "12px",
+            fontFamily: "Academy Engraved LET",
+            strokeThickness: 2,
+            stroke: "0xffffff",
         });
 
         this.weaponBox = this.add.image(280, 38, "weaponBox");
@@ -40,6 +67,14 @@ export default class GameUI extends Phaser.Scene {
             this.handlePlayerWeaponChanged,
             this
         );
+
+        // sceneEvents.once(
+        //     "player-weapon-set",
+        //     () => {
+        //         this.sword.setVisible(true);
+        //     },
+        //     this
+        // );
     }
 
     private handlePlayerHealthChanged(health: number) {

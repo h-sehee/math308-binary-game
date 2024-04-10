@@ -61,7 +61,10 @@ export default class GameOver extends Phaser.Scene {
             )
             .setOrigin(0.5);
         retry.setInteractive();
-        retry.on("pointerdown", () => this.scene.start("mainScene"));
+        retry.on("pointerdown", () => {
+            this.scene.start("tutorial");
+            this.events.emit("gameRetry");
+        });
 
         this.tweens.add({
             targets: retry,
