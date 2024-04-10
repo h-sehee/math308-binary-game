@@ -175,11 +175,19 @@ export default class MainScene extends Phaser.Scene {
     }
 
     private handleEnterDoor() {
-        if (this.cursors?.space.isDown) {
+        if (!this.theseus) {
+            return;
+        }
+        const tile = this.doorOpened.getTileAtWorldXY(
+            this.theseus.x,
+            this.theseus.y,
+            true
+        );
+        if (this.cursors?.space.isDown && tile.index != -1) {
             this.scene.start("mainScene", {
-                hp: this.theseus?.health,
+                hp: this.theseus.health,
                 threads: this.threads - 1,
-                weaponType: this.theseus?.weaponType,
+                weaponType: this.theseus.weaponType,
             });
         }
     }
