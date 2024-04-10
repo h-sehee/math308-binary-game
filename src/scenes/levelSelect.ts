@@ -11,6 +11,7 @@ export default class LevelSelect extends Phaser.Scene {
     private lvl4?: boolean = false;
     private lvl5?: boolean = false;
     private username: string;
+    private lastDirection: string;
 
     constructor() {
         super({ key: "LevelSelect" });
@@ -93,7 +94,8 @@ export default class LevelSelect extends Phaser.Scene {
             text.setStroke("#FFFF00", 6);
         });
 
-        this.player = this.physics.add.sprite(250, 370, "dude");
+        // this.player = this.physics.add.sprite(250, 370, "spy");
+        this.player = this.physics.add.sprite(250, 370, "dude").setScale(0.2);
         this.player.setCollideWorldBounds(false);
         this.player.setDepth(1);
         this.cameras.main.setBounds(0, 0, 2595, this.scale.height);
@@ -103,26 +105,31 @@ export default class LevelSelect extends Phaser.Scene {
         this.anims.create({
             key: "left",
             frames: this.anims.generateFrameNumbers("dude", {
-                start: 0,
-                end: 3,
+                start: 7,
+                end: 0,
             }),
-            frameRate: 10,
+            frameRate: 12,
             repeat: -1,
         });
 
         this.anims.create({
-            key: "turn",
-            frames: [{ key: "dude", frame: 4 }],
-            frameRate: 20,
+            key: "idleLeft",
+            frames: [{ key: "dude", frame: 8 }],
+            frameRate: 12,
+        });
+        this.anims.create({
+            key: "idleRight",
+            frames: [{ key: "dude", frame: 9 }],
+            frameRate: 12,
         });
 
         this.anims.create({
             key: "right",
             frames: this.anims.generateFrameNumbers("dude", {
-                start: 5,
-                end: 8,
+                start: 10,
+                end: 18,
             }),
-            frameRate: 10,
+            frameRate: 12,
             repeat: -1,
         });
 
@@ -131,8 +138,6 @@ export default class LevelSelect extends Phaser.Scene {
 
         this.doors = this.physics.add.staticGroup();
         this.doors.setDepth(0);
-
-        //go back door
 
         const wallDoor = this.doors.create(
             48,
@@ -238,15 +243,26 @@ export default class LevelSelect extends Phaser.Scene {
         if (!this.cursors) {
             return;
         }
+        if (!this.lastDirection) {
+            this.lastDirection = "right"; // Assuming player starts facing right
+        }
+
         if (this.cursors.left.isDown) {
             this.player?.setVelocityX(-400);
             this.player?.anims.play("left", true);
+            this.lastDirection = "left"; // Update last movement direction
         } else if (this.cursors.right.isDown) {
             this.player?.setVelocityX(400);
             this.player?.anims.play("right", true);
+            this.lastDirection = "right"; // Update last movement direction
         } else {
             this.player?.setVelocityX(0);
-            this.player?.anims.play("turn");
+
+            if (this.lastDirection === "left") {
+                this.player?.anims.play("idleLeft", true);
+            } else {
+                this.player?.anims.play("idleRight", true);
+            }
         }
 
         if (this.cursors.up.isDown && this.player?.body?.touching.down) {

@@ -46,7 +46,7 @@ export default class IntroScene extends Phaser.Scene {
 
         // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
-            this.scene.start("LevelSelect", {
+            this.scene.start("Tutorial", {
                 username: this.username,
                 lvl2: this.lvl2,
                 lvl3: this.lvl3,
