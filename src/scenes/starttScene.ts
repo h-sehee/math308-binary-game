@@ -16,24 +16,6 @@ export default class StartScene extends Phaser.Scene {
     create() {
         // dummy data to avoid undefined error on first use of cycleDialogue()
         this.bubbleData = { bubbleNum: 0, showBubble: {} };
-        // for input
-        var spaceBar = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.F5);
-
-        //
-        this.input.on(
-            "pointerdown",
-            (
-                pointer: Phaser.Input.Pointer, // we don't use the pointer param but if we don't include it it returns a pointer manager instead ugh
-                objectsClicked: Phaser.GameObjects.Sprite[]
-            ) => {
-                console.log(objectsClicked);
-                if (objectsClicked.length > 0) {
-                    this.cycleDialogue(
-                Object.values(this.bubbleData)[0],
-                Object.values(this.bubbleData)[1]
-                );
-            }
-        });
 
         // Spawn in the background and CAT image
         this.add.image(400, 300, "desktopBG");
@@ -41,6 +23,22 @@ export default class StartScene extends Phaser.Scene {
 
         // Make CAT clickable
         this.CAT.setInteractive();
+
+        // when clicked, cycle dialogue
+        this.input.on(
+            "pointerdown",
+            (
+                pointer: Phaser.Input.Pointer, // we don't use the pointer param but if we don't include it it returns a pointer manager instead ugh
+                objectsClicked: Phaser.GameObjects.Sprite[]
+            ) => {
+                console.log(objectsClicked[0].texture.key);
+                if (objectsClicked.length > 0 && objectsClicked[0].texture.key == "CAT") {
+                    this.cycleDialogue(
+                Object.values(this.bubbleData)[0],
+                Object.values(this.bubbleData)[1]
+                );
+            }
+        });
 
         // Add File Sound Effects
         let lockedsfx = this.sound.add("lockedfile");
@@ -159,7 +157,7 @@ export default class StartScene extends Phaser.Scene {
                     400,
                     200,
                     100,
-                    "woagh !!!! so silly"
+                    "Oh finally, power! Hi! Click on me to continue."
                 );
                 // make the white bubble graphic visible
                 Object.values(showBubble)[0].visible = true;
@@ -172,7 +170,7 @@ export default class StartScene extends Phaser.Scene {
                     400,
                     200,
                     100,
-                    "nice space button press :3"
+                    "You must be the IT person trying to fix this computer."
                 );
                 // make the white bubble graphic visible
                 Object.values(showBubble)[0].visible = true;
@@ -185,7 +183,85 @@ export default class StartScene extends Phaser.Scene {
                     400,
                     200,
                     100,
-                    "Where'd you get it? The space bar store ???"
+                    "I don’t think it needs fixing, but, whatever."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 3:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "See that black window over there?"
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 4:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "You look like you don’t know what that is."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 5:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Weird since you’re like… an IT worker."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 6:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "But that’s okay; I’ll teach you."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 7:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Open that text file over there. It’s white. With text on it."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 8:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Click me when you’re done reading it."
                 );
                 // make the white bubble graphic visible
                 Object.values(showBubble)[0].visible = true;
