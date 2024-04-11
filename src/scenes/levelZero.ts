@@ -499,5 +499,13 @@ export default class LevelZero extends Phaser.Scene {
                 this.player.setVelocityY(-650);
             }
         }
+
+        if(this.player && this.plank && this.spikes){
+            if(this.plank.x === 850){
+                this.physics.world.enable(this.plank);
+                this.physics.add.collider(this.plank, this.spikes);
+                this.physics.add.collider(this.player, this.plank);
+            }
+        }
     }
 }
