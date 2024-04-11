@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 export class Bullet extends Phaser.Physics.Arcade.Image {
-    constructor(scene: Phaser.Scene, x: number, y: number) {
-        super(scene, x, y, "bullet_blue");
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
+        super(scene, x, y, texture);
         this.setScale(0.75);
     }
 
@@ -21,12 +21,5 @@ export class Bullet extends Phaser.Physics.Arcade.Image {
                 this.body.velocity
             );
         }
-    }
-
-    // Method to reset the bullet when it goes out of bounds
-    reset(x: number, y: number) {
-        this.setActive(true);
-        this.setVisible(true);
-        this.setPosition(x, y);
     }
 }
