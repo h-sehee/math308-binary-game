@@ -153,9 +153,17 @@ export default class Level_1_scene extends Phaser.Scene {
     private handleTerminal() {
         this.scene.launch("TerminalScene");
         let terminalScene = this.scene.get("TerminalScene");
-
         terminalScene.events.on("git_add_red_clicked", function () {
-            console.log("Button clicked in Level 1");
+            console.log("Red clicked in Level 1");
+        });
+        terminalScene.events.on("git_add_blue_clicked", function () {
+            console.log("Blue clicked in Level 1");
+        });
+        terminalScene.events.on("git_commit_clicked", function () {
+            console.log("Commit clicked in Level 1");
+        });
+        terminalScene.events.on("git_push_clicked", function () {
+            console.log("Push clicked in Level 1");
         });
     }
 
