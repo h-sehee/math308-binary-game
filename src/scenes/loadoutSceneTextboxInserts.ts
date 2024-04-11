@@ -492,9 +492,10 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             this.textInput.focus();
         });
 
-        this.createClickableText(
+        this.createClickableTextAndSize(
             1565,
             1450,
+            "100px",
             "SUBMIT CODE",
             "#000000",
             "#00ff00",
@@ -1366,6 +1367,18 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             }
         );
 
+        this.createClickableTextAndSize(
+            0,
+            0,
+            "50px",
+            "cheat (devs only)",
+            "#ffffff",
+            "#ff0000",
+            () => {
+                this.scene.start("levelOne");
+            }
+        );
+
         let graphics = this.add.graphics();
         graphics.fillStyle(0x000000, 1);
         graphics.fillRect(350, 1355, 1000, 350);
@@ -1452,9 +1465,10 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         );
     }
 
-    createClickableText(
+    createClickableTextAndSize(
         x: number,
         y: number,
+        fsize: string,
         text: string,
         textColor: string,
         backdrop: string,
@@ -1463,7 +1477,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         // Predefined style for all clickable text instances
         const style: Phaser.Types.GameObjects.Text.TextStyle = {
             fontFamily: "Arial",
-            fontSize: "100px",
+            fontSize: fsize,
             color: textColor,
             align: "center",
             backgroundColor: backdrop,
