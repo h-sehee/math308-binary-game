@@ -206,6 +206,7 @@ export default class Level_1_scene extends Phaser.Scene {
         if (this.gameOver) {
             this.gameOver = false;
             updateCurrentLevel(this.scene.key);
+            this.scene.stop("TerminalScene");
             this.scene.start("RespawnScene");
             this.scene.stop();
         }
