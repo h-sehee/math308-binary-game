@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { sceneEvents } from "../events/eventsCenter";
 
 enum HealthState {
     IDLE,
@@ -57,6 +58,7 @@ export default class RedEyesSkeleton extends Phaser.Physics.Arcade.Sprite {
                     this.destroy();
                 },
             });
+            sceneEvents.emit("enemy-destroyed", this.x, this.y);
         } else {
             this.setTint(0xff0000);
             this.healthState = HealthState.DAMAGE;

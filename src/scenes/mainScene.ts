@@ -24,6 +24,17 @@ export default class MainScene extends Phaser.Scene {
     private threads: number;
     private weapon: string;
 
+    private dropList = [
+        "sword-damage-up",
+        "sword-speed-up",
+        "sword-fire",
+        "sword-ice",
+        "bow-damage-up",
+        "bow-speed-up",
+        "bow-poison",
+        "bow-triple",
+    ];
+
     constructor() {
         super({ key: "mainScene" });
     }
@@ -184,6 +195,11 @@ export default class MainScene extends Phaser.Scene {
             this.scene.pause();
             this.scene.run("weapon-design");
         });
+
+        sceneEvents.on("enemy-destroyed", this.handleEnemyDropItem, this);
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off("enemy-destroyed", this.handleEnemyDropItem, this);
+        });
     }
 
     private handleEnterDoor() {
@@ -278,6 +294,45 @@ export default class MainScene extends Phaser.Scene {
         this.doorLayer.setVisible(false);
     }
 
+    private handleEnemyDropItem(dropX: number, dropY: number) {
+        const ranNum = Math.random() * 100;
+        console.log("handleEnemyDropItem worked");
+
+        if (ranNum <= 10) {
+            const ranIdx = Math.floor(Math.random() * this.dropList.length);
+            const dropItem = this.physics.add.image(
+                dropX,
+                dropY,
+                this.dropList[ranIdx]
+            );
+            dropItem.setScale(1.5);
+            if (!this.theseus) {
+                return;
+            }
+            this.physics.add.overlap(
+                this.theseus,
+                dropItem,
+                this.handlePlayerItemGet,
+                undefined,
+                this
+            );
+            console.log(dropItem.texture.key);
+        }
+    }
+
+    private handlePlayerItemGet(
+        player:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        item:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const dropItem =
+            item as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+        this.events.emit("player-item-get", dropItem.texture.key);
+        dropItem.destroy();
+    }
     update() {
         const enemyRemained = this.redEyesSkeletons?.getChildren();
         if (enemyRemained!.length === 0) {
