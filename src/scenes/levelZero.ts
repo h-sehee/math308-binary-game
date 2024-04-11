@@ -23,6 +23,7 @@ export default class LevelZero extends Phaser.Scene {
     private ladderHighlightBox: Phaser.GameObjects.Rectangle;
     private plankDetectionArea: Phaser.GameObjects.Rectangle;
     private plankHighlightBox: Phaser.GameObjects.Rectangle;
+    private keyDetectionArea: Phaser.GameObjects.Rectangle;
 
     constructor() {
         super({ key: "Level0" });
@@ -71,6 +72,7 @@ export default class LevelZero extends Phaser.Scene {
         this.load.image("ladder", "assets/ladder.png");
         this.load.image("plank", "assets/plank.png");
         this.load.image("door", "assets/door.png");
+        this.load.image("opendoor", "assets/open-door.png")
     }
 
     create() {
@@ -239,6 +241,11 @@ export default class LevelZero extends Phaser.Scene {
         this.physics.add.collider(this.plankHighlightBox, this.spikes);
         this.plankHighlightBox.setAlpha(0.25);
         this.plankHighlightBox.setVisible(false);
+
+        // Creating detection area when using key
+        this.keyDetectionArea = this.add.rectangle(875, 150, 200, 200);
+        this.physics.world.enable(this.keyDetectionArea);
+        this.physics.add.collider(this.keyDetectionArea, this.platforms);
     }
 
     private updateStackView() {
@@ -351,7 +358,7 @@ export default class LevelZero extends Phaser.Scene {
                         this.plankHighlightBox.setVisible(false);
                     }
                     if (poppedItem.name === "key") {
-                        poppedItem.setPosition(50, 50);
+                        this.door?.setTexture("opendoor");
                     }
 
                     this.tweens.add({
@@ -459,7 +466,7 @@ export default class LevelZero extends Phaser.Scene {
                 ) &&
                 this.stack[this.stack.length - 1].name === "ladder"
             ) {
-                // If player overlaps with detection area, show the highlight box
+                // If player overlaps with ladder detection area, show the highlight box
                 this.ladderHighlightBox.setVisible(true);
                 if (this.keyF?.isDown && !this.keyFPressed) {
                     this.keyFPressed = true;
@@ -472,8 +479,20 @@ export default class LevelZero extends Phaser.Scene {
                 ) &&
                 this.stack[this.stack.length - 1].name === "plank"
             ) {
-                // If player overlaps with detection area, show the highlight box
+                // If player overlaps with plank detection area, show the highlight box
                 this.plankHighlightBox.setVisible(true);
+                if (this.keyF?.isDown && !this.keyFPressed) {
+                    this.keyFPressed = true;
+                    this.useItem();
+                }
+            } else if (
+                Phaser.Geom.Intersects.RectangleToRectangle(
+                    this.player.getBounds(),
+                    this.keyDetectionArea.getBounds()
+                ) &&
+                this.stack[this.stack.length - 1].name === "key"
+            ) {
+                // If player overlaps with key detection area, open door
                 if (this.keyF?.isDown && !this.keyFPressed) {
                     this.keyFPressed = true;
                     this.useItem();
