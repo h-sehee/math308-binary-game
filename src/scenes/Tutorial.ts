@@ -1,3 +1,4 @@
+//https://despairparty.itch.io/rpgmaker-spriteface
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
 import { createTheseusAnims } from "../anims/theseusAnims";
@@ -73,6 +74,7 @@ export default class Tutorial extends Phaser.Scene {
         this.physics.add.collider(this.theseus, doorLayer);
 
         this.time.delayedCall(1000, () => {
+            console.log("delayed call happened for MazeMap");
             doorLayer.setCollisionByProperty({ collides: true }, false);
             doorLayer.setVisible(false);
             this.scene.run("game-ui", {
@@ -80,6 +82,7 @@ export default class Tutorial extends Phaser.Scene {
                 threads: 5,
                 weaponType: this.theseus?.weaponType,
             });
+            this.scene.run("maze-map");
         });
 
         this.input.keyboard?.on("keydown-ESC", () => {

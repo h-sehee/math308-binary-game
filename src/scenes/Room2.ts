@@ -109,6 +109,20 @@ export default class MainScene extends Phaser.Scene {
             return true;
         });
 
+        //Make MazeMap visible in this scene.
+        this.scene.launch("MazeMap");
+        const mazeMapScene = this.scene.get("MazeMap");
+
+        mazeMapScene.events.once("start", () => {
+            const mazeMapCamera = mazeMapScene.cameras.main;
+
+            //Put the MazeMap in the bottom right of the screen.
+            const cameraX = Number(this.game.config.width) - 320;
+            const cameraY = Number(this.game.config.height) - 320;
+            mazeMapCamera.setSize(320, 320);
+            mazeMapCamera.setPosition(cameraX, cameraY);
+        });
+
         this.physics.add.collider(this.theseus, wallsLayer);
         this.physics.add.collider(this.theseus, this.doorLayer);
 
