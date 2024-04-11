@@ -152,7 +152,6 @@ export default class Level_1_scene extends Phaser.Scene {
             undefined,
             this
         );
-        console.log(this.terminalCorrect);
     }
 
     private handleTerminal(terminalCorrectArr: string[]) {
@@ -168,11 +167,7 @@ export default class Level_1_scene extends Phaser.Scene {
                             correct = false;
                         }
                     }
-                    if (correct) {
-                        terminalScene.scene.stop("TerminalScene");
-                    } else {
-                        terminalScene.scene.restart();
-                    }
+                    terminalScene.scene.stop();
                 }
             }
         );
