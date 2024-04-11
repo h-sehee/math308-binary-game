@@ -23,6 +23,7 @@ export default class LevelZero extends Phaser.Scene {
     private ladderHighlightBox: Phaser.GameObjects.Rectangle;
     private plankDetectionArea: Phaser.GameObjects.Rectangle;
     private plankHighlightBox: Phaser.GameObjects.Rectangle;
+    private keyDetectionArea: Phaser.GameObjects.Rectangle;
 
     constructor() {
         super({ key: "Level0" });
@@ -239,6 +240,11 @@ export default class LevelZero extends Phaser.Scene {
         this.physics.add.collider(this.plankHighlightBox, this.spikes);
         this.plankHighlightBox.setAlpha(0.25);
         this.plankHighlightBox.setVisible(false);
+
+        // Creating detection area when using key
+        this.keyDetectionArea = this.add.rectangle(875, 150, 200, 200);
+        this.physics.world.enable(this.keyDetectionArea);
+        this.physics.add.collider(this.keyDetectionArea, this.platforms);
     }
 
     private updateStackView() {
