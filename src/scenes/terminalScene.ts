@@ -11,6 +11,7 @@ export default class TerminalScene extends Phaser.Scene {
         "% Type 'exit' to leave the terminal",
     ];
     rexUI: RexUIPlugin; // Declare scene property 'rexUI' as RexUIPlugin type
+    private terminalInputArr: string[] = []; //this is the array of commands the user has input
 
     private addLineToTerminalText(textBox: TextBox, text: string) {
         textBox.text += "\n" + text;
@@ -73,6 +74,7 @@ export default class TerminalScene extends Phaser.Scene {
 
         //TODO @JOSH - Add a seperate file or function to create buttons so not duplicate code
         //TODO @JOSH - Have Offset Scale with font size
+
         const BUTTON_TXT_OFFSET_X = 100;
         const BUTTON_TXT_OFFSET_Y = 14;
         const BUTTON_1_X = 200;
@@ -89,7 +91,8 @@ export default class TerminalScene extends Phaser.Scene {
         );
 
         button.setInteractive();
-        button.on("pointerdown", () => this.events.emit("git_add_red_clicked"));
+        button.on("pointerdown", () => this.terminalInputArr.length < 3 ? this.terminalInputArr.push("git_add_red") : this.handleCorrect(this.terminalInputArr));
+        //button.on("pointerdown", () => this.events.emit("git_add_red_clicked"));
 
         const BUTTON_2_TXT_OFFSET_X = 100;
         const BUTTON_2_TXT_OFFSET_Y = 14;
@@ -107,8 +110,11 @@ export default class TerminalScene extends Phaser.Scene {
         );
         button2.setInteractive();
         button2.on("pointerdown", () =>
-            this.events.emit("git_add_blue_clicked")
+            this.terminalInputArr.length < 3
+                ? this.terminalInputArr.push("git_add_blue")
+                : this.handleCorrect(this.terminalInputArr)
         );
+        //button2.on("pointerdown", () => this.events.emit("git_add_blue_clicked"));
 
         const BUTTON_3_TXT_OFFSET_X = 98;
         const BUTTON_3_TXT_OFFSET_Y = 14;
@@ -125,7 +131,12 @@ export default class TerminalScene extends Phaser.Scene {
             }
         );
         button3.setInteractive();
-        button3.on("pointerdown", () => this.events.emit("git_commit_clicked"));
+        button3.on("pointerdown", () =>
+            this.terminalInputArr.length < 3
+                ? this.terminalInputArr.push("git_commit")
+                : this.handleCorrect(this.terminalInputArr)
+        );
+        //button3.on("pointerdown", () => this.events.emit("git_commit_clicked"));
 
         const BUTTON_4_TXT_OFFSET_X = 98;
         const BUTTON_4_TXT_OFFSET_Y = 14;
@@ -142,7 +153,18 @@ export default class TerminalScene extends Phaser.Scene {
             }
         );
         button4.setInteractive();
-        button4.on("pointerdown", () => this.events.emit("git_push_clicked"));
+        button4.on("pointerdown", () =>
+            this.terminalInputArr.length < 3
+                ? this.terminalInputArr.push("git_push")
+                : this.handleCorrect(this.terminalInputArr)
+        );
+        //button4.on("pointerdown", () => this.events.emit("git_push_clicked"));
+        console.log(this.terminalInputArr);
+    }
+
+    private handleCorrect(terminalInput: string[]): boolean {
+        this.events.emit("terminal_input", terminalInput);
+        return true;
     }
 
     update() {}
