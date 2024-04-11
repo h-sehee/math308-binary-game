@@ -21,6 +21,8 @@ export default class LevelZero extends Phaser.Scene {
 
     private ladderDetectionArea: Phaser.GameObjects.Rectangle;
     private ladderHighlightBox: Phaser.GameObjects.Rectangle;
+    private plankDetectionArea: Phaser.GameObjects.Rectangle;
+    private plankHighlightBox: Phaser.GameObjects.Rectangle;
 
     constructor() {
         super({ key: "Level0" });
@@ -170,10 +172,10 @@ export default class LevelZero extends Phaser.Scene {
         this.physics.add.collider(this.key, this.platforms);
 
         this.ladder = this.add.sprite(1050, 550, "ladder").setScale(0.5, 0.5);
-        this.ladder.setName("ladder")
+        this.ladder.setName("ladder");
 
         this.plank = this.add.sprite(350, 530, "plank").setScale(0.5, 0.5);
-        this.plank.setName("plank")
+        this.plank.setName("plank");
 
         this.spikes = this.physics.add.staticGroup();
         this.spikes.create(780, 675, "spike").setScale(0.75, 0.75);
@@ -208,11 +210,35 @@ export default class LevelZero extends Phaser.Scene {
         this.physics.add.collider(this.ladderDetectionArea, this.ground);
         this.physics.add.collider(this.ladderDetectionArea, this.platforms);
 
-
         // Creating a highlighted rectangle to indicate where ladder can be used
-        this.ladderHighlightBox = this.add.rectangle(710, 400, 100, 150, 0xffff00);
+        this.ladderHighlightBox = this.add.rectangle(
+            710,
+            400,
+            100,
+            150,
+            0xffff00
+        );
         this.ladderHighlightBox.setAlpha(0.25);
         this.ladderHighlightBox.setVisible(false);
+
+        // Creating dectection areas when using the plank
+        this.plankDetectionArea = this.add.rectangle(700, 0, 100, 150);
+        this.physics.world.enable(this.plankDetectionArea);
+        this.physics.add.collider(this.plankDetectionArea, this.ground);
+
+        // Creating a highlighted rectangle to indicate where plank can be used
+        this.plankHighlightBox = this.add.rectangle(
+            860,
+            210,
+            215,
+            50,
+            0xffff00
+        );
+        this.physics.world.enable(this.plankHighlightBox);
+        this.physics.add.collider(this.plankHighlightBox, this.ground);
+        this.physics.add.collider(this.plankHighlightBox, this.spikes);
+        this.plankHighlightBox.setAlpha(0.25);
+        this.plankHighlightBox.setVisible(false);
     }
 
     private updateStackView() {
@@ -419,15 +445,21 @@ export default class LevelZero extends Phaser.Scene {
             this.keyFPressed = false; // Reset the keyFPressed flag when the F key is released
         }
 
-        // Check if player is near detection area 
+        // Check if player is near detection area
         if (this.player && this.stack.length > 0) {
             if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(),this.ladderDetectionArea.getBounds()) && this.stack[this.stack.length - 1].name === "ladder") {
                 // If player overlaps with detection area, show the highlight box
                 this.ladderHighlightBox.setVisible(true);
-            } else {
+            }
+            else if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), this.plankDetectionArea.getBounds()) && this.stack[this.stack.length - 1].name === "plank") {
+                // If player overlaps with detection area, show the highlight box
+                this.plankHighlightBox.setVisible(true);
+            } 
+            else {
                 // Otherwise, hide the highlight box
                 this.ladderHighlightBox.setVisible(false);
+                this.plankHighlightBox.setVisible(false);
             }
         }
-    }
+        }
 }
