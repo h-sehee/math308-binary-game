@@ -148,6 +148,14 @@ export default class Level_1_scene extends Phaser.Scene {
             undefined,
             this
         );
+
+        //Terminal Buttons For end of level
+        this.scene.start("TerminalScene");
+        let terminalScene = this.scene.get("TerminalScene");
+
+        terminalScene.events.on("git_add_clicked", function () {
+            console.log("Button clicked in Level 1");
+        });
     }
 
     private handleTerminal() {
