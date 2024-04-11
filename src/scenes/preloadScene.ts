@@ -22,9 +22,10 @@ export default class PreloadScene extends Phaser.Scene {
             frameWidth: 256,
             frameHeight: 64,
         });
+        this.load.image("terminal", "assets/Art/CommTerminal.png");
     }
 
     create() {
-        this.scene.start("Level_1_scene");
+        this.scene.start("MainScene");
     }
 }

@@ -139,7 +139,7 @@ export default class Level_1_scene extends Phaser.Scene {
         );
         this.terminal = this.physics.add.group();
         this.physics.add.collider(this.terminal, this.platforms);
-        this.terminal.create(1200, 500, "star");
+        this.terminal.create(1200, 500, "terminal");
         this.physics.add.collider(this.terminal, this.platforms);
         this.physics.add.overlap(
             this.player,
@@ -148,18 +148,15 @@ export default class Level_1_scene extends Phaser.Scene {
             undefined,
             this
         );
-
-        //Terminal Buttons For end of level
-        this.scene.start("TerminalScene");
-        let terminalScene = this.scene.get("TerminalScene");
-
-        terminalScene.events.on("git_add_clicked", function () {
-            console.log("Button clicked in Level 1");
-        });
     }
 
     private handleTerminal() {
-        this.scene.start("TerminalScene");
+        this.scene.launch("TerminalScene");
+        let terminalScene = this.scene.get("TerminalScene");
+
+        terminalScene.events.on("git_add_red_clicked", function () {
+            console.log("Button clicked in Level 1");
+        });
     }
 
     private handleHitSpike() {

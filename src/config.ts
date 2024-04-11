@@ -50,6 +50,7 @@ export const CONFIG = {
     dom: {
         createContainer: true,
     },
+    transparent: true,
     plugins: {
         scene: [
             {
