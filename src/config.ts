@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import Room2 from "./scenes/Room2";
 import PreloadScene from "./scenes/preloadScene";
 import TitleScene from "./scenes/TitleScene";
 import GameUI from "./scenes/GameUI";
@@ -34,6 +35,7 @@ export const CONFIG = {
         Pause,
         MazeMap,
         WeaponDesign,
+        Room2,
     ],
     physics: {
         default: "arcade",
