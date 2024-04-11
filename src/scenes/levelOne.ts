@@ -1,6 +1,32 @@
 import Phaser from "phaser";
 //import PhaserLogo from "../objects/phaserLogo";
 //import FpsText from "../objects/fpsText";
+class Bullet extends Phaser.Physics.Arcade.Sprite {
+    constructor(scene: Phaser.Scene, x: number, y: number) {
+        super(scene, x, y, "star.png");
+    }
+
+    fire(x: number, y: number, vel: number) {
+        this.enableBody(true, x, y, true, true);
+        this.setVelocityX(vel); // Adjust bullet speed as needed
+    }
+
+    onWorldBounds() {
+        this.destroy();
+    }
+}
+
+class Bullets extends Phaser.Physics.Arcade.Group {
+    constructor(world: Phaser.Physics.Arcade.World, scene: Phaser.Scene) {
+        super(world, scene);
+    }
+
+    fireBullet(x: number, y: number, vel: number) {
+        const bullet = new Bullet(this.scene, x, y);
+        this.add(bullet);
+        bullet.fire(x, y, vel);
+    }
+}
 
 export default class levelOne extends Phaser.Scene {
     //fpsText: FpsText;
@@ -10,7 +36,7 @@ export default class levelOne extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private stars?: Phaser.Physics.Arcade.Group;
     private checkpoint: Phaser.Physics.Arcade.StaticGroup;
-    private bullets?: Phaser.Physics.Arcade.Group;
+    bullets?: Bullets;
     private colliderInitialized = false;
 
     private score = 0;
@@ -118,6 +144,11 @@ export default class levelOne extends Phaser.Scene {
             undefined,
             this
         );
+        this.baddie.create(
+            4000,
+            1250,
+            "baddie1"
+        ) as Phaser.Physics.Arcade.Sprite;
 
         /*this.physics.add.collider(
             this.bullets!,
@@ -148,13 +179,20 @@ export default class levelOne extends Phaser.Scene {
             undefined,
             this
         );
-        this.bullets = this.physics.add.group({
-            defaultKey: "stars",
-            maxSize: 10,
-            runChildUpdate: true,
+        this.bullets = new Bullets(this.physics.world, this);
+        this.physics.add.overlap(
+            this.bullets!,
+            this.baddie!,
+            (bullet, baddie) => {
+                bullet.destroy();
+                baddie.destroy();
+            }
+        );
+        this.physics.add.overlap(this.bullets!, this.platforms!, (bullet) => {
+            bullet.destroy();
         });
     }
-    private shoot() {
+    /*private shoot() {
         const currentTime = this.time.now;
 
         if (
@@ -163,32 +201,41 @@ export default class levelOne extends Phaser.Scene {
         ) {
             return;
         }
-        const bullet = this.bullets?.get(this.player?.x, this.player?.y);
 
-        if (bullet) {
-            bullet.setActive(true);
-            bullet.setVisible(true);
-            // Set bullet velocity based on player's direction
-            if (this.player?.anims.currentAnim?.key === "left") {
-                bullet.body.velocity.x = -1000; // Shoot left
-            } else if (this.player?.anims.currentAnim?.key === "right") {
-                bullet.body.velocity.x = 1000; // Shoot right
-            } else {
-                bullet.body.velocity.x =
-                    this.lastPlayerDirection === "left" ? -1000 : 1000; // Default to left if player's direction is unknown
-            }
+        const bullet = this.add.image(
+            this.player?.x || 0,
+            this.player?.y || 0,
+            "stars"
+        );
+        bullet.setOrigin(0.5, 0.5); // Set the origin to the center of the image
 
-            this.lastShotTime = currentTime;
+        let bulletVelocityX = 0;
 
-            // Disable shooting temporarily
-            this.canShoot = false;
-
-            // Enable shooting after the delay
-            this.time.delayedCall(this.shootDelay, () => {
-                this.canShoot = true;
-            });
+        if (this.player?.anims.currentAnim?.key === "left") {
+            bulletVelocityX = -1000;
+        } else if (this.player?.anims.currentAnim?.key === "right") {
+            bulletVelocityX = 1000;
+        } else {
+            bulletVelocityX =
+                this.lastPlayerDirection === "left" ? -1000 : 1000;
         }
-    }
+
+        this.tweens.add({
+            targets: bullet,
+            x: bullet.x + bulletVelocityX,
+            duration: 500, // Adjust the duration as needed
+            onComplete: () => {
+                bullet.destroy();
+            },
+        });
+
+        this.lastShotTime = currentTime;
+        this.canShoot = false;
+
+        this.time.delayedCall(this.shootDelay, () => {
+            this.canShoot = true;
+        });
+    }*/
 
     private handleHitCheckpoint() {
         this.scene.launch("LoadoutSceneTextboxInserts");
@@ -201,6 +248,9 @@ export default class levelOne extends Phaser.Scene {
         this.player?.anims.play("turn");
 
         this.gameOver = true;
+
+        this.scene.launch("LoadoutSceneTextboxInserts");
+        this.scene.start("LoadoutSceneOne");
     }
 
     private handleCollectStar(
@@ -261,8 +311,15 @@ export default class levelOne extends Phaser.Scene {
         if (this.cursors.up.isDown && this.player?.body?.touching.down) {
             this.player.setVelocityY(-550);
         }
-        if (this.cursors.space.isDown) {
-            this.shoot();
+        if (this.cursors.space.isDown && this.player && this.bullets) {
+            if (this.lastPlayerDirection === "left") {
+                this.bullets.fireBullet(this.player.x, this.player.y, -1500); // Fire left
+            } else if (this.lastPlayerDirection === "right") {
+                this.bullets.fireBullet(this.player.x, this.player.y, 1500); // Fire right
+            } else {
+                // If player direction is unknown, default to firing right
+                this.bullets.fireBullet(this.player.x, this.player.y, 1500);
+            }
         }
     }
 }
