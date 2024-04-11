@@ -162,7 +162,7 @@ export default class LevelZero extends Phaser.Scene {
 
         this.platforms.create(350, 585, "level0-platform").setScale(1, 1);
         this.platforms.create(650, 500, "level0-platform").setScale(0.75, 0.75);
-        this.platforms.create(850, 300, "level0-platform").setScale(1, 0.75);
+        this.platforms.create(875, 300, "level0-platform").setScale(1, 0.75);
 
         this.physics.add.collider(this.player, this.platforms);
 
@@ -183,7 +183,7 @@ export default class LevelZero extends Phaser.Scene {
         this.spikes.create(880, 675, "spike").setScale(0.75, 0.75);
         this.spikes.create(930, 675, "spike").setScale(0.75, 0.75);
 
-        this.door = this.physics.add.image(865, 150, "door").setScale(0.1, 0.1);
+        this.door = this.physics.add.image(875, 150, "door").setScale(0.1, 0.1);
         this.physics.add.collider(this.door, this.platforms);
 
         // Set the depth of the character/player sprite to a high value
@@ -205,14 +205,14 @@ export default class LevelZero extends Phaser.Scene {
         );
 
         // Creating dectection areas when using the ladder
-        this.ladderDetectionArea = this.add.rectangle(710, 400, 100, 150);
+        this.ladderDetectionArea = this.add.rectangle(690, 400, 100, 150);
         this.physics.world.enable(this.ladderDetectionArea);
         this.physics.add.collider(this.ladderDetectionArea, this.ground);
         this.physics.add.collider(this.ladderDetectionArea, this.platforms);
 
         // Creating a highlighted rectangle to indicate where ladder can be used
         this.ladderHighlightBox = this.add.rectangle(
-            710,
+            690,
             400,
             100,
             150,
@@ -343,7 +343,7 @@ export default class LevelZero extends Phaser.Scene {
 
                     // Move popped item to location it will be used
                     if(poppedItem.name === "ladder"){
-                        poppedItem.setPosition(705, 400);
+                        poppedItem.setPosition(690, 400);
                         this.ladderHighlightBox.setVisible(false);
 
                     } 
