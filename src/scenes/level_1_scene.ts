@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { updateCurrentLevel } from "./currentLevel";
 
 export default class Level_1_scene extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
@@ -201,6 +202,12 @@ export default class Level_1_scene extends Phaser.Scene {
 
         if (this.cursors?.up.isDown && this.player?.body?.touching.down) {
             this.player.setVelocityY(-300);
+        }
+        if (this.gameOver) {
+            this.gameOver = false;
+            updateCurrentLevel(this.scene.key);
+            this.scene.start("RespawnScene");
+            this.scene.stop();
         }
     }
 }
