@@ -10,8 +10,8 @@ import Pause from "./scenes/Pause";
 import MazeMap from "./scenes/MazeMap";
 import WeaponDesign from "./scenes/WeaponDesign";
 
-const DEFAULT_WIDTH = 320;
-const DEFAULT_HEIGHT = 320;
+const DEFAULT_WIDTH = 512;
+const DEFAULT_HEIGHT = 384;
 
 export const CONFIG = {
     title: "My Untitled Phaser 3 Game",
