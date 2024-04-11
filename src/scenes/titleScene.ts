@@ -12,13 +12,20 @@ export default class TitleScene extends Phaser.Scene {
     preload() {}
 
     create() {
+        let menuMusic = this.sound.add("menuMusic", { loop: false });
+        menuMusic.play();
+        menuMusic.setSeek(10);
         this.add.image(640, 360, "titlescreen");
 
         this.clickButton = this.add
-            .text(610, 440, "Start", { color: "#fff", fontSize: "25px" })
+            .text(515, 440, "[Enter] to Start", {
+                color: "#fff",
+                fontSize: "25px",
+                fontFamily: "Monospace",
+            })
             .setInteractive()
             .on("pointerdown", () => {
-                this.scene.start("LevelSelect");
+                this.scene.start("LoginScene");
             })
             .on("pointerover", () => {
                 this.enterButtonHoverState();
@@ -26,6 +33,10 @@ export default class TitleScene extends Phaser.Scene {
             .on("pointerout", () => {
                 this.enterButtonRestState();
             });
+
+        this.input.keyboard?.once("keydown-ENTER", () => {
+            this.scene.start("LoginScene");
+        });
     }
 
     enterButtonHoverState() {
