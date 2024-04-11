@@ -12,7 +12,7 @@ export const CONFIG = {
     title: "Bash The Dungeon",
     version: "0.0.1",
     type: Phaser.AUTO,
-    backgroundColor: "#B0BEC5",
+    backgroundColor: "#000000",
     scale: {
         parent: "phaser-game",
         mode: Phaser.Scale.FIT,
