@@ -32,28 +32,28 @@ export default class LevelZero extends Phaser.Scene {
         });
 
         this.load.spritesheet("gal_right", "assets/Pink_Monster_Walk_6.png", {
-            frameWidth: 32,
-            frameHeight: 32,
+            frameWidth: 128,
+            frameHeight: 128,
         });
         this.load.spritesheet(
             "gal_left",
             "assets/Pink_Monster_Walk_Left6.png",
-            { frameWidth: 32, frameHeight: 32 }
+            { frameWidth: 128, frameHeight: 128 }
         );
         this.load.spritesheet(
             "gal_idle_right",
             "assets/Pink_Monster_Idle_4.png",
-            { frameWidth: 32, frameHeight: 32 }
+            { frameWidth: 128, frameHeight: 128 }
         );
         this.load.spritesheet(
             "gal_idle_left",
             "assets/Pink_Monster_Idle_Left4.png",
-            { frameWidth: 32, frameHeight: 32 }
+            { frameWidth: 128, frameHeight: 128 }
         );
         this.load.spritesheet(
             "gal_jump_right",
             "assets/Pink_Monster_Jump_8.png",
-            { frameWidth: 32, frameHeight: 32 }
+            { frameWidth: 128, frameHeight: 128 }
         );
 
         this.load.image("play", "assets/play-button.png");
@@ -91,8 +91,8 @@ export default class LevelZero extends Phaser.Scene {
             repeat: -1,
         });
         this.player = this.physics.add
-            .sprite(100, 450, "gal_right")
-            .setScale(3, 3);
+            .sprite(200, 450, "gal_right")
+            .setScale(0.78, 0.78);
         this.player.setCollideWorldBounds(true);
 
         this.anims.create({
