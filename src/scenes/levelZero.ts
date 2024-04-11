@@ -9,6 +9,7 @@ export default class LevelZero extends Phaser.Scene {
     private ladder?: Phaser.GameObjects.Sprite;
     private plank?: Phaser.GameObjects.Sprite;
     private door?: Phaser.Physics.Arcade.Image;
+    private ground?: Phaser.Physics.Arcade.Image;
 
     private stack: Phaser.GameObjects.Sprite[] = [];
     private collectedItems: Phaser.GameObjects.Sprite[] = []; // To track all collected items (even after they're popped from stack)
@@ -17,6 +18,9 @@ export default class LevelZero extends Phaser.Scene {
     private keyEPressed: boolean = false; // Flag to check if 'E' was pressed to prevent picking up multiple items from one long key press
     private keyFPressed: boolean = false; // Flag to check if 'E' was pressed to prevent using multiple items from one long key press
     private lastDirection: string = "right";
+
+    private ladderDetectionArea: Phaser.GameObjects.Rectangle;
+    private ladderHighlightBox: Phaser.GameObjects.Rectangle;
 
     constructor() {
         super({ key: "Level0" });
@@ -145,14 +149,14 @@ export default class LevelZero extends Phaser.Scene {
 
         // Create platforms
         this.platforms = this.physics.add.staticGroup();
-        const ground = this.platforms.create(
+        this.ground = this.platforms.create(
             650,
             790,
             "level0-platform"
         ) as Phaser.Physics.Arcade.Image;
 
-        ground.setScale(5).refreshBody();
-        ground.setAlpha(0); // Hide the ground platform
+        this.ground.setScale(5).refreshBody();
+        this.ground.setAlpha(0); // Hide the ground platform
 
         this.platforms.create(350, 585, "level0-platform").setScale(1, 1);
         this.platforms.create(650, 500, "level0-platform").setScale(0.75, 0.75);
@@ -162,11 +166,14 @@ export default class LevelZero extends Phaser.Scene {
 
         // Create objects: key, ladder, plank, spikes, door
         this.key = this.add.sprite(1200, 650, "key").setScale(2.5, 2.5);
+        this.key.setName("key");
         this.physics.add.collider(this.key, this.platforms);
 
         this.ladder = this.add.sprite(1050, 550, "ladder").setScale(0.5, 0.5);
+        this.ladder.setName("ladder")
 
         this.plank = this.add.sprite(350, 530, "plank").setScale(0.5, 0.5);
+        this.plank.setName("plank")
 
         this.spikes = this.physics.add.staticGroup();
         this.spikes.create(780, 675, "spike").setScale(0.75, 0.75);
@@ -194,6 +201,18 @@ export default class LevelZero extends Phaser.Scene {
         this.keyF = this.input.keyboard?.addKey(
             Phaser.Input.Keyboard.KeyCodes.F
         );
+
+        // Creating dectection areas when using the ladder
+        this.ladderDetectionArea = this.add.rectangle(710, 400, 100, 150);
+        this.physics.world.enable(this.ladderDetectionArea);
+        this.physics.add.collider(this.ladderDetectionArea, this.ground);
+        this.physics.add.collider(this.ladderDetectionArea, this.platforms);
+
+
+        // Creating a highlighted rectangle to indicate where ladder can be used
+        this.ladderHighlightBox = this.add.rectangle(710, 400, 100, 150, 0xffff00);
+        this.ladderHighlightBox.setAlpha(0.25);
+        this.ladderHighlightBox.setVisible(false);
     }
 
     private updateStackView() {
@@ -341,7 +360,6 @@ export default class LevelZero extends Phaser.Scene {
                 }
             }
             if (this.cursors.up.isDown && this.player.body?.touching.down) {
-                console.log("here");
                 this.player.anims.play("jump_right", true);
                 this.player.setVelocityY(-530);
             }
@@ -399,6 +417,17 @@ export default class LevelZero extends Phaser.Scene {
         // Check if 'F' key is released
         if (this.keyF?.isUp) {
             this.keyFPressed = false; // Reset the keyFPressed flag when the F key is released
+        }
+
+        // Check if player is near detection area 
+        if (this.player && this.stack.length > 0) {
+            if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(),this.ladderDetectionArea.getBounds()) && this.stack[this.stack.length - 1].name === "ladder") {
+                // If player overlaps with detection area, show the highlight box
+                this.ladderHighlightBox.setVisible(true);
+            } else {
+                // Otherwise, hide the highlight box
+                this.ladderHighlightBox.setVisible(false);
+            }
         }
     }
 }
