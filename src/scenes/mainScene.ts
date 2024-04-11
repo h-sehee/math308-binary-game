@@ -305,7 +305,7 @@ export default class MainScene extends Phaser.Scene {
     private handleEnemyDropItem(dropX: number, dropY: number) {
         const ranNum = Math.random() * 100;
 
-        if (ranNum <= 100) {
+        if (ranNum <= 20) {
             const ranIdx = Math.floor(Math.random() * this.dropList.length);
             const dropItem = this.physics.add.image(
                 dropX,
