@@ -79,22 +79,24 @@ export default class MainScene extends Phaser.Scene {
         debugDraw(wallsLayer, this, false);
         debugDraw(this.doorLayer, this, false);
 
-        this.theseus = this.add.theseus(160, 160, "faune");
+        this.theseus = this.add.theseus(
+            this.cameras.main.width * 0.5,
+            this.cameras.main.height * 0.5,
+            "faune"
+        );
         this.theseus.health = this.hp;
         this.theseus.weaponType = this.weapon;
-        // console.log("this.weapon: " + this.weapon);
-        // console.log("this.theseus.weaponType: " + this.theseus.weaponType);
 
         this.redEyesSkeletons = this.physics.add.group({
             classType: RedEyesSkeleton,
         });
 
         for (let i = 0; i < 3; i++) {
-            let posX = Phaser.Math.Between(80, 268);
-            let posY = Phaser.Math.Between(80, 268);
-            while ((posX > 140 && posX < 180) || (posY > 140 && posY < 180)) {
-                posX = Phaser.Math.Between(80, 268);
-                posY = Phaser.Math.Between(80, 268);
+            let posX = Phaser.Math.Between(24, 488);
+            let posY = Phaser.Math.Between(76, 355);
+            while ((posX > 236 && posX < 276) || (posY > 172 && posY < 212)) {
+                posX = Phaser.Math.Between(24, 488);
+                posY = Phaser.Math.Between(76, 355);
             }
             this.redEyesSkeletons.get(posX, posY, "skeleton_red_eyes");
         }

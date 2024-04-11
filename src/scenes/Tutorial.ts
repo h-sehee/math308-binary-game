@@ -39,7 +39,6 @@ export default class Tutorial extends Phaser.Scene {
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
         map.createLayer("objects", tileset);
-        map.createLayer("entrance", tileset);
         this.doorOpened = map.createLayer(
             "door-open",
             tileset
@@ -55,7 +54,11 @@ export default class Tutorial extends Phaser.Scene {
         debugDraw(wallsLayer, this, false);
         debugDraw(doorLayer, this, false);
 
-        this.theseus = this.add.theseus(160, 220, "faune");
+        this.theseus = this.add.theseus(
+            this.cameras.main.width * 0.5,
+            this.cameras.main.height * 0.7,
+            "faune"
+        );
         this.theseus.canUseBow = false;
 
         this.physics.add.overlap(
