@@ -9,6 +9,7 @@ export default class LevelZero extends Phaser.Scene {
     private ladder?: Phaser.GameObjects.Sprite;
     private plank?: Phaser.GameObjects.Sprite;
     private door?: Phaser.Physics.Arcade.Image;
+    private ground?: Phaser.Physics.Arcade.Image;
 
     private stack: Phaser.GameObjects.Sprite[] = [];
     private collectedItems: Phaser.GameObjects.Sprite[] = []; // To track all collected items (even after they're popped from stack)
@@ -17,6 +18,12 @@ export default class LevelZero extends Phaser.Scene {
     private keyEPressed: boolean = false; // Flag to check if 'E' was pressed to prevent picking up multiple items from one long key press
     private keyFPressed: boolean = false; // Flag to check if 'E' was pressed to prevent using multiple items from one long key press
     private lastDirection: string = "right";
+
+    private ladderDetectionArea: Phaser.GameObjects.Rectangle;
+    private ladderHighlightBox: Phaser.GameObjects.Rectangle;
+    private plankDetectionArea: Phaser.GameObjects.Rectangle;
+    private plankHighlightBox: Phaser.GameObjects.Rectangle;
+    private keyDetectionArea: Phaser.GameObjects.Rectangle;
 
     constructor() {
         super({ key: "Level0" });
@@ -65,6 +72,7 @@ export default class LevelZero extends Phaser.Scene {
         this.load.image("ladder", "assets/ladder.png");
         this.load.image("plank", "assets/plank.png");
         this.load.image("door", "assets/door.png");
+        this.load.image("opendoor", "assets/open-door.png")
     }
 
     create() {
@@ -145,28 +153,31 @@ export default class LevelZero extends Phaser.Scene {
 
         // Create platforms
         this.platforms = this.physics.add.staticGroup();
-        const ground = this.platforms.create(
+        this.ground = this.platforms.create(
             650,
             790,
             "level0-platform"
         ) as Phaser.Physics.Arcade.Image;
 
-        ground.setScale(5).refreshBody();
-        ground.setAlpha(0); // Hide the ground platform
+        this.ground.setScale(5).refreshBody();
+        this.ground.setAlpha(0); // Hide the ground platform
 
         this.platforms.create(350, 585, "level0-platform").setScale(1, 1);
         this.platforms.create(650, 500, "level0-platform").setScale(0.75, 0.75);
-        this.platforms.create(850, 300, "level0-platform").setScale(1, 0.75);
+        this.platforms.create(875, 300, "level0-platform").setScale(1, 0.75);
 
         this.physics.add.collider(this.player, this.platforms);
 
         // Create objects: key, ladder, plank, spikes, door
         this.key = this.add.sprite(1200, 650, "key").setScale(2.5, 2.5);
+        this.key.setName("key");
         this.physics.add.collider(this.key, this.platforms);
 
         this.ladder = this.add.sprite(1050, 550, "ladder").setScale(0.5, 0.5);
+        this.ladder.setName("ladder");
 
         this.plank = this.add.sprite(350, 530, "plank").setScale(0.5, 0.5);
+        this.plank.setName("plank");
 
         this.spikes = this.physics.add.staticGroup();
         this.spikes.create(780, 675, "spike").setScale(0.75, 0.75);
@@ -174,7 +185,7 @@ export default class LevelZero extends Phaser.Scene {
         this.spikes.create(880, 675, "spike").setScale(0.75, 0.75);
         this.spikes.create(930, 675, "spike").setScale(0.75, 0.75);
 
-        this.door = this.physics.add.image(865, 150, "door").setScale(0.1, 0.1);
+        this.door = this.physics.add.image(875, 150, "door").setScale(0.1, 0.1);
         this.physics.add.collider(this.door, this.platforms);
 
         // Set the depth of the character/player sprite to a high value
@@ -194,6 +205,47 @@ export default class LevelZero extends Phaser.Scene {
         this.keyF = this.input.keyboard?.addKey(
             Phaser.Input.Keyboard.KeyCodes.F
         );
+
+        // Creating dectection areas when using the ladder
+        this.ladderDetectionArea = this.add.rectangle(680, 400, 100, 150);
+        this.physics.world.enable(this.ladderDetectionArea);
+        this.physics.add.collider(this.ladderDetectionArea, this.ground);
+        this.physics.add.collider(this.ladderDetectionArea, this.platforms);
+
+        // Creating a highlighted rectangle to indicate where ladder can be used
+        this.ladderHighlightBox = this.add.rectangle(
+            680,
+            400,
+            100,
+            150,
+            0xffff00
+        );
+        this.ladderHighlightBox.setAlpha(0.25);
+        this.ladderHighlightBox.setVisible(false);
+
+        // Creating dectection areas when using the plank
+        this.plankDetectionArea = this.add.rectangle(700, 0, 100, 150);
+        this.physics.world.enable(this.plankDetectionArea);
+        this.physics.add.collider(this.plankDetectionArea, this.ground);
+
+        // Creating a highlighted rectangle to indicate where plank can be used
+        this.plankHighlightBox = this.add.rectangle(
+            860,
+            210,
+            215,
+            50,
+            0xffff00
+        );
+        this.physics.world.enable(this.plankHighlightBox);
+        this.physics.add.collider(this.plankHighlightBox, this.ground);
+        this.physics.add.collider(this.plankHighlightBox, this.spikes);
+        this.plankHighlightBox.setAlpha(0.25);
+        this.plankHighlightBox.setVisible(false);
+
+        // Creating detection area when using key
+        this.keyDetectionArea = this.add.rectangle(875, 150, 200, 200);
+        this.physics.world.enable(this.keyDetectionArea);
+        this.physics.add.collider(this.keyDetectionArea, this.platforms);
     }
 
     private updateStackView() {
@@ -297,7 +349,17 @@ export default class LevelZero extends Phaser.Scene {
                     poppedItem.setOrigin(0.5, 0.5);
 
                     // Move popped item to location it will be used
-                    poppedItem.setPosition(400, 200);
+                    if (poppedItem.name === "ladder") {
+                        poppedItem.setPosition(680, 400);
+                        this.ladderHighlightBox.setVisible(false);
+                    }
+                    if (poppedItem.name === "plank") {
+                        poppedItem.setPosition(850, 600);
+                        this.plankHighlightBox.setVisible(false);
+                    }
+                    if (poppedItem.name === "key") {
+                        this.door?.setTexture("opendoor");
+                    }
 
                     this.tweens.add({
                         targets: poppedItem,
@@ -341,7 +403,6 @@ export default class LevelZero extends Phaser.Scene {
                 }
             }
             if (this.cursors.up.isDown && this.player.body?.touching.down) {
-                console.log("here");
                 this.player.anims.play("jump_right", true);
                 this.player.setVelocityY(-530);
             }
@@ -391,14 +452,79 @@ export default class LevelZero extends Phaser.Scene {
             this.keyEPressed = false; // Reset the keyEPressed flag when the E key is released
         }
 
-        // Use item if 'F' key is pressed
-        if (this.keyF?.isDown && !this.keyFPressed && this.stack.length > 0) {
-            this.keyFPressed = true; // Set the flag for the F key being pressed to true
-            this.useItem();
-        }
         // Check if 'F' key is released
         if (this.keyF?.isUp) {
             this.keyFPressed = false; // Reset the keyFPressed flag when the F key is released
+        }
+
+        // Check if player is near detection area
+        if (this.player && this.stack.length > 0) {
+            if (
+                Phaser.Geom.Intersects.RectangleToRectangle(
+                    this.player.getBounds(),
+                    this.ladderDetectionArea.getBounds()
+                ) &&
+                this.stack[this.stack.length - 1].name === "ladder"
+            ) {
+                // If player overlaps with ladder detection area, show the highlight box
+                this.ladderHighlightBox.setVisible(true);
+                if (this.keyF?.isDown && !this.keyFPressed) {
+                    this.keyFPressed = true;
+                    this.useItem();
+                }
+            } else if (
+                Phaser.Geom.Intersects.RectangleToRectangle(
+                    this.player.getBounds(),
+                    this.plankDetectionArea.getBounds()
+                ) &&
+                this.stack[this.stack.length - 1].name === "plank"
+            ) {
+                // If player overlaps with plank detection area, show the highlight box
+                this.plankHighlightBox.setVisible(true);
+                if (this.keyF?.isDown && !this.keyFPressed) {
+                    this.keyFPressed = true;
+                    this.useItem();
+                }
+            } else if (
+                Phaser.Geom.Intersects.RectangleToRectangle(
+                    this.player.getBounds(),
+                    this.keyDetectionArea.getBounds()
+                ) &&
+                this.stack[this.stack.length - 1].name === "key"
+            ) {
+                // If player overlaps with key detection area, open door
+                if (this.keyF?.isDown && !this.keyFPressed) {
+                    this.keyFPressed = true;
+                    this.useItem();
+                }
+            } else {
+                // Otherwise, hide the highlight box
+                this.ladderHighlightBox.setVisible(false);
+                this.plankHighlightBox.setVisible(false);
+            }
+        }
+
+        // Climbing the laddder
+        if(this.player && this.ladder && this.cursors){
+            if (
+                this.ladder.x === 680 &&
+                this.cursors.up.isDown &&
+                this.player.y < 800 &&
+                this.player.x >= 670 &&
+                this.player.x <= this.ladder.x + this.ladder.width &&
+                this.player.body?.touching.down
+            ) {
+                this.player.anims.play("jump_right", true);
+                this.player.setVelocityY(-650);
+            }
+        }
+
+        if(this.player && this.plank && this.spikes){
+            if(this.plank.x === 850){
+                this.physics.world.enable(this.plank);
+                this.physics.add.collider(this.plank, this.spikes);
+                this.physics.add.collider(this.player, this.plank);
+            }
         }
     }
 }
