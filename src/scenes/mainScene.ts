@@ -23,6 +23,7 @@ export default class MainScene extends Phaser.Scene {
     private hp: number;
     private threads: number;
     private weapon: string;
+    private itemList: string[];
 
     private dropList = [
         "sword-damage-up",
@@ -39,10 +40,16 @@ export default class MainScene extends Phaser.Scene {
         super({ key: "mainScene" });
     }
 
-    init(data: { hp: number; threads: number; weaponType: string }) {
+    init(data: {
+        hp: number;
+        threads: number;
+        weaponType: string;
+        itemList: string[];
+    }) {
         this.hp = data.hp;
         this.threads = data.threads;
         this.weapon = data.weaponType;
+        this.itemList = data.itemList;
     }
 
     create() {
@@ -193,7 +200,7 @@ export default class MainScene extends Phaser.Scene {
 
         this.input.keyboard?.on("keydown-E", () => {
             this.scene.pause();
-            this.scene.run("weapon-design");
+            this.scene.run("weapon-design", { itemList: this.itemList });
         });
 
         sceneEvents.on("enemy-destroyed", this.handleEnemyDropItem, this);
@@ -216,6 +223,7 @@ export default class MainScene extends Phaser.Scene {
                 hp: this.theseus.health,
                 threads: this.threads - 1,
                 weaponType: this.theseus.weaponType,
+                itemList: this.itemList,
             });
         }
     }
@@ -296,9 +304,8 @@ export default class MainScene extends Phaser.Scene {
 
     private handleEnemyDropItem(dropX: number, dropY: number) {
         const ranNum = Math.random() * 100;
-        console.log("handleEnemyDropItem worked");
 
-        if (ranNum <= 10) {
+        if (ranNum <= 100) {
             const ranIdx = Math.floor(Math.random() * this.dropList.length);
             const dropItem = this.physics.add.image(
                 dropX,
@@ -306,6 +313,13 @@ export default class MainScene extends Phaser.Scene {
                 this.dropList[ranIdx]
             );
             dropItem.setScale(1.5);
+            this.tweens.add({
+                targets: dropItem,
+                y: "-=10",
+                duration: 1000,
+                yoyo: true,
+                repeat: -1,
+            });
             if (!this.theseus) {
                 return;
             }
@@ -316,7 +330,6 @@ export default class MainScene extends Phaser.Scene {
                 undefined,
                 this
             );
-            console.log(dropItem.texture.key);
         }
     }
 
@@ -330,9 +343,11 @@ export default class MainScene extends Phaser.Scene {
     ) {
         const dropItem =
             item as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
-        this.events.emit("player-item-get", dropItem.texture.key);
+        this.itemList.push(dropItem.texture.key);
+        console.log(this.itemList);
         dropItem.destroy();
     }
+
     update() {
         const enemyRemained = this.redEyesSkeletons?.getChildren();
         if (enemyRemained!.length === 0) {

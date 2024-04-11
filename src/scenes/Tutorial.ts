@@ -102,6 +102,7 @@ export default class Tutorial extends Phaser.Scene {
                 hp: this.theseus.health,
                 threads: 5,
                 weaponType: "sword",
+                itemList: [],
             });
         }
     }
