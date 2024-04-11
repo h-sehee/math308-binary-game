@@ -26,14 +26,14 @@ export default class MainScene extends Phaser.Scene {
     private itemList: string[];
 
     private dropList = [
-        "sword-damage-up",
-        "sword-speed-up",
-        "sword-fire",
-        "sword-ice",
-        "bow-damage-up",
-        "bow-speed-up",
-        "bow-poison",
-        "bow-triple",
+        { item: "sword-damage-up", weight: 15 },
+        { item: "sword-speed-up", weight: 15 },
+        { item: "sword-fire", weight: 10 },
+        { item: "sword-ice", weight: 10 },
+        { item: "bow-damage-up", weight: 15 },
+        { item: "bow-speed-up", weight: 15 },
+        { item: "bow-poison", weight: 10 },
+        { item: "bow-triple", weight: 10 },
     ];
 
     constructor() {
@@ -306,11 +306,21 @@ export default class MainScene extends Phaser.Scene {
         const ranNum = Math.random() * 100;
 
         if (ranNum <= 20) {
-            const ranIdx = Math.floor(Math.random() * this.dropList.length);
+            const randomWeight = Math.random() * 100;
+            let accumulatedWeight = 0;
+            let itemIdx = 0;
+            for (const item of this.dropList) {
+                accumulatedWeight += item.weight;
+                if (randomWeight <= accumulatedWeight) {
+                    itemIdx = this.dropList.indexOf(item);
+                    break;
+                }
+            }
+            // const ranIdx = Math.floor(Math.random() * this.dropList.length);
             const dropItem = this.physics.add.image(
                 dropX,
                 dropY,
-                this.dropList[ranIdx]
+                this.dropList[itemIdx].item
             );
             dropItem.setScale(1.5);
             this.tweens.add({
