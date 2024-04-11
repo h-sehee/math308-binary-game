@@ -7,6 +7,7 @@ export default class StartScene extends Phaser.Scene {
     fpsText: FpsText;
     // this will have a number corresponding to the speech bubble 'ID' and an object containing the speech bubble graphics to display
     bubbleData: object;
+    CAT: Phaser.GameObjects.Sprite;
 
     constructor() {
         super({ key: "StartScene" });
@@ -18,16 +19,28 @@ export default class StartScene extends Phaser.Scene {
         // for input
         var spaceBar = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.F5);
 
-        spaceBar?.on("down", () => {
-            this.cycleDialogue(
+        //
+        this.input.on(
+            "pointerdown",
+            (
+                pointer: Phaser.Input.Pointer, // we don't use the pointer param but if we don't include it it returns a pointer manager instead ugh
+                objectsClicked: Phaser.GameObjects.Sprite[]
+            ) => {
+                console.log(objectsClicked);
+                if (objectsClicked.length > 0) {
+                    this.cycleDialogue(
                 Object.values(this.bubbleData)[0],
                 Object.values(this.bubbleData)[1]
-            );
+                );
+            }
         });
 
         // Spawn in the background and CAT image
         this.add.image(400, 300, "desktopBG");
-        this.add.image(1100, 600, "CAT");
+        this.CAT = this.add.sprite(1100, 600, "CAT");
+
+        // Make CAT clickable
+        this.CAT.setInteractive();
 
         // Add File Sound Effects
         let lockedsfx = this.sound.add("lockedfile");
