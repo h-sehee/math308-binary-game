@@ -46,7 +46,7 @@ export default class WeaponDesign extends Phaser.Scene {
             .setDepth(1000);
 
         this.add
-            .text(265, 28, "Codes", {
+            .text(this.cameras.main.width * 0.825, 28, "Codes", {
                 fontSize: "12px",
                 fontFamily: "Academy Engraved LET",
                 strokeThickness: 3,
@@ -109,7 +109,7 @@ export default class WeaponDesign extends Phaser.Scene {
         //Text group of Theseus.java
         this.theseusFile = this.add.group();
         const theseus1 = this.add
-            .text(120, 28, "Theseus.java", {
+            .text(this.cameras.main.width * 0.375, 28, "Theseus.java", {
                 fontSize: "12px",
                 fontFamily: "Academy Engraved LET",
                 strokeThickness: 3,
@@ -119,17 +119,22 @@ export default class WeaponDesign extends Phaser.Scene {
             .setDepth(1000);
 
         const theseus2 = this.add
-            .text(85, 50, "public class Theseus {", {
-                fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
-            })
+            .text(
+                this.cameras.main.width * 0.05 + 65,
+                50,
+                "public class Theseus {",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
             .setOrigin(0.5)
             .setDepth(1000);
         const theseus3 = this.add
             .text(
-                107,
+                this.cameras.main.width * 0.05 + 85,
                 85,
                 "private double damage ;\nprivate double speed ;\nprivate string weapon ;",
                 {
@@ -148,7 +153,7 @@ export default class WeaponDesign extends Phaser.Scene {
         //Text group of main.java
         this.mainFile = this.add.group();
         const main1 = this.add
-            .text(120, 28, "main.java", {
+            .text(this.cameras.main.width * 0.375, 28, "main.java", {
                 fontSize: "12px",
                 fontFamily: "Academy Engraved LET",
                 strokeThickness: 3,
@@ -158,21 +163,31 @@ export default class WeaponDesign extends Phaser.Scene {
             .setDepth(1000);
 
         const main2 = this.add
-            .text(120, 50, "public static void main(String[] args){", {
-                fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
-            })
+            .text(
+                this.cameras.main.width * 0.05 + 108,
+                50,
+                "public static void main(String[] args) {",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
             .setOrigin(0.5)
             .setDepth(1000);
         const main3 = this.add
-            .text(120, 65, "Theseus theseus = new Theseus();", {
-                fontSize: "12px",
-                fontFamily: "Academy Engraved LET",
-                strokeThickness: 3,
-                stroke: "0xffffff",
-            })
+            .text(
+                this.cameras.main.width * 0.05 + 110,
+                67,
+                "Theseus theseus = new Theseus();",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
             .setOrigin(0.5)
             .setDepth(1000);
         this.mainFile.add(main1);
@@ -180,6 +195,14 @@ export default class WeaponDesign extends Phaser.Scene {
         this.mainFile.add(main3);
 
         this.mainFile.setVisible(false);
+        this.theseusFile.setVisible(false);
+        if (this.current === "Theseus") {
+            this.theseusFile.setVisible(true);
+            this.mainFile.setVisible(false);
+        } else if (this.current === "Main") {
+            this.mainFile.setVisible(true);
+            this.theseusFile.setVisible(false);
+        }
 
         // Close button that will return to the game screen
         const close = this.add
