@@ -11,11 +11,17 @@ export default class LevelScene extends Phaser.Scene {
     }
 
     create() {
-        /* ---------------     BACKGROUND COLOUR    ------------------- */
-        this.cameras.main.setBackgroundColor("#08142A");
+        /* ---------------     BACKGROUND    ------------------- */
+        const bg_1 = this.add.image(640, 360, 'space_bg');
+        bg_1.setScale(1.35);
+        /* ---------------     LEVEL PLANETS    ------------------- */
+        const lvl1 = this.add.image(200, 600, "planet-1");
+        const lvl2 = this.add.image(400, 550, "planet-4");
+        lvl1.setScale(0.1);
+        lvl2.setScale(0.1);
         /* ---------------     BACK BUTTON    ------------------- */
         this.backButton = this.add
-            .text(400, 300, "Back", { color: "#0f0" })
+            .text(100, 100, "Back", { color: "#0f0" })
             .setInteractive()
             .on("pointerdown", () => {
                 this.updateBackClicked();
@@ -28,7 +34,7 @@ export default class LevelScene extends Phaser.Scene {
             });
         /* ---------------     LEVEL 1    ------------------- */
         this.level1 = this.add
-            .text(400, 400, "level1", { color: "#0f0" })
+            .text(170, 595, "level1", { color: "#0f0" })
             .setInteractive()
             .on("pointerdown", () => {
                 this.updateLevelClicked();
@@ -41,7 +47,7 @@ export default class LevelScene extends Phaser.Scene {
             });
         /* ---------------     LEVEL 2    ------------------- */
         this.level2 = this.add
-            .text(400, 500, "level2", { color: "#0f0" })
+            .text(375, 545, "level2", { color: "#0f0" })
             .setInteractive()
             .on("pointerdown", () => {
                 this.updateLevelClicked();
