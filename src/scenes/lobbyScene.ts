@@ -3,7 +3,7 @@ import Player from "../objects/player";
 
 import { CONFIG } from "../config";
 import { CharacterMovement } from "../util/playerMovement";
-// import { ChortMovement } from "../util/chortMovement";
+import { shootBullets } from "../util/shootBullets";
 
 import { gameState } from "../objects/gameState";
 import Chort from "../objects/chort";
@@ -14,7 +14,6 @@ class LobbyScene extends Phaser.Scene {
     private characterMovement: CharacterMovement;
     private chorts?: Phaser.Physics.Arcade.Group;
     private bullets?: Phaser.Physics.Arcade.Group; // Group to store bullets
-    private shootingInProgress: boolean = false;
 
     constructor() {
         super({ key: "LobbyScene" });
@@ -135,39 +134,6 @@ class LobbyScene extends Phaser.Scene {
             );
         }
     }
-    private shootBullet(numShots: number, shotDelay: number) {
-        if (this.shootingInProgress) {
-            return;
-        }
-        this.shootingInProgress = true;
-        let shotsFired = 0;
-
-        for (let i = 0; i < numShots; i++) {
-            // Calculate the delay for this shot
-            const delay = i * shotDelay;
-
-            // Use setTimeout to delay each shot
-            setTimeout(() => {
-                const worldPosition = this.input.activePointer.positionToCamera(
-                    this.cameras.main
-                ) as Phaser.Math.Vector2;
-
-                // Try to get an existing bullet instance
-                let bullet = this.bullets!.get(
-                    this.player!.x,
-                    this.player!.y
-                ) as Bullet;
-
-                // Fire the bullet towards the target
-                bullet.fire(worldPosition.x, worldPosition.y);
-                shotsFired++;
-
-                if (shotsFired === numShots) {
-                    this.shootingInProgress = false;
-                }
-            }, delay);
-        }
-    }
 
     update() {
         // Check for keyboard input and move the player accordingly
@@ -175,7 +141,7 @@ class LobbyScene extends Phaser.Scene {
 
         if (this.input.activePointer.isDown) {
             // Shoot a bullet from the player towards the mouse cursor
-            this.shootBullet(6, 500);
+            shootBullets(this, this.bullets!, this.player!, 6, 500);
         }
 
         if (keyboard) {
