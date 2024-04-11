@@ -14,6 +14,7 @@ class LobbyScene extends Phaser.Scene {
     private characterMovement: CharacterMovement;
     private chorts?: Phaser.Physics.Arcade.Group;
     private bullets?: Phaser.Physics.Arcade.Group; // Group to store bullets
+    private shootingInProgress: boolean = false;
 
     constructor() {
         super({ key: "LobbyScene" });
@@ -134,18 +135,37 @@ class LobbyScene extends Phaser.Scene {
             );
         }
     }
-    private shootBullet(
-        fromX: number,
-        fromY: number,
-        toX: number,
-        toY: number
-    ) {
-        if (this.bullets) {
-            let bullet = this.bullets.get(fromX, fromY, "bullet");
+    private shootBullet(numShots: number, shotDelay: number) {
+        if (this.shootingInProgress) {
+            return;
+        }
+        this.shootingInProgress = true;
+        let shotsFired = 0;
 
-            if (bullet) {
-                bullet.fire(toX, toY);
-            }
+        for (let i = 0; i < numShots; i++) {
+            // Calculate the delay for this shot
+            const delay = i * shotDelay;
+
+            // Use setTimeout to delay each shot
+            setTimeout(() => {
+                const worldPosition = this.input.activePointer.positionToCamera(
+                    this.cameras.main
+                ) as Phaser.Math.Vector2;
+
+                // Try to get an existing bullet instance
+                let bullet = this.bullets!.get(
+                    this.player!.x,
+                    this.player!.y
+                ) as Bullet;
+
+                // Fire the bullet towards the target
+                bullet.fire(worldPosition.x, worldPosition.y);
+                shotsFired++;
+
+                if (shotsFired === numShots) {
+                    this.shootingInProgress = false;
+                }
+            }, delay);
         }
     }
 
@@ -154,18 +174,8 @@ class LobbyScene extends Phaser.Scene {
         const keyboard = this.input.keyboard;
 
         if (this.input.activePointer.isDown) {
-            // Get the position of the mouse cursor relative to the game world
-            const worldPosition = this.input.activePointer.positionToCamera(
-                this.cameras.main
-            ) as Phaser.Math.Vector2;
-
             // Shoot a bullet from the player towards the mouse cursor
-            this.shootBullet(
-                this.player!.x,
-                this.player!.y,
-                worldPosition.x,
-                worldPosition.y
-            );
+            this.shootBullet(6, 500);
         }
 
         if (keyboard) {
