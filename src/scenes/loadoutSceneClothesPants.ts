@@ -12,7 +12,7 @@ export default class LoadoutSceneClothesPants extends Phaser.Scene {
         this.createClickableText(
             2950,
             250,
-            "Pants:",
+            "Pants ATTRIBUTES:",
             "#ff0000",
             "#00000000",
             () => {}

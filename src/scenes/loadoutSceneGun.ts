@@ -12,7 +12,7 @@ export default class LoadoutSceneGun extends Phaser.Scene {
         this.createClickableText(
             2950,
             250,
-            "Gun:",
+            "Gun TYPES:",
             "#ff0000",
             "#00000000",
             () => {}
