@@ -205,14 +205,14 @@ export default class LevelZero extends Phaser.Scene {
         );
 
         // Creating dectection areas when using the ladder
-        this.ladderDetectionArea = this.add.rectangle(690, 400, 100, 150);
+        this.ladderDetectionArea = this.add.rectangle(680, 400, 100, 150);
         this.physics.world.enable(this.ladderDetectionArea);
         this.physics.add.collider(this.ladderDetectionArea, this.ground);
         this.physics.add.collider(this.ladderDetectionArea, this.platforms);
 
         // Creating a highlighted rectangle to indicate where ladder can be used
         this.ladderHighlightBox = this.add.rectangle(
-            690,
+            680,
             400,
             100,
             150,
@@ -342,17 +342,16 @@ export default class LevelZero extends Phaser.Scene {
                     poppedItem.setOrigin(0.5, 0.5);
 
                     // Move popped item to location it will be used
-                    if(poppedItem.name === "ladder"){
-                        poppedItem.setPosition(690, 400);
+                    if (poppedItem.name === "ladder") {
+                        poppedItem.setPosition(680, 400);
                         this.ladderHighlightBox.setVisible(false);
-
-                    } 
-                    if(poppedItem.name === "plank"){
+                    }
+                    if (poppedItem.name === "plank") {
                         poppedItem.setPosition(850, 600);
                         this.plankHighlightBox.setVisible(false);
                     }
-                    if(poppedItem.name === "key"){
-                        poppedItem.setPosition(50,50);
+                    if (poppedItem.name === "key") {
+                        poppedItem.setPosition(50, 50);
                     }
 
                     this.tweens.add({
@@ -446,11 +445,6 @@ export default class LevelZero extends Phaser.Scene {
             this.keyEPressed = false; // Reset the keyEPressed flag when the E key is released
         }
 
-        // Use item if 'F' key is pressed
-        if (this.keyF?.isDown && !this.keyFPressed && this.stack.length > 0) {
-            this.keyFPressed = true; // Set the flag for the F key being pressed to true
-            this.useItem();
-        }
         // Check if 'F' key is released
         if (this.keyF?.isUp) {
             this.keyFPressed = false; // Reset the keyFPressed flag when the F key is released
@@ -458,27 +452,52 @@ export default class LevelZero extends Phaser.Scene {
 
         // Check if player is near detection area
         if (this.player && this.stack.length > 0) {
-            if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(),this.ladderDetectionArea.getBounds()) && this.stack[this.stack.length - 1].name === "ladder") {
+            if (
+                Phaser.Geom.Intersects.RectangleToRectangle(
+                    this.player.getBounds(),
+                    this.ladderDetectionArea.getBounds()
+                ) &&
+                this.stack[this.stack.length - 1].name === "ladder"
+            ) {
                 // If player overlaps with detection area, show the highlight box
                 this.ladderHighlightBox.setVisible(true);
-                if(this.keyF?.isDown && !this.keyFPressed) {
+                if (this.keyF?.isDown && !this.keyFPressed) {
                     this.keyFPressed = true;
                     this.useItem();
                 }
-            }
-            else if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), this.plankDetectionArea.getBounds()) && this.stack[this.stack.length - 1].name === "plank") {
+            } else if (
+                Phaser.Geom.Intersects.RectangleToRectangle(
+                    this.player.getBounds(),
+                    this.plankDetectionArea.getBounds()
+                ) &&
+                this.stack[this.stack.length - 1].name === "plank"
+            ) {
                 // If player overlaps with detection area, show the highlight box
                 this.plankHighlightBox.setVisible(true);
                 if (this.keyF?.isDown && !this.keyFPressed) {
                     this.keyFPressed = true;
                     this.useItem();
                 }
-            } 
-            else {
+            } else {
                 // Otherwise, hide the highlight box
                 this.ladderHighlightBox.setVisible(false);
                 this.plankHighlightBox.setVisible(false);
             }
         }
+
+        // Climbing the laddder
+        if(this.player && this.ladder && this.cursors){
+            if (
+                this.ladder.x === 680 &&
+                this.cursors.up.isDown &&
+                this.player.y < 800 &&
+                this.player.x >= 670 &&
+                this.player.x <= this.ladder.x + this.ladder.width &&
+                this.player.body?.touching.down
+            ) {
+                this.player.anims.play("jump_right", true);
+                this.player.setVelocityY(-650);
+            }
         }
+    }
 }
