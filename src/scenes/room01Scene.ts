@@ -21,8 +21,8 @@ class room01Scene extends Phaser.Scene {
         const map = this.make.tilemap({ key: "room01" });
         const tileset = map.addTilesetImage("tilemap", "tiles"); //name of tilemap ON TILED, then name of key in preloader scene
         if (tileset) {
-            const ground = map.createLayer("ground", tileset);
-            const walls = map.createLayer("walls", tileset);
+            const ground = map.createLayer("groun1", tileset);
+            const walls = map.createLayer("walls1", tileset);
             walls?.setCollisionByProperty({ collides: true });
             ground?.setScale(1);
 
