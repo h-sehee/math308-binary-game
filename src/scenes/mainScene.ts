@@ -23,15 +23,33 @@ export default class MainScene extends Phaser.Scene {
     private hp: number;
     private threads: number;
     private weapon: string;
+    private itemList: string[];
+
+    private dropList = [
+        "sword-damage-up",
+        "sword-speed-up",
+        "sword-fire",
+        "sword-ice",
+        "bow-damage-up",
+        "bow-speed-up",
+        "bow-poison",
+        "bow-triple",
+    ];
 
     constructor() {
         super({ key: "mainScene" });
     }
 
-    init(data: { hp: number; threads: number; weaponType: string }) {
+    init(data: {
+        hp: number;
+        threads: number;
+        weaponType: string;
+        itemList: string[];
+    }) {
         this.hp = data.hp;
         this.threads = data.threads;
         this.weapon = data.weaponType;
+        this.itemList = data.itemList;
     }
 
     create() {
@@ -182,7 +200,12 @@ export default class MainScene extends Phaser.Scene {
 
         this.input.keyboard?.on("keydown-E", () => {
             this.scene.pause();
-            this.scene.run("weapon-design");
+            this.scene.run("weapon-design", { itemList: this.itemList });
+        });
+
+        sceneEvents.on("enemy-destroyed", this.handleEnemyDropItem, this);
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            sceneEvents.off("enemy-destroyed", this.handleEnemyDropItem, this);
         });
     }
 
@@ -200,6 +223,7 @@ export default class MainScene extends Phaser.Scene {
                 hp: this.theseus.health,
                 threads: this.threads - 1,
                 weaponType: this.theseus.weaponType,
+                itemList: this.itemList,
             });
         }
     }
@@ -276,6 +300,52 @@ export default class MainScene extends Phaser.Scene {
     private handleEnemyDefeated() {
         this.doorLayer.setCollisionByProperty({ collides: true }, false);
         this.doorLayer.setVisible(false);
+    }
+
+    private handleEnemyDropItem(dropX: number, dropY: number) {
+        const ranNum = Math.random() * 100;
+
+        if (ranNum <= 100) {
+            const ranIdx = Math.floor(Math.random() * this.dropList.length);
+            const dropItem = this.physics.add.image(
+                dropX,
+                dropY,
+                this.dropList[ranIdx]
+            );
+            dropItem.setScale(1.5);
+            this.tweens.add({
+                targets: dropItem,
+                y: "-=10",
+                duration: 1000,
+                yoyo: true,
+                repeat: -1,
+            });
+            if (!this.theseus) {
+                return;
+            }
+            this.physics.add.overlap(
+                this.theseus,
+                dropItem,
+                this.handlePlayerItemGet,
+                undefined,
+                this
+            );
+        }
+    }
+
+    private handlePlayerItemGet(
+        player:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile,
+        item:
+            | Phaser.Types.Physics.Arcade.GameObjectWithBody
+            | Phaser.Tilemaps.Tile
+    ) {
+        const dropItem =
+            item as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+        this.itemList.push(dropItem.texture.key);
+        console.log(this.itemList);
+        dropItem.destroy();
     }
 
     update() {

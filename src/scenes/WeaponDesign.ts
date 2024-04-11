@@ -5,9 +5,15 @@ export default class WeaponDesign extends Phaser.Scene {
     private current = this.fileList[1];
     private theseusFile: Phaser.GameObjects.Group;
     private mainFile: Phaser.GameObjects.Group;
+    private codeList: Phaser.GameObjects.Group;
+    private itemList: string[];
 
     constructor() {
         super({ key: "weapon-design" });
+    }
+
+    init(data: { itemList: string[] }) {
+        this.itemList = data.itemList;
     }
 
     create() {
@@ -25,7 +31,7 @@ export default class WeaponDesign extends Phaser.Scene {
 
         this.add
             .rectangle(
-                this.cameras.main.width * 0.7,
+                this.cameras.main.width * 0.85,
                 this.cameras.main.height / 2,
                 1,
                 this.cameras.main.height * 0.9,
@@ -46,17 +52,12 @@ export default class WeaponDesign extends Phaser.Scene {
             .setDepth(1000);
 
         this.add
-            .text(this.cameras.main.width * 0.825, 28, "Codes", {
+            .text(this.cameras.main.width * 0.9, 28, "Items", {
                 fontSize: "12px",
                 fontFamily: "Academy Engraved LET",
                 strokeThickness: 3,
                 stroke: "0xffffff",
             })
-            .setOrigin(0.5)
-            .setDepth(1000);
-
-        this.add
-            .rectangle(120, 40, this.cameras.main.width * 0.65, 1, 0x000000)
             .setOrigin(0.5)
             .setDepth(1000);
 
@@ -89,7 +90,7 @@ export default class WeaponDesign extends Phaser.Scene {
 
         //Next button that will switch to next java file
         const next = this.add
-            .image(this.cameras.main.width * 0.7 - 10, 28, "next-button")
+            .image(this.cameras.main.width * 0.85 - 10, 28, "next-button")
             .setOrigin(0.5)
             .setDepth(1000);
         next.setInteractive();
@@ -109,7 +110,7 @@ export default class WeaponDesign extends Phaser.Scene {
         //Text group of Theseus.java
         this.theseusFile = this.add.group();
         const theseus1 = this.add
-            .text(this.cameras.main.width * 0.375, 28, "Theseus.java", {
+            .text(this.cameras.main.width * 0.45, 28, "Theseus.java", {
                 fontSize: "12px",
                 fontFamily: "Academy Engraved LET",
                 strokeThickness: 3,
@@ -153,7 +154,7 @@ export default class WeaponDesign extends Phaser.Scene {
         //Text group of main.java
         this.mainFile = this.add.group();
         const main1 = this.add
-            .text(this.cameras.main.width * 0.375, 28, "main.java", {
+            .text(this.cameras.main.width * 0.45, 28, "main.java", {
                 fontSize: "12px",
                 fontFamily: "Academy Engraved LET",
                 strokeThickness: 3,
@@ -204,6 +205,99 @@ export default class WeaponDesign extends Phaser.Scene {
             this.theseusFile.setVisible(false);
         }
 
+        // Display list of items
+        this.codeList = this.add.group();
+
+        const addItem = (
+            x: number,
+            y: number,
+            itemName: string,
+            itemImg: string
+        ) => {
+            // const itemContainer = this.add.container(x, y).setDepth(1000);
+
+            // const itemImage = this.add.image(0, 5, itemImg);
+            // itemImage.setScale(1.5);
+
+            // const itemText = this.add.text(itemImage.width + 50, 5, itemName, {
+            //     color: "#000000",
+            // });
+            // itemImage.setOrigin(0.5);
+            // itemText.setOrigin(0.5);
+
+            // itemContainer.add([itemImage, itemText]);
+            // itemContainer.setSize(
+            //     itemImage.width * 1.5 + itemText.width,
+            //     Math.max(itemImage.height * 1.5, itemText.height)
+            // );
+
+            // this.codeList.add(itemContainer);
+
+            const itemImage = this.add
+                .image(x, y, itemImg)
+                .setOrigin(0.5)
+                .setDepth(1000)
+                .setScale(1.5);
+
+            this.codeList.add(itemImage);
+
+            itemImage.setInteractive();
+            this.input.setDraggable(itemImage);
+
+            this.input.on(
+                "drag",
+                (
+                    pointer: Phaser.Input.Pointer,
+                    gameObject: Phaser.GameObjects.Image,
+                    dragX: number,
+                    dragY: number
+                ) => {
+                    gameObject.x = dragX;
+                    gameObject.y = dragY;
+                }
+            );
+        };
+
+        for (let i = 0; i < this.itemList.length; i++) {
+            let textureKeyToCountMap = 0;
+            this.codeList
+                .getChildren()
+                .forEach((image: Phaser.GameObjects.GameObject) => {
+                    if (image instanceof Phaser.GameObjects.Image) {
+                        if (image.texture.key === this.itemList[i]) {
+                            textureKeyToCountMap++;
+                        }
+                    }
+                });
+            if (
+                this.itemList[i] === "sword-fire" ||
+                this.itemList[i] === "sword-ice" ||
+                this.itemList[i] === "bow-poison" ||
+                this.itemList[i] === "bow-triple"
+            ) {
+                if (textureKeyToCountMap == 0) {
+                    addItem(
+                        this.cameras.main.width * 0.9,
+                        60 + 30 * this.codeList.getLength() - 1,
+                        this.itemList[i],
+                        this.itemList[i]
+                    );
+                }
+            } else if (
+                this.itemList[i] === "sword-damage-up" ||
+                this.itemList[i] === "sword-speed-up" ||
+                this.itemList[i] === "bow-damage-up" ||
+                this.itemList[i] === "bow-speed-up"
+            ) {
+                addItem(
+                    this.cameras.main.width * 0.9,
+                    60 + 30 * this.codeList.getLength() - 1,
+                    this.itemList[i],
+                    this.itemList[i]
+                );
+            }
+        }
+
         // Close button that will return to the game screen
         const close = this.add
             .text(this.cameras.main.width - 20, 20, "X", {
@@ -225,11 +319,11 @@ export default class WeaponDesign extends Phaser.Scene {
         });
         close.on("pointerdown", () => {
             this.scene.stop();
-            this.scene.resume("mainScene");
+            this.scene.resume("mainScene", { itemList: this.itemList });
         });
         this.input.keyboard?.on("keydown-E", () => {
             this.scene.stop();
-            this.scene.resume("mainScene");
+            this.scene.resume("mainScene", { itemList: this.itemList });
         });
     }
 

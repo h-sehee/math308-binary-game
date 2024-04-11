@@ -34,7 +34,7 @@ export default class Bow extends Phaser.Physics.Arcade.Sprite {
 
     handleArrow(angle: number) {
         const arrow = this.scene.physics.add.image(this.x, this.y, "arrow");
-        arrow.setScale(2, 2);
+        arrow.setScale(2);
 
         arrow.body.setSize(arrow.width * 0.8, arrow.height * 0.8);
 
