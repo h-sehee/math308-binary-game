@@ -53,10 +53,19 @@ export default class GameUI extends Phaser.Scene {
             stroke: "0xffffff",
         });
 
-        this.weaponBox = this.add.image(280, 38, "weaponBox");
+        this.weaponBox = this.add.image(
+            this.cameras.main.width - 40,
+            38,
+            "weaponBox"
+        );
         this.weaponBox.setScale(0.01, 0.01);
-        this.sword = this.add.image(280, 38, "sword");
-        this.bow = this.add.sprite(282, 39, "bow", "Bow-1.png");
+        this.sword = this.add.image(this.cameras.main.width - 40, 38, "sword");
+        this.bow = this.add.sprite(
+            this.cameras.main.width - 38,
+            39,
+            "bow",
+            "Bow-1.png"
+        );
         if (this.weaponType === "sword") {
             this.sword.setVisible(true);
             this.bow.setVisible(false);
