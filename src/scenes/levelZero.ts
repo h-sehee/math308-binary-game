@@ -342,7 +342,18 @@ export default class LevelZero extends Phaser.Scene {
                     poppedItem.setOrigin(0.5, 0.5);
 
                     // Move popped item to location it will be used
-                    poppedItem.setPosition(400, 200);
+                    if(poppedItem.name === "ladder"){
+                        poppedItem.setPosition(705, 400);
+                        this.ladderHighlightBox.setVisible(false);
+
+                    } 
+                    if(poppedItem.name === "plank"){
+                        poppedItem.setPosition(850, 600);
+                        this.plankHighlightBox.setVisible(false);
+                    }
+                    if(poppedItem.name === "key"){
+                        poppedItem.setPosition(50,50);
+                    }
 
                     this.tweens.add({
                         targets: poppedItem,
@@ -450,10 +461,18 @@ export default class LevelZero extends Phaser.Scene {
             if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(),this.ladderDetectionArea.getBounds()) && this.stack[this.stack.length - 1].name === "ladder") {
                 // If player overlaps with detection area, show the highlight box
                 this.ladderHighlightBox.setVisible(true);
+                if(this.keyF?.isDown && !this.keyFPressed) {
+                    this.keyFPressed = true;
+                    this.useItem();
+                }
             }
             else if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), this.plankDetectionArea.getBounds()) && this.stack[this.stack.length - 1].name === "plank") {
                 // If player overlaps with detection area, show the highlight box
                 this.plankHighlightBox.setVisible(true);
+                if (this.keyF?.isDown && !this.keyFPressed) {
+                    this.keyFPressed = true;
+                    this.useItem();
+                }
             } 
             else {
                 // Otherwise, hide the highlight box
