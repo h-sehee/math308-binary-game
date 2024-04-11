@@ -15,9 +15,13 @@ export default class PreloadScene extends Phaser.Scene {
             frameWidth: 32,
             frameHeight: 32,
         });
+        this.load.spritesheet("button", "assets/Art/buttons.png", {
+            frameWidth: 256,
+            frameHeight: 64,
+        });
     }
 
     create() {
-        this.scene.start("MainScene");
+        this.scene.start("Level_1_scene");
     }
 }
