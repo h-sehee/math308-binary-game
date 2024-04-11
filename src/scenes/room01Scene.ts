@@ -21,12 +21,14 @@ class room01Scene extends Phaser.Scene {
         const map = this.make.tilemap({ key: "room01" });
         const tileset = map.addTilesetImage("tilemap", "tiles"); //name of tilemap ON TILED, then name of key in preloader scene
         if (tileset) {
-            const tilesLayer = map.createLayer("Tile Layer 1", tileset);
-            tilesLayer?.setCollisionByProperty({ collides: true });
+            const ground = map.createLayer("ground", tileset);
+            const walls = map.createLayer("walls", tileset);
+            walls?.setCollisionByProperty({ collides: true });
+            ground?.setScale(1);
 
             const debugGraphics = this.add.graphics().setAlpha(0.7);
             if (CONFIG.physics.arcade.debug) {
-                tilesLayer?.renderDebug(debugGraphics, {
+                walls?.renderDebug(debugGraphics, {
                     tileColor: null,
                     collidingTileColor: new Phaser.Display.Color(
                         243,
@@ -44,8 +46,8 @@ class room01Scene extends Phaser.Scene {
                 100,
                 this.gameState
             );
-            if (tilesLayer) {
-                this.physics.add.collider(this.player, tilesLayer);
+            if (walls) {
+                this.physics.add.collider(this.player, walls);
             }
             //camera follows player
             this.cameras.main.startFollow(this.player, true);
