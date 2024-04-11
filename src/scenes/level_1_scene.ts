@@ -10,7 +10,7 @@ export default class Level_1_scene extends Phaser.Scene {
     private score = 0;
     private scoreText?: Phaser.GameObjects.Text;
     private terminalArr: string[] = ["git_add_blue", "git_commit", "git_push"]; //this is the correct array that the terminal needs to emit
-    private terminalInput: string[] = []; //this is the array that the terminal will emit
+    private terminalCorrect: boolean = false;
 
     private gameOver = false;
 
@@ -146,28 +146,38 @@ export default class Level_1_scene extends Phaser.Scene {
         this.physics.add.overlap(
             this.player,
             this.terminal,
-            () => { this.handleTerminal(this.terminalArr); },
+            () => {
+                this.handleTerminal(this.terminalArr);
+            },
             undefined,
             this
         );
+        console.log(this.terminalCorrect);
     }
 
     private handleTerminal(terminalCorrectArr: string[]) {
         this.scene.launch("TerminalScene");
         let terminalScene = this.scene.get("TerminalScene");
-        terminalScene.events.on("terminal_input", function (terminalInput: string[]) {
-            if (terminalInput.length === terminalCorrectArr.length) {
-                let correct = true;
-                for (let i = 0; i < terminalCorrectArr.length; i++) {
-                    if (terminalCorrectArr[i] != terminalInput[i]) {
-                        correct = false;
+        let correct = true;
+        terminalScene.events.on(
+            "terminal_input",
+            function (terminalInput: string[]) {
+                if (terminalInput.length === terminalCorrectArr.length) {
+                    for (let i = 0; i < terminalCorrectArr.length; i++) {
+                        if (terminalCorrectArr[i] != terminalInput[i]) {
+                            correct = false;
+                        }
+                    }
+                    if (correct) {
+                        terminalScene.scene.stop("TerminalScene");
+                    } else {
+                        terminalScene.scene.restart();
                     }
                 }
-                if (correct) {
-                    terminalScene.scene.stop("TerminalScene");
-                }
             }
-        }, this);
+        );
+        this.terminalCorrect = correct;
+        this.update();
     }
 
     private handleHitSpike() {
