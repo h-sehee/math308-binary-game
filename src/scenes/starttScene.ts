@@ -7,6 +7,7 @@ export default class StartScene extends Phaser.Scene {
     fpsText: FpsText;
     // this will have a number corresponding to the speech bubble 'ID' and an object containing the speech bubble graphics to display
     bubbleData: object;
+    lastCommandRun: string;
     CAT: Phaser.GameObjects.Sprite;
 
     constructor() {
@@ -268,6 +269,61 @@ export default class StartScene extends Phaser.Scene {
                 // make the text object visible
                 Object.values(showBubble)[1].visible = true;
                 break;
+            case 9:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Got it? Good."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 10:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Try making the terminal say “cat”. Go on, you’ve got it."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 11:
+                if(this.lastCommandRun == "echo cat"){
+                    showBubble = this.createSpeechBubble(
+                        1060,
+                        400,
+                        200,
+                        100,
+                        "Great start!"
+                    );
+                    // make the white bubble graphic visible
+                    Object.values(showBubble)[0].visible = true;
+                    // make the text object visible
+                    Object.values(showBubble)[1].visible = true;
+                }else{
+                    showBubble = this.createSpeechBubble(
+                        1060,
+                        400,
+                        200,
+                        100,
+                        "Um… maybe you should check out the text file again."
+                    );
+                    // make the white bubble graphic visible
+                    Object.values(showBubble)[0].visible = true;
+                    // make the text object visible
+                    Object.values(showBubble)[1].visible = true;
+                    // they were wrong, so don't let them go to the next speech bubble
+                    bubbleNum = bubbleNum - 1;
+                }
+                break;
         }
         bubbleNum = bubbleNum + 1;
         this.bubbleData = { bubbleNum, showBubble };
@@ -361,6 +417,8 @@ export default class StartScene extends Phaser.Scene {
         }
 
         text = text.trim();
+        // CAT checks this to see if it's right
+        this.lastCommandRun = text;
         const command = text.split(' ')[0];
         switch (command) {
             case 'echo': {
