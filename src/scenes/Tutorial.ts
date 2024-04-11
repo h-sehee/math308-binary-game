@@ -74,7 +74,7 @@ export default class Tutorial extends Phaser.Scene {
         this.physics.add.collider(this.theseus, doorLayer);
 
         this.time.delayedCall(1000, () => {
-            console.log("delayed call happened for MazeMap");
+            //console.log("delayed call happened for MazeMap");
             doorLayer.setCollisionByProperty({ collides: true }, false);
             doorLayer.setVisible(false);
             this.scene.run("game-ui", {
