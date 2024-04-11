@@ -72,7 +72,7 @@ export default class LevelZero extends Phaser.Scene {
         this.load.image("ladder", "assets/ladder.png");
         this.load.image("plank", "assets/plank.png");
         this.load.image("door", "assets/door.png");
-        this.load.image("opendoor", "assets/open-door.png")
+        this.load.image("opendoor", "assets/open-door.png");
     }
 
     create() {
@@ -99,8 +99,8 @@ export default class LevelZero extends Phaser.Scene {
             repeat: -1,
         });
         this.player = this.physics.add
-            .sprite(200, 450, "gal_right")
-            .setScale(0.78, 0.78);
+            .sprite(100, 450, "gal_right")
+            .setScale(0.77, 0.77);
         this.player.setCollideWorldBounds(true);
 
         this.anims.create({
@@ -180,10 +180,10 @@ export default class LevelZero extends Phaser.Scene {
         this.plank.setName("plank");
 
         this.spikes = this.physics.add.staticGroup();
-        this.spikes.create(780, 675, "spike").setScale(0.75, 0.75);
-        this.spikes.create(830, 675, "spike").setScale(0.75, 0.75);
-        this.spikes.create(880, 675, "spike").setScale(0.75, 0.75);
-        this.spikes.create(930, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(790, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(840, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(890, 675, "spike").setScale(0.75, 0.75);
+        this.spikes.create(940, 675, "spike").setScale(0.75, 0.75);
 
         this.door = this.physics.add.image(875, 150, "door").setScale(0.1, 0.1);
         this.physics.add.collider(this.door, this.platforms);
@@ -505,7 +505,7 @@ export default class LevelZero extends Phaser.Scene {
         }
 
         // Climbing the laddder
-        if(this.player && this.ladder && this.cursors){
+        if (this.player && this.ladder && this.cursors) {
             if (
                 this.ladder.x === 680 &&
                 this.cursors.up.isDown &&
@@ -519,8 +519,8 @@ export default class LevelZero extends Phaser.Scene {
             }
         }
 
-        if(this.player && this.plank && this.spikes){
-            if(this.plank.x === 850){
+        if (this.player && this.plank && this.spikes) {
+            if (this.plank.x === 850) {
                 this.physics.world.enable(this.plank);
                 this.physics.add.collider(this.plank, this.spikes);
                 this.physics.add.collider(this.player, this.plank);
