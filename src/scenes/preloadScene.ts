@@ -1,12 +1,12 @@
 import Phaser from "phaser";
-
+import { createChortAnims } from "../anims/createChortAnims";
 export default class PreloadScene extends Phaser.Scene {
     constructor() {
         super({ key: "PreloadScene" });
     }
 
     preload() {
-        this.load.image("phaser-logo", "assets/img/phaser-logo.png");
+        this.load.image("bullet_blue", "assets/bullet_blue.png");
         this.load.spritesheet("robot_idle", "assets/sprites/robot_idle.png", {
             //all robot sprites from the game Enter the Gungeon. Accessed from https://www.spriters-resource.com/pc_computer/enterthegungeon/sheet/155565/
             frameWidth: 18,
@@ -62,14 +62,10 @@ export default class PreloadScene extends Phaser.Scene {
                 frameHeight: 22,
             }
         );
-        this.load.spritesheet(
-            "demon_idle",
-            "assets/sprites/demon_walk_right.png",
-            {
-                frameWidth: 32,
-                frameHeight: 36,
-            }
-        );
+        this.load.spritesheet("demon_idle", "assets/sprites/demon_idle.png", {
+            frameWidth: 32,
+            frameHeight: 36,
+        });
         this.load.spritesheet(
             "demon_walk_R",
             "assets/sprites/demon_walk_right.png",
@@ -86,14 +82,10 @@ export default class PreloadScene extends Phaser.Scene {
                 frameHeight: 36,
             }
         );
-        this.load.spritesheet(
-            "chort_idle",
-            "assets/sprites/chort_walk_right.png",
-            {
-                frameWidth: 16,
-                frameHeight: 23,
-            }
-        );
+        this.load.spritesheet("chort_idle", "assets/sprites/chort_idle.png", {
+            frameWidth: 16,
+            frameHeight: 23,
+        });
         this.load.spritesheet(
             "chort_walk_R",
             "assets/sprites/chort_walk_right.png",
@@ -119,6 +111,7 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     create() {
+        createChortAnims(this.anims);
         this.scene.start("TitleScene");
     }
 }

@@ -3,12 +3,18 @@ import Player from "../objects/player";
 
 import { CONFIG } from "../config";
 import { CharacterMovement } from "../util/playerMovement";
+// import { ChortMovement } from "../util/chortMovement";
+
 import { gameState } from "../objects/gameState";
+import Chort from "../objects/chort";
+import { Bullet } from "../objects/bullet";
 
 class LobbyScene extends Phaser.Scene {
     private player?: Phaser.Physics.Arcade.Sprite;
     private characterMovement: CharacterMovement;
-    private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
+    private chorts?: Phaser.Physics.Arcade.Group;
+    private bullets?: Phaser.Physics.Arcade.Group; // Group to store bullets
+
     constructor() {
         super({ key: "LobbyScene" });
     }
@@ -67,6 +73,7 @@ class LobbyScene extends Phaser.Scene {
                 });
             }
 
+            //player
             this.player = this.physics.add.sprite(176, 315, "robot_idle");
             this.characterMovement = new CharacterMovement(
                 this.player, //player
@@ -74,15 +81,39 @@ class LobbyScene extends Phaser.Scene {
                 100, //speed
                 initialGameState //for anim check (doesnt re-initialize anims more than once)
             );
+
+            //enemies
+            this.chorts = this.physics.add.group({
+                classType: Chort,
+                createCallback: (go) => {
+                    const chortGo = go as Chort;
+                    if (chortGo.body) {
+                        chortGo.body.onCollide = true;
+                    }
+                },
+            });
+            this.chorts.get(600, 50, "chort");
+
+            //bullets group
+            this.bullets = this.physics.add.group({
+                classType: Bullet,
+                key: "bullet",
+                maxSize: 100,
+                runChildUpdate: true,
+            });
+
             //declaring colliders
             if (walls) {
                 this.physics.add.collider(this.player, walls);
+                this.physics.add.collider(this.chorts, walls);
             }
             if (structs) {
                 this.physics.add.collider(this.player, structs);
+                this.physics.add.collider(this.chorts, structs);
             }
             if (decor) {
                 this.physics.add.collider(this.player, decor);
+                this.physics.add.collider(this.chorts, decor);
             }
             if (floor) {
                 this.physics.add.collider(this.player, floor, () => {
@@ -103,9 +134,39 @@ class LobbyScene extends Phaser.Scene {
             );
         }
     }
+    private shootBullet(
+        fromX: number,
+        fromY: number,
+        toX: number,
+        toY: number
+    ) {
+        if (this.bullets) {
+            let bullet = this.bullets.get(fromX, fromY, "bullet");
+
+            if (bullet) {
+                bullet.fire(toX, toY);
+            }
+        }
+    }
+
     update() {
         // Check for keyboard input and move the player accordingly
         const keyboard = this.input.keyboard;
+
+        if (this.input.activePointer.isDown) {
+            // Get the position of the mouse cursor relative to the game world
+            const worldPosition = this.input.activePointer.positionToCamera(
+                this.cameras.main
+            ) as Phaser.Math.Vector2;
+
+            // Shoot a bullet from the player towards the mouse cursor
+            this.shootBullet(
+                this.player!.x,
+                this.player!.y,
+                worldPosition.x,
+                worldPosition.y
+            );
+        }
 
         if (keyboard) {
             // Handle diagonal movement
