@@ -30,6 +30,8 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("spikes_hor", "assets/Art/spikes_hor.png");
         this.load.image("spikes_vert", "assets/Art/spikes_vert.png");
         this.load.image("level_1_bg", "assets/Art/level_1_bg.png");
+
+        this.load.audio("bg_music_1", "assets/Sound/gitcat_chill_demo2.mp3");
     }
 
     create() {

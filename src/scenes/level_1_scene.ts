@@ -44,41 +44,22 @@ export default class Level_1_scene extends Phaser.Scene {
         const ground = this.platforms.create(
             640,
             720,
-            "plat_1"
+            "brown_plat_1"
         ) as Phaser.Physics.Arcade.Sprite;
 
         //setting the size of the groud (1, 2, 3)
         ground.setScale(40, 2).refreshBody();
 
         //platform 1
-        this.platforms.create(200, 600, "plat_1");
-        this.platforms.create(232, 600, "plat_1");
-        this.platforms.create(264, 600, "plat_1");
+        this.platforms.create(230, 550, "brown_plat_1");
 
         //platform 2
-        this.platforms.create(400, 600, "plat_1");
-        this.platforms.create(432, 600, "plat_1");
-        this.platforms.create(464, 600, "plat_1");
+        this.platforms.create(600, 550, "brown_plat_1");
 
         //platform 3
-        this.platforms.create(600, 600, "plat_1");
-        this.platforms.create(632, 600, "plat_1");
-        this.platforms.create(664, 600, "plat_1");
+        this.platforms.create(970, 550, "brown_plat_1");
 
-        //platform 4
-        this.platforms.create(800, 600, "plat_1");
-        this.platforms.create(832, 600, "plat_1");
-        this.platforms.create(864, 600, "plat_1");
-
-        //platform 5
-        this.platforms.create(1100, 550, "plat_1");
-        this.platforms.create(1132, 550, "plat_1");
-        this.platforms.create(1164, 550, "plat_1");
-        this.platforms.create(1192, 550, "plat_1");
-        this.platforms.create(1224, 550, "plat_1");
-        this.platforms.create(1256, 550, "plat_1");
-
-        this.player = this.physics.add.sprite(100, 450, "dude");
+        this.player = this.physics.add.sprite(100, 600, "dude");
         this.player.setBounce(0.05);
         this.player.setCollideWorldBounds(true);
         this.player.body?.setSize(32, 32);
@@ -129,24 +110,13 @@ export default class Level_1_scene extends Phaser.Scene {
         });
 
         this.spikes = this.physics.add.group();
-        this.spikes.create(200, 700, "spikes");
-        this.spikes.create(248, 700, "spikes");
-        this.spikes.create(296, 700, "spikes");
-        this.spikes.create(344, 700, "spikes");
-        this.spikes.create(392, 700, "spikes");
-        this.spikes.create(440, 700, "spikes");
-        this.spikes.create(488, 700, "spikes");
-        this.spikes.create(536, 700, "spikes");
-        this.spikes.create(584, 700, "spikes");
-        this.spikes.create(632, 700, "spikes");
-        this.spikes.create(680, 700, "spikes");
-        this.spikes.create(728, 700, "spikes");
-        this.spikes.create(776, 700, "spikes");
-        this.spikes.create(824, 700, "spikes");
-        this.spikes.create(872, 700, "spikes");
-        this.spikes.create(920, 700, "spikes");
-        this.spikes.create(968, 700, "spikes");
-        //this.spikes.create(1016, 700, "spikes");
+
+        this.spikes.create(250, 625, "spikes_hor");
+        this.spikes.create(400, 625, "spikes_hor");
+        this.spikes.create(550, 625, "spikes_hor");
+        this.spikes.create(700, 625, "spikes_hor");
+        this.spikes.create(850, 625, "spikes_hor");
+        this.spikes.create(1000, 625, "spikes_hor");
 
         this.physics.add.collider(this.spikes, this.platforms);
         this.physics.add.collider(
@@ -156,34 +126,7 @@ export default class Level_1_scene extends Phaser.Scene {
             undefined,
             this
         );
-        /*
-        this.terminal = this.physics.add.group();
-        this.physics.add.collider(this.terminal, this.platforms);
-        this.terminal.create(1200, 500, "terminal");
-        this.physics.add.collider(this.terminal, this.platforms);
-        this.physics.add.overlap(
-            this.player,
-            this.terminal,
-            () => {
-                this.handleTerminal();
-            },
-            undefined,
-            this
-        );
-
-        this.terminalScene = this.scene.get("TerminalScene");
-
-        this.terminalScene.events.on("terminal_input", () => {
-            this.terminalCorrect = true;
-        });
-        */
     }
-
-    /*
-    private handleTerminal() {
-        this.scene.launch("TerminalScene");
-    }
-    */
 
     private handleHitSpike() {
         this.physics.pause();

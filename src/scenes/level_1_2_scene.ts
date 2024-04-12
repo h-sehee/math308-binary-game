@@ -55,7 +55,7 @@ export default class Level_1_2_scene extends Phaser.Scene {
         //platform 1
         this.platforms.create(200, 625, "brown_plat_1");
 
-        this.player = this.physics.add.sprite(100, 450, "dude");
+        this.player = this.physics.add.sprite(100, 600, "dude");
         this.player.setBounce(0.05);
         this.player.setCollideWorldBounds(true);
         this.player.body?.setSize(32, 32);
@@ -106,9 +106,9 @@ export default class Level_1_2_scene extends Phaser.Scene {
         });
 
         this.spikes = this.physics.add.group();
-        this.spikes.create(400, 600, "spikes_hor");
-        this.spikes.create(550, 600, "spikes_hor");
-        this.spikes.create(700, 600, "spikes_hor");
+        this.spikes.create(400, 625, "spikes_hor");
+        this.spikes.create(550, 625, "spikes_hor");
+        this.spikes.create(700, 625, "spikes_hor");
 
         this.physics.add.collider(this.spikes, this.platforms);
         this.physics.add.collider(

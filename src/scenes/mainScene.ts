@@ -8,10 +8,25 @@ export default class MainScene extends Phaser.Scene {
     /* ---------------     PLAY BUTTON    ------------------- */
     playButton: Phaser.GameObjects.Text;
 
+    private music: Phaser.Sound.BaseSound;
+
     constructor() {
         super({ key: "MainScene" });
     }
     create() {
+        //play background music (music will stop when audio file ends or when promted to end)
+        //this.music = this.sound.add("bg_music_1", { loop: true, volume: 0.1 });
+
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        if (!this.music) {
+            this.music = this.sound.add("bg_music_1", {
+                loop: true,
+                volume: 0.1,
+            });
+            this.music.play();
+        }
+        //this.music.play();
+
         //text for alpha sub
         this.add.text(
             400,
