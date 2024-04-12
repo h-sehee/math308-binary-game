@@ -1,18 +1,22 @@
 import Phaser from "phaser";
 
 export default class WeaponDesign extends Phaser.Scene {
-    private fileList = ["Theseus", "Main"];
-    private current = this.fileList[1];
+    private fileList = ["Main", "Theseus", "Sword", "Bow"];
+    private current = this.fileList[0];
     private theseusFile: Phaser.GameObjects.Group;
     private mainFile: Phaser.GameObjects.Group;
+    private swordFile: Phaser.GameObjects.Group;
+    private bowFile: Phaser.GameObjects.Group;
     private codeList: Phaser.GameObjects.Group;
+    private previous: string;
     private itemList: string[];
 
     constructor() {
         super({ key: "weapon-design" });
     }
 
-    init(data: { itemList: string[] }) {
+    init(data: { from: string; itemList: string[] }) {
+        this.previous = data.from;
         this.itemList = data.itemList;
     }
 
@@ -109,7 +113,7 @@ export default class WeaponDesign extends Phaser.Scene {
 
         //Text group of Theseus.java
         this.theseusFile = this.add.group();
-        const theseus1 = this.add
+        const theseusTitle = this.add
             .text(this.cameras.main.width * 0.45, 28, "Theseus.java", {
                 fontSize: "12px",
                 fontFamily: "Academy Engraved LET",
@@ -119,11 +123,14 @@ export default class WeaponDesign extends Phaser.Scene {
             .setOrigin(0.5)
             .setDepth(1000);
 
-        const theseus2 = this.add
+        const theseusBody = this.add
             .text(
-                this.cameras.main.width * 0.05 + 65,
-                50,
-                "public class Theseus {",
+                this.cameras.main.width * 0.05 + 77,
+                78,
+                "public class Theseus {\n" +
+                    "\t\t\t\tprivate double speed ;\n" +
+                    "\t\t\t\tprivate Sword sword ;\n" +
+                    "\t\t\t\tprivate Bow bow ;",
                 {
                     fontSize: "12px",
                     fontFamily: "Academy Engraved LET",
@@ -133,27 +140,13 @@ export default class WeaponDesign extends Phaser.Scene {
             )
             .setOrigin(0.5)
             .setDepth(1000);
-        const theseus3 = this.add
-            .text(
-                this.cameras.main.width * 0.05 + 85,
-                85,
-                "private double damage ;\nprivate double speed ;\nprivate string weapon ;",
-                {
-                    fontSize: "12px",
-                    fontFamily: "Academy Engraved LET",
-                    strokeThickness: 3,
-                    stroke: "0xffffff",
-                }
-            )
-            .setOrigin(0.5)
-            .setDepth(1000);
-        this.theseusFile.add(theseus1);
-        this.theseusFile.add(theseus2);
-        this.theseusFile.add(theseus3);
+
+        this.theseusFile.add(theseusTitle);
+        this.theseusFile.add(theseusBody);
 
         //Text group of main.java
         this.mainFile = this.add.group();
-        const main1 = this.add
+        const mainTitle = this.add
             .text(this.cameras.main.width * 0.45, 28, "main.java", {
                 fontSize: "12px",
                 fontFamily: "Academy Engraved LET",
@@ -163,25 +156,12 @@ export default class WeaponDesign extends Phaser.Scene {
             .setOrigin(0.5)
             .setDepth(1000);
 
-        const main2 = this.add
-            .text(
-                this.cameras.main.width * 0.05 + 108,
-                50,
-                "public static void main(String[] args) {",
-                {
-                    fontSize: "12px",
-                    fontFamily: "Academy Engraved LET",
-                    strokeThickness: 3,
-                    stroke: "0xffffff",
-                }
-            )
-            .setOrigin(0.5)
-            .setDepth(1000);
-        const main3 = this.add
+        const mainBody = this.add
             .text(
                 this.cameras.main.width * 0.05 + 110,
-                67,
-                "Theseus theseus = new Theseus();",
+                60,
+                "public static void main(String[] args) {\n" +
+                    "\t\t\t\tTheseus theseus = new Theseus() ;",
                 {
                     fontSize: "12px",
                     fontFamily: "Academy Engraved LET",
@@ -191,19 +171,78 @@ export default class WeaponDesign extends Phaser.Scene {
             )
             .setOrigin(0.5)
             .setDepth(1000);
-        this.mainFile.add(main1);
-        this.mainFile.add(main2);
-        this.mainFile.add(main3);
+        this.mainFile.add(mainTitle);
+        this.mainFile.add(mainBody);
 
-        this.mainFile.setVisible(false);
+        //Text group of Theseus.java
+        this.swordFile = this.add.group();
+        const swordTitle = this.add
+            .text(this.cameras.main.width * 0.45, 28, "Sword.java", {
+                fontSize: "12px",
+                fontFamily: "Academy Engraved LET",
+                strokeThickness: 3,
+                stroke: "0xffffff",
+            })
+            .setOrigin(0.5)
+            .setDepth(1000);
+
+        const swordBody = this.add
+            .text(
+                this.cameras.main.width * 0.05 + 82,
+                78,
+                "public class Sword {\n" +
+                    "\t\t\t\tprivate double damage ;\n" +
+                    "\t\t\t\tprivate double speed ;\n" +
+                    "\t\t\t\tprivate string type ;",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+        this.swordFile.add(swordTitle);
+        this.swordFile.add(swordBody);
+
+        //Text group of Theseus.java
+        this.bowFile = this.add.group();
+        const bowTitle = this.add
+            .text(this.cameras.main.width * 0.45, 28, "Bow.java", {
+                fontSize: "12px",
+                fontFamily: "Academy Engraved LET",
+                strokeThickness: 3,
+                stroke: "0xffffff",
+            })
+            .setOrigin(0.5)
+            .setDepth(1000);
+
+        const bowBody = this.add
+            .text(
+                this.cameras.main.width * 0.05 + 82,
+                78,
+                "public class Bow {\n" +
+                    "\t\t\t\tprivate double damage ;\n" +
+                    "\t\t\t\tprivate double speed ;\n" +
+                    "\t\t\t\tprivate string type ;",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+
+        this.bowFile.add(bowTitle);
+        this.bowFile.add(bowBody);
+
+        // Displaying main file by default
         this.theseusFile.setVisible(false);
-        if (this.current === "Theseus") {
-            this.theseusFile.setVisible(true);
-            this.mainFile.setVisible(false);
-        } else if (this.current === "Main") {
-            this.mainFile.setVisible(true);
-            this.theseusFile.setVisible(false);
-        }
+        this.swordFile.setVisible(false);
+        this.bowFile.setVisible(false);
 
         // Display list of items
         this.codeList = this.add.group();
@@ -319,21 +358,35 @@ export default class WeaponDesign extends Phaser.Scene {
         });
         close.on("pointerdown", () => {
             this.scene.stop();
-            this.scene.resume("mainScene", { itemList: this.itemList });
+            this.scene.resume(this.previous, { itemList: this.itemList });
         });
         this.input.keyboard?.on("keydown-E", () => {
             this.scene.stop();
-            this.scene.resume("mainScene", { itemList: this.itemList });
+            this.scene.resume(this.previous, { itemList: this.itemList });
         });
     }
 
     private handleFileChange() {
-        if (this.current === "Theseus") {
-            this.theseusFile.setVisible(true);
-            this.mainFile.setVisible(false);
-        } else if (this.current === "Main") {
+        if (this.current === "Main") {
             this.mainFile.setVisible(true);
             this.theseusFile.setVisible(false);
+            this.swordFile.setVisible(false);
+            this.bowFile.setVisible(false);
+        } else if (this.current === "Theseus") {
+            this.mainFile.setVisible(false);
+            this.theseusFile.setVisible(true);
+            this.swordFile.setVisible(false);
+            this.bowFile.setVisible(false);
+        } else if (this.current === "Sword") {
+            this.mainFile.setVisible(false);
+            this.theseusFile.setVisible(false);
+            this.swordFile.setVisible(true);
+            this.bowFile.setVisible(false);
+        } else if (this.current === "Bow") {
+            this.mainFile.setVisible(false);
+            this.theseusFile.setVisible(false);
+            this.swordFile.setVisible(false);
+            this.bowFile.setVisible(true);
         }
     }
 }

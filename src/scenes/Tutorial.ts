@@ -5,6 +5,7 @@ import { createTheseusAnims } from "../anims/theseusAnims";
 import { createWeaponsAnims } from "../anims/weaponsAnims";
 import "../player/theseus";
 import Theseus from "../player/theseus";
+import "../weapons/bow";
 // import { sceneEvents } from "../events/eventsCenter";
 
 export default class Tutorial extends Phaser.Scene {
@@ -94,10 +95,99 @@ export default class Tutorial extends Phaser.Scene {
             this.scene.run("maze-map");
         });
 
+        const bow = this.add.bow(
+            this.cameras.main.width * 0.5,
+            this.cameras.main.height * 0.5,
+            "bow"
+        );
+        bow.setScale(1);
+        this.tweens.add({
+            targets: bow,
+            y: "-=10",
+            duration: 1000,
+            yoyo: true,
+            repeat: -1,
+        });
+        this.physics.add.overlap(
+            this.theseus,
+            bow,
+            () => {
+                if (!this.theseus) {
+                    return;
+                }
+                this.theseus.canUseBow = true;
+                bow.setVisible(false);
+            },
+            undefined,
+            this
+        );
+
         this.input.keyboard?.on("keydown-ESC", () => {
             this.scene.pause();
             this.scene.run("pause", { currentScene: "tutorial" });
         });
+
+        this.input.keyboard?.on("keydown-E", () => {
+            this.scene.pause();
+            this.scene.run("weapon-design", {
+                from: "tutorial",
+                itemList: [],
+            });
+        });
+
+        this.add
+            .image(
+                this.cameras.main.width * 0.2,
+                this.cameras.main.height * 0.6,
+                "tuto-move"
+            )
+            .setOrigin(0.5)
+            .setScale(0.4);
+
+        this.add
+            .image(
+                this.cameras.main.width * 0.8,
+                this.cameras.main.height * 0.6,
+                "tuto-attack"
+            )
+            .setOrigin(0.5)
+            .setScale(0.4);
+
+        this.add
+            .image(
+                this.cameras.main.width * 0.2,
+                this.cameras.main.height * 0.4,
+                "tuto-weapon-change"
+            )
+            .setOrigin(0.5)
+            .setScale(0.4);
+
+        this.add
+            .image(
+                this.cameras.main.width * 0.5 + 80,
+                this.cameras.main.height * 0.2,
+                "tuto-enter-door"
+            )
+            .setOrigin(0.5)
+            .setScale(0.4);
+
+        this.add
+            .image(
+                this.cameras.main.width * 0.8,
+                this.cameras.main.height * 0.4,
+                "tuto-weapon-design"
+            )
+            .setOrigin(0.5)
+            .setScale(0.4);
+
+        this.add
+            .image(
+                this.cameras.main.width * 0.3,
+                this.cameras.main.height * 0.2,
+                "tuto-pause"
+            )
+            .setOrigin(0.5)
+            .setScale(0.4);
     }
 
     private handleEnterDoor() {
