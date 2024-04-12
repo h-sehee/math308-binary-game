@@ -102,5 +102,10 @@ export default class Pause extends Phaser.Scene {
             this.scene.stop("game-ui");
             this.scene.start("TitleScene");
         });
+
+        this.input.keyboard?.on("keydown-ESC", () => {
+            this.scene.stop();
+            this.scene.resume(this.previous);
+        });
     }
 }
