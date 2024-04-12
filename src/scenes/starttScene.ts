@@ -9,6 +9,8 @@ export default class StartScene extends Phaser.Scene {
     bubbleData: object;
     lastCommandRun: string;
     CAT: Phaser.GameObjects.Sprite;
+    // this is the objective
+    objectiveText: Phaser.GameObjects.Text;
     // this is the first locked program
     murderArticle: Phaser.GameObjects.Image;
 
@@ -282,6 +284,7 @@ export default class StartScene extends Phaser.Scene {
                 Object.values(showBubble)[0].visible = true;
                 // make the text object visible
                 Object.values(showBubble)[1].visible = true;
+                this.setObjective("Tell CAT when you're done reading.");
                 break;
             case 9:
                 showBubble = this.createSpeechBubble(
@@ -295,6 +298,7 @@ export default class StartScene extends Phaser.Scene {
                 Object.values(showBubble)[0].visible = true;
                 // make the text object visible
                 Object.values(showBubble)[1].visible = true;
+                this.objectiveText.destroy();
                 break;
             case 10:
                 showBubble = this.createSpeechBubble(
@@ -308,6 +312,8 @@ export default class StartScene extends Phaser.Scene {
                 Object.values(showBubble)[0].visible = true;
                 // make the text object visible
                 Object.values(showBubble)[1].visible = true;
+                // add objective text under cat
+                this.setObjective("Make the terminal say 'cat'!");
                 break;
             case 11:
                 if(this.lastCommandRun == "echo cat"){
@@ -353,6 +359,7 @@ export default class StartScene extends Phaser.Scene {
                 // Unlock file here
                 this.murderArticle.destroy();
                 this.murderArticle = this.add.image(100,100,"unlocked program").setInteractive();
+                this.setObjective("Check out the program CAT unlocked!");
                 break;
         }
         bubbleNum = bubbleNum + 1;
@@ -469,6 +476,11 @@ export default class StartScene extends Phaser.Scene {
                 return;
             }
         }
+
+    }
+
+    setObjective(objective:string){
+        this.objectiveText = this.add.text(805, 700, "Objective: " + objective, {backgroundColor:"#000", fontSize: "17px"});
     }
 
     update() {
