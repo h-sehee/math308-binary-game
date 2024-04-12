@@ -16,6 +16,9 @@ export default class GameScene extends Phaser.Scene {
     private consoleDialogue?: Phaser.GameObjects.Text;
     private fighting: boolean = false;
     private eventEmitter = new Phaser.Events.EventEmitter();
+    private lsTutorial: boolean = false; 
+    private cdTutorial: boolean = false;
+    private curDir?: string = "";
 
     constructor() {
         super({ key: "GameScene" });
@@ -156,8 +159,15 @@ export default class GameScene extends Phaser.Scene {
         // Display textbox with NPC dialogue
         if (!this.fighting) {
             this.roboDialogue?.setText(
-                "Hello! I'm here to help - I have some files for you!\nTry typing 'ls' and hit enter."
+                "Hello! To get past that door, get through that evil mage!\nWe can find his vulnerabilties using the spell 'ls.' Test it out here!"
             );
+            if (this.lsTutorial) {
+                this.roboDialogue?.setText("ls lists the files and directories inside your current directory!\nThere is another spell 'cd' - Try doing cd aboutMe");
+                this.curDir = "aboutMe"
+            }
+            if (this.cdTutorial) {
+                this.roboDialogue?.setText("cd lets you navigate filesystems and move around to different directories.\nNow, try using the spell you just learned to list everything in here!")
+            }
         } else {
             this.roboDialogue?.setText("Quickly! type ls to defeat him!");
         }
@@ -169,8 +179,17 @@ export default class GameScene extends Phaser.Scene {
     };
 
     handleConsoleText = (text: string) => {
-        if (text === "$> ls") {
-            this.consoleDialogue?.setText("aboutMe  tools");
+        if (text === "$> ls" && this.curDir === "") {
+            this.consoleDialogue?.setText("aboutMe dungeon.txt");
+            this.lsTutorial = true;
+        }
+        if (text === "$> cd aboutMe") {
+            this.consoleDialogue?.setText("aboutMe:");
+            this.curDir = "aboutMe";
+            this.cdTutorial = true;
+        }
+        if (text === "$> ls" && this.curDir === "aboutMe") {
+            this.consoleDialogue?.setText("aboutMe: secret.txt");
         }
         if (text === "$> cd enemy") {
             this.wizard?.setX(300);
