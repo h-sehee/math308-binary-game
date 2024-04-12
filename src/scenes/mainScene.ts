@@ -222,12 +222,21 @@ export default class MainScene extends Phaser.Scene {
             true
         );
         if (this.cursors?.space.isDown && tile.index != -1) {
-            this.scene.start("mainScene", {
-                hp: this.theseus.health,
-                threads: this.threads - 1,
-                weaponType: this.theseus.weaponType,
-                itemList: this.itemList,
-            });
+            if (this.threads > 1) {
+                this.scene.start("mainScene", {
+                    hp: this.theseus.health,
+                    threads: this.threads - 1,
+                    weaponType: this.theseus.weaponType,
+                    itemList: this.itemList,
+                });
+            } else {
+                this.scene.start("minotaur", {
+                    hp: this.theseus.health,
+                    threads: this.threads - 1,
+                    weaponType: this.theseus.weaponType,
+                    itemList: this.itemList,
+                });
+            }
         }
     }
 

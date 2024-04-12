@@ -9,6 +9,7 @@ import Tutorial from "./scenes/Tutorial";
 import Pause from "./scenes/Pause";
 import MazeMap from "./scenes/MazeMap";
 import WeaponDesign from "./scenes/WeaponDesign";
+import MinotaurRoom from "./scenes/MinotaurRoom";
 
 const DEFAULT_WIDTH = 512;
 const DEFAULT_HEIGHT = 384;
@@ -30,6 +31,7 @@ export const CONFIG = {
         TitleScene,
         Tutorial,
         MainScene,
+        MinotaurRoom,
         GameUI,
         GameOver,
         Pause,

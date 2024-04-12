@@ -261,7 +261,7 @@ export default class Tutorial extends Phaser.Scene {
             this.scene.start("mainScene", {
                 hp: this.theseus.health,
                 threads: 5,
-                weaponType: "sword",
+                weaponType: this.theseus.weaponType,
                 itemList: [],
             });
         }
