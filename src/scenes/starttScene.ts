@@ -9,6 +9,7 @@ export default class StartScene extends Phaser.Scene {
     bubbleData: object;
     lastCommandRun: string;
     CAT: Phaser.GameObjects.Sprite;
+    murderArticle: Phaser.GameObjects.Image;
 
     constructor() {
         super({ key: "StartScene" });
@@ -25,20 +26,33 @@ export default class StartScene extends Phaser.Scene {
         // Make CAT clickable
         this.CAT.setInteractive();
 
-        // when clicked, cycle dialogue
+        // when clicked, cycle dialogue + open some files
         this.input.on(
             "pointerdown",
             (
                 pointer: Phaser.Input.Pointer, // we don't use the pointer param but if we don't include it it returns a pointer manager instead ugh
                 objectsClicked: Phaser.GameObjects.Sprite[]
             ) => {
-                console.log(objectsClicked[0].texture.key);
+                // THIS IS FOR DEBUGGING
+                // if a something without a texture is clicked then the console log will cause an error, keep the if-statement for safety
+                if(objectsClicked.length > 0){
+                    console.log(objectsClicked[0].texture.key);
+                }else{
+                    console.log("Nothing was clicked");
+                }
                 if (objectsClicked.length > 0 && objectsClicked[0].texture.key == "CAT") {
                     this.cycleDialogue(
                 Object.values(this.bubbleData)[0],
                 Object.values(this.bubbleData)[1]
                 );
-            }
+                // CHECK FOR UNLOCKED FILES HERE
+                }else if(objectsClicked.length > 0 && objectsClicked[0].texture.key == "unlocked program"){
+                    this.murderArticle.clearTint();
+                    openFile();
+                }else if(objectsClicked.length > 0 && objectsClicked[0].texture.key == "locked program"){
+                    this.murderArticle.setTint(0xff6666);
+                    lockedsfx.play();
+                }
         });
 
         // Add File Sound Effects
@@ -50,16 +64,12 @@ export default class StartScene extends Phaser.Scene {
         //Adds rectangle, does not work if above for some reason.
         const rectAnimation = this.add.graphics();
         //Create Locked Program which cannot be accessed
-        const locked_prg = this.add
+        this.murderArticle = this.add
             .image(100, 100, "locked program")
             .setInteractive();
 
-        locked_prg.on("pointerdown", function () {
-            locked_prg.setTint(0xff6666);
-            lockedsfx.play();
-        });
-        locked_prg.on("pointerup", function () {
-            locked_prg.clearTint();
+        this.murderArticle.on("pointerup",  () => {
+            this.murderArticle.clearTint();
         });
 
         //Create Locked Text File which cannot be accessed
@@ -73,10 +83,12 @@ export default class StartScene extends Phaser.Scene {
         locked_txt.on("pointerup", function () {
             locked_txt.clearTint();
         });
+
         function openFile() {
             rectAnimation.fillStyle(0xffff00, 1);
             rectAnimation.fillRect(850, 20, 400, 400);
         }
+
         //Create Text File which CAN be accessed
         const txt1 = this.add.image(100, 200, "unlocked text").setInteractive();
         txt1.on("pointerdown", function () {
@@ -324,6 +336,22 @@ export default class StartScene extends Phaser.Scene {
                     bubbleNum = bubbleNum - 1;
                 }
                 break;
+            case 12:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Now for the sake of the alpha, I'm going to unlock a file for you."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                // Unlock file here
+                this.murderArticle.destroy();
+                this.murderArticle = this.add.image(100,100,"unlocked program").setInteractive();
+                break;
         }
         bubbleNum = bubbleNum + 1;
         this.bubbleData = { bubbleNum, showBubble };
@@ -419,6 +447,7 @@ export default class StartScene extends Phaser.Scene {
         text = text.trim();
         // CAT checks this to see if it's right
         this.lastCommandRun = text;
+
         const command = text.split(' ')[0];
         switch (command) {
             case 'echo': {
