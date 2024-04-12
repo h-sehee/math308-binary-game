@@ -31,12 +31,8 @@ export default class StartScene extends Phaser.Scene {
         let lockedsfx = this.sound.add("lockedfile");
         // Make CAT clickable
         this.CAT.setInteractive();
-        //Add rectangle
-        //const rectAnimation = this.add.graphics();
         //Function for opening article rn
         function openFile() {
-            //rectAnimation.fillStyle(0xffff00, 1);
-            //rectAnimation.fillRect(850, 20, 400, 400);
             let article1 = thisScene.add.sprite(1050,220,"article1").setInteractive().on("pointerdown",()=>{
                 article1.destroy()
             });
