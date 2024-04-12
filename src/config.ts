@@ -4,6 +4,7 @@ import TitleScene from "./scenes/titleScene";
 
 import LobbyScene from "./scenes/lobbyScene";
 import room01Scene from "./scenes/room01Scene";
+import ConsoleScene from "./scenes/consoleScene";
 
 const DEFAULT_WIDTH = 400;
 const DEFAULT_HEIGHT = 250;
@@ -20,7 +21,7 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, TitleScene, LobbyScene, room01Scene],
+    scene: [PreloadScene, TitleScene, LobbyScene, room01Scene, ConsoleScene],
     physics: {
         default: "arcade",
         arcade: {
@@ -37,5 +38,8 @@ export const CONFIG = {
     render: {
         pixelArt: false,
         antialias: true,
+    },
+    dom: {
+        createContainer: true,
     },
 };

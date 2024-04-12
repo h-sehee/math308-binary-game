@@ -35,7 +35,12 @@ class LobbyScene extends Phaser.Scene {
             ["Potion", "Key"]
         );
         const initialLevel = 0;
-        const initialGameState = new gameState(player, initialLevel, false);
+        const initialGameState = new gameState(
+            player,
+            initialLevel,
+            false,
+            "lobbyScene"
+        );
 
         const map = this.make.tilemap({ key: "lobby" });
         const tileset = map.addTilesetImage("tilemap", "tiles"); //name of tilemap ON TILED, then name of key in preloader scene
@@ -119,6 +124,7 @@ class LobbyScene extends Phaser.Scene {
             if (floor) {
                 this.physics.add.collider(this.player, floor, () => {
                     // Transition to room01Scene.ts when collision occurs
+                    initialGameState.curRoom = "room01Scene";
                     this.scene.start("room01Scene", {
                         gameState: initialGameState,
                     });
