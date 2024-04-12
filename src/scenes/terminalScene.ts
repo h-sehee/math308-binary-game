@@ -91,7 +91,10 @@ export default class TerminalScene extends Phaser.Scene {
         );
 
         button.setInteractive();
-        button.on("pointerdown", () => this.terminalInputArr.length < 3 ? this.terminalInputArr.push("git_add_red") : this.handleCorrect(this.terminalInputArr));
+        button.on("pointerdown", () => {
+            this.terminalInputArr.push("git_add_red");
+            this.handleCorrect();
+        });
         //button.on("pointerdown", () => this.events.emit("git_add_red_clicked"));
 
         const BUTTON_2_TXT_OFFSET_X = 100;
@@ -109,11 +112,10 @@ export default class TerminalScene extends Phaser.Scene {
             }
         );
         button2.setInteractive();
-        button2.on("pointerdown", () =>
-            this.terminalInputArr.length < 3
-                ? this.terminalInputArr.push("git_add_blue")
-                : this.handleCorrect(this.terminalInputArr)
-        );
+        button2.on("pointerdown", () => {
+            this.terminalInputArr.push("git_add_blue");
+            this.handleCorrect();
+        });
         //button2.on("pointerdown", () => this.events.emit("git_add_blue_clicked"));
 
         const BUTTON_3_TXT_OFFSET_X = 98;
@@ -131,11 +133,10 @@ export default class TerminalScene extends Phaser.Scene {
             }
         );
         button3.setInteractive();
-        button3.on("pointerdown", () =>
-            this.terminalInputArr.length < 3
-                ? this.terminalInputArr.push("git_commit")
-                : this.handleCorrect(this.terminalInputArr)
-        );
+        button3.on("pointerdown", () => {
+            this.terminalInputArr.push("git_commit");
+            this.handleCorrect();
+        });
         //button3.on("pointerdown", () => this.events.emit("git_commit_clicked"));
 
         const BUTTON_4_TXT_OFFSET_X = 98;
@@ -153,17 +154,20 @@ export default class TerminalScene extends Phaser.Scene {
             }
         );
         button4.setInteractive();
-        button4.on("pointerdown", () =>
-            this.terminalInputArr.length < 3
-                ? this.terminalInputArr.push("git_push")
-                : this.handleCorrect(this.terminalInputArr)
-        );
-        //button4.on("pointerdown", () => this.events.emit("git_push_clicked"));
-        console.log(this.terminalInputArr);
+        button4.on("pointerdown", () => {
+            this.terminalInputArr.push("git_push");
+            this.handleCorrect();
+        });
     }
 
-    private handleCorrect(terminalInput: string[]): boolean {
-        this.events.emit("terminal_input", terminalInput);
+    private handleCorrect(): boolean {
+        console.log(this.terminalInputArr);
+        if (
+            JSON.stringify(this.terminalInputArr) ===
+            JSON.stringify(["git_add_blue", "git_commit", "git_push"])
+        ) {
+            this.events.emit("terminal_input");
+        }
         return true;
     }
 

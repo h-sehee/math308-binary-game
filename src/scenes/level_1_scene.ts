@@ -12,11 +12,16 @@ export default class Level_1_scene extends Phaser.Scene {
     private scoreText?: Phaser.GameObjects.Text;
     private terminalArr: string[] = ["git_add_blue", "git_commit", "git_push"]; //this is the correct array that the terminal needs to emit
     private terminalCorrect: boolean = false;
-
+    private terminalScene?: Phaser.Scene;
     private gameOver = false;
 
     constructor() {
         super({ key: "Level_1_scene" });
+    }
+
+    private setTerminalCorrect(correct: boolean) {
+        console.log("here");
+        this.terminalCorrect = correct;
     }
 
     create() {
@@ -148,32 +153,21 @@ export default class Level_1_scene extends Phaser.Scene {
             this.player,
             this.terminal,
             () => {
-                this.handleTerminal(this.terminalArr);
+                this.handleTerminal();
             },
             undefined,
             this
         );
+
+        this.terminalScene = this.scene.get("TerminalScene");
+
+        this.terminalScene.events.on("terminal_input", () => {
+            this.terminalCorrect = true;
+        });
     }
 
-    private handleTerminal(terminalCorrectArr: string[]) {
+    private handleTerminal() {
         this.scene.launch("TerminalScene");
-        let terminalScene = this.scene.get("TerminalScene");
-        let correct = true;
-        terminalScene.events.on(
-            "terminal_input",
-            function (terminalInput: string[]) {
-                if (terminalInput.length === terminalCorrectArr.length) {
-                    for (let i = 0; i < terminalCorrectArr.length; i++) {
-                        if (terminalCorrectArr[i] != terminalInput[i]) {
-                            correct = false;
-                        }
-                    }
-                    terminalScene.scene.stop();
-                }
-            }
-        );
-        this.terminalCorrect = correct;
-        this.update();
     }
 
     private handleHitSpike() {
