@@ -18,11 +18,11 @@ export default class StartScene extends Phaser.Scene {
         this.startBtn = this.add.image(640, 450, "startBtn");
         this.startBtn.setScale(0.5);
         this.startBtn.setInteractive();
-    }
 
-    update() {
         this.startBtn.on("pointerdown", () => {
             this.scene.start("GameScene");
         });
     }
+
+    update() {}
 }

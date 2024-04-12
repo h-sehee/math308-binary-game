@@ -14,6 +14,8 @@ export default class GameScene extends Phaser.Scene {
     private evilDialogue?: Phaser.GameObjects.Text;
     private userInput: string = "";
     private consoleDialogue?: Phaser.GameObjects.Text;
+    private fighting: boolean = false;
+    private eventEmitter = new Phaser.Events.EventEmitter();
 
     constructor() {
         super({ key: "GameScene" });
@@ -47,7 +49,7 @@ export default class GameScene extends Phaser.Scene {
         ).setScale(0.75);
         this.physics.add.collider(this.wizard, robo);
         robo.setImmovable(true);
-        this.robo = robo; 
+        this.robo = robo;
 
         this.enemies = this.physics.add.group();
         const rugged_wizard: Phaser.Physics.Arcade.Sprite = this.enemies
@@ -66,92 +68,129 @@ export default class GameScene extends Phaser.Scene {
         });
         this.cursor = this.input.keyboard?.createCursorKeys();
 
-        const eventEmitter = new Phaser.Events.EventEmitter();
-        this.terminalManager = new TerminalManager(eventEmitter);
+        this.terminalManager = new TerminalManager(
+            this.eventEmitter,
+            this.fighting
+        );
 
         // Listen for the userInput event
-        eventEmitter.on("userInput", (userInput: string) => {
-            this.handleUserInput(userInput);
+        this.eventEmitter.on("userInput", (userInput: string) => {
+            this.handleConsoleText(userInput);
         });
 
-        this.roboDialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
+        this.roboDialogue = this.add.text(100, 100, "", {
+            fontSize: "24px",
+            color: "#ffffff",
+            backgroundColor: "#000000",
+        });
         this.roboDialogue.setScrollFactor(0);
 
-        this.evilDialogue = this.add.text(100, 100, "", { fontSize: '24px', color: '#ffffff', backgroundColor: '#000000' });
+        this.evilDialogue = this.add.text(100, 100, "", {
+            fontSize: "24px",
+            color: "#ffffff",
+            backgroundColor: "#000000",
+        });
         this.evilDialogue.setScrollFactor(0);
 
-        this.consoleDialogue = this.add.text(100, 160, "", { fontSize: '24px', color: 'green', backgroundColor: '#000000' });
+        this.consoleDialogue = this.add.text(100, 160, "", {
+            fontSize: "24px",
+            color: "green",
+            backgroundColor: "#000000",
+        });
         this.consoleDialogue.setScrollFactor(0);
-        
     }
 
     update() {
         if (!this.cursor) {
             return;
         }
-        if (this.cursor.left.isDown) {
-            this.wizard?.setVelocityX(-260);
-            //this.wizard?.anims.play("left", true);
-        } else if (this.cursor.right.isDown) {
-            this.wizard?.setVelocityX(260);
-            //this.wizard?.anims.play("right", true);
-        } else if (this.cursor.up.isDown) {
-            this.wizard?.setVelocityY(-260);
-            //this.wizard?.anims.play("turn", true);
-        } else if (this.cursor.down.isDown) {
-            this.wizard?.setVelocityY(260);
-            //this.wizard?.anims.play("turn", true);
-        } else {
-            this.wizard?.setVelocityX(0);
-            this.wizard?.setVelocityY(0);
-            this.wizard?.anims.play("idle");
+        if (!this.fighting) {
+            if (this.cursor.left.isDown) {
+                this.wizard?.setVelocityX(-260);
+                //this.wizard?.anims.play("left", true);
+            } else if (this.cursor.right.isDown) {
+                this.wizard?.setVelocityX(260);
+                //this.wizard?.anims.play("right", true);
+            } else if (this.cursor.up.isDown) {
+                this.wizard?.setVelocityY(-260);
+                //this.wizard?.anims.play("turn", true);
+            } else if (this.cursor.down.isDown) {
+                this.wizard?.setVelocityY(260);
+                //this.wizard?.anims.play("turn", true);
+            } else {
+                this.wizard?.setVelocityX(0);
+                this.wizard?.setVelocityY(0);
+                this.wizard?.anims.play("idle");
+            }
         }
-
         if (this.wizard && this.robo && this.rugged_wizard) {
             const playerPosition = this.wizard.getCenter();
             const npcPosition = this.robo.getCenter();
             const enemyPosition = this.rugged_wizard.getCenter();
 
-            const npcDistance = Phaser.Math.Distance.BetweenPoints(playerPosition, npcPosition);
-            const enemyDistance = Phaser.Math.Distance.BetweenPoints(playerPosition, enemyPosition);
+            const npcDistance = Phaser.Math.Distance.BetweenPoints(
+                playerPosition,
+                npcPosition
+            );
+            const enemyDistance = Phaser.Math.Distance.BetweenPoints(
+                playerPosition,
+                enemyPosition
+            );
 
             if (npcDistance < 100) {
                 this.handleRoboInteraction();
             } else {
-                this.roboDialogue?.setText(""); 
-            }       
+                this.roboDialogue?.setText("");
+            }
 
-            if (enemyDistance < 100) { // Adjust the threshold as needed
+            if (enemyDistance < 100) {
+                // Adjust the threshold as needed
                 this.handleRuggedInteraction();
             } else {
-                this.evilDialogue?.setText(""); 
-            }      
+                this.evilDialogue?.setText("");
+            }
         }
-
     }
 
     handleRoboInteraction = () => {
         // Display textbox with NPC dialogue
-        this.roboDialogue?.setText("Hello! I'm here to help - I have some files for you!\nTry typing 'ls' and hit enter.");
-    }
+        if (!this.fighting) {
+            this.roboDialogue?.setText(
+                "Hello! I'm here to help - I have some files for you!\nTry typing 'ls' and hit enter."
+            );
+        } else {
+            this.roboDialogue?.setText("Quickly! type ls to defeat him!");
+        }
+    };
 
     handleRuggedInteraction = () => {
         // Display textbox with NPC dialogue
         this.evilDialogue?.setText("You better be careful...");
-    }
+    };
 
     handleConsoleText = (text: string) => {
-        if (text === "ls") {
+        if (text === "$> ls") {
             this.consoleDialogue?.setText("aboutMe  tools");
         }
-    }
+        if (text === "$> cd enemy") {
+            this.wizard?.setX(300);
+            this.wizard?.setY(400);
+            this.robo?.setX(201);
+            this.robo?.setY(400);
+            this.fighting = true;
+            this.terminalManager = new TerminalManager(
+                this.eventEmitter,
+                this.fighting
+            );
+        }
+    };
 
     handleUserInput = (userInput: string) => {
         console.log("Recieved Input:", userInput);
-        if (userInput === "$> ls") {   
-            this.handleConsoleText("ls");      
+        if (userInput === "$> ls") {
+            this.handleConsoleText("ls");
         }
-    }
+    };
 
     /* private enableWASDKeys() {
         this.input.keyboard?.addKeys({
