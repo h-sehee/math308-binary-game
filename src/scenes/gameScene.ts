@@ -20,6 +20,7 @@ export default class GameScene extends Phaser.Scene {
     private cdTutorial: boolean = false;
     private curDir?: string = "";
     private catTut: boolean = false; 
+    private instructionDialogue?: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: "GameScene" });
@@ -96,6 +97,13 @@ export default class GameScene extends Phaser.Scene {
         });
         this.evilDialogue.setScrollFactor(0);
 
+        this.instructionDialogue = this.add.text(100, 100, "Explore the map using the arrow keys\nand interact with NPCs by going near them - good luck!", {
+            fontSize: "24px",
+            color: "#ffffff",
+            backgroundColor: "#000000",
+        });
+        this.roboDialogue.setScrollFactor(0);
+
         this.consoleDialogue = this.add.text(100, 160, "", {
             fontSize: "24px",
             color: "green",
@@ -127,6 +135,11 @@ export default class GameScene extends Phaser.Scene {
                 this.wizard?.anims.play("idle");
             }
         }
+        
+        if (this.input.keyboard?.createCursorKeys().left.isDown || this.input.keyboard?.createCursorKeys().right.isDown || this.input.keyboard?.createCursorKeys().up.isDown ||this.input.keyboard?.createCursorKeys().down.isDown) {
+            this.instructionDialogue?.setText("");
+        }
+
         if (this.wizard && this.robo && this.rugged_wizard) {
             const playerPosition = this.wizard.getCenter();
             const npcPosition = this.robo.getCenter();
@@ -153,6 +166,7 @@ export default class GameScene extends Phaser.Scene {
             } else {
                 this.evilDialogue?.setText("");
             }
+
         }
     }
 
