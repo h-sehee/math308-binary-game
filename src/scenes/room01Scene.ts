@@ -2,13 +2,14 @@ import Phaser from "phaser";
 
 import { CONFIG } from "../config";
 import { CharacterMovement } from "../util/playerMovement";
+import Chort from "../objects/chort";
 import { gameState } from "../objects/gameState";
 
 class room01Scene extends Phaser.Scene {
     private gameState: gameState;
     private player?: Phaser.Physics.Arcade.Sprite;
     private characterMovement: CharacterMovement;
-    private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
+    private chorts?: Phaser.Physics.Arcade.Group;
     constructor() {
         super({ key: "room01Scene" });
     }
@@ -40,15 +41,32 @@ class room01Scene extends Phaser.Scene {
                     faceColor: new Phaser.Display.Color(30, 39, 37, 255),
                 });
             }
-            this.player = this.physics.add.sprite(176, 315, "robot_idle");
+            this.player = this.physics.add.sprite(800, 900, "robot_idle");
             this.characterMovement = new CharacterMovement(
                 this.player,
                 this,
                 100,
                 this.gameState
             );
+
+            this.chorts = this.physics.add.group({
+                classType: Chort,
+                createCallback: (go) => {
+                    const chortGo = go as Chort;
+                    if (chortGo.body) {
+                        chortGo.body.onCollide = true;
+                    }
+                },
+            });
+
+            this.chorts.get(800, 700, "chort");
+            this.chorts.get(800, 500, "chort");
+            this.chorts.get(1000, 700, "chort");
+            this.chorts.get(800, 1000, "chort");
+
             if (walls) {
                 this.physics.add.collider(this.player, walls);
+                this.physics.add.collider(this.chorts, walls);
             }
             //camera follows player
             this.cameras.main.startFollow(this.player, true);
