@@ -20,6 +20,15 @@ export default class Tutorial extends Phaser.Scene {
         createTheseusAnims(this.anims);
         createWeaponsAnims(this.anims);
 
+        console.log("added ariadne");
+        this.add
+            .image(
+                this.cameras.main.width - 40,
+                this.cameras.main.height / 4,
+                "Ariadne"
+            )
+            .setDepth(999);
+
         this.cursors =
             this.input.keyboard?.createCursorKeys() as Phaser.Types.Input.Keyboard.CursorKeys;
 
