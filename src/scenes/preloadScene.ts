@@ -57,11 +57,60 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.spritesheet(
             "robot_walk_U",
             "assets/sprites/robot_walk_up.png",
+            { frameWidth: 18, frameHeight: 22 }
+        );
+
+        this.load.spritesheet(
+            "robot_roll_DR",
+            "assets/sprites/robot_roll_down_right.png",
             {
-                frameWidth: 18,
-                frameHeight: 22,
+                //also use this for straight right
+                frameWidth: 20,
+                frameHeight: 26,
             }
         );
+        this.load.spritesheet(
+            "robot_roll_DL",
+            "assets/sprites/robot_roll_down_left.png",
+            {
+                //also use this for straight left
+                frameWidth: 20,
+                frameHeight: 26,
+            }
+        );
+        this.load.spritesheet(
+            "robot_walk_D",
+            "assets/sprites/robot_roll_down.png",
+            {
+                frameWidth: 18,
+                frameHeight: 26,
+            }
+        );
+        this.load.spritesheet(
+            "robot_roll_UR",
+            "assets/sprites/robot_roll_up_right.png",
+            {
+                frameWidth: 20,
+                frameHeight: 26,
+            }
+        );
+        this.load.spritesheet(
+            "robot_roll_UL",
+            "assets/sprites/robot_roll_up_left.png",
+            {
+                frameWidth: 20,
+                frameHeight: 26,
+            }
+        );
+        this.load.spritesheet(
+            "robot_roll_U",
+            "assets/sprites/robot_roll_up.png",
+            {
+                frameWidth: 18,
+                frameHeight: 26,
+            }
+        );
+
         this.load.spritesheet("demon_idle", "assets/sprites/demon_idle.png", {
             frameWidth: 32,
             frameHeight: 36,
@@ -108,6 +157,7 @@ export default class PreloadScene extends Phaser.Scene {
             "assets/tilemaps/lobby_room_new.json"
         );
         this.load.tilemapTiledJSON("room01", "assets/tilemaps/room01.json");
+        this.load.image("console", "assets/consoleTemp.png");
     }
 
     create() {

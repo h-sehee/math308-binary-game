@@ -22,6 +22,7 @@ class room01Scene extends Phaser.Scene {
     preload() {}
 
     create() {
+        this.scene.bringToTop("room01Scene");
         const map = this.make.tilemap({ key: "room01" });
         const tileset = map.addTilesetImage("tilemap", "tiles"); //name of tilemap ON TILED, then name of key in preloader scene
         if (tileset) {
@@ -133,6 +134,20 @@ class room01Scene extends Phaser.Scene {
                 this.player.height * 0.8
             );
         }
+        const slashKey = this.input.keyboard?.addKey(
+            Phaser.Input.Keyboard.KeyCodes.FORWARD_SLASH
+        );
+        slashKey?.on("down", this.switchScene, this);
+    }
+    private switchScene() {
+        console.log("it worked");
+        this.scene.setVisible(true, "ConsoleScene");
+        this.scene.bringToTop("ConsoleScene");
+        this.scene.run("ConsoleScene", {
+            gameState: this.gameState,
+        });
+
+        this.scene.pause("room01Scene");
     }
     update() {
         // Check for keyboard input and move the player accordingly
