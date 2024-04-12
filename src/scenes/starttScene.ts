@@ -9,6 +9,7 @@ export default class StartScene extends Phaser.Scene {
     bubbleData: object;
     lastCommandRun: string;
     CAT: Phaser.GameObjects.Sprite;
+    // this is the first locked program
     murderArticle: Phaser.GameObjects.Image;
 
     constructor() {
@@ -40,6 +41,7 @@ export default class StartScene extends Phaser.Scene {
                 }else{
                     console.log("Nothing was clicked");
                 }
+                // CYCLE DIALOGUE HERE
                 if (objectsClicked.length > 0 && objectsClicked[0].texture.key == "CAT") {
                     this.cycleDialogue(
                 Object.values(this.bubbleData)[0],
