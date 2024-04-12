@@ -111,7 +111,7 @@ export default class MinotaurRoom extends Phaser.Scene {
         this.minotaur.children.iterate((c) => {
             const minotaur = c as Minotaur;
             minotaur.setTarget(this.theseus!);
-            minotaur.body?.setSize(minotaur.width * 0.4, minotaur.height * 0.8);
+            minotaur.body?.setSize(minotaur.width * 0.3, minotaur.height * 0.7);
             minotaur.setOrigin(0.5);
             return true;
         });

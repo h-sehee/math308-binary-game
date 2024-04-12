@@ -141,22 +141,22 @@ export default class Minotaur extends Phaser.Physics.Arcade.Sprite {
         if (this.x <= this.target.x && Math.abs(this.x - this.target.x) > 30) {
             this.anims.play("minotaur-run-side", true);
             this.scaleX = -1;
-            this.body.offset.x = 100;
+            this.body.offset.x = 90;
         } else if (
             this.x > this.target.x &&
             Math.abs(this.x - this.target.x) > 30
         ) {
             this.anims.play("minotaur-run-side", true);
             this.scaleX = 1;
-            this.body.offset.x = 40;
+            this.body.offset.x = 50;
         } else if (this.y <= this.target.y) {
             this.anims.play("minotaur-run-down", true);
-            this.body.offset.y = 20;
+            this.body.offset.y = 25;
         } else if (this.y > this.target.y) {
             this.anims.play("minotaur-run-up", true);
-            this.body.offset.y = 20;
+            this.body.offset.y = 25;
         }
-        this.scene.physics.moveTo(this, this.target.x, this.target.y, 50);
+        this.scene.physics.moveTo(this, this.target.x, this.target.y, 60);
     }
 
     update() {

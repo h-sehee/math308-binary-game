@@ -23,7 +23,7 @@ const createMinotaurAnims = (anims: Phaser.Animations.AnimationManager) => {
             suffix: ".png",
         }),
         repeat: -1,
-        frameRate: 10,
+        frameRate: 3,
     });
     anims.create({
         key: "minotaur-run-up",
@@ -34,7 +34,7 @@ const createMinotaurAnims = (anims: Phaser.Animations.AnimationManager) => {
             suffix: ".png",
         }),
         repeat: -1,
-        frameRate: 10,
+        frameRate: 3,
     });
     anims.create({
         key: "minotaur-run-side",
@@ -45,7 +45,7 @@ const createMinotaurAnims = (anims: Phaser.Animations.AnimationManager) => {
             suffix: ".png",
         }),
         repeat: -1,
-        frameRate: 10,
+        frameRate: 3,
     });
 };
 
