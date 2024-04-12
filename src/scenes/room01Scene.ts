@@ -193,6 +193,7 @@ class room01Scene extends Phaser.Scene {
                     this.characterMovement.stopX(); // Stop horizontal movement if no left/right keys are pressed
                 }
             }
+            this.events.emit("player-moved", this.player!.x, this.player!.y); //emits the player movement event for enemies to track player
         }
     }
 }
