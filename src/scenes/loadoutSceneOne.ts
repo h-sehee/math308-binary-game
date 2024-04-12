@@ -45,32 +45,14 @@ export default class LoadoutSceneOne extends Phaser.Scene {
             }
         );
 
-        /*this.createClickableText(
-            3150,
-            850,
-            "- LOCKED",
-            "#ff0000",
+        this.createClickableText(
+            2950,
+            1200,
+            "Click words above to\nnavigate menu options",
+            "#ffffff",
             "#00000000",
             () => {}
         );
-
-        this.createClickableText(
-            3150,
-            1050,
-            "- LOCKED",
-            "#ff0000",
-            "#00000000",
-            () => {}
-        );
-
-        this.createClickableText(
-            3150,
-            1250,
-            "- LOCKED",
-            "#ff0000",
-            "#00000000",
-            () => {}
-        );*/
     }
 
     createClickableText(
