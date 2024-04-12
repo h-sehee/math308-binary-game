@@ -9,7 +9,6 @@ export class TerminalManager {
     constructor(eventEmitter: Phaser.Events.EventEmitter, fighting: boolean) {
         this.eventEmitter = eventEmitter;
         this.inputElement = document.createElement("input");
-        console.log("why");
         this.inputElement.type = "text";
 
         //styling
@@ -28,7 +27,7 @@ export class TerminalManager {
             this.inputElement.style.bottom = "20px";
             this.inputElement.style.left = "25%";
             this.inputElement.style.width = "50%";
-            this.inputElement.style.height = "160px";
+            this.inputElement.style.height = "90px";
             this.inputElement.style.border = "1px solid #ccc";
             this.inputElement.style.backgroundColor = "#2D2E2C";
             this.inputElement.style.color = "red";
@@ -48,7 +47,6 @@ export class TerminalManager {
     public handleEnter(event: KeyboardEvent) {
         if (event.key === "Enter") {
             const userInput = this.inputElement.value;
-            console.log("User input:", userInput);
             this.eventEmitter.emit("userInput", userInput);
             // Clear input field after processing
             this.inputElement.value = this.prompt;

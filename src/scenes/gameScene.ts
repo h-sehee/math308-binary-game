@@ -154,9 +154,13 @@ export default class GameScene extends Phaser.Scene {
 
     handleRoboInteraction = () => {
         // Display textbox with NPC dialogue
-        this.roboDialogue?.setText(
-            "Hello! I'm here to help - I have some files for you!\nTry typing 'ls' and hit enter."
-        );
+        if (!this.fighting) {
+            this.roboDialogue?.setText(
+                "Hello! I'm here to help - I have some files for you!\nTry typing 'ls' and hit enter."
+            );
+        } else {
+            this.roboDialogue?.setText("Quickly! type ls to defeat him!");
+        }
     };
 
     handleRuggedInteraction = () => {
@@ -171,6 +175,8 @@ export default class GameScene extends Phaser.Scene {
         if (text === "$> cd enemy") {
             this.wizard?.setX(300);
             this.wizard?.setY(400);
+            this.robo?.setX(201);
+            this.robo?.setY(400);
             this.fighting = true;
             this.terminalManager = new TerminalManager(
                 this.eventEmitter,
