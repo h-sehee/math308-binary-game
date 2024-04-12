@@ -59,10 +59,11 @@ export default class Level_1_scene extends Phaser.Scene {
         //platform 3
         this.platforms.create(970, 550, "brown_plat_1");
 
-        this.player = this.physics.add.sprite(100, 600, "dude");
+        this.player = this.physics.add.sprite(100, 500, "dude");
         this.player.setBounce(0.05);
         this.player.setCollideWorldBounds(true);
         this.player.body?.setSize(32, 32);
+        this.player.setScale(2);
 
         this.anims.create({
             key: "left",
@@ -176,7 +177,7 @@ export default class Level_1_scene extends Phaser.Scene {
         }
         */
         if (this.player) {
-            if (this.player.x > 1260) {
+            if (this.player.x > 1240) {
                 this.scene.start("Level_1_2_scene");
             }
         }

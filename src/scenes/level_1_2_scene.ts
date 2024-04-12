@@ -15,6 +15,7 @@ export default class Level_1_2_scene extends Phaser.Scene {
     private terminalCorrect: boolean = false;
     private terminalScene?: Phaser.Scene;
     private gameOver = false;
+    private textSpawned = false;
 
     constructor() {
         super({ key: "Level_1_2_scene" });
@@ -41,6 +42,9 @@ export default class Level_1_2_scene extends Phaser.Scene {
             }
         );
 
+        const npc_1 = this.add.image(1000, 620, "npc_1", 1);
+        npc_1.setScale(2);
+
         //This is createing a solid object
         this.platforms = this.physics.add.staticGroup();
         const ground = this.platforms.create(
@@ -55,10 +59,11 @@ export default class Level_1_2_scene extends Phaser.Scene {
         //platform 1
         this.platforms.create(200, 625, "brown_plat_1");
 
-        this.player = this.physics.add.sprite(100, 600, "dude");
+        this.player = this.physics.add.sprite(70, 600, "dude");
         this.player.setBounce(0.05);
         this.player.setCollideWorldBounds(true);
         this.player.body?.setSize(32, 32);
+        this.player.setScale(2);
 
         this.anims.create({
             key: "left",
@@ -178,6 +183,23 @@ export default class Level_1_2_scene extends Phaser.Scene {
         }
     }
 
+    private handleNPC() {
+        let canSpawn = true;
+        while (canSpawn) {
+            this.add.text(
+                800,
+                500,
+                "Hello! We have been waiting for you! \nPlease carry on to meet the rest of our crew!",
+                {
+                    color: "#FFF",
+                    //fontSize: 20,
+                }
+            );
+            this.textSpawned = true;
+            canSpawn = false;
+        }
+    }
+
     update() {
         if (this.cursors?.left.isDown) {
             this.player?.setVelocityX(-200);
@@ -203,6 +225,15 @@ export default class Level_1_2_scene extends Phaser.Scene {
         if (this.terminalCorrect) {
             //this.platforms2?.create(500, 200, "blue_plat_1");
             this.handlePlat();
+        }
+        if (this.player) {
+            if (this.player.x > 800 && !this.textSpawned) {
+                this.handleNPC();
+            }
+            if (this.player.x > 1240) {
+                this.scene.start("Level_1_3_scene");
+                this.scene.stop("TerminalScene");
+            }
         }
     }
 }
