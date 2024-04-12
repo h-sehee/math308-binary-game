@@ -19,6 +19,7 @@ export default class GameScene extends Phaser.Scene {
     private lsTutorial: boolean = false; 
     private cdTutorial: boolean = false;
     private curDir?: string = "";
+    private catTut: boolean = false; 
 
     constructor() {
         super({ key: "GameScene" });
@@ -168,6 +169,9 @@ export default class GameScene extends Phaser.Scene {
             if (this.cdTutorial) {
                 this.roboDialogue?.setText("cd lets you navigate filesystems and move around to different directories.\nNow, try using the spell you just learned to list everything in here!")
             }
+            if (this.catTut) {
+                this.roboDialogue?.setText("Next, type cd enemy if you think you're ready to take on that mage!");
+            }
         } else {
             this.roboDialogue?.setText("Quickly! type ls to defeat him!");
         }
@@ -190,6 +194,7 @@ export default class GameScene extends Phaser.Scene {
         }
         if (text === "$> ls" && this.curDir === "aboutMe") {
             this.consoleDialogue?.setText("aboutMe: secret.txt");
+            this.catTut = true;
         }
         if (text === "$> cd enemy") {
             this.wizard?.setX(300);
@@ -197,6 +202,7 @@ export default class GameScene extends Phaser.Scene {
             this.robo?.setX(201);
             this.robo?.setY(400);
             this.fighting = true;
+            this.consoleDialogue?.setText("");
             this.terminalManager = new TerminalManager(
                 this.eventEmitter,
                 this.fighting
