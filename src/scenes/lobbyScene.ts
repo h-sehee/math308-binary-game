@@ -111,9 +111,10 @@ class LobbyScene extends Phaser.Scene {
             this.bullets = this.physics.add.group({
                 classType: Bullet,
                 key: "bullet_blue",
-                maxSize: 100,
+                maxSize: 0,
                 runChildUpdate: true,
             });
+            this.bullets.maxSize = 100; //need to declare maxsize outside the group scope so it doesnt spawn an initial bullet in the top left
 
             //declaring colliders
             if (walls) {

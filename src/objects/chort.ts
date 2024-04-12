@@ -25,7 +25,8 @@ export default class Chort extends Phaser.Physics.Arcade.Sprite {
     public fireballs: Phaser.Physics.Arcade.Group =
         this.scene.physics.add.group({
             classType: Bullet,
-            key: "fireball",
+            key: "bullet_blue",
+            maxSize: 0,
             runChildUpdate: true,
         });
 
@@ -89,6 +90,7 @@ export default class Chort extends Phaser.Physics.Arcade.Sprite {
     shootFireball() {
         //shoots fireballs
         // Create a new fireball at the Chort's position
+        this.fireballs.maxSize = 10;
         let fireball = this.fireballs.get(
             this.x,
             this.y,
