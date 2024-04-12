@@ -8,13 +8,15 @@ export default class WeaponDesign extends Phaser.Scene {
     private swordFile: Phaser.GameObjects.Group;
     private bowFile: Phaser.GameObjects.Group;
     private codeList: Phaser.GameObjects.Group;
+    private previous: string;
     private itemList: string[];
 
     constructor() {
         super({ key: "weapon-design" });
     }
 
-    init(data: { itemList: string[] }) {
+    init(data: { from: string; itemList: string[] }) {
+        this.previous = data.from;
         this.itemList = data.itemList;
     }
 
@@ -356,11 +358,11 @@ export default class WeaponDesign extends Phaser.Scene {
         });
         close.on("pointerdown", () => {
             this.scene.stop();
-            this.scene.resume("mainScene", { itemList: this.itemList });
+            this.scene.resume(this.previous, { itemList: this.itemList });
         });
         this.input.keyboard?.on("keydown-E", () => {
             this.scene.stop();
-            this.scene.resume("mainScene", { itemList: this.itemList });
+            this.scene.resume(this.previous, { itemList: this.itemList });
         });
     }
 

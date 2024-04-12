@@ -52,6 +52,13 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("bow-speed-up", "assets/items/bow_speed_up.png");
         this.load.image("bow-poison", "assets/items/bow_poison.png");
         this.load.image("bow-triple", "assets/items/bow_triple.png");
+
+        this.load.image("tuto-move", "assets/tuto_move.png");
+        this.load.image("tuto-attack", "assets/tuto_attack.png");
+        this.load.image("tuto-weapon-change", "assets/tuto_weapon_change.png");
+        this.load.image("tuto-enter-door", "assets/tuto_enter_door.png");
+        this.load.image("tuto-weapon-design", "assets/tuto_weapon_design.png");
+        this.load.image("tuto-pause", "assets/tuto_pause.png");
     }
 
     create() {

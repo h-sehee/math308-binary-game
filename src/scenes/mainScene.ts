@@ -200,7 +200,10 @@ export default class MainScene extends Phaser.Scene {
 
         this.input.keyboard?.on("keydown-E", () => {
             this.scene.pause();
-            this.scene.run("weapon-design", { itemList: this.itemList });
+            this.scene.run("weapon-design", {
+                from: "mainScene",
+                itemList: this.itemList,
+            });
         });
 
         sceneEvents.on("enemy-destroyed", this.handleEnemyDropItem, this);
