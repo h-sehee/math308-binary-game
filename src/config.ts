@@ -10,6 +10,7 @@ import LoadoutSceneClothes from "./scenes/loadoutSceneClothes";
 import LoadoutSceneClothesShirt from "./scenes/loadoutSceneClothesShirt";
 import LoadoutSceneClothesPants from "./scenes/loadoutSceneClothesPants";
 import levelOne from "./scenes/levelOne";
+import endScene from "./scenes/endScene";
 //import levelOnetry from "./scenes/level1";
 
 const DEFAULT_WIDTH = 4096;
@@ -39,6 +40,7 @@ export const CONFIG = {
         LoadoutSceneClothesPants,
         LoadoutSceneClothesShirt,
         levelOne,
+        endScene,
     ],
     physics: {
         default: "arcade",

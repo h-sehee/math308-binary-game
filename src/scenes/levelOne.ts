@@ -3,7 +3,7 @@ import Phaser from "phaser";
 //import FpsText from "../objects/fpsText";
 class Bullet extends Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number) {
-        super(scene, x, y, "star");
+        super(scene, x, y, "bomb");
         scene.add.existing(this);
     }
 
@@ -50,6 +50,7 @@ export default class levelOne extends Phaser.Scene {
     private canShoot = true;
     private shootDelay = 500; // Delay in milliseconds between shots
     private lastShotTime = 0;
+    private numBaddies = 6;
 
     constructor() {
         super({ key: "levelOne" });
@@ -134,8 +135,20 @@ export default class levelOne extends Phaser.Scene {
             fontSize: "32px",
             color: "#000",
         });
+        this.bullets = new Bullets(this.physics.world, this);
 
-        this.baddie = this.physics.add.group();
+        //this.baddie = this.physics.add.group();
+        this.baddie = this.physics.add.group({
+            key: "baddie1",
+            repeat: 2,
+            setXY: { x: 1500, y: 0, stepX: 1000 },
+        });
+
+        this.baddie.children.iterate((c) => {
+            const child = c as Phaser.Physics.Arcade.Image;
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+            return true;
+        });
 
         this.physics.add.collider(this.baddie, this.platforms);
         this.physics.add.collider(
@@ -145,11 +158,48 @@ export default class levelOne extends Phaser.Scene {
             undefined,
             this
         );
-        this.baddie.create(
+        this.physics.add.overlap(
+            this.bullets!,
+            this.baddie!,
+            (bullet, baddie) => {
+                this.handleKillBaddie(
+                    bullet as Bullet,
+                    baddie as Phaser.Physics.Arcade.Sprite
+                );
+            },
+            undefined,
+            this
+            /*(bullet, baddie) => {
+                bullet.destroy();
+                baddie.destroy();
+            }*/
+        );
+
+        this.baddie = this.physics.add.group({
+            key: "baddie2",
+            repeat: 2,
+            setXY: { x: 1000, y: 0, stepX: 1000 },
+        });
+
+        this.baddie.children.iterate((c) => {
+            const child = c as Phaser.Physics.Arcade.Image;
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+            return true;
+        });
+
+        this.physics.add.collider(this.baddie, this.platforms);
+        this.physics.add.collider(
+            this.player,
+            this.baddie,
+            this.handleHitBaddie,
+            undefined,
+            this
+        );
+        /*this.baddie.create(
             4000,
             1250,
             "baddie1"
-        ) as Phaser.Physics.Arcade.Sprite;
+        ) as Phaser.Physics.Arcade.Sprite;*/
 
         /*this.physics.add.collider(
             this.bullets!,
@@ -180,14 +230,21 @@ export default class levelOne extends Phaser.Scene {
             undefined,
             this
         );
-        this.bullets = new Bullets(this.physics.world, this);
         this.physics.add.overlap(
             this.bullets!,
             this.baddie!,
             (bullet, baddie) => {
+                this.handleKillBaddie(
+                    bullet as Bullet,
+                    baddie as Phaser.Physics.Arcade.Sprite
+                );
+            },
+            undefined,
+            this
+            /*(bullet, baddie) => {
                 bullet.destroy();
                 baddie.destroy();
-            }
+            }*/
         );
         this.physics.add.overlap(this.bullets!, this.platforms!, (bullet) => {
             bullet.destroy();
@@ -239,8 +296,22 @@ export default class levelOne extends Phaser.Scene {
     }*/
 
     private handleHitCheckpoint() {
-        this.scene.launch("LoadoutSceneTextboxInserts");
-        this.scene.start("LoadoutSceneOne");
+        this.scene.start("endScene");
+    }
+    private handleKillBaddie(
+        bullet: Bullet,
+        baddie: Phaser.Physics.Arcade.Sprite
+    ) {
+        bullet.destroy();
+        baddie.destroy();
+        this.numBaddies--;
+        if (this.numBaddies == 0) {
+            this.checkpoint.create(
+                4000,
+                1250,
+                "checkpoint"
+            ) as Phaser.Physics.Arcade.Sprite;
+        }
     }
 
     private handleHitBaddie() {
@@ -273,7 +344,7 @@ export default class levelOne extends Phaser.Scene {
                 return true;
             });
 
-            if (this.player) {
+            /*if (this.player) {
                 const x =
                     this.player.x < 400
                         ? Phaser.Math.Between(400, 800)
@@ -289,7 +360,7 @@ export default class levelOne extends Phaser.Scene {
                 4000,
                 1250,
                 "checkpoint"
-            ) as Phaser.Physics.Arcade.Sprite;
+            ) as Phaser.Physics.Arcade.Sprite;*/
         }
     }
 
