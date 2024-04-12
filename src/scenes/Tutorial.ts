@@ -1,4 +1,5 @@
 //https://despairparty.itch.io/rpgmaker-spriteface
+//https://pogutatar.itch.io/pixel-button-pack-by-pogutatar
 import Phaser from "phaser";
 import { debugDraw } from "../utils/debug";
 import { createTheseusAnims } from "../anims/theseusAnims";
@@ -20,15 +21,6 @@ export default class Tutorial extends Phaser.Scene {
     create() {
         createTheseusAnims(this.anims);
         createWeaponsAnims(this.anims);
-
-        console.log("added ariadne");
-        this.add
-            .image(
-                this.cameras.main.width - 40,
-                this.cameras.main.height / 4,
-                "Ariadne"
-            )
-            .setDepth(999);
 
         this.cursors =
             this.input.keyboard?.createCursorKeys() as Phaser.Types.Input.Keyboard.CursorKeys;
@@ -83,6 +75,28 @@ export default class Tutorial extends Phaser.Scene {
         this.physics.add.collider(this.theseus, wallsLayer);
         this.physics.add.collider(this.theseus, doorLayer);
 
+        //let ariadneText;
+        let currentIndex = 0;
+
+        //Make a list of text options for Ariadne.
+        const ariadneTextOptions = [
+            "Thank goodness you came Theseus!",
+            "The minotaur at the center the maze has been plaguing my people for years.",
+            "If you were able to make it to the center of the maze and defeat the minotaur, you would be the hero of Crete!",
+        ];
+        //Function to change the text index.
+
+        function changeAriadneText() {
+            currentIndex = (currentIndex + 1) % ariadneTextOptions.length;
+            //ariadneTextOptions.setText(ariadneTextOptions[currentIndex]);
+        }
+        //let ariadneText: string = "";
+        //const maxWidth = 200; // Maximum width in pixels
+        //const maxHeight = 50; // Maximum height in pixels
+
+        // Call the resize function to fit the text within the specified space
+        //resizeTextToFit(ariadneText, maxWidth, maxHeight);
+
         this.time.delayedCall(1000, () => {
             //console.log("delayed call happened for MazeMap");
             doorLayer.setCollisionByProperty({ collides: true }, false);
@@ -93,6 +107,50 @@ export default class Tutorial extends Phaser.Scene {
                 weaponType: this.theseus?.weaponType,
             });
             this.scene.run("maze-map");
+            this.add
+                .image(
+                    this.cameras.main.width - 40,
+                    this.cameras.main.height - 60,
+                    "Ariadne"
+                )
+                .setDepth(999);
+            this.add.text(
+                this.cameras.main.width / 2 - 50,
+                this.cameras.main.height - 70,
+                ariadneTextOptions[currentIndex],
+                {
+                    fontSize: "12px",
+                    color: "#fff",
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    padding: {
+                        x: 5,
+                        y: 5,
+                    },
+                }
+            );
+            const nextButton = this.add
+                .image(
+                    this.cameras.main.width - 70,
+                    this.cameras.main.height - 45,
+                    "ArrowButton"
+                )
+                .setDepth(1000);
+
+            nextButton.setInteractive();
+            // const rightArrowKey = thisPhaser.input.keyboard.addKey(
+            //     Phaser.Input.Keyboard.KeyCodes.RIGHT
+            // );
+            // rightArrowKey.on("down", changeAriadneText);
+            nextButton.on("pointerdown", changeAriadneText);
+
+            this.tweens.add({
+                targets: nextButton,
+                scaleX: 1.1,
+                scaleY: 1.1,
+                duration: 500,
+                yoyo: true,
+                repeat: -1,
+            });
         });
 
         const bow = this.add.bow(

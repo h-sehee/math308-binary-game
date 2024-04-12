@@ -35,6 +35,9 @@ export default class PreloadScene extends Phaser.Scene {
         //Load the image of Ariadne
         this.load.image("Ariadne", "assets/characters/Ariadne.png");
 
+        //Load the image of the next button
+        this.load.image("ArrowButton", "assets/Buttons/ArrowButton.png");
+
         this.load.image("threads", "assets/threads.png");
         this.load.image("weaponBox", "assets/weaponBox.png");
         this.load.atlas(
