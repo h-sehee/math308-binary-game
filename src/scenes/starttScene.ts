@@ -7,6 +7,12 @@ export default class StartScene extends Phaser.Scene {
     fpsText: FpsText;
     // this will have a number corresponding to the speech bubble 'ID' and an object containing the speech bubble graphics to display
     bubbleData: object;
+    lastCommandRun: string;
+    CAT: Phaser.GameObjects.Sprite;
+    // this is the objective
+    objectiveText: Phaser.GameObjects.Text;
+    // this is the first locked program
+    murderArticle: Phaser.GameObjects.Image;
 
     constructor() {
         super({ key: "StartScene" });
@@ -15,19 +21,43 @@ export default class StartScene extends Phaser.Scene {
     create() {
         // dummy data to avoid undefined error on first use of cycleDialogue()
         this.bubbleData = { bubbleNum: 0, showBubble: {} };
-        // for input
-        var spaceBar = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.F5);
-
-        spaceBar?.on("down", () => {
-            this.cycleDialogue(
-                Object.values(this.bubbleData)[0],
-                Object.values(this.bubbleData)[1]
-            );
-        });
 
         // Spawn in the background and CAT image
         this.add.image(400, 300, "desktopBG");
-        this.add.image(1100, 600, "CAT");
+        this.CAT = this.add.sprite(1100, 600, "CAT");
+
+        // Make CAT clickable
+        this.CAT.setInteractive();
+
+        // when clicked, cycle dialogue + open some files
+        this.input.on(
+            "pointerdown",
+            (
+                pointer: Phaser.Input.Pointer, // we don't use the pointer param but if we don't include it it returns a pointer manager instead ugh
+                objectsClicked: Phaser.GameObjects.Sprite[]
+            ) => {
+                // THIS IS FOR DEBUGGING
+                // if a something without a texture is clicked then the console log will cause an error, keep the if-statement for safety
+                if(objectsClicked.length > 0){
+                    console.log(objectsClicked[0].texture.key);
+                }else{
+                    console.log("Nothing was clicked");
+                }
+                // CYCLE DIALOGUE HERE
+                if (objectsClicked.length > 0 && objectsClicked[0].texture.key == "CAT") {
+                    this.cycleDialogue(
+                Object.values(this.bubbleData)[0],
+                Object.values(this.bubbleData)[1]
+                );
+                // CHECK FOR UNLOCKED FILES HERE
+                }else if(objectsClicked.length > 0 && objectsClicked[0].texture.key == "unlocked program"){
+                    this.murderArticle.clearTint();
+                    openFile();
+                }else if(objectsClicked.length > 0 && objectsClicked[0].texture.key == "locked program"){
+                    this.murderArticle.setTint(0xff6666);
+                    lockedsfx.play();
+                }
+        });
 
         // Add File Sound Effects
         let lockedsfx = this.sound.add("lockedfile");
@@ -38,16 +68,12 @@ export default class StartScene extends Phaser.Scene {
         //Adds rectangle, does not work if above for some reason.
         const rectAnimation = this.add.graphics();
         //Create Locked Program which cannot be accessed
-        const locked_prg = this.add
+        this.murderArticle = this.add
             .image(100, 100, "locked program")
             .setInteractive();
 
-        locked_prg.on("pointerdown", function () {
-            locked_prg.setTint(0xff6666);
-            lockedsfx.play();
-        });
-        locked_prg.on("pointerup", function () {
-            locked_prg.clearTint();
+        this.murderArticle.on("pointerup",  () => {
+            this.murderArticle.clearTint();
         });
 
         //Create Locked Text File which cannot be accessed
@@ -61,10 +87,12 @@ export default class StartScene extends Phaser.Scene {
         locked_txt.on("pointerup", function () {
             locked_txt.clearTint();
         });
+
         function openFile() {
             rectAnimation.fillStyle(0xffff00, 1);
             rectAnimation.fillRect(850, 20, 400, 400);
         }
+
         //Create Text File which CAN be accessed
         const txt1 = this.add.image(100, 200, "unlocked text").setInteractive();
         txt1.on("pointerdown", function () {
@@ -146,7 +174,7 @@ export default class StartScene extends Phaser.Scene {
                     400,
                     200,
                     100,
-                    "woagh !!!! so silly"
+                    "Oh finally, power! Hi! Click on me to continue."
                 );
                 // make the white bubble graphic visible
                 Object.values(showBubble)[0].visible = true;
@@ -159,7 +187,7 @@ export default class StartScene extends Phaser.Scene {
                     400,
                     200,
                     100,
-                    "nice space button press :3"
+                    "You must be the IT person trying to fix this computer."
                 );
                 // make the white bubble graphic visible
                 Object.values(showBubble)[0].visible = true;
@@ -172,12 +200,166 @@ export default class StartScene extends Phaser.Scene {
                     400,
                     200,
                     100,
-                    "Where'd you get it? The space bar store ???"
+                    "I don’t think it needs fixing, but, whatever."
                 );
                 // make the white bubble graphic visible
                 Object.values(showBubble)[0].visible = true;
                 // make the text object visible
                 Object.values(showBubble)[1].visible = true;
+                break;
+            case 3:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "See that black window over there?"
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 4:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "You look like you don’t know what that is."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 5:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Weird since you’re like… an IT worker."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 6:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "But that’s okay; I’ll teach you."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 7:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Open that text file over there. It’s white. With text on it."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                break;
+            case 8:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Click me when you’re done reading it."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                this.setObjective("Tell CAT when you're done reading.");
+                break;
+            case 9:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Got it? Good."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                this.objectiveText.destroy();
+                break;
+            case 10:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Try making the terminal say “cat”. Go on, you’ve got it."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                // add objective text under cat
+                this.setObjective("Make the terminal say 'cat'!");
+                break;
+            case 11:
+                if(this.lastCommandRun == "echo cat"){
+                    showBubble = this.createSpeechBubble(
+                        1060,
+                        400,
+                        200,
+                        100,
+                        "Great start!"
+                    );
+                    // make the white bubble graphic visible
+                    Object.values(showBubble)[0].visible = true;
+                    // make the text object visible
+                    Object.values(showBubble)[1].visible = true;
+                }else{
+                    showBubble = this.createSpeechBubble(
+                        1060,
+                        400,
+                        200,
+                        100,
+                        "Um… maybe you should check out the text file again."
+                    );
+                    // make the white bubble graphic visible
+                    Object.values(showBubble)[0].visible = true;
+                    // make the text object visible
+                    Object.values(showBubble)[1].visible = true;
+                    // they were wrong, so don't let them go to the next speech bubble
+                    bubbleNum = bubbleNum - 1;
+                }
+                break;
+            case 12:
+                showBubble = this.createSpeechBubble(
+                    1060,
+                    400,
+                    200,
+                    100,
+                    "Now for the sake of the alpha, I'm going to unlock a file for you."
+                );
+                // make the white bubble graphic visible
+                Object.values(showBubble)[0].visible = true;
+                // make the text object visible
+                Object.values(showBubble)[1].visible = true;
+                // Unlock file here
+                this.murderArticle.destroy();
+                this.murderArticle = this.add.image(100,100,"unlocked program").setInteractive();
+                this.setObjective("Check out the program CAT unlocked!");
                 break;
         }
         bubbleNum = bubbleNum + 1;
@@ -272,6 +454,9 @@ export default class StartScene extends Phaser.Scene {
         }
 
         text = text.trim();
+        // CAT checks this to see if it's right
+        this.lastCommandRun = text;
+
         const command = text.split(' ')[0];
         switch (command) {
             case 'echo': {
@@ -291,6 +476,11 @@ export default class StartScene extends Phaser.Scene {
                 return;
             }
         }
+
+    }
+
+    setObjective(objective:string){
+        this.objectiveText = this.add.text(805, 700, "Objective: " + objective, {backgroundColor:"#000", fontSize: "17px"});
     }
 
     update() {
