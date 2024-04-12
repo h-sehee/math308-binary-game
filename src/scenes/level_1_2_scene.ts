@@ -1,12 +1,13 @@
 import Phaser from "phaser";
 import { updateCurrentLevel } from "./currentLevel";
 
-export default class Level_1_scene extends Phaser.Scene {
+export default class Level_1_2_scene extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private stars?: Phaser.Physics.Arcade.Group;
     private spikes?: Phaser.Physics.Arcade.Group;
+    private platforms2?: Phaser.Physics.Arcade.Group;
     private terminal?: Phaser.Physics.Arcade.Group;
     private score = 0;
     private scoreText?: Phaser.GameObjects.Text;
@@ -16,7 +17,7 @@ export default class Level_1_scene extends Phaser.Scene {
     private gameOver = false;
 
     constructor() {
-        super({ key: "Level_1_scene" });
+        super({ key: "Level_1_2_scene" });
     }
 
     private setTerminalCorrect(correct: boolean) {
@@ -25,15 +26,16 @@ export default class Level_1_scene extends Phaser.Scene {
     }
 
     create() {
-        //text for alpha sub
-
         const level_1_bg = this.add.image(640, 360, "level_1_bg");
         level_1_bg.setScale(1);
 
+        this.add.text(400, 400, "git add blue -> commit -> push", {
+            color: "#0f0",
+        });
         this.add.text(
             400,
-            250,
-            "use the arrow keys to move and mouse to click when needed",
+            425,
+            "currently, the terminal is buggy and will only spawn a blue platform",
             {
                 color: "#0f0",
             }
@@ -44,39 +46,14 @@ export default class Level_1_scene extends Phaser.Scene {
         const ground = this.platforms.create(
             640,
             720,
-            "plat_1"
+            "brown_plat_1"
         ) as Phaser.Physics.Arcade.Sprite;
 
         //setting the size of the groud (1, 2, 3)
         ground.setScale(40, 2).refreshBody();
 
         //platform 1
-        this.platforms.create(200, 600, "plat_1");
-        this.platforms.create(232, 600, "plat_1");
-        this.platforms.create(264, 600, "plat_1");
-
-        //platform 2
-        this.platforms.create(400, 600, "plat_1");
-        this.platforms.create(432, 600, "plat_1");
-        this.platforms.create(464, 600, "plat_1");
-
-        //platform 3
-        this.platforms.create(600, 600, "plat_1");
-        this.platforms.create(632, 600, "plat_1");
-        this.platforms.create(664, 600, "plat_1");
-
-        //platform 4
-        this.platforms.create(800, 600, "plat_1");
-        this.platforms.create(832, 600, "plat_1");
-        this.platforms.create(864, 600, "plat_1");
-
-        //platform 5
-        this.platforms.create(1100, 550, "plat_1");
-        this.platforms.create(1132, 550, "plat_1");
-        this.platforms.create(1164, 550, "plat_1");
-        this.platforms.create(1192, 550, "plat_1");
-        this.platforms.create(1224, 550, "plat_1");
-        this.platforms.create(1256, 550, "plat_1");
+        this.platforms.create(200, 625, "brown_plat_1");
 
         this.player = this.physics.add.sprite(100, 450, "dude");
         this.player.setBounce(0.05);
@@ -129,24 +106,9 @@ export default class Level_1_scene extends Phaser.Scene {
         });
 
         this.spikes = this.physics.add.group();
-        this.spikes.create(200, 700, "spikes");
-        this.spikes.create(248, 700, "spikes");
-        this.spikes.create(296, 700, "spikes");
-        this.spikes.create(344, 700, "spikes");
-        this.spikes.create(392, 700, "spikes");
-        this.spikes.create(440, 700, "spikes");
-        this.spikes.create(488, 700, "spikes");
-        this.spikes.create(536, 700, "spikes");
-        this.spikes.create(584, 700, "spikes");
-        this.spikes.create(632, 700, "spikes");
-        this.spikes.create(680, 700, "spikes");
-        this.spikes.create(728, 700, "spikes");
-        this.spikes.create(776, 700, "spikes");
-        this.spikes.create(824, 700, "spikes");
-        this.spikes.create(872, 700, "spikes");
-        this.spikes.create(920, 700, "spikes");
-        this.spikes.create(968, 700, "spikes");
-        //this.spikes.create(1016, 700, "spikes");
+        this.spikes.create(400, 600, "spikes_hor");
+        this.spikes.create(550, 600, "spikes_hor");
+        this.spikes.create(700, 600, "spikes_hor");
 
         this.physics.add.collider(this.spikes, this.platforms);
         this.physics.add.collider(
@@ -156,10 +118,15 @@ export default class Level_1_scene extends Phaser.Scene {
             undefined,
             this
         );
-        /*
+
+        this.platforms2 = this.physics.add.group();
+
+        this.physics.add.collider(this.platforms2, this.platforms);
+        this.physics.add.collider(this.player, this.platforms2, undefined);
+
         this.terminal = this.physics.add.group();
         this.physics.add.collider(this.terminal, this.platforms);
-        this.terminal.create(1200, 500, "terminal");
+        this.terminal.create(200, 500, "terminal");
         this.physics.add.collider(this.terminal, this.platforms);
         this.physics.add.overlap(
             this.player,
@@ -176,14 +143,11 @@ export default class Level_1_scene extends Phaser.Scene {
         this.terminalScene.events.on("terminal_input", () => {
             this.terminalCorrect = true;
         });
-        */
     }
 
-    /*
     private handleTerminal() {
         this.scene.launch("TerminalScene");
     }
-    */
 
     private handleHitSpike() {
         this.physics.pause();
@@ -203,6 +167,15 @@ export default class Level_1_scene extends Phaser.Scene {
 
         this.score += 10;
         this.scoreText?.setText(`score: ${this.score}`);
+    }
+
+    private handlePlat() {
+        let canSpawn = true;
+        while (canSpawn) {
+            this.platforms2?.create(500, 200, "blue_plat_1");
+            this.terminalCorrect = false;
+            canSpawn = false;
+        }
     }
 
     update() {
@@ -227,15 +200,9 @@ export default class Level_1_scene extends Phaser.Scene {
             this.scene.start("RespawnScene");
             this.scene.stop();
         }
-        /*
         if (this.terminalCorrect) {
-            this.scene.start("RespawnScene");
-        }
-        */
-        if (this.player) {
-            if (this.player.x > 1260) {
-                this.scene.start("Level_1_2_scene");
-            }
+            //this.platforms2?.create(500, 200, "blue_plat_1");
+            this.handlePlat();
         }
     }
 }

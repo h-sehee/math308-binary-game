@@ -12,6 +12,19 @@ export default class MainScene extends Phaser.Scene {
         super({ key: "MainScene" });
     }
     create() {
+        //text for alpha sub
+        this.add.text(
+            400,
+            200,
+            "please select 'play from level' -> 'level 1'",
+            {
+                color: "#0f0",
+            }
+        );
+        this.add.text(400, 225, "start is currently not implemented", {
+            color: "#0f0",
+        });
+
         /* ---------------     BACKGROUND COLOUR    ------------------- */
         this.cameras.main.setBackgroundColor("#702963");
         /* ---------------     START BUTTON    ------------------- */

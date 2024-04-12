@@ -11,6 +11,7 @@ import PauseScene from "./scenes/pauseScene";
 import StartScene from "./scenes/startScene";
 import Level_1_scene from "./scenes/level_1_scene";
 import RespawnScene from "./scenes/respawnScene";
+import Level_1_2_scene from "./scenes/level_1_2_scene";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -36,6 +37,7 @@ export const CONFIG = {
         PauseScene,
         StartScene,
         Level_1_scene,
+        Level_1_2_scene,
         TerminalScene,
         RespawnScene,
     ],
