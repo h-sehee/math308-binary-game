@@ -12,16 +12,17 @@ export default class MazeMap extends Phaser.Scene {
     }
 
     create() {
+        //console.log("MazeMap created");
         this.add
             .rectangle(
-                this.cameras.main.width / 2,
-                this.cameras.main.height / 2,
-                this.cameras.main.width * 0.8,
-                this.cameras.main.height * 0.8,
+                15,
+                this.cameras.main.height - 15,
+                this.cameras.main.width * 0.25,
+                this.cameras.main.height * 0.25,
                 0xffffff,
                 0.5
             )
-            .setOrigin(0.5)
+            .setOrigin(0, 1)
             .setDepth(999);
 
         this.add

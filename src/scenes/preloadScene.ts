@@ -7,8 +7,6 @@ export default class PreloadScene extends Phaser.Scene {
 
     preload() {
         this.load.image("background", "assets/img/background.jpg");
-        //this.load.image("maze", "assets/img/maze.jpeg");
-        //this.load.image("Minotaur", "assets/img/Minotaur.jpg");
         this.load.image("base_tiles", "assets/tileset.png");
         this.load.tilemapTiledJSON("tilemap", "assets/maze_background.json");
 
@@ -33,6 +31,12 @@ export default class PreloadScene extends Phaser.Scene {
 
         //Load the music for the titleScene
         this.load.audio("titleScene", ["assets/Music/titleScene.mp3"]);
+
+        //Load the image of Ariadne
+        this.load.image("Ariadne", "assets/characters/Ariadne.png");
+
+        //Load the image of the next button
+        this.load.image("ArrowButton", "assets/Buttons/ArrowButton.png");
 
         this.load.image("threads", "assets/threads.png");
         this.load.image("weaponBox", "assets/weaponBox.png");
