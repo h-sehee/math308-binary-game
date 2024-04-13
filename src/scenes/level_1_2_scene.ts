@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { updateCurrentLevel } from "./currentLevel";
 import LevelClass from "../Classes/LevelClass";
+import { ButtonAndListensers } from "../components/buttonAndListeners";
 
 export default class Level_1_2_scene extends LevelClass {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
@@ -144,23 +145,34 @@ export default class Level_1_2_scene extends LevelClass {
             this
         );
 
-        this.terminalScene = this.scene.get("TerminalScene");
-
-        this.terminalScene.events.on("terminal_input", () => {
+        //Create terminal Buttons and Events
+        this.events.on("terminal_input", () => {
             this.terminalCorrect = true;
+        });
+        this.events.once("terminalCollison", () => {
+            new ButtonAndListensers(
+                this,
+                200,
+                100,
+                "button",
+                [
+                    "git add red",
+                    "git add blue",
+                    "git commit -m 'Add New Platform'",
+                    "git push",
+                ],
+                [
+                    "git add blue",
+                    "git commit -m 'Add New Platform'",
+                    "git push",
+                ],
+                this.handleCorrect
+            );
         });
     }
 
     private handleTerminal() {
-        if (
-            !this.scene.manager.scenes.find(
-                (scene) =>
-                    scene.scene.key === "TerminalScene" &&
-                    scene.scene.isActive()
-            )
-        ) {
-            this.scene.launch("TerminalScene");
-        }
+        this.events.emit("terminalCollison");
     }
 
     private handleHitSpike() {
@@ -207,6 +219,20 @@ export default class Level_1_2_scene extends LevelClass {
             this.textSpawned = true;
             canSpawn = false;
         }
+    }
+    private handleCorrect(scene: LevelClass, input: string[]): boolean {
+        console.log(input);
+        if (
+            JSON.stringify(input) ===
+            JSON.stringify([
+                "Level_1_2_scene_git add blue",
+                "Level_1_2_scene_git commit -m 'Add New Platform'",
+                "Level_1_2_scene_git push",
+            ])
+        ) {
+            scene.events.emit("terminal_input");
+        }
+        return true;
     }
 
     update() {
