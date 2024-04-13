@@ -465,7 +465,7 @@ export default class WeaponDesign extends Phaser.Scene {
                     gameObject: Phaser.GameObjects.Image,
                     dropped: boolean
                 ) => {
-                    if (!dropped) {
+                    if (!dropped || this.current !== "Main") {
                         gameObject.x = x;
                         gameObject.y = y;
                     }
@@ -561,16 +561,18 @@ export default class WeaponDesign extends Phaser.Scene {
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     dropZone: Phaser.GameObjects.Graphics
                 ) => {
-                    box.fillStyle(0x808080, 1);
-                    box.fillRect(boxX, boxY, boxWidth, boxHeight);
-                    box.lineStyle(2, 0x00ffff);
-                    // box.strokeRect(boxX, boxY, boxWidth, boxHeight);
-                    box.strokeRect(
-                        zone.x - zone.input?.hitArea.width / 2,
-                        zone.y - zone.input?.hitArea.height / 2,
-                        zone.input?.hitArea.width,
-                        zone.input?.hitArea.height
-                    );
+                    if (this.current === "Main") {
+                        box.fillStyle(0x808080, 1);
+                        box.fillRect(boxX, boxY, boxWidth, boxHeight);
+                        box.lineStyle(2, 0x00ffff);
+                        // box.strokeRect(boxX, boxY, boxWidth, boxHeight);
+                        box.strokeRect(
+                            zone.x - zone.input?.hitArea.width / 2,
+                            zone.y - zone.input?.hitArea.height / 2,
+                            zone.input?.hitArea.width,
+                            zone.input?.hitArea.height
+                        );
+                    }
                 }
             );
 
@@ -584,16 +586,18 @@ export default class WeaponDesign extends Phaser.Scene {
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     dropZone: Phaser.GameObjects.Graphics
                 ) => {
-                    box.fillStyle(0xffffff, 1);
-                    box.fillRect(boxX, boxY, boxWidth, boxHeight);
-                    box.lineStyle(2, 0x000000);
-                    // box.strokeRect(boxX, boxY, boxWidth, boxHeight);
-                    box.strokeRect(
-                        zone.x - zone.input?.hitArea.width / 2,
-                        zone.y - zone.input?.hitArea.height / 2,
-                        zone.input?.hitArea.width,
-                        zone.input?.hitArea.height
-                    );
+                    if (this.current === "Main") {
+                        box.fillStyle(0xffffff, 1);
+                        box.fillRect(boxX, boxY, boxWidth, boxHeight);
+                        box.lineStyle(2, 0x000000);
+                        // box.strokeRect(boxX, boxY, boxWidth, boxHeight);
+                        box.strokeRect(
+                            zone.x - zone.input?.hitArea.width / 2,
+                            zone.y - zone.input?.hitArea.height / 2,
+                            zone.input?.hitArea.width,
+                            zone.input?.hitArea.height
+                        );
+                    }
                 }
             );
 
@@ -604,10 +608,12 @@ export default class WeaponDesign extends Phaser.Scene {
                     gameObject: Phaser.GameObjects.Image,
                     dropZone: Phaser.GameObjects.Zone
                 ) => {
-                    gameObject.x = dropZone.x;
-                    gameObject.y = dropZone.y;
+                    if (this.current === "Main") {
+                        gameObject.x = dropZone.x;
+                        gameObject.y = dropZone.y;
 
-                    gameObject.setVisible(false);
+                        gameObject.setVisible(false);
+                    }
                 }
             );
             return true;
@@ -740,21 +746,25 @@ export default class WeaponDesign extends Phaser.Scene {
             this.theseusFile.setVisible(false);
             this.swordFile.setVisible(false);
             this.bowFile.setVisible(false);
+            this.upgradeList.setVisible(true);
         } else if (this.current === "Theseus") {
             this.mainFile.setVisible(false);
             this.theseusFile.setVisible(true);
             this.swordFile.setVisible(false);
             this.bowFile.setVisible(false);
+            this.upgradeList.setVisible(false);
         } else if (this.current === "Sword") {
             this.mainFile.setVisible(false);
             this.theseusFile.setVisible(false);
             this.swordFile.setVisible(true);
             this.bowFile.setVisible(false);
+            this.upgradeList.setVisible(false);
         } else if (this.current === "Bow") {
             this.mainFile.setVisible(false);
             this.theseusFile.setVisible(false);
             this.swordFile.setVisible(false);
             this.bowFile.setVisible(true);
+            this.upgradeList.setVisible(false);
         }
     }
 }
