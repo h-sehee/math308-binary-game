@@ -15,7 +15,7 @@ const DEFAULT_WIDTH = 512;
 const DEFAULT_HEIGHT = 384;
 
 export const CONFIG = {
-    title: "My Untitled Phaser 3 Game",
+    title: "Infamia di Creti",
     version: "0.0.1",
     type: Phaser.AUTO,
     backgroundColor: "#ffffff",
