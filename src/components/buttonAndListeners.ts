@@ -10,7 +10,11 @@ export class ButtonAndListensers {
         texture: string,
         buttonNames: string[],
         correctButtonOrder: string[],
-        feedbackFunction: (scene: LevelClass, terminalInputArr: string[]) => void
+        feedbackFunction: (
+            scene: LevelClass,
+            terminalInputArr: string[],
+            correctTerminalArr: string[]
+        ) => void
     ) {
         const SCENE_KEY = scene.scene.key;
 
@@ -27,7 +31,11 @@ export class ButtonAndListensers {
         });
 
         scene.events.on("check_terminal_input", () => {
-            feedbackFunction(scene, scene.terminalInputArr);
+            feedbackFunction(
+                scene,
+                scene.terminalInputArr,
+                scene.CorrectTerminalArr
+            );
         });
     }
 }
