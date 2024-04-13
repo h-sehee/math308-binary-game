@@ -258,11 +258,6 @@ export default class Tutorial extends Phaser.Scene {
                                 this.addTextToContainer(
                                     "\nAlfred: Try the 'cd ..' command first.\n"
                                 );
-                            } else if (!this.cdBackObjective) {
-                                ding.play();
-                                this.addTextToContainer(
-                                    "\nAlfred: Try the 'cd ..' command first.\n"
-                                );
                             } else if (manInput != "ls") {
                                 ding.play();
                                 this.addTextToContainer(
