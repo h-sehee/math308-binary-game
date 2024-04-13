@@ -76,30 +76,24 @@ export default class TerminalScene extends Phaser.Scene {
         //TODO @JOSH - Add a seperate file or function to create buttons so not duplicate code
         //TODO @JOSH - Have Offset Scale with font size
 
-        const BUTTON_TXT_OFFSET_X = 100;
-        const BUTTON_TXT_OFFSET_Y = 14;
+
+        //Create buttons and emiters
+        
         const BUTTON_1_X = 200;
         const BUTTON_1_Y = 100;
-        const button = this.add.sprite(BUTTON_1_X, BUTTON_1_Y, "button");
-        this.add.text(
-            BUTTON_1_X - BUTTON_TXT_OFFSET_X,
-            BUTTON_1_Y - BUTTON_TXT_OFFSET_Y,
+        const button = new TerminalButton(
+            this,
+            BUTTON_1_X,
+            BUTTON_1_Y,
+            "button",
             "git add red",
-            {
-                fontSize: "32px",
-                color: "#FFF",
-            }
+            "Lvl_1_git_add_red_clicked"
         );
-
-        button.setInteractive();
-        button.on("pointerdown", () => {
+        button.on("Lvl_1_git_add_red_clicked", () => {
             this.terminalInputArr.push("git_add_red");
             this.handleCorrect();
         });
-        //button.on("pointerdown", () => this.events.emit("git_add_red_clicked"));
 
-        const BUTTON_2_TXT_OFFSET_X = 100;
-        const BUTTON_2_TXT_OFFSET_Y = 14;
         const BUTTON_2_X = 500;
         const BUTTON_2_Y = 100;
         new TerminalButton(
@@ -108,67 +102,39 @@ export default class TerminalScene extends Phaser.Scene {
             BUTTON_2_Y,
             "button",
             "git add blue",
-            "button_test"
+            "Lvl_1_git_add_blue_clicked"
         );
-        this.add.text(
-            BUTTON_2_X - BUTTON_2_TXT_OFFSET_X,
-            BUTTON_2_Y - BUTTON_2_TXT_OFFSET_Y,
-            "git add blue",
-            {
-                fontSize: "30px",
-                color: "#FFF",
-            }
-        );
-        //button2.setInteractive();
-        // button2.on("pointerdown", () => {
-        //     this.terminalInputArr.push("git_add_blue");
-        //     this.handleCorrect();
-        // });
-        this.events.once("button_test", () => {
-            //this.events.off("button_test");
-            //console.log(this.events.listenerCount("button_test"));
+        this.events.on("Lvl_1_git_add_blue_clicked", () => {
             this.terminalInputArr.push("git_add_blue");
             this.handleCorrect();
         });
-        //button2.on("pointerdown", () => this.events.emit("git_add_blue_clicked"));
 
-        const BUTTON_3_TXT_OFFSET_X = 98;
-        const BUTTON_3_TXT_OFFSET_Y = 14;
         const BUTTON_3_X = 800;
         const BUTTON_3_Y = 100;
-        const button3 = this.add.sprite(BUTTON_3_X, BUTTON_3_Y, "button");
-        this.add.text(
-            BUTTON_3_X - BUTTON_3_TXT_OFFSET_X,
-            BUTTON_3_Y - BUTTON_3_TXT_OFFSET_Y,
-            "git commit -m 'Add\n     New Platform'",
-            {
-                fontSize: "20px",
-                color: "#FFF",
-            }
+        new TerminalButton(
+            this,
+            BUTTON_3_X,
+            BUTTON_3_Y,
+            "button",
+            "git commit -m 'Add New Platform'",
+            "Lvl_1_git_commit_clicked"
         );
-        button3.setInteractive();
-        button3.on("pointerdown", () => {
+        this.events.on("Lvl_1_git_commit_clicked", () => {
             this.terminalInputArr.push("git_commit");
             this.handleCorrect();
         });
-        //button3.on("pointerdown", () => this.events.emit("git_commit_clicked"));
 
-        const BUTTON_4_TXT_OFFSET_X = 98;
-        const BUTTON_4_TXT_OFFSET_Y = 14;
         const BUTTON_4_X = 1100;
         const BUTTON_4_Y = 100;
-        const button4 = this.add.sprite(BUTTON_4_X, BUTTON_4_Y, "button");
-        this.add.text(
-            BUTTON_4_X - BUTTON_4_TXT_OFFSET_X,
-            BUTTON_4_Y - BUTTON_4_TXT_OFFSET_Y,
+        new TerminalButton(
+            this,
+            BUTTON_4_X,
+            BUTTON_4_Y,
+            "button",
             "git push",
-            {
-                fontSize: "32px",
-                color: "#FFF",
-            }
+            "Lvl_1_git_push_clicked"
         );
-        button4.setInteractive();
-        button4.on("pointerdown", () => {
+        this.events.on("Lvl_1_git_push_clicked", () => {
             this.terminalInputArr.push("git_push");
             this.handleCorrect();
         });
