@@ -1,7 +1,8 @@
 import Phaser from "phaser";
 import { updateCurrentLevel } from "./currentLevel";
+import LevelClass from "../Classes/LevelClass";
 
-export default class Level_1_scene extends Phaser.Scene {
+export default class Level_1_scene extends LevelClass {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -10,7 +11,6 @@ export default class Level_1_scene extends Phaser.Scene {
     private terminal?: Phaser.Physics.Arcade.Group;
     private score = 0;
     private scoreText?: Phaser.GameObjects.Text;
-    private terminalArr: string[] = ["git_add_blue", "git_commit", "git_push"]; //this is the correct array that the terminal needs to emit
     private terminalCorrect: boolean = false;
     private terminalScene?: Phaser.Scene;
     private gameOver = false;

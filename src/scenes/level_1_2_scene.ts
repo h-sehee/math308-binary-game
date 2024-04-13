@@ -1,7 +1,9 @@
 import Phaser from "phaser";
 import { updateCurrentLevel } from "./currentLevel";
+import LevelClass from "../Classes/LevelClass";
+import { ButtonAndListensers } from "../components/buttonAndListeners";
 
-export default class Level_1_2_scene extends Phaser.Scene {
+export default class Level_1_2_scene extends LevelClass {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -11,14 +13,18 @@ export default class Level_1_2_scene extends Phaser.Scene {
     private terminal?: Phaser.Physics.Arcade.Group;
     private score = 0;
     private scoreText?: Phaser.GameObjects.Text;
-    private terminalArr: string[] = ["git_add_blue", "git_commit", "git_push"]; //this is the correct array that the terminal needs to emit
     private terminalCorrect: boolean = false;
-    private terminalScene?: Phaser.Scene;
     private gameOver = false;
     private textSpawned = false;
 
     constructor() {
-        super({ key: "Level_1_2_scene" });
+        const key = "Level_1_2_scene";
+        super({ key: key });
+        this.CorrectTerminalArr = [
+            `${key}_git add blue`,
+            `${key}_git commit -m 'Add New Platform'`,
+            `${key}_git push`,
+        ];
     }
 
     private setTerminalCorrect(correct: boolean) {
@@ -143,15 +149,30 @@ export default class Level_1_2_scene extends Phaser.Scene {
             this
         );
 
-        this.terminalScene = this.scene.get("TerminalScene");
-
-        this.terminalScene.events.on("terminal_input", () => {
+        //Create terminal Buttons and Events
+        this.events.on("correct_terminal_input", () => {
             this.terminalCorrect = true;
+        });
+        this.events.once("terminalCollison", () => {
+            new ButtonAndListensers(
+                this,
+                200,
+                100,
+                "button",
+                [
+                    "git add red",
+                    "git add blue",
+                    "git commit -m 'Add New Platform'",
+                    "git push",
+                ],
+                this.CorrectTerminalArr,
+                this.handleFeedback
+            );
         });
     }
 
     private handleTerminal() {
-        this.scene.launch("TerminalScene");
+        this.events.emit("terminalCollison");
     }
 
     private handleHitSpike() {
@@ -199,6 +220,33 @@ export default class Level_1_2_scene extends Phaser.Scene {
             canSpawn = false;
         }
     }
+    private handleFeedback(
+        scene: LevelClass,
+        input: string[],
+        correctInput: string[]
+    ): boolean {
+        console.log(input);
+        console.log(correctInput);
+        //Can get alot more in depth with the feeback this is just a proof of concept
+        if (input.length > correctInput.length) {
+            scene.FeedbackText = scene.add.text(
+                400,
+                500,
+                "Too many commands! Try Again",
+                {
+                    fontSize: "32px",
+                    color: "#880808",
+                }
+            );
+            //Clear the input array for next time
+            scene.terminalInputArr = [];
+        }
+        if (JSON.stringify(input) === JSON.stringify(correctInput)) {
+            scene.events.emit("correct_terminal_input");
+            return true;
+        }
+        return false;
+    }
 
     update() {
         if (this.cursors?.left.isDown) {
@@ -218,7 +266,6 @@ export default class Level_1_2_scene extends Phaser.Scene {
         if (this.gameOver) {
             this.gameOver = false;
             updateCurrentLevel(this.scene.key);
-            this.scene.stop("TerminalScene");
             this.scene.start("RespawnScene");
             this.scene.stop();
         }
@@ -232,7 +279,6 @@ export default class Level_1_2_scene extends Phaser.Scene {
             }
             if (this.player.x > 1240) {
                 this.scene.start("Level_1_3_scene");
-                this.scene.stop("TerminalScene");
             }
         }
     }

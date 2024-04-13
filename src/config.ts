@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import MainScene from "./scenes/mainScene";
 import PreloadScene from "./scenes/preloadScene";
-import TerminalScene from "./scenes/terminalScene";
 
 import UIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
 
@@ -40,7 +39,6 @@ export const CONFIG = {
         Level_1_scene,
         Level_1_2_scene,
         Level_1_3_scene,
-        TerminalScene,
         RespawnScene,
     ],
 
