@@ -174,7 +174,7 @@ export default class Tutorial extends Phaser.Scene {
                     return;
                 }
                 this.theseus.canUseBow = true;
-                bow.setVisible(false);
+                bow.destroy();
             },
             undefined,
             this
