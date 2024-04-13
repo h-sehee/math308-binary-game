@@ -133,24 +133,38 @@ export default class Tutorial extends Phaser.Scene {
                         this.inputField.value = ""; // Empty the input field
                         this.addTextToContainer("agent09: " + newText);
                         this.addTextToContainer(lsMap.get(state) as string);
-                        if (this.firstLsObjective && !this.secondLsObjective) {
+
+                        if (
+                            !this.cdObjective &&
+                            this.firstLsObjective &&
+                            !this.secondLsObjective
+                        ) {
+                            this.addTextToContainer(
+                                "\nAlfred: Try the 'cd headquarters' command first."
+                            );
+                        } else if (
+                            this.firstLsObjective &&
+                            !this.secondLsObjective
+                        ) {
+                            this.secondLsObjective = true;
+
                             this.time.delayedCall(1500, () => {
                                 this.addTextToContainer(
                                     "\nAlfred: There is a door_lock.\n\nTry removing it with 'rm door_lock'.\n"
                                 );
                             });
-                            this.secondLsObjective = true;
                         } else if (
                             !this.firstLsObjective &&
                             !this.secondLsObjective
                         ) {
                             this.time.delayedCall(1500, () => {
+                                this.firstLsObjective = true;
+
                                 this.addTextToContainer(
                                     "\nAlfred: Good job, now you can see that Namuh's \nheadquarters is nearby.\n\nUse the 'cd headquarters' command to enter the directory.\n"
                                 );
                             });
                         }
-                        this.firstLsObjective = true;
                     } else if (newText.substring(0, 3) == "cd ") {
                         let cdInput: string = newText.substring(
                             3,
