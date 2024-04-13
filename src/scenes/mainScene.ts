@@ -317,7 +317,7 @@ export default class MainScene extends Phaser.Scene {
     private handleEnemyDropItem(dropX: number, dropY: number) {
         const ranNum = Math.random() * 100;
 
-        if (ranNum <= 20) {
+        if (ranNum <= 40) {
             const randomWeight = Math.random() * 100;
             let accumulatedWeight = 0;
             let itemIdx = 0;
