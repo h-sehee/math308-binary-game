@@ -1,7 +1,8 @@
 import Phaser from "phaser";
 import { updateCurrentLevel } from "./currentLevel";
+import LevelClass from "../Classes/LevelClass";
 
-export default class Level_1_2_scene extends Phaser.Scene {
+export default class Level_1_2_scene extends LevelClass {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
