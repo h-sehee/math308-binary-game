@@ -151,7 +151,15 @@ export default class Level_1_2_scene extends Phaser.Scene {
     }
 
     private handleTerminal() {
-        this.scene.launch("TerminalScene");
+        if (
+            !this.scene.manager.scenes.find(
+                (scene) =>
+                    scene.scene.key === "TerminalScene" &&
+                    scene.scene.isActive()
+            )
+        ) {
+            this.scene.launch("TerminalScene");
+        }
     }
 
     private handleHitSpike() {

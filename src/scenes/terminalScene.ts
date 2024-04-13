@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin.js";
 import { TextBox } from "phaser3-rex-plugins/templates/ui/ui-components.js";
+import TerminalButton from "../components/terminalButton";
 
 export default class TerminalScene extends Phaser.Scene {
     private userInputs: string[] = [];
@@ -101,7 +102,14 @@ export default class TerminalScene extends Phaser.Scene {
         const BUTTON_2_TXT_OFFSET_Y = 14;
         const BUTTON_2_X = 500;
         const BUTTON_2_Y = 100;
-        const button2 = this.add.sprite(BUTTON_2_X, BUTTON_2_Y, "button");
+        new TerminalButton(
+            this,
+            BUTTON_2_X,
+            BUTTON_2_Y,
+            "button",
+            "git add blue",
+            "button_test"
+        );
         this.add.text(
             BUTTON_2_X - BUTTON_2_TXT_OFFSET_X,
             BUTTON_2_Y - BUTTON_2_TXT_OFFSET_Y,
@@ -111,8 +119,14 @@ export default class TerminalScene extends Phaser.Scene {
                 color: "#FFF",
             }
         );
-        button2.setInteractive();
-        button2.on("pointerdown", () => {
+        //button2.setInteractive();
+        // button2.on("pointerdown", () => {
+        //     this.terminalInputArr.push("git_add_blue");
+        //     this.handleCorrect();
+        // });
+        this.events.once("button_test", () => {
+            //this.events.off("button_test");
+            //console.log(this.events.listenerCount("button_test"));
             this.terminalInputArr.push("git_add_blue");
             this.handleCorrect();
         });
