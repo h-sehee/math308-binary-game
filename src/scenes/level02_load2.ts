@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class LoadingScene1 extends Phaser.Scene {
+export default class LoadingScene2Part2 extends Phaser.Scene {
     private content: string[]; // text to display
     private charDelay: number; // delay between characters
     private lineDelay: number; // delay between lines
@@ -15,7 +15,7 @@ export default class LoadingScene1 extends Phaser.Scene {
     private username: string;
 
     constructor() {
-        super({ key: "LoadingScene1" });
+        super({ key: "LoadingScene2part2" });
     }
     init(data: {
         username: string;
@@ -45,7 +45,7 @@ export default class LoadingScene1 extends Phaser.Scene {
 
         // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
-            this.scene.start("Level01", {
+            this.scene.start("Level02", {
                 username: this.username,
                 lvl2: this.lvl2,
                 lvl3: this.lvl3,
@@ -63,25 +63,27 @@ export default class LoadingScene1 extends Phaser.Scene {
         this.startY = 90;
         this.lineIndex = 0;
         this.content = [
-            "Your mission, should you choose to accept it,",
-            "involves critical file manipulation. You need to",
-            "navigate to the 'control_room' and disable the 'surveillance_camera'.",
+            "Note that the second argument of the mv command",
+            "is also used to rename a file. This works when",
+            "the second argument is not an existing directory.",
             " ",
-            "Here are the commands at your disposal:",
+            "Below is an example of renaming file1 into updated_file1:",
             " ",
-            " - 'ls' to list the contents of the current directory.",
+            "mv file1 updated_file1",
             " ",
-            " - 'cd <directory>' to change the current directory.",
-            "                    Use 'cd ..' to go back.",
+            "In this mission you will only be using the command to",
+            "move existing files into existing directories.",
+
+            "If you are ever in need of assistance you can utiilize",
+            "'man' on a specific command to retrieve its manual.",
             " ",
-            " - 'rm <file>' to neutralize a file.",
+            "Or if you require a hint for the mission, you can run",
+            "'man alfred' to dial me in.",
             " ",
-            " - 'man <command>' to display the manual for a specific command.",
+            "Security has been notified of the faulty camera you disabled",
+            "so they are in the area. Time will be of the essence.",
             " ",
-            "You can always run 'man alfred' for additional",
-            "assistance to reach the end of a mission.",
-            " ",
-            "Disable the camera to advance further into Yortsed Corp.",
+            "Good luck " + this.username.toLowerCase + ".",
             " ",
 
             "                  [Enter] to Continue",

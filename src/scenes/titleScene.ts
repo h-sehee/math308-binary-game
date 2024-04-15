@@ -36,6 +36,7 @@ export default class TitleScene extends Phaser.Scene {
 
         this.input.keyboard?.once("keydown-ENTER", () => {
             this.scene.start("LoginScene");
+            // this.scene.start("LoginScene");
         });
     }
 

@@ -8,6 +8,9 @@ import LoadingScene1 from "./scenes/level01_load";
 import IntroScene from "./scenes/intro";
 import LoginScene from "./scenes/login";
 import Tutorial from "./scenes/tutorial";
+import Level2Scene from "./scenes/level02";
+import LoadingScene2 from "./scenes/level02_load";
+import LoadingScene2Part2 from "./scenes/level02_load2";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -34,6 +37,9 @@ export const CONFIG = {
         IntroScene,
         LoginScene,
         Tutorial,
+        Level2Scene,
+        LoadingScene2,
+        LoadingScene2Part2,
     ],
     physics: {
         default: "arcade",

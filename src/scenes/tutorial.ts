@@ -88,7 +88,7 @@ export default class Tutorial extends Phaser.Scene {
 
         manMap.set(
             "ls",
-            "\nAlfred: The 'ls' command\nis useful for viewing your surroundings."
+            "\nAlfred: The 'ls' command is useful\nfor viewing your surroundings."
         );
         manMap.set("rm", "Alfred: The 'rm' command\nneutralizes enemy files.");
         manMap.set(
@@ -131,7 +131,11 @@ export default class Tutorial extends Phaser.Scene {
                     if (newText.trim() == "ls") {
                         lsDing.play();
                         this.inputField.value = ""; // Empty the input field
-                        this.addTextToContainer("agent09: " + newText);
+                        this.addTextToContainer(
+                            this.username.toLowerCase().replace(/\s+/g, "_") +
+                                ": " +
+                                newText
+                        );
                         this.addTextToContainer(lsMap.get(state) as string);
 
                         if (
@@ -175,7 +179,13 @@ export default class Tutorial extends Phaser.Scene {
                         const cdState = cdMap.get(state);
                         if (backState !== undefined && cdInput == "..") {
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
                             if (!this.secondLsObjective) {
                                 ding.play();
                                 this.addTextToContainer(
@@ -207,7 +217,13 @@ export default class Tutorial extends Phaser.Scene {
                             cdMap.get(state)?.includes(cdInput)
                         ) {
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
 
                             if (!this.firstLsObjective) {
                                 ding.play();
@@ -232,7 +248,13 @@ export default class Tutorial extends Phaser.Scene {
                             ding.play();
 
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
                             this.addTextToContainer("Directory not found");
                         }
                         // MAN INPUT BELOW
@@ -240,7 +262,11 @@ export default class Tutorial extends Phaser.Scene {
                         let manInput: string = newText.substring(4);
                         this.inputField.value = ""; // Empty the input field
 
-                        this.addTextToContainer("agent09: " + newText);
+                        this.addTextToContainer(
+                            this.username.toLowerCase().replace(/\s+/g, "_") +
+                                ": " +
+                                newText
+                        );
 
                         const manState = manMap.get(manInput);
                         if (manState !== undefined) {
@@ -298,7 +324,13 @@ export default class Tutorial extends Phaser.Scene {
                             ding.play();
 
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
                             this.addTextToContainer(
                                 "Command '" + manInput + "' not found"
                             );
@@ -308,7 +340,13 @@ export default class Tutorial extends Phaser.Scene {
                         if (rmMap.get(state)?.includes(rmInput)) {
                             let files = lsMap.get(state) || "";
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
 
                             if (!this.secondLsObjective) {
                                 ding.play();
@@ -340,7 +378,13 @@ export default class Tutorial extends Phaser.Scene {
                             ding.play();
 
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
                             this.addTextToContainer(
                                 "File '" +
                                     rmInput +
@@ -352,7 +396,11 @@ export default class Tutorial extends Phaser.Scene {
                     else {
                         ding.play();
                         this.inputField.value = ""; // Empty the input field
-                        this.addTextToContainer("agent09: " + newText);
+                        this.addTextToContainer(
+                            this.username.toLowerCase().replace(/\s+/g, "_") +
+                                ": " +
+                                newText
+                        );
                         this.addTextToContainer(
                             "Command '" + newText + "' not found"
                         );

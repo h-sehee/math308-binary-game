@@ -27,7 +27,7 @@ export default class IntroScene extends Phaser.Scene {
         this.lvl2 = data.lvl2;
         this.lvl3 = data.lvl3;
         this.lvl4 = data.lvl4;
-        this.username = "Agent " + data.username;
+        this.username = "agent " + data.username;
     }
     preload() {
         this.load.image("alfredicon", "assets/alfredicon.png");
@@ -63,7 +63,9 @@ export default class IntroScene extends Phaser.Scene {
         this.startY = 90;
         this.lineIndex = 0;
         this.content = [
-            this.username + ", this is Alfred speaking.",
+            this.username.charAt(0).toUpperCase() +
+                this.username.slice(1) +
+                ", this is Alfred speaking.",
             " ",
             "Sorry to call you so late into the evening, but it",
             "appears we've got a situation on our hands. Namuh Yortsed, CEO of",

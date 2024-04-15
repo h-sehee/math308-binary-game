@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class Level1Scene extends Phaser.Scene {
+export default class Level2Scene extends Phaser.Scene {
     private stateText: Phaser.GameObjects.Text;
     private inputField: HTMLInputElement;
     private inputContainer: Phaser.GameObjects.Container;
@@ -10,10 +10,11 @@ export default class Level1Scene extends Phaser.Scene {
     private lvl4: boolean;
     private username: string;
     private lvl5: boolean;
+    private genComplete: boolean = false;
     private objectiveCompleted: boolean = false;
 
     constructor() {
-        super({ key: "Level01" });
+        super({ key: "Level02" });
     }
 
     init(data: {
@@ -67,26 +68,26 @@ export default class Level1Scene extends Phaser.Scene {
         const cdMap = new Map<string, string[]>();
         const cdBack = new Map<string, string>();
         const manMap = new Map<string, string>();
-        const rmMap = new Map<string, string[]>(); // Map to track removable files
+        const rmMap = new Map<string, string[]>();
+        const mvMap = new Map<string, string[]>();
 
-        lsMap.set("home", "break_room closet control_room");
-        lsMap.set("break_room", "suitcase vending_machine chair table");
-        lsMap.set("closet", "cardboard_box wires hazmat_suit");
-        lsMap.set("control_room", "surveillance_camera monitor apple_juice");
-        lsMap.set("suitcase", "namuhs_glasses batteries papers apple");
-        lsMap.set("cardboard_box", "papers");
+        lsMap.set(
+            "home",
+            "generator1 generator2 laboratory emp_bomb1 emp_bomb2"
+        );
+        lsMap.set("generator1", " ");
+        lsMap.set("generator2", " ");
 
-        cdMap.set("home", ["break_room", "closet", "control_room"]);
-        cdMap.set("break_room", ["suitcase"]);
-        cdMap.set("closet", ["cardboard_box"]);
+        cdMap.set("home", ["generator1", "generator2", "laboratory"]);
 
-        cdBack.set("break_room", "home");
-        cdBack.set("closet", "home");
-        cdBack.set("control_room", "home");
-        cdBack.set("suitcase", "break_room");
-        cdBack.set("cardboard_box", "closet");
+        cdBack.set("generator1", "home");
+        cdBack.set("generator2", "home");
 
         rmMap.set("control_room", ["surveillance_camera"]);
+
+        mvMap.set("home", ["emp_bomb1", "emp_bomb2"]);
+        mvMap.set("generator1", ["emp_bomb1"]);
+        mvMap.set("generator2", ["emp_bomb2"]);
 
         manMap.set(
             "ls",
@@ -123,10 +124,10 @@ export default class Level1Scene extends Phaser.Scene {
         this.add.text(
             410,
             59,
-            "Enter the 'control_room' and remove the \n'surveillance_camera' so you can proceed\ninto the next area. Namuh has security\nroaming the area so time is of the essence.",
+            "Move the 'emp_bomb' files into their\nrespective 'generator' directories.\n",
             {
                 color: "#fff",
-                fontSize: "17px",
+                fontSize: "20px",
                 fontFamily: "Monospace",
             }
         );
@@ -175,18 +176,60 @@ export default class Level1Scene extends Phaser.Scene {
                             cdState !== undefined &&
                             cdMap.get(state)?.includes(cdInput)
                         ) {
-                            cdDing.play();
+                            if (cdInput == "laboratory" && !this.genComplete) {
+                                ding.play();
 
-                            state = newText.substring(3);
-                            this.stateText.setText(state);
-                            this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer(
-                                this.username
-                                    .toLowerCase()
-                                    .replace(/\s+/g, "_") +
-                                    ": " +
-                                    newText
-                            );
+                                this.inputField.value = ""; // Empty the input field
+                                this.addTextToContainer(
+                                    this.username
+                                        .toLowerCase()
+                                        .replace(/\s+/g, "_") +
+                                        ": " +
+                                        newText
+                                );
+                                this.addTextToContainer(
+                                    "Alfred: You cannot enter the laboratory until the generators are shut down.\nShut them down by moving your emp_bombs into their directories."
+                                );
+                            } else if (
+                                cdInput == "laboratory" &&
+                                this.genComplete
+                            ) {
+                                this.objectiveCompleted = true;
+
+                                this.inputField.value = ""; // Empty the input field
+                                this.addTextToContainer(
+                                    this.username
+                                        .toLowerCase()
+                                        .replace(/\s+/g, "_") +
+                                        ": " +
+                                        newText
+                                );
+                                // Level completion logic here
+                                this.addTextToContainer(
+                                    "\nObjective complete: Laboratory access granted.\nGood work, " +
+                                        this.username +
+                                        "."
+                                );
+                                this.time.delayedCall(
+                                    3000,
+                                    this.loadLevel,
+                                    [],
+                                    this
+                                );
+                            } else {
+                                cdDing.play();
+
+                                state = newText.substring(3);
+                                this.stateText.setText(state);
+                                this.inputField.value = ""; // Empty the input field
+                                this.addTextToContainer(
+                                    this.username
+                                        .toLowerCase()
+                                        .replace(/\s+/g, "_") +
+                                        ": " +
+                                        newText
+                                );
+                            }
                         }
                         // CD DIRECTORY NOT FOUND BELOW
                         else {
@@ -297,6 +340,72 @@ export default class Level1Scene extends Phaser.Scene {
                                     "' cannot be found or removed."
                             );
                         }
+                    } else if (newText.substring(0, 3) == "mv ") {
+                        let mvInput: string = newText.substring(3);
+
+                        let words: string[] = mvInput.split(" ");
+
+                        let word1 = words[0];
+                        let word2 = words[1];
+
+                        if (mvMap.get(word2)?.includes(word1)) {
+                            let files = lsMap.get(state) || "";
+                            files = files
+                                .replace(word1, "")
+                                .trim()
+                                .replace(/\s{2,}/g, " "); // Remove the file and extra spaces
+                            lsMap.set(state, files);
+
+                            let originalValue: string | undefined =
+                                lsMap.get(word2);
+
+                            let newValue: string = originalValue + " " + word1;
+
+                            lsMap.set(word2, newValue);
+
+                            this.inputField.value = ""; // Empty the input field
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
+                            this.addTextToContainer(
+                                "File '" + word1 + "' moved successfully."
+                            );
+                            if (
+                                !lsMap.get("home")?.includes("emp_bomb1") &&
+                                !lsMap.get("home")?.includes("emp_bomb2") &&
+                                !this.genComplete
+                            ) {
+                                this.genComplete = true;
+
+                                this.addTextToContainer(
+                                    "\nAlfred: Masterful work " +
+                                        this.username +
+                                        "!\nBoth generators have shut down. \nNow enter the laboratory to finish the mission."
+                                );
+                            }
+                        } else {
+                            ding.play();
+
+                            this.inputField.value = ""; // Empty the input field
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
+                            this.addTextToContainer(
+                                "File '" +
+                                    word1 +
+                                    "' cannot be moved to " +
+                                    word2 +
+                                    "."
+                            );
+                        }
                     }
                     // NONSENSE INPUT BELOW
                     else {
@@ -403,7 +512,7 @@ export default class Level1Scene extends Phaser.Scene {
         this.scene.start("LevelSelect", {
             username: this.username,
             lvl2: true,
-            lvl3: this.lvl3,
+            lvl3: true,
             lvl4: this.lvl4,
             lvl5: this.lvl5,
         });

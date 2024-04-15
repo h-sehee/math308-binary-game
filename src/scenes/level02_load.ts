@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class LoadingScene1 extends Phaser.Scene {
+export default class LoadingScene2 extends Phaser.Scene {
     private content: string[]; // text to display
     private charDelay: number; // delay between characters
     private lineDelay: number; // delay between lines
@@ -15,7 +15,7 @@ export default class LoadingScene1 extends Phaser.Scene {
     private username: string;
 
     constructor() {
-        super({ key: "LoadingScene1" });
+        super({ key: "LoadingScene2" });
     }
     init(data: {
         username: string;
@@ -45,7 +45,7 @@ export default class LoadingScene1 extends Phaser.Scene {
 
         // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
-            this.scene.start("Level01", {
+            this.scene.start("LoadingScene2part2", {
                 username: this.username,
                 lvl2: this.lvl2,
                 lvl3: this.lvl3,
@@ -63,27 +63,30 @@ export default class LoadingScene1 extends Phaser.Scene {
         this.startY = 90;
         this.lineIndex = 0;
         this.content = [
-            "Your mission, should you choose to accept it,",
-            "involves critical file manipulation. You need to",
-            "navigate to the 'control_room' and disable the 'surveillance_camera'.",
+            "Wonderful, you've disabled the camera and can advance into",
+            "Yortsed Corp. You are one step closer to stopping",
+            "Namuh from taking total control of the city's power.",
             " ",
-            "Here are the commands at your disposal:",
+            "Along with all of your previous commands, you will",
+            "need to utilize the 'mv' command to move objects",
+            "into different directories.",
             " ",
-            " - 'ls' to list the contents of the current directory.",
+            "The command works as follows:",
             " ",
-            " - 'cd <directory>' to change the current directory.",
-            "                    Use 'cd ..' to go back.",
+            " - 'mv <file directory>'",
             " ",
-            " - 'rm <file>' to neutralize a file.",
+            "Below is an example of moving an existing file named 'file1'",
+            "into a folder named 'folder3'",
             " ",
-            " - 'man <command>' to display the manual for a specific command.",
+            "mv file1 folder3",
             " ",
-            "You can always run 'man alfred' for additional",
-            "assistance to reach the end of a mission.",
+            "Remember that for you to move a file you must be in the",
+            "directory in which that file exists.",
             " ",
-            "Disable the camera to advance further into Yortsed Corp.",
+            "You will use this command to move 'emp_bomb1' and 'emp_bomb2'",
+            "into each 'generator' directory. Only then will you be able",
+            "to access the 'laboratory' directory, and finish the mission.",
             " ",
-
             "                  [Enter] to Continue",
         ];
     }

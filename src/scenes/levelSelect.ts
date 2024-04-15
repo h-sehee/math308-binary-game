@@ -30,10 +30,11 @@ export default class LevelSelect extends Phaser.Scene {
 
         lvl5: boolean;
     }) {
-        this.lvl2 = data.lvl2;
-        this.lvl3 = data.lvl3;
-        this.lvl4 = data.lvl4;
         this.username = data.username;
+
+        this.lvl2 = this.lvl2;
+        this.lvl3 = this.lvl3;
+        this.lvl4 = this.lvl4;
         this.lvl5 = data.lvl5;
     }
 
@@ -180,7 +181,7 @@ export default class LevelSelect extends Phaser.Scene {
                 state: this.lvl1,
                 scene: "LoadingScene1",
             },
-            { x: 950, state: this.lvl2, scene: "" },
+            { x: 950, state: this.lvl2, scene: "LoadingScene2" },
             { x: 1400, state: this.lvl3, scene: "" },
             { x: 1850, state: this.lvl4, scene: "" },
             { x: 2300, state: this.lvl5, scene: "" },
