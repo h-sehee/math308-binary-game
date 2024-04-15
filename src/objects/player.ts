@@ -12,7 +12,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.setDepth(10);
 
         this.initAnimations();
-        this.initPhysics();
+        //this.initPhysics();
     }
 
     private initAnimations(): void {
@@ -42,11 +42,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         // Add more animations as needed
     }
 
+    /*
     private initPhysics(): void {
         const body = this.body as Phaser.Physics.Arcade.Body;
         //body.setGravityY(300);
         body.setCollideWorldBounds(true);
     }
+    */
 
     update(cursors?: Phaser.Types.Input.Keyboard.CursorKeys) {
         const body = this.body as Phaser.Physics.Arcade.Body;
