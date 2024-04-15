@@ -58,12 +58,29 @@ export default class LevelScene extends Phaser.Scene {
             .on("pointerout", () => {
                 this.enterButtonRestState(this.level2);
             });
+        /* ---------------     Test Scene    ------------------- */
+        this.level2 = this.add
+            .text(300, 100, "Test-Scene", { color: "#0f0" })
+            .setInteractive()
+            .on("pointerdown", () => {
+                this.gotoTestScene();
+            })
+            .on("pointerover", () => {
+                this.enterButtonHoverState(this.level2);
+            })
+            .on("pointerout", () => {
+                this.enterButtonRestState(this.level2);
+            });
     }
 
     //update back clicked and update level clicked need to be implemented proporly,
     //currently have them set up this way for testing purposes
-    updateBackClicked() {
+    gotoTestScene() {
         this.scene.start("TestScene");
+    }
+
+    updateBackClicked() {
+        this.scene.start("MainScene");
     }
 
     updateLevelClicked() {
