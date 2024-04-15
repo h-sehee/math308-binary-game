@@ -32,9 +32,9 @@ export default class LevelSelect extends Phaser.Scene {
     }) {
         this.username = data.username;
 
-        this.lvl2 = this.lvl2;
-        this.lvl3 = this.lvl3;
-        this.lvl4 = this.lvl4;
+        this.lvl2 = data.lvl2;
+        this.lvl3 = data.lvl3;
+        this.lvl4 = data.lvl4;
         this.lvl5 = data.lvl5;
     }
 

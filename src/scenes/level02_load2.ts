@@ -69,7 +69,7 @@ export default class LoadingScene2Part2 extends Phaser.Scene {
             " ",
             "Below is an example of renaming file1 into updated_file1:",
             " ",
-            "mv file1 updated_file1",
+            " - 'mv file1 updated_file1'",
             " ",
             "In this mission you will only be using the command to",
             "move existing files into existing directories.",
@@ -83,7 +83,7 @@ export default class LoadingScene2Part2 extends Phaser.Scene {
             "Security has been notified of the faulty camera you disabled",
             "so they are in the area. Time will be of the essence.",
             " ",
-            "Good luck " + this.username.toLowerCase + ".",
+            "Good luck " + this.username.toLowerCase() + ".",
             " ",
 
             "                  [Enter] to Continue",

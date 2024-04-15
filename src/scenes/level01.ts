@@ -269,7 +269,7 @@ export default class Level1Scene extends Phaser.Scene {
                                 this.objectiveCompleted = true;
                                 // Level completion logic here
                                 this.addTextToContainer(
-                                    "Objective complete: Classified file removed. \nGood work, " +
+                                    "\nObjective complete: Classified file removed. \nGood work, " +
                                         this.username +
                                         "!"
                                 );

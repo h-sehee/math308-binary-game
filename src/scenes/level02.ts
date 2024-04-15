@@ -188,7 +188,7 @@ export default class Level2Scene extends Phaser.Scene {
                                         newText
                                 );
                                 this.addTextToContainer(
-                                    "Alfred: You cannot enter the laboratory until the generators are shut down.\nShut them down by moving your emp_bombs into their directories."
+                                    "Alfred: You cannot enter the laboratory until \nthe generators are shut down. Shut them down by \nmoving your emp_bombs into their directories."
                                 );
                             } else if (
                                 cdInput == "laboratory" &&
@@ -348,7 +348,10 @@ export default class Level2Scene extends Phaser.Scene {
                         let word1 = words[0];
                         let word2 = words[1];
 
-                        if (mvMap.get(word2)?.includes(word1)) {
+                        if (
+                            mvMap.get(word2)?.includes(word1) &&
+                            lsMap.get(state)?.includes(word1)
+                        ) {
                             let files = lsMap.get(state) || "";
                             files = files
                                 .replace(word1, "")
