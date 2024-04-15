@@ -60,8 +60,10 @@ export default class LevelScene extends Phaser.Scene {
             });
     }
 
+    //update back clicked and update level clicked need to be implemented proporly,
+    //currently have them set up this way for testing purposes
     updateBackClicked() {
-        this.scene.start("MainScene");
+        this.scene.start("TestScene");
     }
 
     updateLevelClicked() {

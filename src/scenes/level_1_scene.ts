@@ -171,11 +171,6 @@ export default class Level_1_scene extends LevelClass {
             this.scene.start("RespawnScene");
             this.scene.stop();
         }
-        /*
-        if (this.terminalCorrect) {
-            this.scene.start("RespawnScene");
-        }
-        */
         if (this.player) {
             if (this.player.x > 1240) {
                 this.scene.start("Level_1_2_scene");
