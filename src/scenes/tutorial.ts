@@ -140,7 +140,7 @@ export default class Tutorial extends Phaser.Scene {
                             !this.secondLsObjective
                         ) {
                             this.addTextToContainer(
-                                "\nAlfred: Try the 'cd headquarters' command first."
+                                "\nAlfred: Try the 'cd headquarters' command first.\n"
                             );
                         } else if (
                             this.firstLsObjective &&
@@ -272,7 +272,7 @@ export default class Tutorial extends Phaser.Scene {
                                 this.addTextToContainer(
                                     "\nAlfred: Try the 'cd ..' command first.\n"
                                 );
-                            } else if (manInput != "ls") {
+                            } else if (manInput != "ls" && !this.manObjective) {
                                 ding.play();
                                 this.addTextToContainer(
                                     "\nAlfred: Try the 'man ls' command first.\n"
