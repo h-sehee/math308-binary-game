@@ -44,7 +44,9 @@ export default class PreloadScene extends Phaser.Scene {
 
         //Load the image of the next button
         this.load.image("ArrowButton", "assets/Buttons/ArrowButton.png");
-        console.log("ArrowButton asset loaded");
+
+        //Load the image of the map frame
+        this.load.image("BlackFrame", "assets/img/BlackFrame.png");
 
         this.load.image("threads", "assets/threads.png");
         this.load.image("weaponBox", "assets/weaponBox.png");
