@@ -3,6 +3,7 @@ import Phaser from "phaser";
 import { CONFIG } from "../config";
 import { CharacterMovement } from "../util/playerMovement";
 import { gameState } from "../objects/gameState";
+import ConsoleScene from "./consoleScene";
 
 class room01Scene extends Phaser.Scene {
     private gameState: gameState;
@@ -65,7 +66,9 @@ class room01Scene extends Phaser.Scene {
     private switchScene() {
         console.log("it worked");
         this.scene.setVisible(true, "ConsoleScene");
+        const consoleScene = this.scene.get("ConsoleScene") as ConsoleScene;
         this.scene.bringToTop("ConsoleScene");
+        consoleScene.makeVisible();
         this.scene.run("ConsoleScene", {
             gameState: this.gameState,
         });

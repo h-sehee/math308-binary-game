@@ -6,7 +6,7 @@ import { gameState } from "../objects/gameState";
 
 class ConsoleScene extends Phaser.Scene {
     private numCommands: number = 0;
-    private console?: Phaser.GameObjects.DOMElement;
+    private consoleText?: Phaser.GameObjects.DOMElement;
     private consoleDisplay?: Phaser.GameObjects.DOMElement;
     private gameState: gameState;
     private player?: Phaser.Physics.Arcade.Sprite;
@@ -27,10 +27,18 @@ class ConsoleScene extends Phaser.Scene {
         this.add.image(60, -75, "console").setOrigin(0);
         //console.log(this.gameState);
 
-        this.console = this.add.dom(220, 220).createFromCache("consoleText");
+        this.consoleText = this.add
+            .dom(220, 220)
+            .createFromCache("consoleText");
         this.consoleDisplay = this.add
             .dom(220, 85)
             .createFromCache("consoleDisplay");
+        console.log(
+            typeof this.consoleText,
+            this.consoleText,
+            "hi there omg",
+            this.consoleDisplay
+        );
         //change back to the game scene.
         const slashKey = this.input.keyboard?.addKey(
             Phaser.Input.Keyboard.KeyCodes.BACK_SLASH
@@ -43,15 +51,36 @@ class ConsoleScene extends Phaser.Scene {
     }
     private switchScene() {
         console.log(this.gameState.curRoom);
-        this.console?.setVisible(false);
-        this.consoleDisplay?.setVisible(false);
+        this.makeVisible();
+        this.scene.setVisible(false, "ConsoleScene");
         this.scene.resume(this.gameState.curRoom);
         this.scene.bringToTop(this.gameState.curRoom);
-        this.scene.pause("consoleScene");
+        this.scene.pause("ConsoleScene");
+    }
+    makeVisible() {
+        const consoleText = document.getElementById("consoleInput");
+        if (consoleText) {
+            // Toggle the visibility by changing the display property
+            if (consoleText.style.display === "none") {
+                consoleText.style.display = "block"; // Show the element
+            } else {
+                consoleText.style.display = "none"; // Hide the element
+            }
+        }
+        const textBlockDiv = document.getElementById("textBlock");
+        if (textBlockDiv) {
+            // Toggle the visibility by changing the display property
+            if (textBlockDiv.style.display === "none") {
+                textBlockDiv.style.display = "block"; // Show the element
+            } else {
+                textBlockDiv.style.display = "none"; // Hide the element
+            }
+        }
+        //this.consoleDisplay?.setVisible(flag);
     }
     private handleEnterKey() {
-        if (this.console) {
-            const inputField = this.console.getChildByName(
+        if (this.consoleText) {
+            const inputField = this.consoleText.getChildByID(
                 "consoleInput"
             ) as HTMLInputElement;
             const newText = inputField.value;
