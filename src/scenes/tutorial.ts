@@ -21,7 +21,15 @@ export default class Tutorial extends Phaser.Scene {
     constructor() {
         super({ key: "Tutorial" });
     }
-
+    resetScene() {
+        this.firstLsObjective = false;
+        this.secondLsObjective = false;
+        this.cdObjective = false;
+        this.cdBackObjective = false;
+        this.manObjective = false;
+        this.rmObjective = false;
+        this.lastText = [""];
+    }
     init(data: {
         username: string;
 
