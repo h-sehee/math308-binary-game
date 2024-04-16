@@ -7,18 +7,21 @@ import { createWeaponsAnims } from "../anims/weaponsAnims";
 import "../player/theseus";
 import Theseus from "../player/theseus";
 import "../weapons/bow";
+
 // import { sceneEvents } from "../events/eventsCenter";
 
 export default class Tutorial extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private theseus?: Theseus;
     private doorOpened: Phaser.Tilemaps.TilemapLayer;
+    //private nextButton: Phaser.GameObjects.Image;
 
     constructor() {
         super({ key: "tutorial" });
     }
 
     create() {
+        console.log("tutorial scene starts");
         createTheseusAnims(this.anims);
         createWeaponsAnims(this.anims);
 
@@ -75,29 +78,38 @@ export default class Tutorial extends Phaser.Scene {
         this.physics.add.collider(this.theseus, wallsLayer);
         this.physics.add.collider(this.theseus, doorLayer);
 
+        console.log("Before nextButton creation");
+        const nextButton = this.add
+            .image(
+                this.cameras.main.width - 80,
+                this.cameras.main.height - 30,
+                "ArrowButton"
+            )
+            .setDepth(1000);
+        //console.log("nextButton after creation:", this.nextButton);
+
         //let ariadneText;
         let currentIndex = 0;
 
         //Make a list of text options for Ariadne.
         const ariadneTextOptions = [
             "Thank goodness you came Theseus!",
-            "The minotaur at the center the maze has been plaguing my people for years.",
+            "The minotaur at the center of the maze has been plaguing my people for years.",
             "If you were able to make it to the center of the maze and defeat the minotaur, you would be the hero of Crete!",
         ];
+
+        this.scene.run("maze-map");
         //Function to change the text index.
 
-        function changeAriadneText() {
-            currentIndex = (currentIndex + 1) % ariadneTextOptions.length;
-            //ariadneTextOptions.setText(ariadneTextOptions[currentIndex]);
-        }
         //let ariadneText: string = "";
         //const maxWidth = 200; // Maximum width in pixels
         //const maxHeight = 50; // Maximum height in pixels
 
         //Call the resize function to fit the text within the specified space
         //resizeTextToFit(ariadneText, maxWidth, maxHeight);
-
+        console.log("right before delayed call");
         this.time.delayedCall(1000, () => {
+            console.log("Delayed call is running");
             //console.log("delayed call happened for MazeMap");
             doorLayer.setCollisionByProperty({ collides: true }, false);
             doorLayer.setVisible(false);
@@ -106,51 +118,46 @@ export default class Tutorial extends Phaser.Scene {
                 threads: 5,
                 weaponType: this.theseus?.weaponType,
             });
-            this.scene.run("maze-map");
-            this.add
-                .image(
-                    this.cameras.main.width - 40,
-                    this.cameras.main.height - 60,
-                    "Ariadne"
-                )
-                .setDepth(999);
-            this.add.text(
-                this.cameras.main.width / 2 - 50,
-                this.cameras.main.height - 70,
-                ariadneTextOptions[currentIndex],
-                {
-                    fontSize: "12px",
-                    color: "#fff",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    padding: {
-                        x: 5,
-                        y: 5,
-                    },
-                }
-            );
-            const nextButton = this.add
-                .image(
-                    this.cameras.main.width - 70,
-                    this.cameras.main.height - 45,
-                    "ArrowButton"
-                )
-                .setDepth(1000);
-
-            nextButton.setInteractive();
-            // const rightArrowKey = thisPhaser.input.keyboard.addKey(
-            //     Phaser.Input.Keyboard.KeyCodes.RIGHT
+            // this.add
+            //     .image(
+            //         this.cameras.main.width - 40,
+            //         this.cameras.main.height - 60,
+            //         "Ariadne"
+            //     )
+            //     .setDepth(999);
+            // this.add.text(
+            //     this.cameras.main.width / 2 - 100,
+            //     this.cameras.main.height - 70,
+            //     ariadneTextOptions[currentIndex],
+            //     {
+            //         fontSize: "12px",
+            //         color: "#fff",
+            //         wordWrap: { width: 300, useAdvancedWrap: true },
+            //         backgroundColor: "rgba(0, 0, 0, 0.5)",
+            //         padding: {
+            //             x: 5,
+            //             y: 5,
+            //         },
+            //     }
             // );
-            // rightArrowKey.on("down", changeAriadneText);
-            nextButton.on("pointerdown", changeAriadneText);
+            // console.log("Before nextButton creation");
+            // this.nextButton = this.add
+            //     .image(
+            //         this.cameras.main.width - 80,
+            //         this.cameras.main.height - 40,
+            //         "ArrowButton"
+            //     )
+            //     .setDepth(1000);
+            // console.log("nextButton after creation:", this.nextButton);
 
-            this.tweens.add({
-                targets: nextButton,
-                scaleX: 1.1,
-                scaleY: 1.1,
-                duration: 500,
-                yoyo: true,
-                repeat: -1,
-            });
+            // this.tweens.add({
+            //     targets: this.nextButton,
+            //     scaleX: 1.1,
+            //     scaleY: 1.1,
+            //     duration: 500,
+            //     yoyo: true,
+            //     repeat: -1,
+            // });
         });
 
         const bow = this.add.bow(
@@ -179,6 +186,49 @@ export default class Tutorial extends Phaser.Scene {
             undefined,
             this
         );
+
+        this.add
+            .image(
+                this.cameras.main.width - 40,
+                this.cameras.main.height - 60,
+                "Ariadne"
+            )
+            .setDepth(999);
+
+        let ariadneText = this.add.text(
+            this.cameras.main.width / 2 - 100,
+            this.cameras.main.height - 75,
+            ariadneTextOptions[currentIndex],
+            {
+                fontSize: "12px",
+                color: "#fff",
+                wordWrap: { width: 280, useAdvancedWrap: true },
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                padding: {
+                    x: 5,
+                    y: 5,
+                },
+            }
+        );
+
+        function changeAriadneText() {
+            console.log("Current index before change:", currentIndex);
+            currentIndex = (currentIndex + 1) % ariadneTextOptions.length;
+            console.log("Current index after change:", currentIndex);
+            ariadneText.setText(ariadneTextOptions[currentIndex]);
+        }
+
+        //console.log("nextButton:", this.nextButton);
+        nextButton.setInteractive();
+        console.log("Registering pointerdown event listener");
+        nextButton.on("pointerdown", changeAriadneText);
+
+        nextButton.on("pointerover", () => {
+            nextButton.setScale(1.5);
+        });
+        nextButton.on("pointerout", () => {
+            nextButton.setScale();
+        });
 
         this.input.keyboard?.on("keydown-ESC", () => {
             this.scene.pause();
