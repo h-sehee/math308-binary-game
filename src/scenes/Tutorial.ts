@@ -94,7 +94,7 @@ export default class Tutorial extends Phaser.Scene {
         //const maxWidth = 200; // Maximum width in pixels
         //const maxHeight = 50; // Maximum height in pixels
 
-        // Call the resize function to fit the text within the specified space
+        //Call the resize function to fit the text within the specified space
         //resizeTextToFit(ariadneText, maxWidth, maxHeight);
 
         this.time.delayedCall(1000, () => {
