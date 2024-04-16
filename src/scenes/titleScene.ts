@@ -12,9 +12,9 @@ export default class TitleScene extends Phaser.Scene {
     preload() {}
 
     create() {
-        let menuMusic = this.sound.add("menuMusic", { loop: false });
+        let menuMusic = this.sound.add("menuMusic", { loop: true });
         menuMusic.play();
-        menuMusic.setSeek(10);
+        // menuMusic.setSeek(10);
         this.add.image(640, 360, "titlescreen");
 
         this.clickButton = this.add
@@ -36,6 +36,7 @@ export default class TitleScene extends Phaser.Scene {
 
         this.input.keyboard?.once("keydown-ENTER", () => {
             this.scene.start("LoginScene");
+            // this.scene.start("LoginScene");
         });
     }
 

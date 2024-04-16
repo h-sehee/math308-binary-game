@@ -10,21 +10,14 @@ export default class Tutorial extends Phaser.Scene {
     private lvl4: boolean;
     private username: string;
     private lvl5: boolean;
-    private firstLsObjective: boolean;
-    private secondLsObjective: boolean;
-    private cdObjective: boolean;
-    private cdBackObjective: boolean;
-    private manObjective: boolean;
-    private rmObjective: boolean;
+    private firstLsObjective: boolean = false;
+    private secondLsObjective: boolean = false;
+    private cdObjective: boolean = false;
+    private cdBackObjective: boolean = false;
+    private manObjective: boolean = false;
+    private rmObjective: boolean = false;
+    private lastText: string[] = [""];
 
-    resetScene() {
-        this.firstLsObjective = false;
-        this.secondLsObjective = false;
-        this.cdObjective = false;
-        this.cdBackObjective = false;
-        this.manObjective = false;
-        this.rmObjective = false;
-    }
     constructor() {
         super({ key: "Tutorial" });
     }
@@ -97,16 +90,16 @@ export default class Tutorial extends Phaser.Scene {
 
         manMap.set(
             "ls",
-            "Alfred: The 'ls' command\nis useful for viewing your surroundings."
+            "\nAlfred: The 'ls' command is useful\nfor viewing your surroundings."
         );
         manMap.set("rm", "Alfred: The 'rm' command\nneutralizes enemy files.");
         manMap.set(
             "cd",
-            "Alfred: The 'cd' command\npermits you to navigate through rooms and items."
+            "\nAlfred: The 'cd' command\npermits you to navigate through rooms and items."
         );
         manMap.set(
             "alfred",
-            "Alfred: Try using the 'cd' command to traverse through\ndifferent areas. Then use 'rm' to remove critical files."
+            "\nAlfred: Try using the 'cd' command to traverse through\ndifferent areas. Then use 'rm' to remove critical files."
         );
 
         // Add text input field
@@ -136,30 +129,49 @@ export default class Tutorial extends Phaser.Scene {
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
                 const newText = this.inputField.value;
+                this.lastText.push(newText.trim());
                 if (newText.trim() !== "") {
                     if (newText.trim() == "ls") {
                         lsDing.play();
                         this.inputField.value = ""; // Empty the input field
-                        this.addTextToContainer("agent09: " + newText);
+                        this.addTextToContainer(
+                            this.username.toLowerCase().replace(/\s+/g, "_") +
+                                ": " +
+                                newText
+                        );
                         this.addTextToContainer(lsMap.get(state) as string);
-                        if (this.firstLsObjective && !this.secondLsObjective) {
+
+                        if (
+                            !this.cdObjective &&
+                            this.firstLsObjective &&
+                            !this.secondLsObjective
+                        ) {
+                            this.addTextToContainer(
+                                "\nAlfred: Try the 'cd headquarters' command first.\n"
+                            );
+                        } else if (
+                            this.firstLsObjective &&
+                            !this.secondLsObjective
+                        ) {
+                            this.secondLsObjective = true;
+
                             this.time.delayedCall(1500, () => {
                                 this.addTextToContainer(
                                     "\nAlfred: There is a door_lock.\n\nTry removing it with 'rm door_lock'.\n"
                                 );
                             });
-                            this.secondLsObjective = true;
                         } else if (
                             !this.firstLsObjective &&
                             !this.secondLsObjective
                         ) {
                             this.time.delayedCall(1500, () => {
+                                this.firstLsObjective = true;
+
                                 this.addTextToContainer(
                                     "\nAlfred: Good job, now you can see that Namuh's \nheadquarters is nearby.\n\nUse the 'cd headquarters' command to enter the directory.\n"
                                 );
                             });
                         }
-                        this.firstLsObjective = true;
                     } else if (newText.substring(0, 3) == "cd ") {
                         let cdInput: string = newText.substring(
                             3,
@@ -169,73 +181,159 @@ export default class Tutorial extends Phaser.Scene {
                         const backState = cdBack.get(state);
                         const cdState = cdMap.get(state);
                         if (backState !== undefined && cdInput == "..") {
-                            cdBackDing.play();
-
-                            state = backState;
-                            this.stateText.setText(state);
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
-                            if (!this.cdBackObjective) {
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
+                            if (!this.secondLsObjective) {
+                                ding.play();
+                                this.addTextToContainer(
+                                    "\nAlfred: Try the 'ls' command again.\n"
+                                );
+                            } else if (!this.rmObjective) {
+                                ding.play();
+                                this.addTextToContainer(
+                                    "\nAlfred: Try the 'rm door_lock' command before leaving.\n"
+                                );
+                            } else if (!this.cdBackObjective) {
+                                cdBackDing.play();
+
+                                this.cdBackObjective = true;
+
+                                state = backState;
+                                this.stateText.setText(state);
+
                                 this.time.delayedCall(1500, () => {
                                     this.addTextToContainer(
-                                        "\nAlfred: Great. Remember if you ever need assistance use 'man'.\nTry it now with 'man cd'.\n"
+                                        "\nAlfred: Great. Remember to use 'man' if you need assistance.\nTry it now with 'man ls'.\n"
                                     );
                                 });
                             }
-                            this.cdBackObjective = true;
                         }
                         // CD FUNCTIONALITY BELOW
                         else if (
                             cdState !== undefined &&
                             cdMap.get(state)?.includes(cdInput)
                         ) {
-                            cdDing.play();
-
-                            state = newText.substring(3);
-                            this.stateText.setText(state);
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
-                            if (!this.cdObjective) {
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
+
+                            if (!this.firstLsObjective) {
+                                ding.play();
+                                this.addTextToContainer(
+                                    "\nAlfred: Try the 'ls' command first.\n"
+                                );
+                            } else if (!this.cdObjective) {
+                                cdDing.play();
+
+                                state = newText.substring(3);
+                                this.stateText.setText(state);
+                                this.cdObjective = true;
                                 this.time.delayedCall(1500, () => {
                                     this.addTextToContainer(
                                         "\nAlfred: Great work. Your location has updated\nin the top right.\n\nNow view what's in the headquarters with the 'ls' command.\n"
                                     );
                                 });
                             }
-                            this.cdObjective = true;
                         }
                         // CD DIRECTORY NOT FOUND BELOW
                         else {
                             ding.play();
 
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
                             this.addTextToContainer("Directory not found");
                         }
                         // MAN INPUT BELOW
                     } else if (newText.substring(0, 4) == "man ") {
                         let manInput: string = newText.substring(4);
+                        this.inputField.value = ""; // Empty the input field
+
+                        this.addTextToContainer(
+                            this.username.toLowerCase().replace(/\s+/g, "_") +
+                                ": " +
+                                newText
+                        );
 
                         const manState = manMap.get(manInput);
                         if (manState !== undefined) {
-                            manDing.play();
-                            this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
-                            this.addTextToContainer(
-                                manMap.get(manInput) as string
-                            );
-                            this.time.delayedCall(1500, () => {
-                                this.addTextToContainer(
-                                    "\nAlfred: It seems you are ready to take on the mission.\n\nRemember that typing 'man alfred' will call me in for help.\n"
-                                );
-                            });
+                            if (!this.firstLsObjective) {
+                                ding.play();
 
-                            this.manObjective = true;
+                                this.addTextToContainer(
+                                    "\nAlfred: Try the 'ls' command first.\n"
+                                );
+                            } else if (!this.cdObjective) {
+                                ding.play();
+
+                                this.addTextToContainer(
+                                    "\nAlfred: Try the 'cd headquarters' command first.\n"
+                                );
+                            } else if (!this.secondLsObjective) {
+                                ding.play();
+
+                                this.addTextToContainer(
+                                    "\nAlfred: Try the 'ls' command again.\n"
+                                );
+                            } else if (!this.rmObjective) {
+                                ding.play();
+                                this.addTextToContainer(
+                                    "\nAlfred: Try the 'rm door_lock' command first.\n"
+                                );
+                            } else if (!this.cdBackObjective) {
+                                ding.play();
+                                this.addTextToContainer(
+                                    "\nAlfred: Try the 'cd ..' command first.\n"
+                                );
+                            } else if (manInput != "ls" && !this.manObjective) {
+                                ding.play();
+                                this.addTextToContainer(
+                                    "\nAlfred: Try the 'man ls' command first.\n"
+                                );
+                            } else if (!this.manObjective) {
+                                this.manObjective = true;
+
+                                manDing.play();
+
+                                this.addTextToContainer(
+                                    manMap.get(manInput) as string
+                                );
+
+                                this.time.delayedCall(2000, () => {
+                                    this.addTextToContainer(
+                                        "\nAlfred: It seems you are ready to take on the mission.\n\nRemember that typing 'man alfred' will call me in for help.\n"
+                                    );
+                                });
+                            } else {
+                                manDing.play();
+                            }
                         } else {
                             ding.play();
 
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
                             this.addTextToContainer(
                                 "Command '" + manInput + "' not found"
                             );
@@ -244,30 +342,52 @@ export default class Tutorial extends Phaser.Scene {
                         let rmInput: string = newText.substring(3);
                         if (rmMap.get(state)?.includes(rmInput)) {
                             let files = lsMap.get(state) || "";
-                            files = files
-                                .replace(rmInput, "")
-                                .trim()
-                                .replace(/\s{2,}/g, " "); // Remove the file and extra spaces
-                            lsMap.set(state, files);
-
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
                             this.addTextToContainer(
-                                "File '" + rmInput + "' removed successfully."
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
                             );
-                            if (!this.rmObjective) {
+
+                            if (!this.secondLsObjective) {
+                                ding.play();
+                                this.addTextToContainer(
+                                    "\nAlfred: Try the 'ls' command again.\n"
+                                );
+                            } else if (!this.rmObjective) {
+                                this.rmObjective = true;
+
+                                files = files
+                                    .replace(rmInput, "")
+                                    .trim()
+                                    .replace(/\s{2,}/g, " "); // Remove the file and extra spaces
+                                lsMap.set(state, files);
+
+                                this.addTextToContainer(
+                                    "File '" +
+                                        rmInput +
+                                        "' removed successfully."
+                                );
+
                                 this.time.delayedCall(1500, () => {
                                     this.addTextToContainer(
                                         "\nAlfred: Perfect. You've removed the lock on the door.\n\nTry leaving the area with 'cd ..'.\n"
                                     );
                                 });
                             }
-                            this.rmObjective = true;
                         } else {
                             ding.play();
 
                             this.inputField.value = ""; // Empty the input field
-                            this.addTextToContainer("agent09: " + newText);
+                            this.addTextToContainer(
+                                this.username
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "_") +
+                                    ": " +
+                                    newText
+                            );
                             this.addTextToContainer(
                                 "File '" +
                                     rmInput +
@@ -279,12 +399,20 @@ export default class Tutorial extends Phaser.Scene {
                     else {
                         ding.play();
                         this.inputField.value = ""; // Empty the input field
-                        this.addTextToContainer("agent09: " + newText);
+                        this.addTextToContainer(
+                            this.username.toLowerCase().replace(/\s+/g, "_") +
+                                ": " +
+                                newText
+                        );
                         this.addTextToContainer(
                             "Command '" + newText + "' not found"
                         );
                     }
                 }
+            }
+
+            if (event.key === "ArrowUp") {
+                this.inputField.value = this.lastText[this.lastText.length - 1];
             }
             if (
                 this.firstLsObjective &&
@@ -294,13 +422,13 @@ export default class Tutorial extends Phaser.Scene {
                 this.cdObjective &&
                 this.manObjective
             ) {
-                this.time.delayedCall(3000, () => {
+                this.time.delayedCall(6000, () => {
                     this.addTextToContainer(
                         "Objective complete: Passed basic training. \nGood work, " +
                             this.username +
                             "!"
                     );
-                    this.time.delayedCall(3000, this.loadLevel, [], this);
+                    this.time.delayedCall(2000, this.loadLevel, [], this);
                 });
             }
         });
