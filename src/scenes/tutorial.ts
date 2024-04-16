@@ -16,6 +16,7 @@ export default class Tutorial extends Phaser.Scene {
     private cdBackObjective: boolean = false;
     private manObjective: boolean = false;
     private rmObjective: boolean = false;
+    private lastText: string[] = [""];
 
     constructor() {
         super({ key: "Tutorial" });
@@ -127,6 +128,7 @@ export default class Tutorial extends Phaser.Scene {
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
                 const newText = this.inputField.value;
+                this.lastText.push(newText.trim());
                 if (newText.trim() !== "") {
                     if (newText.trim() == "ls") {
                         lsDing.play();
@@ -406,6 +408,10 @@ export default class Tutorial extends Phaser.Scene {
                         );
                     }
                 }
+            }
+
+            if (event.key === "ArrowUp") {
+                this.inputField.value = this.lastText[this.lastText.length - 1];
             }
             if (
                 this.firstLsObjective &&

@@ -11,6 +11,7 @@ export default class Level1Scene extends Phaser.Scene {
     private username: string;
     private lvl5: boolean;
     private objectiveCompleted: boolean = false;
+    private lastText: string[] = [""];
 
     constructor() {
         super({ key: "Level01" });
@@ -138,6 +139,8 @@ export default class Level1Scene extends Phaser.Scene {
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
                 const newText = this.inputField.value;
+                this.lastText.push(newText.trim());
+
                 if (newText.trim() !== "") {
                     if (newText.trim() == "ls") {
                         lsDing.play();
@@ -312,6 +315,10 @@ export default class Level1Scene extends Phaser.Scene {
                         );
                     }
                 }
+            }
+
+            if (event.key === "ArrowUp") {
+                this.inputField.value = this.lastText[this.lastText.length - 1];
             }
         });
 
