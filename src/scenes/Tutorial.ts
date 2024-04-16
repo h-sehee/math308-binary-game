@@ -14,7 +14,6 @@ export default class Tutorial extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private theseus?: Theseus;
     private doorOpened: Phaser.Tilemaps.TilemapLayer;
-    //private nextButton: Phaser.GameObjects.Image;
 
     constructor() {
         super({ key: "tutorial" });
@@ -78,7 +77,6 @@ export default class Tutorial extends Phaser.Scene {
         this.physics.add.collider(this.theseus, wallsLayer);
         this.physics.add.collider(this.theseus, doorLayer);
 
-        console.log("Before nextButton creation");
         const nextButton = this.add
             .image(
                 this.cameras.main.width - 80,
@@ -86,9 +84,7 @@ export default class Tutorial extends Phaser.Scene {
                 "ArrowButton"
             )
             .setDepth(1000);
-        //console.log("nextButton after creation:", this.nextButton);
 
-        //let ariadneText;
         let currentIndex = 0;
 
         //Make a list of text options for Ariadne.
@@ -99,18 +95,8 @@ export default class Tutorial extends Phaser.Scene {
         ];
 
         this.scene.run("maze-map");
-        //Function to change the text index.
 
-        //let ariadneText: string = "";
-        //const maxWidth = 200; // Maximum width in pixels
-        //const maxHeight = 50; // Maximum height in pixels
-
-        //Call the resize function to fit the text within the specified space
-        //resizeTextToFit(ariadneText, maxWidth, maxHeight);
-        console.log("right before delayed call");
         this.time.delayedCall(1000, () => {
-            console.log("Delayed call is running");
-            //console.log("delayed call happened for MazeMap");
             doorLayer.setCollisionByProperty({ collides: true }, false);
             doorLayer.setVisible(false);
             this.scene.run("game-ui", {
@@ -149,15 +135,6 @@ export default class Tutorial extends Phaser.Scene {
             //     )
             //     .setDepth(1000);
             // console.log("nextButton after creation:", this.nextButton);
-
-            // this.tweens.add({
-            //     targets: this.nextButton,
-            //     scaleX: 1.1,
-            //     scaleY: 1.1,
-            //     duration: 500,
-            //     yoyo: true,
-            //     repeat: -1,
-            // });
         });
 
         const bow = this.add.bow(
@@ -212,15 +189,12 @@ export default class Tutorial extends Phaser.Scene {
         );
 
         function changeAriadneText() {
-            console.log("Current index before change:", currentIndex);
             currentIndex = (currentIndex + 1) % ariadneTextOptions.length;
-            console.log("Current index after change:", currentIndex);
             ariadneText.setText(ariadneTextOptions[currentIndex]);
         }
 
-        //console.log("nextButton:", this.nextButton);
         nextButton.setInteractive();
-        console.log("Registering pointerdown event listener");
+
         nextButton.on("pointerdown", changeAriadneText);
 
         nextButton.on("pointerover", () => {
