@@ -10,13 +10,21 @@ export default class Tutorial extends Phaser.Scene {
     private lvl4: boolean;
     private username: string;
     private lvl5: boolean;
-    private firstLsObjective: boolean = false;
-    private secondLsObjective: boolean = false;
-    private cdObjective: boolean = false;
-    private cdBackObjective: boolean = false;
-    private manObjective: boolean = false;
-    private rmObjective: boolean = false;
+    private firstLsObjective: boolean;
+    private secondLsObjective: boolean;
+    private cdObjective: boolean;
+    private cdBackObjective: boolean;
+    private manObjective: boolean;
+    private rmObjective: boolean;
 
+    resetScene() {
+        this.firstLsObjective = false;
+        this.secondLsObjective = false;
+        this.cdObjective = false;
+        this.cdBackObjective = false;
+        this.manObjective = false;
+        this.rmObjective = false;
+    }
     constructor() {
         super({ key: "Tutorial" });
     }
@@ -43,6 +51,7 @@ export default class Tutorial extends Phaser.Scene {
     preload() {}
 
     create() {
+        this.resetScene();
         this.add.rectangle(640, 360, 1280, 720, 0x000);
 
         // this.add.image(640, 100, "prompt").setDisplaySize(560, 110);
