@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import LevelClass from "../Classes/LevelClass";
 import { Player } from "../objects/player";
+import { Platform, createPlatforms } from "../components/platform";
 
 export default class TestScene extends LevelClass {
     private player: Player;
@@ -32,23 +33,14 @@ export default class TestScene extends LevelClass {
         this.physics.world.createDebugGraphic();
 
         this.platforms = this.physics.add.staticGroup();
-        const ground = this.platforms.create(
-            640,
-            720,
-            "brown_plat_1"
-        ) as Phaser.Physics.Arcade.Sprite;
 
-        //setting the size of the groud (1, 2, 3)
-        ground.setScale(40, 2).refreshBody();
-
-        //platform 1
-        this.platforms.create(230, 550, "brown_plat_1");
-        //platform 2
-        this.platforms.create(600, 550, "brown_plat_1");
-        //platform 3
-        this.platforms.create(970, 550, "brown_plat_1");
-
-        this.physics.add.collider(this.player, this.platforms);
+        const platforms: Platform[] = [
+            { x: 230, y: 550, texture: "brown_plat_1" },
+            { x: 600, y: 550, texture: "brown_plat_1" },
+            { x: 970, y: 550, texture: "brown_plat_1" },
+            { x: 640, y: 720, texture: "brown_plat_1", scale: { x: 40, y: 2 } }, // Ground
+        ];
+        createPlatforms(this, platforms, this.platforms, [this.player]);
     }
     preload() {
         this.load.spritesheet("cat", "assets/Art/cat_1.png", {
