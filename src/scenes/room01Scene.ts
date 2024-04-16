@@ -4,8 +4,10 @@ import { CONFIG } from "../config";
 import { CharacterMovement } from "../util/playerMovement";
 import Chort from "../objects/chort";
 import { gameState } from "../objects/gameState";
+import ConsoleScene from "./consoleScene";
 import { Bullet } from "../objects/bullet";
 import { shootBullets } from "../util/shootBullets";
+
 
 class room01Scene extends Phaser.Scene {
     private gameState: gameState;
@@ -142,7 +144,9 @@ class room01Scene extends Phaser.Scene {
     private switchScene() {
         console.log("it worked");
         this.scene.setVisible(true, "ConsoleScene");
+        const consoleScene = this.scene.get("ConsoleScene") as ConsoleScene;
         this.scene.bringToTop("ConsoleScene");
+        consoleScene.makeVisible();
         this.scene.run("ConsoleScene", {
             gameState: this.gameState,
         });
