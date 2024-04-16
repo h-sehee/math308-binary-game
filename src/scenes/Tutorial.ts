@@ -285,6 +285,9 @@ export default class Tutorial extends Phaser.Scene {
             this.theseus.y,
             true
         );
+        //if (this.cursors?.space.isDown && tile.index != -1) {
+        //this.scene.start("maze-map")
+
         if (this.cursors?.space.isDown && tile.index != -1) {
             this.scene.start("mainScene", {
                 hp: this.theseus.health,
