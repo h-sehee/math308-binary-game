@@ -9,12 +9,13 @@ import Tutorial from "./scenes/Tutorial";
 import Pause from "./scenes/Pause";
 import MazeMap from "./scenes/MazeMap";
 import WeaponDesign from "./scenes/WeaponDesign";
+import MinotaurRoom from "./scenes/MinotaurRoom";
 
 const DEFAULT_WIDTH = 512;
 const DEFAULT_HEIGHT = 384;
 
 export const CONFIG = {
-    title: "My Untitled Phaser 3 Game",
+    title: "Infamia di Creti",
     version: "0.0.1",
     type: Phaser.AUTO,
     backgroundColor: "#ffffff",
@@ -30,12 +31,13 @@ export const CONFIG = {
         TitleScene,
         Tutorial,
         MainScene,
+        Room2,
+        MinotaurRoom,
         GameUI,
-        GameOver,
-        Pause,
         MazeMap,
         WeaponDesign,
-        Room2,
+        Pause,
+        GameOver,
     ],
     physics: {
         default: "arcade",

@@ -222,12 +222,21 @@ export default class MainScene extends Phaser.Scene {
             true
         );
         if (this.cursors?.space.isDown && tile.index != -1) {
-            this.scene.start("mainScene", {
-                hp: this.theseus.health,
-                threads: this.threads - 1,
-                weaponType: this.theseus.weaponType,
-                itemList: this.itemList,
-            });
+            if (this.threads > 1) {
+                this.scene.start("mainScene", {
+                    hp: this.theseus.health,
+                    threads: this.threads - 1,
+                    weaponType: this.theseus.weaponType,
+                    itemList: this.itemList,
+                });
+            } else {
+                this.scene.start("minotaur", {
+                    hp: this.theseus.health,
+                    threads: this.threads - 1,
+                    weaponType: this.theseus.weaponType,
+                    itemList: this.itemList,
+                });
+            }
         }
     }
 
@@ -308,7 +317,7 @@ export default class MainScene extends Phaser.Scene {
     private handleEnemyDropItem(dropX: number, dropY: number) {
         const ranNum = Math.random() * 100;
 
-        if (ranNum <= 20) {
+        if (ranNum <= 40) {
             const randomWeight = Math.random() * 100;
             let accumulatedWeight = 0;
             let itemIdx = 0;

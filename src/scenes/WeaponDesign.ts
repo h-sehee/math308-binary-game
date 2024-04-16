@@ -1,13 +1,16 @@
 import Phaser from "phaser";
+// import { sceneEvents } from "../events/eventsCenter";
 
 export default class WeaponDesign extends Phaser.Scene {
     private fileList = ["Main", "Theseus", "Sword", "Bow"];
     private current = this.fileList[0];
+
     private theseusFile: Phaser.GameObjects.Group;
     private mainFile: Phaser.GameObjects.Group;
     private swordFile: Phaser.GameObjects.Group;
     private bowFile: Phaser.GameObjects.Group;
     private codeList: Phaser.GameObjects.Group;
+    private upgradeList: Phaser.GameObjects.Group;
     private previous: string;
     private itemList: string[];
 
@@ -141,8 +144,56 @@ export default class WeaponDesign extends Phaser.Scene {
             .setOrigin(0.5)
             .setDepth(1000);
 
+        const theseusConstructor = this.add
+            .text(
+                this.cameras.main.width * 0.1 + 82,
+                168,
+                "public Theseus() {\n" +
+                    "\t\t\t\tthis.speed = \n" +
+                    "\t\t\t\tthis.sword = new Sword() ; \n" +
+                    "\t\t\t\tthis.bow = new Bow() ;\n}",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+
+        const theseusGetterSetter = this.add
+            .text(
+                this.cameras.main.width * 0.3 + 59,
+                265,
+                "public double getSpeed() { return this.speed ; }\n" +
+                    "public double getSword() { return this.sword ; }\n" +
+                    "public double getBow() { return this.bow ; }\n" +
+                    "public void setSpeed(double speed) { this.speed = speed ; }\n",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+        const theseusClose = this.add
+            .text(this.cameras.main.width * 0.05 + 10, 305, "}", {
+                fontSize: "12px",
+                fontFamily: "Academy Engraved LET",
+                strokeThickness: 3,
+                stroke: "0xffffff",
+            })
+            .setOrigin(0.5)
+            .setDepth(1000);
+
         this.theseusFile.add(theseusTitle);
         this.theseusFile.add(theseusBody);
+        this.theseusFile.add(theseusConstructor);
+        this.theseusFile.add(theseusGetterSetter);
+        this.theseusFile.add(theseusClose);
 
         //Text group of main.java
         this.mainFile = this.add.group();
@@ -203,8 +254,74 @@ export default class WeaponDesign extends Phaser.Scene {
             )
             .setOrigin(0.5)
             .setDepth(1000);
+        const swordConstructor = this.add
+            .text(
+                this.cameras.main.width * 0.1 + 63,
+                168,
+                "public Sword() {\n" +
+                    "\t\t\t\tthis.damage = 5 ;\n" +
+                    "\t\t\t\tthis.speed = 2 ; \n" +
+                    '\t\t\t\tthis.type =  "classic";\n}',
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+
+        const swordGetterSetter = this.add
+            .text(
+                this.cameras.main.width * 0.3 + 38,
+                265,
+                "public double getDamage() { return this.damage ; }\n" +
+                    "public double getSpeed() { return this.speed ; }\n" +
+                    "public double getType() { return this.type ; }\n" +
+                    "public void setType(string type) { this.type = type ; }\n",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+
+        const swordMethods = this.add
+            .text(
+                this.cameras.main.width * 0.3 + 25,
+                320,
+                "public void incDamage() { this.damage += 2 ; }\n" +
+                    "public void incSpeed() { this.speed += 1 ; }",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+
+        const swordClose = this.add
+            .text(this.cameras.main.width * 0.05 + 10, 347, "}", {
+                fontSize: "12px",
+                fontFamily: "Academy Engraved LET",
+                strokeThickness: 3,
+                stroke: "0xffffff",
+            })
+            .setOrigin(0.5)
+            .setDepth(1000);
+
         this.swordFile.add(swordTitle);
         this.swordFile.add(swordBody);
+        this.swordFile.add(swordConstructor);
+        this.swordFile.add(swordGetterSetter);
+        this.swordFile.add(swordMethods);
+        this.swordFile.add(swordClose);
 
         //Text group of Theseus.java
         this.bowFile = this.add.group();
@@ -235,9 +352,73 @@ export default class WeaponDesign extends Phaser.Scene {
             )
             .setOrigin(0.5)
             .setDepth(1000);
+        const bowConstructor = this.add
+            .text(
+                this.cameras.main.width * 0.1 + 63,
+                168,
+                "public Bow() {\n" +
+                    "\t\t\t\tthis.damage = 3 ;\n" +
+                    "\t\t\t\tthis.speed = 3 ; \n" +
+                    '\t\t\t\tthis.type =  "classic";\n}',
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+
+        const bowGetterSetter = this.add
+            .text(
+                this.cameras.main.width * 0.3 + 38,
+                265,
+                "public double getDamage() { return this.damage ; }\n" +
+                    "public double getSpeed() { return this.speed ; }\n" +
+                    "public double getType() { return this.type ; }\n" +
+                    "public void setType(string type) { this.type = type ; }\n",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+        const bowMethods = this.add
+            .text(
+                this.cameras.main.width * 0.3 + 25,
+                320,
+                "public void incDamage() { this.damage += 1 ; }\n" +
+                    "public void incSpeed() { this.speed += 1 ; }",
+                {
+                    fontSize: "12px",
+                    fontFamily: "Academy Engraved LET",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(1000);
+
+        const bowClose = this.add
+            .text(this.cameras.main.width * 0.05 + 10, 347, "}", {
+                fontSize: "12px",
+                fontFamily: "Academy Engraved LET",
+                strokeThickness: 3,
+                stroke: "0xffffff",
+            })
+            .setOrigin(0.5)
+            .setDepth(1000);
 
         this.bowFile.add(bowTitle);
         this.bowFile.add(bowBody);
+        this.bowFile.add(bowConstructor);
+        this.bowFile.add(bowGetterSetter);
+        this.bowFile.add(bowMethods);
+        this.bowFile.add(bowClose);
 
         // Displaying main file by default
         this.theseusFile.setVisible(false);
@@ -253,29 +434,10 @@ export default class WeaponDesign extends Phaser.Scene {
             itemName: string,
             itemImg: string
         ) => {
-            // const itemContainer = this.add.container(x, y).setDepth(1000);
-
-            // const itemImage = this.add.image(0, 5, itemImg);
-            // itemImage.setScale(1.5);
-
-            // const itemText = this.add.text(itemImage.width + 50, 5, itemName, {
-            //     color: "#000000",
-            // });
-            // itemImage.setOrigin(0.5);
-            // itemText.setOrigin(0.5);
-
-            // itemContainer.add([itemImage, itemText]);
-            // itemContainer.setSize(
-            //     itemImage.width * 1.5 + itemText.width,
-            //     Math.max(itemImage.height * 1.5, itemText.height)
-            // );
-
-            // this.codeList.add(itemContainer);
-
             const itemImage = this.add
                 .image(x, y, itemImg)
                 .setOrigin(0.5)
-                .setDepth(1000)
+                .setDepth(2000)
                 .setScale(1.5);
 
             this.codeList.add(itemImage);
@@ -293,6 +455,20 @@ export default class WeaponDesign extends Phaser.Scene {
                 ) => {
                     gameObject.x = dragX;
                     gameObject.y = dragY;
+                }
+            );
+
+            this.input.on(
+                "dragend",
+                (
+                    pointer: Phaser.Input.Pointer,
+                    gameObject: Phaser.GameObjects.Image,
+                    dropped: boolean
+                ) => {
+                    if (!dropped || this.current !== "Main") {
+                        gameObject.x = x;
+                        gameObject.y = y;
+                    }
                 }
             );
         };
@@ -337,6 +513,204 @@ export default class WeaponDesign extends Phaser.Scene {
             }
         }
 
+        // box where the item will be dropped
+        this.upgradeList = this.add.group({
+            classType: Phaser.GameObjects.Graphics,
+        });
+
+        let boxX = this.cameras.main.width * 0.1 - 5;
+        let boxY = this.cameras.main.height * 0.25;
+
+        for (let i = 0; i < 6; i++) {
+            // boxY += this.cameras.main.height * 0.08 + 11;
+            this.upgradeList.get(boxX, boxY, "item-box");
+        }
+
+        this.upgradeList.children.iterate((c) => {
+            const boxWidth = this.cameras.main.width * 0.7 + 10;
+            const boxHeight = this.cameras.main.height * 0.08;
+
+            const box = c as Phaser.GameObjects.Graphics;
+
+            const zone = this.add
+                .zone(
+                    boxX + boxWidth / 2,
+                    boxY + boxHeight / 2,
+                    boxWidth,
+                    boxHeight
+                )
+                .setRectangleDropZone(boxWidth, boxHeight)
+                .setDepth(1700)
+                .setOrigin(0.5);
+
+            box.fillStyle(0xffffff, 1);
+            box.fillRect(boxX, boxY, boxWidth, boxHeight);
+            box.lineStyle(2, 0x000000);
+            box.strokeRect(boxX, boxY, boxWidth, boxHeight);
+            box.setDepth(1500);
+
+            boxY += boxHeight + 11;
+
+            this.input.on(
+                "dragenter",
+                (
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    pointer: Phaser.Input.Pointer,
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    gameObject: Phaser.GameObjects.Image,
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    dropZone: Phaser.GameObjects.Graphics
+                ) => {
+                    if (this.current === "Main") {
+                        box.fillStyle(0x808080, 1);
+                        box.fillRect(boxX, boxY, boxWidth, boxHeight);
+                        box.lineStyle(2, 0x00ffff);
+                        // box.strokeRect(boxX, boxY, boxWidth, boxHeight);
+                        box.strokeRect(
+                            zone.x - zone.input?.hitArea.width / 2,
+                            zone.y - zone.input?.hitArea.height / 2,
+                            zone.input?.hitArea.width,
+                            zone.input?.hitArea.height
+                        );
+                    }
+                }
+            );
+
+            this.input.on(
+                "dragleave",
+                (
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    pointer: Phaser.Input.Pointer,
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    gameObject: Phaser.GameObjects.Image,
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    dropZone: Phaser.GameObjects.Graphics
+                ) => {
+                    if (this.current === "Main") {
+                        box.fillStyle(0xffffff, 1);
+                        box.fillRect(boxX, boxY, boxWidth, boxHeight);
+                        box.lineStyle(2, 0x000000);
+                        // box.strokeRect(boxX, boxY, boxWidth, boxHeight);
+                        box.strokeRect(
+                            zone.x - zone.input?.hitArea.width / 2,
+                            zone.y - zone.input?.hitArea.height / 2,
+                            zone.input?.hitArea.width,
+                            zone.input?.hitArea.height
+                        );
+                    }
+                }
+            );
+
+            this.input.on(
+                "drop",
+                (
+                    pointer: Phaser.Input.Pointer,
+                    gameObject: Phaser.GameObjects.Image,
+                    dropZone: Phaser.GameObjects.Zone
+                ) => {
+                    if (this.current === "Main") {
+                        gameObject.x = dropZone.x;
+                        gameObject.y = dropZone.y;
+
+                        gameObject.setVisible(false);
+                    }
+                }
+            );
+            return true;
+        });
+
+        /*
+        for (let i = 0; i < 6; i++) {
+            const boxWidth = this.cameras.main.width * 0.7 + 10;
+            const boxHeight = this.cameras.main.height * 0.08;
+
+            const zone = this.add
+                .zone(
+                    boxX + boxWidth / 2,
+                    boxY + boxHeight / 2,
+                    boxWidth,
+                    boxHeight
+                )
+                .setRectangleDropZone(boxWidth, boxHeight)
+                .setDepth(1700)
+                .setOrigin(0.5);
+
+            const box = this.add.graphics().setDepth(1500);
+
+            box.fillStyle(0xffffff, 1);
+            box.fillRect(boxX, boxY, boxWidth, boxHeight);
+            box.lineStyle(2, 0x000000);
+            box.strokeRect(boxX, boxY, boxWidth, boxHeight);
+            // box.strokeRect(
+            //     zone.x - zone.input?.hitArea.width / 2,
+            //     zone.y - zone.input?.hitArea.height / 2,
+            //     zone.input?.hitArea.width,
+            //     zone.input?.hitArea.height
+            // );
+
+            this.input.on(
+                "dragenter",
+                (
+                    pointer: Phaser.Input.Pointer,
+                    gameObject: Phaser.GameObjects.Image,
+                    dropZone: Phaser.GameObjects.Graphics
+                ) => {
+                    box.fillStyle(0x808080, 1);
+                    box.fillRect(boxX, boxY, boxWidth, boxHeight);
+                    box.lineStyle(2, 0x00ffff);
+                    // box.strokeRect(boxX, boxY, boxWidth, boxHeight);
+                    box.strokeRect(
+                        zone.x - zone.input?.hitArea.width / 2,
+                        zone.y - zone.input?.hitArea.height / 2,
+                        zone.input?.hitArea.width,
+                        zone.input?.hitArea.height
+                    );
+                }
+            );
+
+            this.input.on(
+                "dragleave",
+                (
+                    pointer: Phaser.Input.Pointer,
+                    gameObject: Phaser.GameObjects.Image,
+                    dropZone: Phaser.GameObjects.Graphics
+                ) => {
+                    box.fillStyle(0xffffff, 1);
+                    box.fillRect(boxX, boxY, boxWidth, boxHeight);
+                    box.lineStyle(2, 0x000000);
+                    // box.strokeRect(boxX, boxY, boxWidth, boxHeight);
+                    box.strokeRect(
+                        zone.x - zone.input?.hitArea.width / 2,
+                        zone.y - zone.input?.hitArea.height / 2,
+                        zone.input?.hitArea.width,
+                        zone.input?.hitArea.height
+                    );
+                }
+            );
+
+            this.input.on(
+                "drop",
+                (
+                    pointer: Phaser.Input.Pointer,
+                    gameObject: Phaser.GameObjects.Image,
+                    dropZone: Phaser.GameObjects.Zone
+                ) => {
+                    gameObject.x = dropZone.x;
+                    gameObject.y = dropZone.y;
+
+                    gameObject.setVisible(false);
+                }
+            );
+
+            // box.setInteractive(
+            //     new Phaser.Geom.Rectangle(boxX, boxY, boxWidth, boxHeight),
+            //     Phaser.Geom.Rectangle.Contains
+            // );
+
+            boxY += boxHeight + 11;
+        }
+        */
+
         // Close button that will return to the game screen
         const close = this.add
             .text(this.cameras.main.width - 20, 20, "X", {
@@ -372,21 +746,25 @@ export default class WeaponDesign extends Phaser.Scene {
             this.theseusFile.setVisible(false);
             this.swordFile.setVisible(false);
             this.bowFile.setVisible(false);
+            this.upgradeList.setVisible(true);
         } else if (this.current === "Theseus") {
             this.mainFile.setVisible(false);
             this.theseusFile.setVisible(true);
             this.swordFile.setVisible(false);
             this.bowFile.setVisible(false);
+            this.upgradeList.setVisible(false);
         } else if (this.current === "Sword") {
             this.mainFile.setVisible(false);
             this.theseusFile.setVisible(false);
             this.swordFile.setVisible(true);
             this.bowFile.setVisible(false);
+            this.upgradeList.setVisible(false);
         } else if (this.current === "Bow") {
             this.mainFile.setVisible(false);
             this.theseusFile.setVisible(false);
             this.swordFile.setVisible(false);
             this.bowFile.setVisible(true);
+            this.upgradeList.setVisible(false);
         }
     }
 }
