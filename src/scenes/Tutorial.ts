@@ -20,7 +20,6 @@ export default class Tutorial extends Phaser.Scene {
     }
 
     create() {
-        console.log("tutorial scene starts");
         createTheseusAnims(this.anims);
         createWeaponsAnims(this.anims);
 
@@ -94,7 +93,7 @@ export default class Tutorial extends Phaser.Scene {
             "If you were able to make it to the center of the maze and defeat the minotaur, you would be the hero of Crete!",
         ];
 
-        this.scene.run("maze-map");
+        //this.scene.run("maze-map");
 
         this.time.delayedCall(1000, () => {
             doorLayer.setCollisionByProperty({ collides: true }, false);
@@ -215,6 +214,11 @@ export default class Tutorial extends Phaser.Scene {
                 from: "tutorial",
                 itemList: [],
             });
+        });
+
+        this.input.keyboard?.on("keydown-M", () => {
+            this.scene.pause();
+            this.scene.run("maze-map", { currentScene: "tutorial" });
         });
 
         this.add
