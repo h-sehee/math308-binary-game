@@ -3,7 +3,7 @@ import Player from "../objects/player";
 
 import { CONFIG } from "../config";
 import { CharacterMovement } from "../util/playerMovement";
-// import { ChortMovement } from "../util/chortMovement";
+import { shootBullets } from "../util/shootBullets";
 
 import { gameState } from "../objects/gameState";
 import Chort from "../objects/chort";
@@ -14,7 +14,6 @@ class LobbyScene extends Phaser.Scene {
     private characterMovement: CharacterMovement;
     private chorts?: Phaser.Physics.Arcade.Group;
     private bullets?: Phaser.Physics.Arcade.Group; // Group to store bullets
-    private shootingInProgress: boolean = false;
 
     constructor() {
         super({ key: "LobbyScene" });
@@ -90,6 +89,7 @@ class LobbyScene extends Phaser.Scene {
 
             //enemies
             this.chorts = this.physics.add.group({
+                //group to store multiple chorts
                 classType: Chort,
                 createCallback: (go) => {
                     const chortGo = go as Chort;
@@ -98,30 +98,140 @@ class LobbyScene extends Phaser.Scene {
                     }
                 },
             });
+            this.chorts.get(600, 50, "chort"); //spawns a chort
             this.chorts.get(600, 50, "chort");
+            this.events.on("player-moved", (x: number, y: number) => {
+                //on player movement, the chorts target x and y change
+                if (this.chorts)
+                    this.chorts.children.iterate(
+                        (c: Phaser.GameObjects.GameObject) => {
+                            const child = c as Chort;
+                            child.setTargetPosition(x, y);
+                            return true;
+                        }
+                    );
+            });
 
             //bullets group
             this.bullets = this.physics.add.group({
                 classType: Bullet,
-                key: "bullet",
-                maxSize: 100,
+                key: "bullet_blue",
+                maxSize: 0,
                 runChildUpdate: true,
             });
+            this.bullets.maxSize = 100; //need to declare maxsize outside the group scope so it doesnt spawn an initial bullet in the top left
 
             //declaring colliders
             if (walls) {
                 this.physics.add.collider(this.player, walls);
                 this.physics.add.collider(this.chorts, walls);
+                this.physics.add.collider(
+                    //player bullets
+                    this.bullets,
+                    walls,
+                    (object1, object2) => {
+                        //need this setup for collisions on groups for some reason
+                        if (object1 instanceof Bullet) {
+                            object1.destroy(); // Destroy the bullet when it hits the walls
+                        } else if (object2 instanceof Bullet) {
+                            object2.destroy(); // Destroy the bullet when it hits the walls
+                        }
+                    }
+                );
+                this.chorts.children.iterate(
+                    //chort bullets
+                    (chort: Phaser.GameObjects.GameObject) => {
+                        //iterates through our chort group
+                        const currentChort = chort as Chort;
+
+                        this.physics.add.collider(
+                            //for each it adds a collider
+                            currentChort.fireballs, //fireball group stored in each chort instance
+                            walls,
+                            (object1, object2) => {
+                                if (object1 instanceof Bullet) {
+                                    object1.destroy(); // Destroy the bullet when it hits the walls
+                                } else if (object2 instanceof Bullet) {
+                                    object2.destroy(); // Destroy the bullet when it hits the walls
+                                }
+                            }
+                        );
+                        return true;
+                    }
+                );
             }
             if (structs) {
                 this.physics.add.collider(this.player, structs);
                 this.physics.add.collider(this.chorts, structs);
+                this.physics.add.collider(
+                    this.bullets,
+                    structs,
+                    (object1, object2) => {
+                        //player bullets
+                        if (object1 instanceof Bullet) {
+                            object1.destroy();
+                        } else if (object2 instanceof Bullet) {
+                            object2.destroy();
+                        }
+                    }
+                );
+                this.chorts.children.iterate(
+                    //chort bullets
+                    (chort: Phaser.GameObjects.GameObject) => {
+                        const currentChort = chort as Chort;
+
+                        this.physics.add.collider(
+                            currentChort.fireballs,
+                            structs,
+                            (object1, object2) => {
+                                if (object1 instanceof Bullet) {
+                                    object1.destroy();
+                                } else if (object2 instanceof Bullet) {
+                                    object2.destroy();
+                                }
+                            }
+                        );
+                        return true;
+                    }
+                );
             }
             if (decor) {
                 this.physics.add.collider(this.player, decor);
                 this.physics.add.collider(this.chorts, decor);
+                this.physics.add.collider(
+                    //player bullets
+                    this.bullets,
+                    decor,
+                    (object1, object2) => {
+                        if (object1 instanceof Bullet) {
+                            object1.destroy();
+                        } else if (object2 instanceof Bullet) {
+                            object2.destroy();
+                        }
+                    }
+                );
+                this.chorts.children.iterate(
+                    //chort bullets
+                    (chort: Phaser.GameObjects.GameObject) => {
+                        const currentChort = chort as Chort;
+
+                        this.physics.add.collider(
+                            currentChort.fireballs,
+                            decor,
+                            (object1, object2) => {
+                                if (object1 instanceof Bullet) {
+                                    object1.destroy();
+                                } else if (object2 instanceof Bullet) {
+                                    object2.destroy();
+                                }
+                            }
+                        );
+                        return true;
+                    }
+                );
             }
             if (floor) {
+                this.physics.add.collider(this.chorts, floor);
                 this.physics.add.collider(this.player, floor, () => {
                     // Transition to room01Scene.ts when collision occurs
                     initialGameState.curRoom = "room01Scene";
@@ -141,39 +251,6 @@ class LobbyScene extends Phaser.Scene {
             );
         }
     }
-    private shootBullet(numShots: number, shotDelay: number) {
-        if (this.shootingInProgress) {
-            return;
-        }
-        this.shootingInProgress = true;
-        let shotsFired = 0;
-
-        for (let i = 0; i < numShots; i++) {
-            // Calculate the delay for this shot
-            const delay = i * shotDelay;
-
-            // Use setTimeout to delay each shot
-            setTimeout(() => {
-                const worldPosition = this.input.activePointer.positionToCamera(
-                    this.cameras.main
-                ) as Phaser.Math.Vector2;
-
-                // Try to get an existing bullet instance
-                let bullet = this.bullets!.get(
-                    this.player!.x,
-                    this.player!.y
-                ) as Bullet;
-
-                // Fire the bullet towards the target
-                bullet.fire(worldPosition.x, worldPosition.y);
-                shotsFired++;
-
-                if (shotsFired === numShots) {
-                    this.shootingInProgress = false;
-                }
-            }, delay);
-        }
-    }
 
     update() {
         // Check for keyboard input and move the player accordingly
@@ -181,7 +258,14 @@ class LobbyScene extends Phaser.Scene {
 
         if (this.input.activePointer.isDown) {
             // Shoot a bullet from the player towards the mouse cursor
-            this.shootBullet(6, 500);
+            shootBullets(
+                this,
+                this.bullets!,
+                this.player!,
+                6, //shots per round
+                500, //milliseconds between shots
+                "bullet_blue" //image texture for bullet
+            );
         }
 
         if (keyboard) {
@@ -227,6 +311,7 @@ class LobbyScene extends Phaser.Scene {
                     this.characterMovement.stopX(); // Stop horizontal movement if no left/right keys are pressed
                 }
             }
+            this.events.emit("player-moved", this.player!.x, this.player!.y); //emits the player movement event for enemies to track player
         }
     }
 }
