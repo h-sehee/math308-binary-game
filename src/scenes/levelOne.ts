@@ -308,7 +308,7 @@ export default class levelOne extends Phaser.Scene {
         if (this.numBaddies == 0) {
             this.checkpoint.create(
                 4000,
-                1250,
+                1400,
                 "checkpoint"
             ) as Phaser.Physics.Arcade.Sprite;
         }
