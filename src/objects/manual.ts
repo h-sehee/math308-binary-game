@@ -43,7 +43,7 @@ export default class Manual extends Phaser.GameObjects.Sprite {
         // Create a container for manual text right under the book
         this.manualContainer = this.scene.add.container(x, y + 100);
         let background = this.scene.add
-            .rectangle(30, 170, 200, 400, 0xaaaaaa) // Same larger size and grey background
+            .rectangle(30, 100, 200, 400, 0xaaaaaa) // Same larger size and grey background
             .setStrokeStyle(2, 0xffff00); // Yellow border
         this.manualContainer.add(background);
         let textObject = this.scene.add.text(-190, -140, this.manualText, {
