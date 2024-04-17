@@ -45,6 +45,41 @@ export default class Level03 extends Phaser.Scene {
         this.add.image(155, 100, "alfredicon").setDisplaySize(130, 130);
         this.add.image(1050, 100, "pin").setDisplaySize(30, 40);
 
+        //Padlock code
+        const imagePositions = [
+            { x: 1040, y: 310, key: "1" },
+            { x: 1110, y: 310, key: "2" },
+            { x: 1180, y: 310, key: "3" },
+            { x: 1040, y: 380, key: "4" },
+            { x: 1110, y: 380, key: "5" },
+            { x: 1180, y: 380, key: "6" },
+            { x: 1040, y: 450, key: "7" },
+            { x: 1110, y: 450, key: "8" },
+            { x: 1180, y: 450, key: "9" },
+            { x: 1040, y: 520, key: "padX" },
+            { x: 1110, y: 520, key: "0" },
+            { x: 1180, y: 520, key: "padCheck" },
+        ];
+
+        const hoverTintColor = 0xff0000;
+
+        //padlock hover tint code
+        imagePositions.forEach((pos) => {
+            const image = this.add
+                .image(pos.x, pos.y, pos.key)
+                .setDisplaySize(70, 70);
+
+            image.setInteractive();
+
+            image.on("pointerover", () => {
+                image.setTint(hoverTintColor);
+            });
+
+            image.on("pointerout", () => {
+                image.clearTint();
+            });
+        });
+
         let ding = this.sound.add("ding", { loop: false });
         let lsDing = this.sound.add("lsDing", { loop: false });
         let cdDing = this.sound.add("cdDing", { loop: false });

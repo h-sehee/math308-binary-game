@@ -41,10 +41,8 @@ export const CONFIG = {
         IntroScene,
         LoginScene,
         Tutorial,
-
         LevelThreeIntro,
         Level03,
-
         Level2Scene,
         LoadingScene2,
         LoadingScene2Part2,
