@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import Manual from "../objects/manual";
 
 export default class Level1Scene extends Phaser.Scene {
     private stateText: Phaser.GameObjects.Text;
@@ -12,6 +13,7 @@ export default class Level1Scene extends Phaser.Scene {
     private lvl5: boolean;
     private objectiveCompleted: boolean = false;
     private lastText: string[] = [""];
+    private manual: Manual;
 
     constructor() {
         super({ key: "Level01" });
@@ -36,7 +38,11 @@ export default class Level1Scene extends Phaser.Scene {
         this.username = data.username;
         this.lvl5 = data.lvl5;
     }
-    preload() {}
+    preload() {
+        this.load.image("ClosedBook", "../assets/ClosedBook.png");
+        this.load.image("HoveredBook", "../assets/HoveredBook.png");
+        this.load.image("OpenBook", "../assets/OpenBook.png");
+    }
 
     create() {
         this.objectiveCompleted = false;
@@ -45,6 +51,7 @@ export default class Level1Scene extends Phaser.Scene {
         this.add.image(640, 100, "prompt").setDisplaySize(560, 110);
         this.add.image(155, 100, "alfredicon").setDisplaySize(130, 130);
         this.add.image(1050, 100, "pin").setDisplaySize(30, 40);
+        this.manual = new Manual(this, 100, 300, "Initial manual text here.");
 
         let ding = this.sound.add("ding", { loop: false });
         let lsDing = this.sound.add("lsDing", { loop: false });

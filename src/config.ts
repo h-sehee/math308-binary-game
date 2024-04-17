@@ -11,6 +11,7 @@ import Tutorial from "./scenes/tutorial";
 import Level2Scene from "./scenes/level02";
 import LoadingScene2 from "./scenes/level02_load";
 import LoadingScene2Part2 from "./scenes/level02_load2";
+import Manual from "./objects/manual";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
