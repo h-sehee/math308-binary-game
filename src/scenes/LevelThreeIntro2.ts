@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class LevelThreeIntro extends Phaser.Scene {
+export default class LevelThreeIntro2 extends Phaser.Scene {
     private content: string[]; // text to display
     private charDelay: number; // delay between characters
     private lineDelay: number; // delay between lines
@@ -15,13 +15,13 @@ export default class LevelThreeIntro extends Phaser.Scene {
     private username: string;
 
     constructor() {
-        super({ key: "LevelThreeIntro" });
+        super({ key: "LevelThreeIntro2" });
     }
     init(data: {
         username: string;
         lvl1: boolean;
         lvl2: boolean;
-        lvl3: true;
+        lvl3: boolean;
         lvl4: boolean;
     }) {
         this.lvl2 = data.lvl2;
@@ -43,9 +43,9 @@ export default class LevelThreeIntro extends Phaser.Scene {
         //display text
         this.displayNextLine();
 
-        // On enter, transition to Level 3
+        // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
-            this.scene.start("LevelThreeIntro2", {
+            this.scene.start("Level03", {
                 username: this.username,
                 lvl2: this.lvl2,
                 lvl3: this.lvl3,
@@ -63,31 +63,34 @@ export default class LevelThreeIntro extends Phaser.Scene {
         this.startY = 90;
         this.lineIndex = 0;
         this.content = [
-            "Great job handling those generators, Agent " + this.username + ".",
-            "We've breached Yortsed Corp's perimeter, but now we must",
-            "delve deeper into the facility itself.",
+            "Note that the 'cat' command is used to display the contents",
+            "of one or more files. It can be used on a single file, or",
+            "multiple files, and display their outputs.",
             " ",
-            "Your objective is to locate numerical codes",
-            "that Namuh has spread in files across various directories.",
+            "Below is an example using 'cat' to display the contents",
+            "of a file named  'secret.txt':",
             " ",
-            "Once you've gathered them, you'll input these numbers",
-            "into the pin-pad to gain access to the inner sanctum.",
+            " - 'cat secret.txt'",
             " ",
-            "Here are the commands at your disposal:",
+            "If you need to display the contents of multiple files,",
+            "you can provide their filenames separated by spaces.",
             " ",
-            " - 'ls' to list the contents of the current directory.",
+            "For example, to display the contents of two files, 'secret1.txt'",
+            "and 'secret2.txt', you can use:",
             " ",
-            " - 'cd <directory>' to change the current directory.",
-            "                    Use 'cd ..' to go back.",
+            " - 'cat secret1.txt secret2.txt'",
             " ",
-            " - 'cat <file>' to display the contents of a file.",
+            "Note, the 'cat' command displays the contents of files,",
+            "not directories which you're used to. 'Cat' is to files what 'ls' is",
+            "to directories. In your mission, files are marked with '.txt' at",
+            "the end of their names. E.g. 'secret_message.txt', and thats where",
+            "you'll find the hidden codes for this mission.",
             " ",
-            "You can always run 'man alfred' for additional",
-            "assistance to reach the end of a mission.",
+            "If you are ever unsure about how to use the 'cat' command, you",
+            "can use 'man cat' to help you.",
+            "Or use 'man alfred' to hear from me directly.",
             " ",
-            "Type in the correct code to access Yortsed Corp's facility.",
-            "Time is of the essence, Agent. Good luck.",
-            " ",
+            "Good luck " + this.username.toLowerCase() + ".",
             " ",
             "                  [Enter] to Continue",
         ];

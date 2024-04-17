@@ -61,7 +61,7 @@ export default class Level03 extends Phaser.Scene {
             { x: 1180, y: 520, key: "padCheck" },
         ];
 
-        const hoverTintColor = 0xff0000;
+        const hoverTintColor = 0xd3d3d3;
 
         //padlock hover tint code
         imagePositions.forEach((pos) => {
@@ -96,7 +96,7 @@ export default class Level03 extends Phaser.Scene {
 
         this.addTextToContainer("Alfred: Welcome back " + this.username + "!");
 
-        let state: string = "facility_back_door";
+        let state: string = "back_door";
 
         function getRandomInt(min: number, max: number): number {
             min = Math.ceil(min);
@@ -115,7 +115,7 @@ export default class Level03 extends Phaser.Scene {
         const cdBack = new Map<string, string>();
         const manMap = new Map<string, string>();
 
-        lsMap.set("facility_back_door", "brick_pile garbage_can file_box");
+        lsMap.set("back_door", "brick_pile garbage_can file_box");
         lsMap.set("brick_pile", "bricks rocks dirt");
         lsMap.set("garbage_can", "soda_can sticks cracked_phone broken_chair");
         lsMap.set("file_box", "pencils secret_folder_#1 graph_paper");
@@ -129,18 +129,14 @@ export default class Level03 extends Phaser.Scene {
         catMap.set("code_#3.txt", randomNum3);
         catMap.set("code_#4.txt", randomNum4);
 
-        cdMap.set("facility_back_door", [
-            "brick_pile",
-            "garbage_can",
-            "file_box",
-        ]);
+        cdMap.set("back_door", ["brick_pile", "garbage_can", "file_box"]);
         cdMap.set("garbage_can", ["cracked_phone"]);
         cdMap.set("file_box", ["secret_folder_#1", "graph_paper"]);
         cdMap.set("cracked_phone", ["notes_app"]);
 
-        cdBack.set("brick_pile", "facility_back_door");
+        cdBack.set("brick_pile", "back_door");
         cdBack.set("garbage_can", "garbage_can");
-        cdBack.set("file_box", "facility_back_door");
+        cdBack.set("file_box", "back_door");
         cdBack.set("cracked_phone", "break_room");
         cdBack.set("graph_paper", "file_box");
         cdBack.set("notes_app", "cracked_phone");
@@ -289,7 +285,7 @@ export default class Level03 extends Phaser.Scene {
             }
         });
 
-        let time = 60;
+        let time = 90;
         let lastUpdateTime = Date.now();
 
         this.timer = this.add.text(75, 655, time.toFixed(2), {
