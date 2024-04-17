@@ -40,8 +40,8 @@ export default class levelOne extends Phaser.Scene {
     bullets?: Bullets;
     private colliderInitialized = false;
 
-    private score = 0;
-    private scoreText?: Phaser.GameObjects.Text;
+    //private score = 0;
+    //private scoreText?: Phaser.GameObjects.Text;
 
     private baddie?: Phaser.Physics.Arcade.Group;
 
@@ -132,10 +132,11 @@ export default class levelOne extends Phaser.Scene {
             this
         );*/
 
-        this.scoreText = this.add.text(16, 16, "score: 0", {
+        /*this.scoreText = this.add.text(16, 16, "score: 0", {
             fontSize: "32px",
             color: "#000",
-        });
+        });*/
+
         this.bullets = new Bullets(this.physics.world, this);
 
         //this.baddie = this.physics.add.group();
@@ -325,7 +326,7 @@ export default class levelOne extends Phaser.Scene {
         this.scene.start("instructions");
     }
 
-    private handleCollectStar(
+    /*private handleCollectStar(
         player:
             | Phaser.Types.Physics.Arcade.GameObjectWithBody
             | Phaser.Tilemaps.Tile,
@@ -360,9 +361,9 @@ export default class levelOne extends Phaser.Scene {
                 4000,
                 1250,
                 "checkpoint"
-            ) as Phaser.Physics.Arcade.Sprite;*/
+            ) as Phaser.Physics.Arcade.Sprite;
         }
-    }
+    }*/
 
     update() {
         if (!this.cursors) {
