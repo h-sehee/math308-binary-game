@@ -430,8 +430,8 @@ export default class Tutorial extends Phaser.Scene {
             }
             if (event.key === "ArrowDown") {
                 let index = this.lastText.length + this.lastPosition;
-                if (index < this.lastText.length - 1) {
-                    this.inputField.value = this.lastText[index + 1];
+                if (index < this.lastText.length - 2) {
+                    this.inputField.value = this.lastText[index + 2];
                     this.lastPosition += 1;
                 }
             }
