@@ -34,7 +34,7 @@ export default class LevelSelect extends Phaser.Scene {
 
     create() {
         this.platforms = this.physics.add.staticGroup();
-
+        this.lvl3 = true;
         this.cameras.main.setBackgroundColor("#A9A9A9");
 
         const groundWidth = this.scale.width;
@@ -175,7 +175,7 @@ export default class LevelSelect extends Phaser.Scene {
                 scene: "LoadingScene1",
             },
             { x: 950, state: this.lvl2, scene: "" },
-            { x: 1400, state: this.lvl3, scene: "" },
+            { x: 1400, state: this.lvl3, scene: "LevelThreeIntro" },
             { x: 1850, state: this.lvl4, scene: "" },
             { x: 2300, state: this.lvl5, scene: "" },
         ];

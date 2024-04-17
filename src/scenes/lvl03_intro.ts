@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class LoadingScene1 extends Phaser.Scene {
+export default class LevelThreeIntro extends Phaser.Scene {
     private content: string[]; // text to display
     private charDelay: number; // delay between characters
     private lineDelay: number; // delay between lines
@@ -15,13 +15,13 @@ export default class LoadingScene1 extends Phaser.Scene {
     private username: string;
 
     constructor() {
-        super({ key: "LoadingScene1" });
+        super({ key: "LevelThreeIntro" });
     }
     init(data: {
         username: string;
         lvl1: boolean;
         lvl2: boolean;
-        lvl3: boolean;
+        lvl3: true;
         lvl4: boolean;
     }) {
         this.lvl2 = data.lvl2;
@@ -43,9 +43,9 @@ export default class LoadingScene1 extends Phaser.Scene {
         //display text
         this.displayNextLine();
 
-        // On enter, transition to Level 1
+        // On enter, transition to Level 3
         this.input.keyboard?.once("keydown-ENTER", () => {
-            this.scene.start("Level01", {
+            this.scene.start("Level03", {
                 username: this.username,
                 lvl2: this.lvl2,
                 lvl3: this.lvl3,
@@ -63,9 +63,15 @@ export default class LoadingScene1 extends Phaser.Scene {
         this.startY = 90;
         this.lineIndex = 0;
         this.content = [
-            "Your mission, should you choose to accept it,",
-            "involves critical file manipulation. You need to",
-            "navigate to the 'control_room' and disable the 'surveillance_camera'.",
+            "Great job handling those generators, Agent " + this.username + ".",
+            "We've breached Yortsed Corp's perimeter, but now we must",
+            "delve deeper into the facility itself.",
+            " ",
+            "Your objective is to locate numerical codes",
+            "that Namuh has spread in files across various directories.",
+            " ",
+            "Once you've gathered them, you'll input these numbers",
+            "into the pin-pad to gain access to the inner sanctum.",
             " ",
             "Here are the commands at your disposal:",
             " ",
@@ -74,12 +80,13 @@ export default class LoadingScene1 extends Phaser.Scene {
             " - 'cd <directory>' to change the current directory.",
             "                    Use 'cd ..' to go back.",
             " ",
-            " - 'man <command>' to display the manual for a specific command.",
+            " - 'cat <file>' to display the contents of a file.",
             " ",
             "You can always run 'man alfred' for additional",
             "assistance to reach the end of a mission.",
             " ",
-            "Disable the camera to advance further into Yortsed Corp.",
+            "Type in the correct code to access Yortsed Corp's facility.",
+            "Time is of the essence, Agent. Good luck.",
             " ",
             " ",
             "                  [Enter] to Continue",
