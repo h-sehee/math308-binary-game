@@ -110,7 +110,8 @@ export default class levelOne extends Phaser.Scene {
 
         this.cursors = this.input.keyboard?.createCursorKeys();
 
-        this.stars = this.physics.add.group({
+        // ORIGINAL CODE FOR ADDING STARS TO OG PHASER GAME (UNUSED)
+        /*this.stars = this.physics.add.group({
             key: "star",
             repeat: 15,
             setXY: { x: 30, y: 0, stepX: 250 },
@@ -120,16 +121,16 @@ export default class levelOne extends Phaser.Scene {
             const child = c as Phaser.Physics.Arcade.Image;
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
             return true;
-        });
+        });*/
 
-        this.physics.add.collider(this.stars, this.platforms);
+        /*this.physics.add.collider(this.stars, this.platforms);
         this.physics.add.overlap(
             this.player,
             this.stars,
             this.handleCollectStar,
             undefined,
             this
-        );
+        );*/
 
         this.scoreText = this.add.text(16, 16, "score: 0", {
             fontSize: "32px",
