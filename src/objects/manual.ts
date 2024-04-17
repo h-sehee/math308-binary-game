@@ -14,19 +14,19 @@ export default class Manual extends Phaser.GameObjects.Sprite {
 
         // Adding the sprite to the scene and scaling it down
         this.scene.add.existing(this);
-        this.setScale(0.5); // Scale down the sprite
+        this.setScale(0.3); // Scale down the sprite
         this.setInteractive({ cursor: "pointer" });
 
         // Handling hover events
         this.on("pointerover", () => {
             this.setTexture("HoveredBook");
-            this.setScale(0.55); // Scale up a bit when hovered
+            this.setScale(0.35); // Scale up a bit when hovered
         });
 
         this.on("pointerout", () => {
             if (!this.manualOpen) {
                 this.setTexture("ClosedBook");
-                this.setScale(0.5); // Return to original scaled down size
+                this.setScale(0.3); // Return to original scaled down size
             }
         });
 
@@ -43,7 +43,7 @@ export default class Manual extends Phaser.GameObjects.Sprite {
         // Create a container for manual text right under the book
         this.manualContainer = this.scene.add.container(x, y + 100);
         let background = this.scene.add
-            .rectangle(0, 0, 400, 300, 0xaaaaaa) // Same larger size and grey background
+            .rectangle(30, 170, 200, 400, 0xaaaaaa) // Same larger size and grey background
             .setStrokeStyle(2, 0xffff00); // Yellow border
         this.manualContainer.add(background);
         let textObject = this.scene.add.text(-190, -140, this.manualText, {
