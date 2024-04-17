@@ -122,9 +122,18 @@ export default class LoginScene extends Phaser.Scene {
                             loadingBars[8].visible = false;
 
                             this.time.delayedCall(2200, () => {
-                                this.scene.start("IntroScene", {
-                                    username: username,
-                                });
+                                if (username === "admin") {
+                                    this.scene.start("LevelSelect", {
+                                        lvl1: true,
+                                        lvl2: true,
+                                        lvl3: true,
+                                        lvl4: true,
+                                    });
+                                } else {
+                                    this.scene.start("IntroScene", {
+                                        username: username,
+                                    });
+                                }
                             });
 
                             return;
