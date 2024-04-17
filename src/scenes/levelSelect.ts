@@ -25,11 +25,20 @@ export default class LevelSelect extends Phaser.Scene {
         lvl4: boolean;
         lvl5: boolean;
     }) {
-        this.lvl2 = data.lvl2;
-        this.lvl3 = data.lvl3;
-        this.lvl4 = data.lvl4;
         this.username = data.username;
-        this.lvl5 = data.lvl5;
+
+        if (this.username === "admin") {
+            this.lvl2 = true;
+            this.lvl3 = true;
+            this.lvl4 = true;
+            this.lvl5 = true;
+        } else {
+            this.lvl2 = data.lvl2;
+            this.lvl3 = data.lvl3;
+            this.lvl4 = data.lvl4;
+            this.lvl5 = data.lvl5;
+        }
+        this.lvl1 = true;
     }
 
     create() {
@@ -160,7 +169,14 @@ export default class LevelSelect extends Phaser.Scene {
                 wallDoor.setVisible(true);
                 backDoor.setVisible(false);
                 this.time.delayedCall(600, () => {
-                    this.scene.start("IntroScene"), { username: this.username };
+                    console.log(this.username);
+                    this.scene.start("IntroScene", {
+                        username: this.username,
+                        lvl1: this.lvl1,
+                        lvl2: this.lvl2,
+                        lvl3: this.lvl3,
+                        lvl4: this.lvl4,
+                    });
                 });
             });
         });
@@ -173,7 +189,7 @@ export default class LevelSelect extends Phaser.Scene {
                 state: this.lvl1,
                 scene: "LoadingScene1",
             },
-            { x: 950, state: this.lvl2, scene: "" },
+            { x: 950, state: this.lvl2, scene: "LoadingScene2" },
             { x: 1400, state: this.lvl3, scene: "LevelThreeIntro" },
             { x: 1850, state: this.lvl4, scene: "" },
             { x: 2300, state: this.lvl5, scene: "" },

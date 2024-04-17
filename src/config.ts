@@ -9,7 +9,14 @@ import LevelThreeIntro from "./scenes/lvl03_intro";
 import IntroScene from "./scenes/intro";
 import LoginScene from "./scenes/login";
 import Tutorial from "./scenes/tutorial";
+<<<<<<< HEAD
 import Level03 from "./scenes/lvl03Main";
+=======
+import Level2Scene from "./scenes/level02";
+import LoadingScene2 from "./scenes/level02_load";
+import LoadingScene2Part2 from "./scenes/level02_load2";
+
+>>>>>>> 14ae16e79c28d6b64e384201ac713f9f0571eb2b
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
 
@@ -35,8 +42,14 @@ export const CONFIG = {
         IntroScene,
         LoginScene,
         Tutorial,
+<<<<<<< HEAD
         LevelThreeIntro,
         Level03,
+=======
+        Level2Scene,
+        LoadingScene2,
+        LoadingScene2Part2,
+>>>>>>> 14ae16e79c28d6b64e384201ac713f9f0571eb2b
     ],
     physics: {
         default: "arcade",

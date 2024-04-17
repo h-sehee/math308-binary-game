@@ -6,6 +6,9 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image("ClosedBook", "assets/ClosedBook.png");
+        this.load.image("HoveredBook", "assets/HoveredBook.png");
+        this.load.image("OpenBook", "assets/OpenBook.png");
         this.load.image("titlescreen", "assets/CyberSpyTitleScreen.png");
         this.load.image("alfred", "assets/alfred.png");
         this.load.image("spy", "assets/spy.png");

@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class IntroScene extends Phaser.Scene {
+export default class LoadingScene2Part2 extends Phaser.Scene {
     private content: string[]; // text to display
     private charDelay: number; // delay between characters
     private lineDelay: number; // delay between lines
@@ -11,12 +11,12 @@ export default class IntroScene extends Phaser.Scene {
     private lvl2: boolean;
     private lvl3: boolean;
     private lvl4: boolean;
+    private lvl5: boolean;
     private username: string;
 
     constructor() {
-        super({ key: "IntroScene" });
+        super({ key: "LoadingScene2part2" });
     }
-
     init(data: {
         username: string;
         lvl1: boolean;
@@ -28,30 +28,29 @@ export default class IntroScene extends Phaser.Scene {
         this.lvl3 = data.lvl3;
         this.lvl4 = data.lvl4;
         this.username = data.username;
-        console.log(this.username);
     }
+
     preload() {
         this.load.image("alfredicon", "assets/alfredicon.png");
     }
 
     create() {
-        this.resetScene(); // helper to reset intial values on load
+        this.resetScene();
 
-        //adding assets
         this.add.rectangle(640, 360, 1280, 720, 0x000);
         this.add.image(150, 100, "alfredicon").setDisplaySize(130, 130);
-        this.add.image(150, 480, "spyicon").setDisplaySize(130, 130);
 
         //display text
         this.displayNextLine();
 
         // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
-            this.scene.start("Tutorial", {
+            this.scene.start("Level02", {
                 username: this.username,
                 lvl2: this.lvl2,
                 lvl3: this.lvl3,
                 lvl4: this.lvl4,
+                lvl5: this.lvl5,
             });
         });
     }
@@ -63,33 +62,30 @@ export default class IntroScene extends Phaser.Scene {
         this.startX = 250;
         this.startY = 90;
         this.lineIndex = 0;
-        console.log(this.username);
         this.content = [
-            "Agent " +
-                this.username.charAt(0).toUpperCase() +
-                this.username.slice(1) +
-                ", this is Alfred speaking.",
+            "Note that the second argument of the mv command",
+            "is also used to rename a file. This works when",
+            "the second argument is not an existing directory.",
             " ",
-            "Sorry to call you so late into the evening, but it",
-            "appears we've got a situation on our hands. Namuh Yortsed, CEO of",
-            "Yortsed Corp, has set his sights on the city's power supply.",
-            "Intelligence suggests he's planning a hostile takeover and if",
-            "he succeeds, he'll wield unprecedented control over the",
-            "very lifeblood of this city.",
+            "Below is an example of renaming file1 into updated_file1:",
             " ",
-            "Amidst the shadow of Namuh, emerge as the city's beacon of hope.",
-            "Utilize the tools given to you " + this.username + ".",
+            " - 'mv file1 updated_file1'",
             " ",
-            "Just as you have in the past.",
+            "In this mission you will only be using the command to",
+            "move existing files into existing directories.",
+
+            "If you are ever in need of assistance you can utiilize",
+            "'man' on a specific command to retrieve its manual.",
             " ",
+            "Or if you require a hint for the mission, you can run",
+            "'man alfred' to dial me in.",
             " ",
+            "Security has been notified of the faulty camera you disabled",
+            "so they are in the area. Time will be of the essence.",
             " ",
+            "Good luck " + this.username.toLowerCase() + ".",
             " ",
 
-            "...",
-            " ",
-            " ",
-            " ",
             "                  [Enter] to Continue",
         ];
     }

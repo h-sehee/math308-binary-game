@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class IntroScene extends Phaser.Scene {
+export default class LoadingScene2 extends Phaser.Scene {
     private content: string[]; // text to display
     private charDelay: number; // delay between characters
     private lineDelay: number; // delay between lines
@@ -11,12 +11,12 @@ export default class IntroScene extends Phaser.Scene {
     private lvl2: boolean;
     private lvl3: boolean;
     private lvl4: boolean;
+    private lvl5: boolean;
     private username: string;
 
     constructor() {
-        super({ key: "IntroScene" });
+        super({ key: "LoadingScene2" });
     }
-
     init(data: {
         username: string;
         lvl1: boolean;
@@ -28,30 +28,29 @@ export default class IntroScene extends Phaser.Scene {
         this.lvl3 = data.lvl3;
         this.lvl4 = data.lvl4;
         this.username = data.username;
-        console.log(this.username);
     }
+
     preload() {
         this.load.image("alfredicon", "assets/alfredicon.png");
     }
 
     create() {
-        this.resetScene(); // helper to reset intial values on load
+        this.resetScene();
 
-        //adding assets
         this.add.rectangle(640, 360, 1280, 720, 0x000);
         this.add.image(150, 100, "alfredicon").setDisplaySize(130, 130);
-        this.add.image(150, 480, "spyicon").setDisplaySize(130, 130);
 
         //display text
         this.displayNextLine();
 
         // On enter, transition to Level 1
         this.input.keyboard?.once("keydown-ENTER", () => {
-            this.scene.start("Tutorial", {
+            this.scene.start("LoadingScene2part2", {
                 username: this.username,
                 lvl2: this.lvl2,
                 lvl3: this.lvl3,
                 lvl4: this.lvl4,
+                lvl5: this.lvl5,
             });
         });
     }
@@ -63,32 +62,30 @@ export default class IntroScene extends Phaser.Scene {
         this.startX = 250;
         this.startY = 90;
         this.lineIndex = 0;
-        console.log(this.username);
         this.content = [
-            "Agent " +
-                this.username.charAt(0).toUpperCase() +
-                this.username.slice(1) +
-                ", this is Alfred speaking.",
+            "Wonderful, you've disabled the camera and can advance into",
+            "Yortsed Corp. You are one step closer to stopping",
+            "Namuh from taking total control of the city's power.",
             " ",
-            "Sorry to call you so late into the evening, but it",
-            "appears we've got a situation on our hands. Namuh Yortsed, CEO of",
-            "Yortsed Corp, has set his sights on the city's power supply.",
-            "Intelligence suggests he's planning a hostile takeover and if",
-            "he succeeds, he'll wield unprecedented control over the",
-            "very lifeblood of this city.",
+            "Along with all of your previous commands, you will",
+            "need to utilize the 'mv' command to move objects",
+            "into different directories.",
             " ",
-            "Amidst the shadow of Namuh, emerge as the city's beacon of hope.",
-            "Utilize the tools given to you " + this.username + ".",
+            "The command works as follows:",
             " ",
-            "Just as you have in the past.",
+            " - 'mv <file directory>'",
             " ",
+            "Below is an example of moving an existing file named 'file1'",
+            "into a folder named 'folder3'",
             " ",
+            "mv file1 folder3",
             " ",
+            "Remember that for you to move a file you must be in the",
+            "directory in which that file exists.",
             " ",
-
-            "...",
-            " ",
-            " ",
+            "You will use this command to move 'emp_bomb1' and 'emp_bomb2'",
+            "into each 'generator' directory. Only then will you be able",
+            "to access the 'laboratory' directory, and finish the mission.",
             " ",
             "                  [Enter] to Continue",
         ];

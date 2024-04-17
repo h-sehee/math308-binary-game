@@ -81,7 +81,7 @@ export default class LoadingScene1 extends Phaser.Scene {
             " ",
             "Disable the camera to advance further into Yortsed Corp.",
             " ",
-            " ",
+
             "                  [Enter] to Continue",
         ];
     }
