@@ -24,8 +24,7 @@ export default class endScene extends Phaser.Scene {
             return;
         }
         if (this.cursors.space.isDown) {
-            this.scene.launch("LoadoutSceneTextboxInserts");
-            this.scene.start("LoadoutSceneOne");
+            this.scene.start("instructions");
         }
     }
 }

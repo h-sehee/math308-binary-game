@@ -322,8 +322,7 @@ export default class levelOne extends Phaser.Scene {
 
         this.gameOver = true;
 
-        this.scene.launch("LoadoutSceneTextboxInserts");
-        this.scene.start("LoadoutSceneOne");
+        this.scene.start("instructions");
     }
 
     private handleCollectStar(
