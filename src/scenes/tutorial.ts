@@ -17,6 +17,7 @@ export default class Tutorial extends Phaser.Scene {
     private manObjective: boolean = false;
     private rmObjective: boolean = false;
     private lastText: string[] = [""];
+    private lastPosition: number = -1;
 
     constructor() {
         super({ key: "Tutorial" });
@@ -136,6 +137,7 @@ export default class Tutorial extends Phaser.Scene {
 
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
+                this.lastPosition = -1;
                 const newText = this.inputField.value;
                 this.lastText.push(newText.trim());
                 if (newText.trim() !== "") {
@@ -420,7 +422,18 @@ export default class Tutorial extends Phaser.Scene {
             }
 
             if (event.key === "ArrowUp") {
-                this.inputField.value = this.lastText[this.lastText.length - 1];
+                let index = this.lastText.length + this.lastPosition;
+                if (index > 0) {
+                    this.inputField.value = this.lastText[index];
+                    this.lastPosition -= 1;
+                }
+            }
+            if (event.key === "ArrowDown") {
+                let index = this.lastText.length + this.lastPosition;
+                if (index < this.lastText.length - 1) {
+                    this.inputField.value = this.lastText[index + 1];
+                    this.lastPosition += 1;
+                }
             }
             if (
                 this.firstLsObjective &&
