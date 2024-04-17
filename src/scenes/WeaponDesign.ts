@@ -14,9 +14,13 @@ export default class WeaponDesign extends Phaser.Scene {
     private upgradeList: Phaser.GameObjects.Group;
     private previous: string;
     private itemList: string[];
+    private dropZones: Phaser.GameObjects.Zone[];
+    private inputField: HTMLInputElement | null;
 
     constructor() {
         super({ key: "weapon-design" });
+        this.dropZones = [];
+        this.inputField = null;
     }
 
     init(data: { from: string; itemList: string[] }) {
@@ -25,6 +29,8 @@ export default class WeaponDesign extends Phaser.Scene {
     }
 
     create() {
+        this.input.setDefaultCursor("pointer");
+
         this.theseusFile = this.add.group();
         this.mainFile = this.add.group();
         this.swordFile = this.add.group();
@@ -196,7 +202,6 @@ export default class WeaponDesign extends Phaser.Scene {
 
             const box = c as Phaser.GameObjects.Graphics;
 
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const zone = this.add
                 .zone(
                     boxX + boxWidth / 2,
@@ -207,6 +212,8 @@ export default class WeaponDesign extends Phaser.Scene {
                 .setRectangleDropZone(boxWidth, boxHeight)
                 .setDepth(1700)
                 .setOrigin(0.5);
+
+            this.dropZones.push(zone);
 
             box.fillStyle(0xffffff, 1);
             box.fillRect(boxX, boxY, boxWidth, boxHeight);
@@ -224,14 +231,14 @@ export default class WeaponDesign extends Phaser.Scene {
                     dropZone: Phaser.GameObjects.Graphics
                 ) => {
                     if (this.current === "Main") {
-                        box.fillStyle(0x808080, 1);
+                        box.fillStyle(0xd3d3d3, 1);
                         box.fillRect(
                             dropZone.x - dropZone.input?.hitArea.width / 2,
                             dropZone.y - dropZone.input?.hitArea.height / 2,
                             dropZone.input?.hitArea.width,
                             dropZone.input?.hitArea.height
                         );
-                        box.lineStyle(2, 0x00ffff);
+                        box.lineStyle(2, 0x33cc33);
                         box.strokeRect(
                             dropZone.x - dropZone.input?.hitArea.width / 2,
                             dropZone.y - dropZone.input?.hitArea.height / 2,
@@ -279,7 +286,19 @@ export default class WeaponDesign extends Phaser.Scene {
                         gameObject.x = dropZone.x - boxWidth / 2 + 20;
                         gameObject.y = dropZone.y;
 
-                        // gameObject.setVisible(false);
+                        if (this.dropZones.includes(dropZone)) {
+                            this.inputField = document.createElement("input");
+                            this.inputField.type = "text";
+                            this.inputField.style.position = "absolute";
+                            this.inputField.style.left = `${gameObject.x}px`;
+                            this.inputField.style.top = `${gameObject.y}px`;
+                            this.inputField.style.width = `${2 * boxWidth}px`;
+                            this.inputField.style.height = `${2 * boxHeight}px`;
+                            this.inputField.style.zIndex = "2000";
+                            document.body.appendChild(this.inputField);
+
+                            this.inputField.focus();
+                        }
                     }
                 }
             );
@@ -306,10 +325,12 @@ export default class WeaponDesign extends Phaser.Scene {
             close.setFontSize("25px");
         });
         close.on("pointerdown", () => {
+            this.input.setDefaultCursor("crosshair");
             this.scene.stop();
             this.scene.resume(this.previous, { itemList: this.itemList });
         });
         this.input.keyboard?.on("keydown-E", () => {
+            this.input.setDefaultCursor("crosshair");
             this.scene.stop();
             this.scene.resume(this.previous, { itemList: this.itemList });
         });
