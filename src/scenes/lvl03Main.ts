@@ -117,14 +117,20 @@ export default class Level03 extends Phaser.Scene {
         const cdBack = new Map<string, string>();
         const manMap = new Map<string, string>();
 
-        lsMap.set("back_door", "brick_pile garbage_can file_box");
-        lsMap.set("brick_pile", "bricks rocks dirt");
-        lsMap.set("garbage_can", "soda_can sticks cracked_phone broken_chair");
-        lsMap.set("file_box", "pencils secret_folder_#1 graph_paper");
-        lsMap.set("cracked_phone", "notes_app");
-        lsMap.set("graph_paper", "code_#4.txt");
-        lsMap.set("notes_app", "code_#1.txt");
-        lsMap.set("secret_folder_#1", "code_#2.txt code_#3.txt");
+        lsMap.set("back_door", "dir_brick_pile dir_garbage_can dir_file_box");
+        lsMap.set("brick_pile", "file_bricks file_rocks file_dirt");
+        lsMap.set(
+            "garbage_can",
+            "file_soda_can file_sticks dir_cracked_phone file_broken_chair"
+        );
+        lsMap.set(
+            "file_box",
+            "file_pencils dir_secret_folder_#1 dir_graph_paper"
+        );
+        lsMap.set("cracked_phone", "dir_notes_app");
+        lsMap.set("graph_paper", "file_code_#4.txt");
+        lsMap.set("notes_app", "file_code_#1.txt");
+        lsMap.set("secret_folder_#1", "file_code_#2.txt file_code_#3.txt");
 
         catMap.set("code_#1.txt", randomNum1);
         catMap.set("code_#2.txt", randomNum2);
@@ -199,8 +205,12 @@ export default class Level03 extends Phaser.Scene {
                     if (newText.trim() == "ls") {
                         lsDing.play();
                         this.inputField.value = ""; // Empty the input field
-                        this.addTextToContainer("agent09: " + newText);
-                        this.addTextToContainer(lsMap.get(state) as string);
+                        this.addTextToContainer(
+                            this.username.toLowerCase().replace(/\s+/g, "_") +
+                                ": " +
+                                newText
+                        );
+                        this.addLsToContainer(lsMap.get(state) as string);
                     } else if (newText.substring(0, 4) == "cat ") {
                         let catInput: string = newText.substring(4);
                         const catState = catMap.get(catInput);
@@ -347,6 +357,40 @@ export default class Level03 extends Phaser.Scene {
         }
     }
     update() {}
+
+    addLsToContainer(text: string) {
+        const words = text.split(" ");
+
+        const numNewlines = words.length;
+
+        this.inputContainer.y -= numNewlines * 24.7;
+
+        for (let word of words) {
+            if (word.substring(0, 5) === "file_") {
+                let newWord = word.substring(5);
+                const newText = this.add.text(0, 0, newWord, {
+                    fontSize: "24px",
+                    color: "#77C3EC",
+                });
+                this.inputContainer.add(newText);
+            } else if (word.substring(0, 4) === "dir_") {
+                let newWord = word.substring(4);
+                const newText = this.add.text(0, 0, newWord, {
+                    fontSize: "24px",
+                    color: "#86DC3D",
+                });
+                this.inputContainer.add(newText);
+            } else {
+                const newText = this.add.text(0, 0, word, {
+                    fontSize: "24px",
+                    color: "#fff",
+                });
+                this.inputContainer.add(newText);
+            }
+
+            this.repositionTextObjects();
+        }
+    }
 
     addTextToContainer(text: string) {
         const newText = this.add.text(0, 0, text, {

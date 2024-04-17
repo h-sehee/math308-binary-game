@@ -75,10 +75,10 @@ export default class Level2Scene extends Phaser.Scene {
 
         lsMap.set(
             "home",
-            "generator1 generator2 laboratory emp_bomb1 emp_bomb2"
+            "dir_generator1 dir_generator2 dir_laboratory file_emp_bomb1 file_emp_bomb2"
         );
-        lsMap.set("generator1", " ");
-        lsMap.set("generator2", " ");
+        lsMap.set("generator1", "");
+        lsMap.set("generator2", "");
 
         cdMap.set("home", ["generator1", "generator2", "laboratory"]);
 
@@ -153,7 +153,7 @@ export default class Level2Scene extends Phaser.Scene {
                                 ": " +
                                 newText
                         );
-                        this.addTextToContainer(lsMap.get(state) as string);
+                        this.addLsToContainer(lsMap.get(state) as string);
                     } else if (newText.substring(0, 3) == "cd ") {
                         let cdInput: string = newText.substring(
                             3,
@@ -492,6 +492,40 @@ export default class Level2Scene extends Phaser.Scene {
         }
     }
     update() {}
+
+    addLsToContainer(text: string) {
+        const words = text.split(" ");
+
+        const numNewlines = words.length;
+
+        this.inputContainer.y -= numNewlines * 24.7;
+
+        for (let word of words) {
+            if (word.substring(0, 5) === "file_") {
+                let newWord = word.substring(5);
+                const newText = this.add.text(0, 0, newWord, {
+                    fontSize: "24px",
+                    color: "#77C3EC",
+                });
+                this.inputContainer.add(newText);
+            } else if (word.substring(0, 4) === "dir_") {
+                let newWord = word.substring(4);
+                const newText = this.add.text(0, 0, newWord, {
+                    fontSize: "24px",
+                    color: "#86DC3D",
+                });
+                this.inputContainer.add(newText);
+            } else {
+                const newText = this.add.text(0, 0, word, {
+                    fontSize: "24px",
+                    color: "#fff",
+                });
+                this.inputContainer.add(newText);
+            }
+
+            this.repositionTextObjects();
+        }
+    }
 
     addTextToContainer(text: string) {
         const newText = this.add.text(0, 0, text, {

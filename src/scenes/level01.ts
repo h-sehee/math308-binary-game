@@ -78,12 +78,21 @@ export default class Level1Scene extends Phaser.Scene {
         const manMap = new Map<string, string>();
         const rmMap = new Map<string, string[]>(); // Map to track removable files
 
-        lsMap.set("home", "break_room closet control_room");
-        lsMap.set("break_room", "suitcase vending_machine chair table");
-        lsMap.set("closet", "cardboard_box wires hazmat_suit");
-        lsMap.set("control_room", "surveillance_camera monitor apple_juice");
-        lsMap.set("suitcase", "namuhs_glasses batteries papers apple");
-        lsMap.set("cardboard_box", "papers");
+        lsMap.set("home", "dir_break_room dir_closet dir_control_room");
+        lsMap.set(
+            "break_room",
+            "dir_suitcase file_vending_machine file_chair file_table"
+        );
+        lsMap.set("closet", "dir_cardboard_box file_wires file_hazmat_suit");
+        lsMap.set(
+            "control_room",
+            "file_surveillance_camera file_monitor file_apple_juice"
+        );
+        lsMap.set(
+            "suitcase",
+            "file_namuhs_glasses file_batteries file_papers file_apple"
+        );
+        lsMap.set("cardboard_box", "file_papers");
 
         cdMap.set("home", ["break_room", "closet", "control_room"]);
         cdMap.set("break_room", ["suitcase"]);
@@ -146,7 +155,6 @@ export default class Level1Scene extends Phaser.Scene {
 
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
-                this.lastPosition = -1;
                 const newText = this.inputField.value;
                 this.lastText.push(newText.trim());
 
@@ -159,7 +167,7 @@ export default class Level1Scene extends Phaser.Scene {
                                 ": " +
                                 newText
                         );
-                        this.addTextToContainer(lsMap.get(state) as string);
+                        this.addLsToContainer(lsMap.get(state) as string);
                     } else if (newText.substring(0, 3) == "cd ") {
                         let cdInput: string = newText.substring(
                             3,
@@ -387,6 +395,40 @@ export default class Level1Scene extends Phaser.Scene {
         }
     }
     update() {}
+
+    addLsToContainer(text: string) {
+        const words = text.split(" ");
+
+        const numNewlines = words.length;
+
+        this.inputContainer.y -= numNewlines * 24.7;
+
+        for (let word of words) {
+            if (word.substring(0, 5) === "file_") {
+                let newWord = word.substring(5);
+                const newText = this.add.text(0, 0, newWord, {
+                    fontSize: "24px",
+                    color: "#77C3EC",
+                });
+                this.inputContainer.add(newText);
+            } else if (word.substring(0, 4) === "dir_") {
+                let newWord = word.substring(4);
+                const newText = this.add.text(0, 0, newWord, {
+                    fontSize: "24px",
+                    color: "#86DC3D",
+                });
+                this.inputContainer.add(newText);
+            } else {
+                const newText = this.add.text(0, 0, word, {
+                    fontSize: "24px",
+                    color: "#fff",
+                });
+                this.inputContainer.add(newText);
+            }
+
+            this.repositionTextObjects();
+        }
+    }
 
     addTextToContainer(text: string) {
         const newText = this.add.text(0, 0, text, {
