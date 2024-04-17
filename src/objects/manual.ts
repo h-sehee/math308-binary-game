@@ -14,20 +14,18 @@ export default class Manual extends Phaser.GameObjects.Sprite {
 
         // Adding the sprite to the scene and scaling it down
         this.scene.add.existing(this);
-        this.setScale(0.5); // Scale down the sprite
+        this.setScale(0.3); // Scale down the sprite
         this.setInteractive({ cursor: "pointer" });
 
         // Handling hover events
         this.on("pointerover", () => {
-            this.setTexture("HoveredBook");
-            this.setScale(0.55); // Scale up a bit when hovered
+            this.setTexture(this.manualOpen ? "OpenBook" : "HoveredBook");
+            this.setScale(0.35); // Scale up a bit when hovered
         });
 
         this.on("pointerout", () => {
-            if (!this.manualOpen) {
-                this.setTexture("ClosedBook");
-                this.setScale(0.5); // Return to original scaled down size
-            }
+            this.setTexture(this.manualOpen ? "OpenBook" : "ClosedBook");
+            this.setScale(0.3); // Return to original scaled down size
         });
 
         // Handling click events
@@ -41,25 +39,33 @@ export default class Manual extends Phaser.GameObjects.Sprite {
         });
 
         // Create a container for manual text right under the book
-        this.manualContainer = this.scene.add.container(x, y + 100);
-        let background = this.scene.add
-            .rectangle(0, 0, 400, 300, 0xaaaaaa) // Same larger size and grey background
-            .setStrokeStyle(2, 0xffff00); // Yellow border
-        this.manualContainer.add(background);
-        let textObject = this.scene.add.text(-190, -140, this.manualText, {
-            font: "16px 'Courier New'",
-            color: "#000",
-            wordWrap: { width: 380 },
+        let manualHeight = 355; // available space between the sprite and the text entry box
+        let manualWidth = 330; // an approximate width based on the screenshot
+        let manualX = 20; // starting X coordinate under the sprite
+        let manualY = 175; // starting Y coordinate right below the sprite
+        this.manualContainer = this.scene.add.container(manualX, manualY);
+
+        let graphics = this.scene.add.graphics();
+        graphics.fillStyle(0x21201f, 0.8); // Grey background with opacity
+        graphics.lineStyle(4, 0xffd700); // Yellow border
+        graphics.strokeRoundedRect(0, 0, manualWidth, manualHeight, 20); // x, y, width, height, radius
+        graphics.fillRoundedRect(0, 0, manualWidth, manualHeight, 20);
+        this.manualContainer.add(graphics);
+
+        let textObject = this.scene.add.text(5, 20, this.manualText, {
+            font: "bold 16px 'Courier New'",
+            color: "#ffd700", // Text color matches the border
+            wordWrap: { width: manualWidth - 10 },
+            align: "left", // Left align text
         });
         this.manualContainer.add(textObject);
         this.manualContainer.setVisible(false);
     }
 
     displayManual() {
-        // Optional: Animate the text box expansion if desired
         this.scene.tweens.add({
             targets: this.manualContainer.list,
-            scaleY: 1, // Grow only vertically, if desired
+            scaleY: 1,
             scaleX: 1,
             duration: 300,
             ease: "Power2",
