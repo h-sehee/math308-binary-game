@@ -139,7 +139,7 @@ export default class Level03 extends Phaser.Scene {
         cdMap.set("cracked_phone", ["notes_app"]);
 
         cdBack.set("brick_pile", "facility_back_door");
-        cdBack.set("garbage_can", "garbage_can");
+        cdBack.set("garbage_can", "facility_back_door");
         cdBack.set("file_box", "facility_back_door");
         cdBack.set("cracked_phone", "break_room");
         cdBack.set("graph_paper", "file_box");
