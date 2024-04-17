@@ -32,10 +32,18 @@ export default class LevelSelect extends Phaser.Scene {
     }) {
         this.username = data.username;
 
-        this.lvl2 = data.lvl2;
-        this.lvl3 = data.lvl3;
-        this.lvl4 = data.lvl4;
-        this.lvl5 = data.lvl5;
+        if (this.username === "admin") {
+            this.lvl2 = true;
+            this.lvl3 = true;
+            this.lvl4 = true;
+            this.lvl5 = true;
+        } else {
+            this.lvl2 = data.lvl2;
+            this.lvl3 = data.lvl3;
+            this.lvl4 = data.lvl4;
+            this.lvl5 = data.lvl5;
+        }
+        this.lvl1 = true;
     }
 
     create() {
@@ -168,7 +176,14 @@ export default class LevelSelect extends Phaser.Scene {
                 wallDoor.setVisible(true);
                 backDoor.setVisible(false);
                 this.time.delayedCall(600, () => {
-                    this.scene.start("IntroScene"), { username: this.username };
+                    console.log(this.username);
+                    this.scene.start("IntroScene", {
+                        username: this.username,
+                        lvl1: this.lvl1,
+                        lvl2: this.lvl2,
+                        lvl3: this.lvl3,
+                        lvl4: this.lvl4,
+                    });
                 });
             });
         });
