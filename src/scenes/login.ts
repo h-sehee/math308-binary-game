@@ -35,9 +35,11 @@ export default class LoginScene extends Phaser.Scene {
         this.inputField.style.left = "50%";
         this.inputField.style.backgroundColor = "#000";
         this.inputField.style.color = "#fff";
+        this.inputField.placeholder = "Enter Username"; // Placeholder text
+        this.inputField.style.border = "2px solid gold";
 
         const authorizationText = this.add.text(
-            460,
+            470,
             257,
             "Authorization Required",
             {
@@ -47,7 +49,7 @@ export default class LoginScene extends Phaser.Scene {
             }
         );
 
-        const loginText = this.add.text(230, 417, "LOGIN", {
+        const loginText = this.add.text(590, 340, "LOGIN", {
             color: "#fff",
             fontSize: "24px",
             fontFamily: "Monospace",

@@ -119,6 +119,8 @@ export default class Level2Scene extends Phaser.Scene {
         this.inputField.style.left = "50%";
         this.inputField.style.backgroundColor = "#000"; // Change background color to white
         this.inputField.style.color = "#fff"; // Change text color to black
+        this.inputField.placeholder = ">$"; // Placeholder text
+        this.inputField.style.border = "2px solid gold";
 
         this.inputField.style.transform = "translate(-50%, -50%)";
         document.body.appendChild(this.inputField);
