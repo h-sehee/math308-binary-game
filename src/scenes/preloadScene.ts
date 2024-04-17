@@ -40,22 +40,6 @@ export default class PreloadScene extends Phaser.Scene {
             frameWidth: 180,
             frameHeight: 405,
         });
-        // this.load.image("forest", "assets/forest.jpg");
-        // this.load.image("matrix", "assets/matrix.png");
-        // this.load.image("evil", "assets/evil.jpg");
-
-        this.load.image("1", "assets/num1.png");
-        this.load.image("2", "assets/num2.png");
-        this.load.image("3", "assets/num3.png");
-        this.load.image("4", "assets/num4.png");
-        this.load.image("5", "assets/num5.png");
-        this.load.image("6", "assets/num6.png");
-        this.load.image("7", "assets/num7.png");
-        this.load.image("8", "assets/num8.png");
-        this.load.image("9", "assets/num9.png");
-        this.load.image("0", "assets/num0.png");
-        this.load.image("padCheck", "assets/padCheck.png");
-        this.load.image("padX", "assets/padx.png");
 
         this.load.audio("ding", ["assets/ding.mp3"]);
         this.load.audio("cdDing", ["assets/cdDing.mp3"]);
