@@ -11,6 +11,8 @@ export default class Level03 extends Phaser.Scene {
     private username: string;
     private lvl5: boolean;
     private objectiveCompleted: boolean = false;
+    private lastText: string[] = [""];
+    private lastPosition: number = -1;
 
     constructor() {
         super({ key: "Level03" });
@@ -191,6 +193,7 @@ export default class Level03 extends Phaser.Scene {
 
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
+                this.lastPosition = -1;
                 const newText = this.inputField.value;
                 if (newText.trim() !== "") {
                     if (newText.trim() == "ls") {
@@ -281,6 +284,20 @@ export default class Level03 extends Phaser.Scene {
                             "Command '" + newText + "' not found"
                         );
                     }
+                }
+            }
+            if (event.key === "ArrowUp") {
+                let index = this.lastText.length + this.lastPosition;
+                if (index > 0) {
+                    this.inputField.value = this.lastText[index];
+                    this.lastPosition -= 1;
+                }
+            }
+            if (event.key === "ArrowDown") {
+                let index = this.lastText.length + this.lastPosition;
+                if (index < this.lastText.length - 2) {
+                    this.inputField.value = this.lastText[index + 2];
+                    this.lastPosition += 1;
                 }
             }
         });

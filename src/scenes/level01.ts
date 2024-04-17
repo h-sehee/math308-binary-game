@@ -14,6 +14,7 @@ export default class Level1Scene extends Phaser.Scene {
     private objectiveCompleted: boolean = false;
     private lastText: string[] = [""];
     private manual: Manual;
+    private lastPosition: number = -1;
 
     constructor() {
         super({ key: "Level01" });
@@ -145,6 +146,7 @@ export default class Level1Scene extends Phaser.Scene {
 
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
+                this.lastPosition = -1;
                 const newText = this.inputField.value;
                 this.lastText.push(newText.trim());
 
@@ -325,7 +327,18 @@ export default class Level1Scene extends Phaser.Scene {
             }
 
             if (event.key === "ArrowUp") {
-                this.inputField.value = this.lastText[this.lastText.length - 1];
+                let index = this.lastText.length + this.lastPosition;
+                if (index > 0) {
+                    this.inputField.value = this.lastText[index];
+                    this.lastPosition -= 1;
+                }
+            }
+            if (event.key === "ArrowDown") {
+                let index = this.lastText.length + this.lastPosition;
+                if (index < this.lastText.length - 2) {
+                    this.inputField.value = this.lastText[index + 2];
+                    this.lastPosition += 1;
+                }
             }
         });
 
