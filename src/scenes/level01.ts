@@ -51,7 +51,7 @@ export default class Level1Scene extends Phaser.Scene {
         this.add.image(640, 100, "prompt").setDisplaySize(560, 110);
         this.add.image(200, 100, "alfredicon").setDisplaySize(130, 130);
         this.add.image(1050, 100, "pin").setDisplaySize(30, 40);
-        this.manual = new Manual(this, 30, 100, "Initial manual text here.");
+        this.manual = new Manual(this, 50, 100, "Initial manual text here.");
 
         let ding = this.sound.add("ding", { loop: false });
         let lsDing = this.sound.add("lsDing", { loop: false });
