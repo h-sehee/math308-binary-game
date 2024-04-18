@@ -38,7 +38,6 @@ export default class TestScene extends LevelClass {
             "brown_plat_1"
         ) as Phaser.Physics.Arcade.Sprite;
 
-        //setting the size of the groud (1, 2, 3)
         ground.setScale(40, 2).refreshBody();
 
         //platform 1
@@ -61,9 +60,11 @@ export default class TestScene extends LevelClass {
         this.posX = this.player.x;
         this.posY = this.player.y;
 
-        const offsetX = -125;
-        const offsetY = -100;
+        //offset for where text appears relative to the player pos
+        const offsetX = -600;
+        const offsetY = -300;
 
+        //create/update text (float -> int for readability)
         this.playerPos?.setText(
             `Player Position: (${Math.floor(this.posX)}, ${Math.floor(
                 this.posY
