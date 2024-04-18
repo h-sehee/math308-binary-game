@@ -9,6 +9,7 @@ import LevelThreeIntro from "./scenes/lvl03_intro";
 import IntroScene from "./scenes/intro";
 import LoginScene from "./scenes/login";
 import Tutorial from "./scenes/tutorial";
+import SecurityBreachScene from "./scenes/securityBreach";
 
 import Level03 from "./scenes/lvl03Main";
 
@@ -46,6 +47,7 @@ export const CONFIG = {
         Level2Scene,
         LoadingScene2,
         LoadingScene2Part2,
+        SecurityBreachScene,
     ],
     physics: {
         default: "arcade",
