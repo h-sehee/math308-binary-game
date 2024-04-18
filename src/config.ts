@@ -1,15 +1,20 @@
 import Phaser from "phaser";
-import MainScene from "./scenes/mainScene";
 import PreloadScene from "./scenes/preloadScene";
+import TitleScene from "./scenes/titleScene";
 
-const DEFAULT_WIDTH = 1280;
-const DEFAULT_HEIGHT = 720;
+import LobbyScene from "./scenes/lobbyScene";
+import room01Scene from "./scenes/room01Scene";
+import ConsoleScene from "./scenes/consoleScene";
+import GameUI from "./scenes/uiScene";
+
+const DEFAULT_WIDTH = 400;
+const DEFAULT_HEIGHT = 250;
 
 export const CONFIG = {
-    title: "My Untitled Phaser 3 Game",
+    title: "Bash The Dungeon",
     version: "0.0.1",
     type: Phaser.AUTO,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#000000",
     scale: {
         parent: "phaser-game",
         mode: Phaser.Scale.FIT,
@@ -17,12 +22,19 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, MainScene],
+    scene: [
+        PreloadScene,
+        TitleScene,
+        LobbyScene,
+        GameUI,
+        room01Scene,
+        ConsoleScene,
+    ],
     physics: {
         default: "arcade",
         arcade: {
             debug: false,
-            gravity: { y: 300 },
+            gravity: { y: 0 },
         },
     },
     input: {
@@ -34,5 +46,8 @@ export const CONFIG = {
     render: {
         pixelArt: false,
         antialias: true,
+    },
+    dom: {
+        createContainer: true,
     },
 };
