@@ -11,6 +11,8 @@ export default class Level03 extends Phaser.Scene {
     private username: string;
     private lvl5: boolean;
     private objectiveCompleted: boolean = false;
+    private lastText: string[] = [""];
+    private lastPosition: number = -1;
 
     constructor() {
         super({ key: "Level03" });
@@ -35,7 +37,21 @@ export default class Level03 extends Phaser.Scene {
         this.username = data.username;
         this.lvl5 = data.lvl5;
     }
-    preload() {}
+    preload() {
+        this.load.image("1", "assets/num1.png");
+        this.load.image("2", "assets/num2.png");
+        this.load.image("3", "assets/num3.png");
+        this.load.image("4", "assets/num4.png");
+        this.load.image("5", "assets/num5.png");
+        this.load.image("6", "assets/num6.png");
+        this.load.image("7", "assets/num7.png");
+        this.load.image("8", "assets/num8.png");
+        this.load.image("9", "assets/num9.png");
+        this.load.image("0", "assets/num0.png");
+        this.load.image("padCheck", "assets/padCheck.png");
+        this.load.image("padX", "assets/padx.png");
+        this.load.image("pinPadText", "assets/PinPadText.png");
+    }
 
     create() {
         this.objectiveCompleted = false;
@@ -44,6 +60,16 @@ export default class Level03 extends Phaser.Scene {
         this.add.image(640, 100, "prompt").setDisplaySize(560, 110);
         this.add.image(155, 100, "alfredicon").setDisplaySize(130, 130);
         this.add.image(1050, 100, "pin").setDisplaySize(30, 40);
+
+        function getRandomInt(min: number, max: number): number {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        const randomNum1 = getRandomInt(1, 9).toString();
+        const randomNum2 = getRandomInt(1, 9).toString();
+        const randomNum3 = getRandomInt(1, 9).toString();
+        const randomNum4 = getRandomInt(1, 9).toString();
 
         //Padlock code
         const imagePositions = [
@@ -61,8 +87,20 @@ export default class Level03 extends Phaser.Scene {
             { x: 1180, y: 520, key: "padCheck" },
         ];
 
-        const hoverTintColor = 0xff0000;
+        const hoverTintColor = 0xd3d3d3;
+        const answer = randomNum1 + randomNum2 + randomNum3 + randomNum4;
 
+        const displayScreen = this.add
+            .text(1065, 207, "", {
+                fontSize: "55px",
+                fontFamily: "Arial",
+                color: "#ffff00",
+            })
+            .setDepth(1);
+        this.add
+            .image(1109, 239, "pinPadText")
+            .setDisplaySize(240, 80)
+            .setDepth(0);
         //padlock hover tint code
         imagePositions.forEach((pos) => {
             const image = this.add
@@ -77,6 +115,27 @@ export default class Level03 extends Phaser.Scene {
 
             image.on("pointerout", () => {
                 image.clearTint();
+            });
+
+            image.on("pointerdown", () => {
+                if (pos.key !== "padX" && pos.key !== "padCheck") {
+                    if (displayScreen.text.length < 4) {
+                        displayScreen.text += pos.key;
+                    }
+                } else if (pos.key === "padX") {
+                    // Handle backspace functionality
+                    displayScreen.text = displayScreen.text.slice(0, -1);
+                } else {
+                    if (displayScreen.text === answer) {
+                        this.objectiveCompleted = true;
+                        this.addTextToContainer("Access Granted");
+                        this.time.delayedCall(2000, () => {
+                            this.scene.start("LevelSelect");
+                        });
+                    } else {
+                        this.addTextToContainer("Access denied.");
+                    }
+                }
             });
         });
 
@@ -96,18 +155,7 @@ export default class Level03 extends Phaser.Scene {
 
         this.addTextToContainer("Alfred: Welcome back " + this.username + "!");
 
-        let state: string = "facility_back_door";
-
-        function getRandomInt(min: number, max: number): number {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        const randomNum1 = getRandomInt(1, 10).toString();
-        const randomNum2 = getRandomInt(1, 10).toString();
-        const randomNum3 = getRandomInt(1, 10).toString();
-        const randomNum4 = getRandomInt(1, 10).toString();
+        let state: string = "back_door";
 
         const lsMap = new Map<string, string>();
         const catMap = new Map<string, string>();
@@ -115,32 +163,42 @@ export default class Level03 extends Phaser.Scene {
         const cdBack = new Map<string, string>();
         const manMap = new Map<string, string>();
 
-        lsMap.set("facility_back_door", "brick_pile garbage_can file_box");
-        lsMap.set("brick_pile", "bricks rocks dirt");
-        lsMap.set("garbage_can", "soda_can sticks cracked_phone broken_chair");
-        lsMap.set("file_box", "pencils secret_folder_#1 graph_paper");
-        lsMap.set("cracked_phone", "notes_app");
-        lsMap.set("graph_paper", "code_#4.txt");
-        lsMap.set("notes_app", "code_#1.txt");
-        lsMap.set("secret_folder_#1", "code_#2.txt code_#3.txt");
+        lsMap.set("back_door", "dir_brick_pile dir_garbage_can dir_file_box");
+        lsMap.set("brick_pile", "file_bricks file_rocks file_dirt");
+        lsMap.set(
+            "garbage_can",
+            "file_soda_can file_sticks dir_cracked_phone file_broken_chair"
+        );
+        lsMap.set(
+            "file_box",
+            "file_pencils dir_secret_folder_#1 dir_graph_paper"
+        );
+        lsMap.set("cracked_phone", "dir_notes_app");
+        lsMap.set("graph_paper", "file_code_#4.txt");
+        lsMap.set("notes_app", "file_code_#1.txt");
+        lsMap.set("secret_folder_#1", "file_code_#2.txt file_code_#3.txt");
 
         catMap.set("code_#1.txt", randomNum1);
         catMap.set("code_#2.txt", randomNum2);
         catMap.set("code_#3.txt", randomNum3);
         catMap.set("code_#4.txt", randomNum4);
 
-        cdMap.set("facility_back_door", [
-            "brick_pile",
-            "garbage_can",
-            "file_box",
-        ]);
+        catMap.set("bricks.txt", "bricks");
+        catMap.set("rocks.txt", "rocks");
+        catMap.set("dirt.txt", "dirt");
+        catMap.set("pencils.txt", "pencils");
+        catMap.set("soda_can.txt", "soda_can");
+        catMap.set("sticks.txt", "sticks");
+        catMap.set("broken_chair.txt", "broken_chair");
+
+        cdMap.set("back_door", ["brick_pile", "garbage_can", "file_box"]);
         cdMap.set("garbage_can", ["cracked_phone"]);
         cdMap.set("file_box", ["secret_folder_#1", "graph_paper"]);
         cdMap.set("cracked_phone", ["notes_app"]);
 
-        cdBack.set("brick_pile", "facility_back_door");
-        cdBack.set("garbage_can", "facility_back_door");
-        cdBack.set("file_box", "facility_back_door");
+        cdBack.set("brick_pile", "back_door");
+        cdBack.set("garbage_can", "back_door");
+        cdBack.set("file_box", "back_door");
         cdBack.set("cracked_phone", "garbage_can");
         cdBack.set("graph_paper", "file_box");
         cdBack.set("notes_app", "cracked_phone");
@@ -174,6 +232,8 @@ export default class Level03 extends Phaser.Scene {
         this.inputField.style.left = "50%";
         this.inputField.style.backgroundColor = "#000"; // Change background color to white
         this.inputField.style.color = "#fff"; // Change text color to black
+        this.inputField.placeholder = ">$"; // Placeholder text
+        this.inputField.style.border = "2px solid gold";
 
         this.inputField.style.transform = "translate(-50%, -50%)";
         document.body.appendChild(this.inputField);
@@ -195,13 +255,18 @@ export default class Level03 extends Phaser.Scene {
 
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
+                this.lastPosition = -1;
                 const newText = this.inputField.value;
                 if (newText.trim() !== "") {
                     if (newText.trim() == "ls") {
                         lsDing.play();
                         this.inputField.value = ""; // Empty the input field
-                        this.addTextToContainer("agent09: " + newText);
-                        this.addTextToContainer(lsMap.get(state) as string);
+                        this.addTextToContainer(
+                            this.username.toLowerCase().replace(/\s+/g, "_") +
+                                ": " +
+                                newText
+                        );
+                        this.addLsToContainer(lsMap.get(state) as string);
                     } else if (newText.substring(0, 4) == "cat ") {
                         let catInput: string = newText.substring(4);
                         const catState = catMap.get(catInput);
@@ -287,9 +352,23 @@ export default class Level03 extends Phaser.Scene {
                     }
                 }
             }
+            if (event.key === "ArrowUp") {
+                let index = this.lastText.length + this.lastPosition;
+                if (index > 0) {
+                    this.inputField.value = this.lastText[index];
+                    this.lastPosition -= 1;
+                }
+            }
+            if (event.key === "ArrowDown") {
+                let index = this.lastText.length + this.lastPosition;
+                if (index < this.lastText.length - 2) {
+                    this.inputField.value = this.lastText[index + 2];
+                    this.lastPosition += 1;
+                }
+            }
         });
 
-        let time = 60;
+        let time = 120;
         let lastUpdateTime = Date.now();
 
         this.timer = this.add.text(75, 655, time.toFixed(2), {
@@ -334,6 +413,40 @@ export default class Level03 extends Phaser.Scene {
         }
     }
     update() {}
+
+    addLsToContainer(text: string) {
+        const words = text.split(" ");
+
+        const numNewlines = words.length;
+
+        this.inputContainer.y -= numNewlines * 24.7;
+
+        for (let word of words) {
+            if (word.substring(0, 5) === "file_") {
+                let newWord = word.substring(5);
+                const newText = this.add.text(0, 0, newWord, {
+                    fontSize: "24px",
+                    color: "#77C3EC",
+                });
+                this.inputContainer.add(newText);
+            } else if (word.substring(0, 4) === "dir_") {
+                let newWord = word.substring(4);
+                const newText = this.add.text(0, 0, newWord, {
+                    fontSize: "24px",
+                    color: "#86DC3D",
+                });
+                this.inputContainer.add(newText);
+            } else {
+                const newText = this.add.text(0, 0, word, {
+                    fontSize: "24px",
+                    color: "#fff",
+                });
+                this.inputContainer.add(newText);
+            }
+
+            this.repositionTextObjects();
+        }
+    }
 
     addTextToContainer(text: string) {
         const newText = this.add.text(0, 0, text, {

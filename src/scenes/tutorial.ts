@@ -17,6 +17,7 @@ export default class Tutorial extends Phaser.Scene {
     private manObjective: boolean = false;
     private rmObjective: boolean = false;
     private lastText: string[] = [""];
+    private lastPosition: number = -1;
 
     constructor() {
         super({ key: "Tutorial" });
@@ -87,8 +88,8 @@ export default class Tutorial extends Phaser.Scene {
         const manMap = new Map<string, string>();
         const rmMap = new Map<string, string[]>(); // Map to track removable files
 
-        lsMap.set("home", "headquarters");
-        lsMap.set("headquarters", "door_lock");
+        lsMap.set("home", "dir_headquarters");
+        lsMap.set("headquarters", "file_door_lock");
 
         cdMap.set("home", ["headquarters"]);
 
@@ -121,6 +122,8 @@ export default class Tutorial extends Phaser.Scene {
         this.inputField.style.left = "50%";
         this.inputField.style.backgroundColor = "#000"; // Change background color to white
         this.inputField.style.color = "#fff"; // Change text color to black
+        this.inputField.placeholder = ">$"; // Placeholder text
+        this.inputField.style.border = "2px solid gold";
 
         this.inputField.style.transform = "translate(-50%, -50%)";
         document.body.appendChild(this.inputField);
@@ -136,6 +139,7 @@ export default class Tutorial extends Phaser.Scene {
 
         this.input.keyboard?.on("keydown", (event: KeyboardEvent) => {
             if (event.key === "Enter") {
+                this.lastPosition = -1;
                 const newText = this.inputField.value;
                 this.lastText.push(newText.trim());
                 if (newText.trim() !== "") {
@@ -147,7 +151,7 @@ export default class Tutorial extends Phaser.Scene {
                                 ": " +
                                 newText
                         );
-                        this.addTextToContainer(lsMap.get(state) as string);
+                        this.addLsToContainer(lsMap.get(state) as string);
 
                         if (
                             !this.cdObjective &&
@@ -420,7 +424,18 @@ export default class Tutorial extends Phaser.Scene {
             }
 
             if (event.key === "ArrowUp") {
-                this.inputField.value = this.lastText[this.lastText.length - 1];
+                let index = this.lastText.length + this.lastPosition;
+                if (index > 0) {
+                    this.inputField.value = this.lastText[index];
+                    this.lastPosition -= 1;
+                }
+            }
+            if (event.key === "ArrowDown") {
+                let index = this.lastText.length + this.lastPosition;
+                if (index < this.lastText.length - 2) {
+                    this.inputField.value = this.lastText[index + 2];
+                    this.lastPosition += 1;
+                }
             }
             if (
                 this.firstLsObjective &&
@@ -453,6 +468,40 @@ export default class Tutorial extends Phaser.Scene {
         }
     }
     update() {}
+
+    addLsToContainer(text: string) {
+        const words = text.split(" ");
+
+        const numNewlines = words.length;
+
+        this.inputContainer.y -= numNewlines * 24.7;
+
+        for (let word of words) {
+            if (word.substring(0, 5) === "file_") {
+                let newWord = word.substring(5);
+                const newText = this.add.text(0, 0, newWord, {
+                    fontSize: "24px",
+                    color: "#77C3EC",
+                });
+                this.inputContainer.add(newText);
+            } else if (word.substring(0, 4) === "dir_") {
+                let newWord = word.substring(4);
+                const newText = this.add.text(0, 0, newWord, {
+                    fontSize: "24px",
+                    color: "#86DC3D",
+                });
+                this.inputContainer.add(newText);
+            } else {
+                const newText = this.add.text(0, 0, word, {
+                    fontSize: "24px",
+                    color: "#fff",
+                });
+                this.inputContainer.add(newText);
+            }
+
+            this.repositionTextObjects();
+        }
+    }
 
     addTextToContainer(text: string) {
         const newText = this.add.text(0, 0, text, {

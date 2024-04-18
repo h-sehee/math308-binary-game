@@ -5,7 +5,6 @@ import TerminalScene from "./scenes/terminalScene";
 import LevelSelect from "./scenes/levelSelect";
 import Level01 from "./scenes/level01";
 import LoadingScene1 from "./scenes/level01_load";
-import LevelThreeIntro from "./scenes/lvl03_intro";
 import IntroScene from "./scenes/intro";
 import LoginScene from "./scenes/login";
 import Tutorial from "./scenes/tutorial";
@@ -16,6 +15,10 @@ import Level03 from "./scenes/lvl03Main";
 import Level2Scene from "./scenes/level02";
 import LoadingScene2 from "./scenes/level02_load";
 import LoadingScene2Part2 from "./scenes/level02_load2";
+
+import LevelThreeIntro from "./scenes/lvl03_intro";
+import LevelThreeIntro2 from "./scenes/LevelThreeIntro2";
+import Level03 from "./scenes/lvl03Main";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -42,8 +45,6 @@ export const CONFIG = {
         IntroScene,
         LoginScene,
         Tutorial,
-        LevelThreeIntro,
-        Level03,
         Level2Scene,
         LoadingScene2,
         LoadingScene2Part2,
