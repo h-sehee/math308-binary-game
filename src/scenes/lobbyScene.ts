@@ -302,33 +302,6 @@ class LobbyScene extends Phaser.Scene {
         }
     }
 
-    private handleBulletEnemyCollision(
-        bullet:
-            | Phaser.Types.Physics.Arcade.GameObjectWithBody
-            | Phaser.Tilemaps.Tile
-    ) {
-        if (this.chorts) {
-            this.chorts.children.iterate(
-                (chort: Phaser.GameObjects.GameObject) => {
-                    const currentChort = chort as Chort;
-                    // Check for collision between bullet and Chort
-                    if (
-                        this.physics.overlap(
-                            bullet as Phaser.Types.Physics.Arcade.GameObjectWithBody,
-                            currentChort
-                        )
-                    ) {
-                        // Decrease Chort health
-                        currentChort.takeDamage(10); // Assuming each bullet does 10 damage
-                        // Destroy the bullet
-                        bullet.destroy(); // Destroy the bullet
-                    }
-                    return true;
-                }
-            );
-        }
-    }
-
     private handlePlayerEnemyBulletCollision(
         player:
             | Phaser.Types.Physics.Arcade.GameObjectWithBody
