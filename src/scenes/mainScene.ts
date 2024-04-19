@@ -46,26 +46,30 @@ export default class MainScene extends Phaser.Scene {
             "wall",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
-        this.map.createLayer("shadow", tileset);
-        this.map.createLayer("ground_objects", tileset);
-        this.map.createLayer("ground_objects_shadow", tileset);
         const objects1Layer = this.map.createLayer(
             "objects",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
-        this.map.createLayer("shadow2", tileset);
+        this.map.createLayer("shadow", tileset);
+        const groundObjectsLayer = this.map.createLayer(
+            "ground_objects",
+            tileset
+        );
+        this.map.createLayer("ground_objects_shadow", tileset);
         const objects2Layer = this.map.createLayer(
             "objects2",
+            tileset
+        ) as Phaser.Tilemaps.TilemapLayer;
+        this.map.createLayer("shadow2", tileset);
+        this.objects3Layer = this.map.createLayer(
+            "objects3",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
         this.shadow3Layer = this.map.createLayer(
             "shadow3",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
-        this.objects3Layer = this.map.createLayer(
-            "objects3",
-            tileset
-        ) as Phaser.Tilemaps.TilemapLayer;
+
         this.lockLayer = this.map.createLayer(
             "lock",
             tileset
@@ -89,6 +93,7 @@ export default class MainScene extends Phaser.Scene {
         objects1Layer.setDepth(1000);
         objects2Layer.setDepth(1001);
         this.objects3Layer.setDepth(1002);
+        groundObjectsLayer?.setDepth(400);
 
         this.player = this.add.player(623, 280, "faune");
 
@@ -131,7 +136,7 @@ export default class MainScene extends Phaser.Scene {
             chest.body
                 ?.setSize(chest.width * 0.31, chest.height * 0.55)
                 .setOffset(36, 16);
-            chest.setDepth(501);
+            chest.setDepth(1001);
             return true;
         });
 
