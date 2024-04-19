@@ -49,7 +49,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             return;
         }
 
-        const speed = 100;
+        const speed = 125;
 
         const keyA = this.scene.input.keyboard?.addKey(
             Phaser.Input.Keyboard.KeyCodes.A

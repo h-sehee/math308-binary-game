@@ -9,6 +9,8 @@ import Chest from "../objects/Chest";
 export default class MainScene extends Phaser.Scene {
     private map: Phaser.Tilemaps.Tilemap;
     private lockLayer: Phaser.Tilemaps.TilemapLayer;
+    private shadow3Layer: Phaser.Tilemaps.TilemapLayer;
+    private objects3Layer: Phaser.Tilemaps.TilemapLayer;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private player?: Player;
     private itemList: string[];
@@ -56,11 +58,11 @@ export default class MainScene extends Phaser.Scene {
             "objects2",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
-        const shadow3Layer = this.map.createLayer(
+        this.shadow3Layer = this.map.createLayer(
             "shadow3",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
-        const objects3Layer = this.map.createLayer(
+        this.objects3Layer = this.map.createLayer(
             "objects3",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
@@ -73,27 +75,36 @@ export default class MainScene extends Phaser.Scene {
         this.lockLayer.setCollisionByProperty({ collides: true }, true);
         objects1Layer.setCollisionByProperty({ collides: true }, true);
         objects2Layer.setCollisionByProperty({ collides: true }, true);
-        shadow3Layer.setCollisionByProperty({ collides: true }, true);
+        this.shadow3Layer.setCollisionByProperty({ collides: true }, true);
+        this.objects3Layer.setCollisionByProperty({ collides: true }, false);
 
         debugDraw(stairsLayer, this, false);
         debugDraw(wallsLayer, this, false);
         debugDraw(this.lockLayer, this, false);
         debugDraw(objects1Layer, this, false);
         debugDraw(objects2Layer, this, false);
-        debugDraw(shadow3Layer, this, false);
+        debugDraw(this.shadow3Layer, this, false);
+        debugDraw(this.objects3Layer, this, false);
 
         objects1Layer.setDepth(1000);
         objects2Layer.setDepth(1001);
-        objects3Layer.setDepth(1002);
+        this.objects3Layer.setDepth(1002);
 
         this.player = this.add.player(623, 280, "faune");
 
         this.physics.add.collider(this.player, stairsLayer);
         this.physics.add.collider(this.player, wallsLayer);
-        this.physics.add.collider(this.player, this.lockLayer);
+        this.physics.add.collider(
+            this.player,
+            this.lockLayer,
+            this.handlePlayerLockCollision,
+            undefined,
+            this
+        );
         this.physics.add.collider(this.player, objects1Layer);
         this.physics.add.collider(this.player, objects2Layer);
-        this.physics.add.collider(this.player, shadow3Layer);
+        this.physics.add.collider(this.player, this.shadow3Layer);
+        this.physics.add.collider(this.player, this.objects3Layer);
 
         this.cameras.main.setSize(1280, 720);
         this.cameras.main.setViewport(
@@ -144,9 +155,44 @@ export default class MainScene extends Phaser.Scene {
         this.player?.setChest(chest);
     }
 
+    private handlePlayerLockCollision() {
+        this.input.keyboard?.on("keydown-SPACE", () => {
+            console.log("locklayer handle");
+        });
+    }
+
     update() {
         if (this.player) {
             this.player.update(this.cursors!);
+            if (
+                (this.player.x < 842 || this.player.x > 923) &&
+                this.player.y > 422 &&
+                this.player.y < 454
+            ) {
+                this.shadow3Layer.setCollisionByProperty(
+                    { collides: true },
+                    false
+                );
+                this.objects3Layer.setCollisionByProperty(
+                    { collides: true },
+                    true
+                );
+                this.player.setDepth(3000);
+            } else if (
+                (this.player.y < 384 || this.player.y > 496) &&
+                this.player.x > 870 &&
+                this.player.x < 922
+            ) {
+                this.shadow3Layer.setCollisionByProperty(
+                    { collides: true },
+                    true
+                );
+                this.objects3Layer.setCollisionByProperty(
+                    { collides: true },
+                    false
+                );
+                this.player.setDepth(500);
+            }
         }
     }
 }
