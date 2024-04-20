@@ -20,6 +20,7 @@ export default class MainScene extends Phaser.Scene {
     private playerItems: string[];
     private chestOpen = 0;
     private lockTextOn = false;
+    private endTextOn = false;
 
     constructor() {
         super({ key: "MainScene" });
@@ -38,6 +39,8 @@ export default class MainScene extends Phaser.Scene {
         this.itemList = ["item1", "item2", "item3", "item4", "item5", "item6"];
 
         this.input.setDefaultCursor("default");
+
+        this.add.image(640, 640, "cloud").setOrigin(0.5).setScale(4);
 
         this.map = this.make.tilemap({ key: "tilemap" });
         const tileset = this.map.addTilesetImage(
@@ -104,6 +107,7 @@ export default class MainScene extends Phaser.Scene {
         debugDraw(stairsLayer, this, false);
         debugDraw(wallsLayer, this, false);
         debugDraw(this.lockLayer, this, false);
+        debugDraw(this.altarLayer, this, false);
         debugDraw(objects1Layer, this, false);
         debugDraw(objects2Layer, this, false);
         debugDraw(this.shadow3Layer, this, false);
@@ -130,8 +134,15 @@ export default class MainScene extends Phaser.Scene {
         this.physics.add.collider(this.player, objects2Layer);
         this.physics.add.collider(this.player, this.shadow3Layer);
         this.physics.add.collider(this.player, this.objects3Layer);
+        this.physics.add.overlap(
+            this.player,
+            this.altarLayer,
+            this.handleAltar,
+            undefined,
+            this
+        );
 
-        this.cameras.main.setBackgroundColor(0x202020);
+        // this.cameras.main.setBackgroundColor(0x202020);
         this.cameras.main.setZoom(2);
         this.cameras.main.startFollow(this.player, true);
         this.cameras.main.setBounds(0, 0, 1280, 1280);
@@ -160,13 +171,6 @@ export default class MainScene extends Phaser.Scene {
             undefined,
             this
         );
-
-        this.events.on("altar", () => {
-            console.log("event called");
-            this.lockLayer.setCollisionByProperty({ collides: true }, false);
-            this.lockLayer.setVisible(false);
-            this.player?.setDepth(3000);
-        });
 
         this.input.keyboard?.on("keydown-E", () => {
             this.scene.pause();
@@ -233,8 +237,43 @@ export default class MainScene extends Phaser.Scene {
                 });
             } else if (this.chestOpen === 6) {
                 this.scene.pause();
-                this.scene.run("unlock");
+                this.scene.run("unlock", { player: this.player });
             }
+        }
+    }
+
+    private handleAltar() {
+        if (!this.player) {
+            return;
+        }
+        const tile = this.altarLayer.getTileAtWorldXY(
+            this.player.x,
+            this.player.y,
+            true
+        );
+        if (tile.index != -1 && !this.endTextOn) {
+            const endText = this.add
+                .text(800, 50, "You found all papers!", {
+                    fontSize: "12px",
+                    fontFamily: "cursive",
+                    shadow: {
+                        color: "#00ffff",
+                        fill: true,
+                        offsetX: 2,
+                        offsetY: 2,
+                        blur: 4,
+                        stroke: false,
+                    },
+                })
+                .setDepth(3000)
+                .setOrigin(0.5, 1);
+            this.endTextOn = true;
+            this.time.delayedCall(2500, () => {
+                endText.setVisible(false);
+            });
+            this.time.delayedCall(2500, () => {
+                this.scene.run("final-screen", { items: this.playerItems });
+            });
         }
     }
 
@@ -243,9 +282,10 @@ export default class MainScene extends Phaser.Scene {
         if (this.player) {
             this.player.update(this.cursors!);
             if (
-                (this.player.x < 842 || this.player.x > 923) &&
+                ((this.player.x < 843 && this.player.x > 799) ||
+                    (this.player.x < 971 && this.player.x > 950)) &&
                 this.player.y > 422 &&
-                this.player.y < 454
+                this.player.y < 486
             ) {
                 this.shadow3Layer.setCollisionByProperty(
                     { collides: true },
@@ -257,9 +297,12 @@ export default class MainScene extends Phaser.Scene {
                 );
                 this.player.setDepth(1500);
             } else if (
-                (this.player.y < 384 || this.player.y > 496) &&
-                this.player.x > 870 &&
-                this.player.x < 922
+                ((this.player.y < 384 || this.player.y > 496) &&
+                    this.player.x > 870 &&
+                    this.player.x < 922) ||
+                ((this.player.x < 799 || this.player.x > 971) &&
+                    this.player.y > 422 &&
+                    this.player.y < 486)
             ) {
                 this.shadow3Layer.setCollisionByProperty(
                     { collides: true },
@@ -270,6 +313,14 @@ export default class MainScene extends Phaser.Scene {
                     false
                 );
                 this.player.setDepth(500);
+            }
+            if (this.player.altarUnlock) {
+                this.lockLayer.setCollisionByProperty(
+                    { collides: true },
+                    false
+                );
+                this.lockLayer.setVisible(false);
+                this.player.setDepth(3000);
             }
         }
     }

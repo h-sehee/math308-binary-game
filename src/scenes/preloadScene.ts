@@ -20,6 +20,9 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("paper", "assets/paper.png");
         this.load.image("scroll", "assets/scroll_closed.png");
         this.load.image("message-box", "assets/message_box_1.png");
+        this.load.image("pollev", "assets/pollev-icon.png");
+        this.load.image("ascii", "assets/ascii.png");
+        this.load.image("cloud", "assets/clouds/clouds5.png");
     }
 
     create() {

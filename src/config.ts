@@ -5,6 +5,7 @@ import ItemScreen from "./scenes/itemScreen";
 import ItemList from "./scenes/itemList";
 import Narration from "./scenes/narration";
 import Unlock from "./scenes/unlock";
+import FinalScreen from "./scenes/finalScreen";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -24,7 +25,15 @@ export const CONFIG = {
     dom: {
         createContainer: true,
     },
-    scene: [PreloadScene, MainScene, Narration, Unlock, ItemList, ItemScreen],
+    scene: [
+        PreloadScene,
+        MainScene,
+        Narration,
+        Unlock,
+        ItemList,
+        FinalScreen,
+        ItemScreen,
+    ],
     physics: {
         default: "arcade",
         arcade: {

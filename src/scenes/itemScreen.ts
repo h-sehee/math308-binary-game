@@ -82,7 +82,7 @@ export default class ItemScreen extends Phaser.Scene {
                 .text(
                     this.cameras.main.width / 2,
                     this.cameras.main.height / 2,
-                    "10000 + 111001",
+                    "1111111 - 110110",
                     {
                         fontSize: "50px",
                         fontFamily: "cursive",
@@ -111,7 +111,7 @@ export default class ItemScreen extends Phaser.Scene {
                 .text(
                     this.cameras.main.width / 2,
                     this.cameras.main.height / 2,
-                    "1001 + 1000101",
+                    "10000 + 111110",
                     {
                         fontSize: "50px",
                         fontFamily: "cursive",
@@ -140,7 +140,7 @@ export default class ItemScreen extends Phaser.Scene {
                 .text(
                     this.cameras.main.width / 2,
                     this.cameras.main.height / 2,
-                    "11111 + 100010",
+                    "1100110 - 100101",
                     {
                         fontSize: "50px",
                         fontFamily: "cursive",
@@ -198,7 +198,7 @@ export default class ItemScreen extends Phaser.Scene {
                 .text(
                     this.cameras.main.width / 2,
                     this.cameras.main.height / 2,
-                    "101000 + 110001",
+                    "1100011 - 1010",
                     {
                         fontSize: "50px",
                         fontFamily: "cursive",

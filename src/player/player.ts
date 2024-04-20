@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+
 // import { sceneEvents } from "../events/eventsCenter";
 
 declare global {
@@ -16,6 +17,14 @@ declare global {
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     private mouse?: Phaser.Input.Pointer;
+    private _altarUnlcok = false;
+
+    get altarUnlock() {
+        return this._altarUnlcok;
+    }
+    set altarUnlock(flag: boolean) {
+        this._altarUnlcok = flag;
+    }
 
     constructor(
         scene: Phaser.Scene,
