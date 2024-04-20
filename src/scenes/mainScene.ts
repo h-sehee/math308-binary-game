@@ -6,10 +6,12 @@ import Player from "../player/player";
 import { debugDraw } from "../utils/debug";
 import Chest from "../objects/Chest";
 import "../objects/Chest";
+// import { sceneEvents } from "../events/eventsCenter";
 
 export default class MainScene extends Phaser.Scene {
     private map: Phaser.Tilemaps.Tilemap;
     private lockLayer: Phaser.Tilemaps.TilemapLayer;
+    private altarLayer: Phaser.Tilemaps.TilemapLayer;
     private shadow3Layer: Phaser.Tilemaps.TilemapLayer;
     private objects3Layer: Phaser.Tilemaps.TilemapLayer;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -29,9 +31,6 @@ export default class MainScene extends Phaser.Scene {
         createChestAnims(this.anims);
 
         this.scene.run("narration");
-        // this.time.delayedCall(2500, () => {
-        //     this.scene.stop("narration");
-        // });
 
         this.cursors =
             this.input.keyboard?.createCursorKeys() as Phaser.Types.Input.Keyboard.CursorKeys;
@@ -40,13 +39,14 @@ export default class MainScene extends Phaser.Scene {
 
         this.input.setDefaultCursor("default");
 
-        // this.add.image(0, 0, "base_tiles");
         this.map = this.make.tilemap({ key: "tilemap" });
         const tileset = this.map.addTilesetImage(
             "tileset",
             "base_tiles",
             16,
-            16
+            16,
+            1,
+            2
         ) as Phaser.Tilemaps.Tileset;
 
         this.map.createLayer("ground", tileset);
@@ -58,16 +58,23 @@ export default class MainScene extends Phaser.Scene {
             "wall",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
-        const objects1Layer = this.map.createLayer(
-            "objects",
+        this.altarLayer = this.map.createLayer(
+            "altar",
             tileset
         ) as Phaser.Tilemaps.TilemapLayer;
-        this.map.createLayer("shadow", tileset);
+        this.map.createLayer("altar_shadow", tileset);
         const groundObjectsLayer = this.map.createLayer(
             "ground_objects",
             tileset
         );
         this.map.createLayer("ground_objects_shadow", tileset);
+
+        const objects1Layer = this.map.createLayer(
+            "objects",
+            tileset
+        ) as Phaser.Tilemaps.TilemapLayer;
+        this.map.createLayer("shadow", tileset);
+
         const objects2Layer = this.map.createLayer(
             "objects2",
             tileset
@@ -106,6 +113,7 @@ export default class MainScene extends Phaser.Scene {
         objects2Layer.setDepth(1001);
         this.objects3Layer.setDepth(1002);
         groundObjectsLayer?.setDepth(400);
+        this.altarLayer.setDepth(400);
 
         this.player = this.add.player(623, 280, "faune");
 
@@ -126,7 +134,7 @@ export default class MainScene extends Phaser.Scene {
         this.cameras.main.setBackgroundColor(0x202020);
         this.cameras.main.setZoom(2);
         this.cameras.main.startFollow(this.player, true);
-        this.cameras.main.setBounds(0, 0, 1280, 720);
+        this.cameras.main.setBounds(0, 0, 1280, 1280);
 
         const chests = this.physics.add.group({ classType: Chest });
         chests.get(563, 348, "chest", "chests_00.png");
@@ -152,6 +160,14 @@ export default class MainScene extends Phaser.Scene {
             undefined,
             this
         );
+
+        this.events.on("altar", () => {
+            console.log("event called");
+            this.lockLayer.setCollisionByProperty({ collides: true }, false);
+            this.lockLayer.setVisible(false);
+            this.player?.setDepth(3000);
+        });
+
         this.input.keyboard?.on("keydown-E", () => {
             this.scene.pause();
             this.scene.run("item-list", { items: this.playerItems });
@@ -215,15 +231,7 @@ export default class MainScene extends Phaser.Scene {
                     lockText.setVisible(false);
                     this.lockTextOn = false;
                 });
-                this.scene.pause();
-                this.scene.run("unlock");
             } else if (this.chestOpen === 6) {
-                this.lockLayer.setCollisionByProperty(
-                    { collides: true },
-                    false
-                );
-                this.lockLayer.setVisible(false);
-                this.player?.setDepth(3000);
                 this.scene.pause();
                 this.scene.run("unlock");
             }

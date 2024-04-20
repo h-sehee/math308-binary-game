@@ -6,14 +6,6 @@ export default class Narration extends Phaser.Scene {
     }
 
     create() {
-        this.cameras.main.setSize(1280, 720);
-        this.cameras.main.setViewport(
-            (1280 - 1280) / 2,
-            (1280 - 720) / 2,
-            1280,
-            720
-        );
-
         const box = this.add
             .image(
                 this.cameras.main.width / 2,

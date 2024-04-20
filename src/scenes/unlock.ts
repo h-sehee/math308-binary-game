@@ -4,7 +4,7 @@ export default class Unlock extends Phaser.Scene {
     private input1?: HTMLInputElement;
     private input2?: HTMLInputElement;
     private input3?: HTMLInputElement;
-    // private input1;
+
     constructor() {
         super({ key: "unlock" });
     }
@@ -32,7 +32,6 @@ export default class Unlock extends Phaser.Scene {
                     fontFamily: "cursive",
                     strokeThickness: 6,
                     stroke: "0xffffff",
-                    //strokeAlpha: 1
                 }
             )
             .setOrigin(0.5)
@@ -47,7 +46,6 @@ export default class Unlock extends Phaser.Scene {
                     fontFamily: "cursive",
                     strokeThickness: 6,
                     stroke: "0xffffff",
-                    //strokeAlpha: 1
                 }
             )
             .setOrigin(0.5)
@@ -62,7 +60,6 @@ export default class Unlock extends Phaser.Scene {
                     fontFamily: "cursive",
                     strokeThickness: 6,
                     stroke: "0xffffff",
-                    //strokeAlpha: 1
                 }
             )
             .setOrigin(0.5)
@@ -77,7 +74,21 @@ export default class Unlock extends Phaser.Scene {
                     fontFamily: "cursive",
                     strokeThickness: 6,
                     stroke: "0xffffff",
-                    //strokeAlpha: 1
+                }
+            )
+            .setOrigin(0.5)
+            .setDepth(2010);
+
+        this.add
+            .text(
+                this.cameras.main.width / 2,
+                this.cameras.main.height * (4 / 5),
+                "Press Enter to Submit",
+                {
+                    fontSize: "40px",
+                    fontFamily: "cursive",
+                    strokeThickness: 3,
+                    stroke: "0xffffff",
                 }
             )
             .setOrigin(0.5)
@@ -88,47 +99,44 @@ export default class Unlock extends Phaser.Scene {
         this.input3 = document.createElement("input");
 
         this.input1.type = "text";
-        this.input1.style.backgroundPosition = "8px 8px";
-        this.input1.style.position = "absolute";
-        // this.input1.style.left = `${this.cameras.main.width / 4}px`;
-        // this.input1.style.top = "-800px";
         this.input1.style.width = `${this.cameras.main.width / 5}px`;
         this.input1.style.height = `${this.cameras.main.height / 7}px`;
-        this.input1.style.zIndex = "2000";
         this.input1.style.fontSize = "3em";
         this.input1.style.textAlign = "center";
         document.body.appendChild(this.input1);
         this.input1.focus();
 
         this.input2.type = "text";
-        this.input2.style.backgroundPosition = "8px 8px";
-        this.input2.style.position = "absolute";
-        // this.input2.style.left = `${this.cameras.main.width / 2}px`;
-        // this.input2.style.top = "-800px";
         this.input2.style.width = `${this.cameras.main.width / 5}px`;
         this.input2.style.height = `${this.cameras.main.height / 7}px`;
-        this.input2.style.zIndex = "2000";
         this.input2.style.fontSize = "3em";
         this.input2.style.textAlign = "center";
         document.body.appendChild(this.input2);
         this.input2.focus();
 
         this.input3.type = "text";
-        this.input3.style.backgroundPosition = "8px 8px";
-        this.input3.style.position = "absolute";
-        // this.input3.style.left = `${this.cameras.main.width * (3 / 4)}px`;
-        // this.input3.style.top = "-800px";
         this.input3.style.width = `${this.cameras.main.width / 5}px`;
         this.input3.style.height = `${this.cameras.main.height / 7}px`;
-        this.input3.style.zIndex = "2000";
         this.input3.style.fontSize = "3em";
         this.input3.style.textAlign = "center";
         document.body.appendChild(this.input3);
         this.input3.focus();
 
-        this.add.dom(1280 / 4, -800, this.input1);
-        this.add.dom(1280 / 2, -800, this.input2);
-        this.add.dom(1280 * (3 / 4), -800, this.input3);
+        this.add.dom(
+            this.cameras.main.width / 4,
+            this.cameras.main.height / 2 + 50,
+            this.input1
+        );
+        this.add.dom(
+            this.cameras.main.width / 2,
+            this.cameras.main.height / 2 + 50,
+            this.input2
+        );
+        this.add.dom(
+            this.cameras.main.width * (3 / 4),
+            this.cameras.main.height / 2 + 50,
+            this.input3
+        );
 
         const close = this.add
             .text(this.cameras.main.width - 40, 40, "X", {
@@ -136,7 +144,6 @@ export default class Unlock extends Phaser.Scene {
                 fontFamily: "cursive",
                 strokeThickness: 6,
                 stroke: "0xffffff",
-                //strokeAlpha: 1
             })
             .setOrigin(0.5)
             .setDepth(2010);
@@ -159,25 +166,52 @@ export default class Unlock extends Phaser.Scene {
 
     update() {
         window.addEventListener("keydown", (event) => {
+            if (!this.input1 || !this.input2 || !this.input3) {
+                return;
+            }
             if (event.key === "Enter") {
-                const input1Value = this.input1?.value;
-                const input2Value = this.input2?.value;
-                const input3Value = this.input3?.value;
-                if (
-                    input1Value !== undefined &&
-                    input2Value !== undefined &&
-                    input3Value !== undefined
-                ) {
+                const input1Value = this.input1.value;
+                const input2Value = this.input2.value;
+                const input3Value = this.input3.value;
+                {
                     if (
                         input1Value === "01111001" &&
                         input2Value === "01100101" &&
                         input3Value === "01110011"
                     ) {
+                        this.events.emit("altar");
                         this.input.setDefaultCursor("default");
                         this.scene.stop();
                         this.scene.resume("MainScene");
                     } else {
-                        console.log("wrong answer");
+                        this.input1.style.outlineColor =
+                            input1Value !== "01111001" ? "red" : "green";
+                        this.input1.style.outlineWidth = "5px";
+                        this.input2.style.outlineColor =
+                            input2Value !== "01100101" ? "red" : "green";
+                        this.input2.style.outlineWidth = "5px";
+                        this.input3.style.outlineColor =
+                            input3Value !== "01110011" ? "red" : "green";
+                        this.input3.style.outlineWidth = "5px";
+
+                        this.input1.addEventListener("input", () => {
+                            if (!this.input1) {
+                                return;
+                            }
+                            this.input1.style.outlineColor = "initial";
+                        });
+                        this.input2.addEventListener("input", () => {
+                            if (!this.input2) {
+                                return;
+                            }
+                            this.input2.style.outlineColor = "initial";
+                        });
+                        this.input3.addEventListener("input", () => {
+                            if (!this.input3) {
+                                return;
+                            }
+                            this.input3.style.outlineColor = "initial";
+                        });
                     }
                 }
             }

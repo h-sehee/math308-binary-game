@@ -21,6 +21,9 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
+    dom: {
+        createContainer: true,
+    },
     scene: [PreloadScene, MainScene, Narration, Unlock, ItemList, ItemScreen],
     physics: {
         default: "arcade",
