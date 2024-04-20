@@ -16,6 +16,10 @@ export default class PreloadScene extends Phaser.Scene {
         );
 
         this.load.atlas("chest", "assets/chest.png", "assets/chest.json");
+
+        this.load.image("paper", "assets/paper.png");
+        this.load.image("scroll", "assets/scroll_closed.png");
+        this.load.image("message-box", "assets/message_box_1.png");
     }
 
     create() {

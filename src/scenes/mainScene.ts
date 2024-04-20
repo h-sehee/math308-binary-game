@@ -5,6 +5,7 @@ import "../player/player";
 import Player from "../player/player";
 import { debugDraw } from "../utils/debug";
 import Chest from "../objects/Chest";
+import "../objects/Chest";
 
 export default class MainScene extends Phaser.Scene {
     private map: Phaser.Tilemaps.Tilemap;
@@ -14,19 +15,30 @@ export default class MainScene extends Phaser.Scene {
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private player?: Player;
     private itemList: string[];
+    private playerItems: string[];
+    private chestOpen = 0;
+    private lockTextOn = false;
 
     constructor() {
         super({ key: "MainScene" });
+        this.playerItems = [];
     }
 
     create() {
         createPlayerAnims(this.anims);
         createChestAnims(this.anims);
 
+        this.scene.run("narration");
+        // this.time.delayedCall(2500, () => {
+        //     this.scene.stop("narration");
+        // });
+
         this.cursors =
             this.input.keyboard?.createCursorKeys() as Phaser.Types.Input.Keyboard.CursorKeys;
 
-        this.input.setDefaultCursor("pointer");
+        this.itemList = ["item1", "item2", "item3", "item4", "item5", "item6"];
+
+        this.input.setDefaultCursor("default");
 
         // this.add.image(0, 0, "base_tiles");
         this.map = this.make.tilemap({ key: "tilemap" });
@@ -111,19 +123,12 @@ export default class MainScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.shadow3Layer);
         this.physics.add.collider(this.player, this.objects3Layer);
 
-        this.cameras.main.setSize(1280, 720);
-        this.cameras.main.setViewport(
-            (1280 - 1280) / 2,
-            (1280 - 720) / 2,
-            1280,
-            720
-        );
         this.cameras.main.setBackgroundColor(0x202020);
         this.cameras.main.setZoom(2);
         this.cameras.main.startFollow(this.player, true);
-        this.cameras.main.setBounds(0, 0, 1280, 1280);
+        this.cameras.main.setBounds(0, 0, 1280, 720);
 
-        const chests = this.physics.add.staticGroup();
+        const chests = this.physics.add.group({ classType: Chest });
         chests.get(563, 348, "chest", "chests_00.png");
         chests.get(595, 829, "chest", "chests_00.png");
         chests.get(883, 1052, "chest", "chests_00.png");
@@ -141,32 +146,92 @@ export default class MainScene extends Phaser.Scene {
         });
 
         this.physics.add.collider(
-            this.player,
             chests,
+            this.player,
             this.handlePlayerChestCollision,
             undefined,
             this
         );
+        this.input.keyboard?.on("keydown-E", () => {
+            this.scene.pause();
+            this.scene.run("item-list", { items: this.playerItems });
+        });
     }
 
     private handlePlayerChestCollision(
         obj1:
             | Phaser.Types.Physics.Arcade.GameObjectWithBody
-            | Phaser.Tilemaps.Tile
-            | Player,
+            | Phaser.Tilemaps.Tile,
         obj2: Phaser.GameObjects.GameObject | Phaser.Tilemaps.Tile
     ) {
         const chest = obj2 as Chest;
-        this.player?.setChest(chest);
+        chest.setVelocity(0);
+        chest.setImmovable(true);
+        if (!this.cursors) {
+            return;
+        }
+        if (Phaser.Input.Keyboard.JustDown(this.cursors.space!)) {
+            chest.play("chest-open");
+            chest.body
+                ?.setSize(chest.width * 0.31, chest.height * 0.6)
+                .setOffset(36, 16);
+            if (this.itemList.length === 0) {
+                console.log("No items left in the box.");
+            } else {
+                const ranIdx = Math.floor(Math.random() * this.itemList.length);
+                const selectedItem = this.itemList[ranIdx];
+                this.playerItems.push(selectedItem);
+                this.chestOpen++;
+                this.itemList.splice(ranIdx, 1);
+                this.scene.pause();
+                this.scene.run("item-screen", { item: selectedItem });
+            }
+        }
     }
 
     private handlePlayerLockCollision() {
-        this.input.keyboard?.on("keydown-SPACE", () => {
-            console.log("locklayer handle");
-        });
+        if (this.cursors?.space.isDown) {
+            if (this.chestOpen < 6 && !this.lockTextOn) {
+                if (!this.player) {
+                    return;
+                }
+                const lockText = this.add
+                    .text(800, 210, "You should collect all 6 papers", {
+                        fontSize: "12px",
+                        fontFamily: "cursive",
+                        shadow: {
+                            color: "#00ffff",
+                            fill: true,
+                            offsetX: 2,
+                            offsetY: 2,
+                            blur: 4,
+                            stroke: false,
+                        },
+                    })
+                    .setDepth(3000)
+                    .setOrigin(0.5, 1);
+                this.lockTextOn = true;
+                this.time.delayedCall(2500, () => {
+                    lockText.setVisible(false);
+                    this.lockTextOn = false;
+                });
+                this.scene.pause();
+                this.scene.run("unlock");
+            } else if (this.chestOpen === 6) {
+                this.lockLayer.setCollisionByProperty(
+                    { collides: true },
+                    false
+                );
+                this.lockLayer.setVisible(false);
+                this.player?.setDepth(3000);
+                this.scene.pause();
+                this.scene.run("unlock");
+            }
+        }
     }
 
     update() {
+        // console.log(this.player?.x, this.player?.y);
         if (this.player) {
             this.player.update(this.cursors!);
             if (
@@ -182,7 +247,7 @@ export default class MainScene extends Phaser.Scene {
                     { collides: true },
                     true
                 );
-                this.player.setDepth(3000);
+                this.player.setDepth(1500);
             } else if (
                 (this.player.y < 384 || this.player.y > 496) &&
                 this.player.x > 870 &&

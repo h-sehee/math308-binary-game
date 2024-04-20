@@ -1,6 +1,4 @@
 import Phaser from "phaser";
-import Chest from "../objects/Chest";
-import "../objects/Chest";
 // import { sceneEvents } from "../events/eventsCenter";
 
 declare global {
@@ -18,7 +16,6 @@ declare global {
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     private mouse?: Phaser.Input.Pointer;
-    private activeChest?: Chest;
 
     constructor(
         scene: Phaser.Scene,
@@ -33,10 +30,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.mouse = this.scene.input.mousePointer;
 
         this.setDepth(500);
-    }
-
-    setChest(chest: Chest) {
-        this.activeChest = chest;
     }
 
     preUpdate(t: number, dt: number) {
@@ -86,18 +79,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             parts[1] = "idle";
             this.anims.play(parts.join("-"));
             this.setVelocity(0, 0);
-        }
-
-        if (Phaser.Input.Keyboard.JustDown(cursors.space!)) {
-            if (this.activeChest) {
-                this.activeChest.play("chest-open");
-                this.activeChest.body
-                    ?.setSize(
-                        this.activeChest.width * 0.31,
-                        this.activeChest.height * 0.6
-                    )
-                    .setOffset(36, 16);
-            }
         }
     }
 }
