@@ -34,10 +34,11 @@ export default class Unlock extends Phaser.Scene {
             .text(
                 this.cameras.main.width / 2,
                 this.cameras.main.height / 4,
-                "Convert following numbers to binary",
+                "Convert following numbers to binary\n(8 digits)",
                 {
                     fontSize: "50px",
                     fontFamily: "cursive",
+                    align: "center",
                     strokeThickness: 6,
                     stroke: "0xffffff",
                 }
@@ -183,9 +184,9 @@ export default class Unlock extends Phaser.Scene {
                 const input3Value = this.input3.value;
                 {
                     if (
-                        input1Value === "1111001" &&
-                        input2Value === "1100101" &&
-                        input3Value === "1110011"
+                        input1Value === "01111001" &&
+                        input2Value === "01100101" &&
+                        input3Value === "01110011"
                     ) {
                         this.player.altarUnlock = true;
                         this.input.setDefaultCursor("default");
@@ -193,13 +194,13 @@ export default class Unlock extends Phaser.Scene {
                         this.scene.resume("MainScene");
                     } else {
                         this.input1.style.outlineColor =
-                            input1Value !== "1111001" ? "red" : "green";
+                            input1Value !== "01111001" ? "red" : "green";
                         this.input1.style.outlineWidth = "5px";
                         this.input2.style.outlineColor =
-                            input2Value !== "1100101" ? "red" : "green";
+                            input2Value !== "01100101" ? "red" : "green";
                         this.input2.style.outlineWidth = "5px";
                         this.input3.style.outlineColor =
-                            input3Value !== "1110011" ? "red" : "green";
+                            input3Value !== "01110011" ? "red" : "green";
                         this.input3.style.outlineWidth = "5px";
 
                         this.input1.addEventListener("input", () => {
