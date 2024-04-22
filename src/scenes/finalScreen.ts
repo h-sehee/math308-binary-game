@@ -48,6 +48,16 @@ export default class FinalScreen extends Phaser.Scene {
             .setDepth(2000);
 
         this.add
+            .text(keys.x, keys.y - 140, "Decrypt codes using ASCII", {
+                fontSize: "30px",
+                fontFamily: "cursive",
+                color: "white",
+                align: "center",
+            })
+            .setOrigin(0.5)
+            .setDepth(2010);
+
+        this.add
             .text(keys.x, keys.y - 40, "Order:", {
                 fontSize: "30px",
                 fontFamily: "cursive",
