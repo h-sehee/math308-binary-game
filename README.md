@@ -16,7 +16,7 @@ Upon seeing the effectiveness of this tool and my delivery, the professor commen
 
 ### Technical Stack
 * **Language:** ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-* **Platform:** ![Web Browser](https://img.shields.io/badge/Web_Browser-E34F26?style=flat-square&logo=html5&logoColor=white)
+* **Platform:** ![Web](https://img.shields.io/badge/Platform-Web-4285F4?style=flat-square&logo=google-chrome&logoColor=white)
 
 ### Screenshot
 
